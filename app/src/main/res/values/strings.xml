@@ -4,4 +4,6 @@
     <string name="menu_button">Menu</string>
 
     <string name="wallet_total">Total wallet</string>
+    <string name="create_new_wallet">Create new wallet</string>
+    <string name="generate_wallet">Generate wallet</string>
 </resources>

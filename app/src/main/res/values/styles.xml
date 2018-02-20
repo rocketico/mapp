@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:buttonStyle">@style/AppTheme.Button</item>
     </style>
 
     <style name="UpperViewStyle" parent="AppTheme">
@@ -23,6 +25,13 @@
 
     <style name="UpperViewTextStyle3" parent="UpperViewStyle">
         <item name="android:textSize">29sp</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="@android:style/Widget.Button">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:minHeight">@dimen/button_min_height</item>
     </style>
 
 </resources>
