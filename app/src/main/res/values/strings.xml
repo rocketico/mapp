@@ -2,6 +2,7 @@
     <string name="app_name">Mapp</string>
 
     <string name="menu_button">Menu</string>
+    <string name="ether_label">ETH</string>
 
     <string name="wallet_total">Total wallet</string>
     <string name="create_new_wallet">Create new wallet</string>

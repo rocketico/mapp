@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:text="@string/manage_your_digital_assets"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/createNewWallet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

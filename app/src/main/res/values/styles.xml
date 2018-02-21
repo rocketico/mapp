@@ -11,9 +11,9 @@
     </style>
 
     <style name="HeaderStyle" parent="AppTheme">
-        <item name="android:textColor">@color/White</item>
+        <item name="android:textColor">@color/white</item>
     </style>
-    
+
     <style name="HeaderTextStyle1" parent="HeaderStyle">
         <item name="android:textSize">13sp</item>
     </style>
@@ -28,13 +28,13 @@
 
     <style name="AppTheme.Button" parent="@android:style/Widget.Button">
         <item name="android:background">@color/colorPrimaryDark</item>
-        <item name="android:textColor">@color/White</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:minHeight">@dimen/button_min_height</item>
     </style>
 
     <style name="WalletItemTextStyle">
-        <item name="android:textColor">@color/Grey</item>
+        <item name="android:textColor">@color/grey</item>
     </style>
 
     <style name="WalletItemTextStyle.Small" parent="WalletItemTextStyle">

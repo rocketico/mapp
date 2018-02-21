@@ -32,40 +32,40 @@
         app:srcCompat="@drawable/ic_action_menu" />
 
     <TextView
-        android:id="@+id/currencyToolbar"
+        android:id="@+id/etherTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/HeaderTextStyle3"
+        android:text="@string/ether_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalTextView"
-        tools:text="ETC" />
+        app:layout_constraintTop_toBottomOf="@+id/totalTextView" />
 
     <TextView
-        android:id="@+id/countToolbar"
+        android:id="@+id/tokensTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:theme="@style/HeaderTextStyle3"
-        app:layout_constraintStart_toEndOf="@+id/currencyToolbar"
+        app:layout_constraintStart_toEndOf="@+id/etherTextView"
         app:layout_constraintTop_toBottomOf="@+id/totalTextView"
         tools:text="10000.20202" />
 
     <TextView
-        android:id="@+id/secCurrency"
+        android:id="@+id/fiatCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/HeaderTextStyle1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currencyToolbar"
+        app:layout_constraintTop_toBottomOf="@+id/etherTextView"
         tools:text="$"/>
 
     <TextView
-        android:id="@+id/secCountToolbar"
+        android:id="@+id/fiatTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/HeaderTextStyle1"
-        app:layout_constraintStart_toEndOf="@+id/secCurrency"
-        app:layout_constraintTop_toBottomOf="@+id/currencyToolbar"
+        app:layout_constraintStart_toEndOf="@+id/fiatCurrency"
+        app:layout_constraintTop_toBottomOf="@+id/etherTextView"
         tools:text="1230210" />
 
     <TextView
