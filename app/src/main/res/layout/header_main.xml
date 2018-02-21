@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/UpperViewStyle"
+    android:theme="@style/HeaderStyle"
+    android:background="@drawable/background_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="15dp"
@@ -17,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wallet_total"
-        android:theme="@style/UpperViewTextStyle2"
+        android:theme="@style/HeaderTextStyle2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +35,7 @@
         android:id="@+id/currencyToolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/UpperViewTextStyle3"
+        android:theme="@style/HeaderTextStyle3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalTextView"
         tools:text="ETC" />
@@ -44,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:theme="@style/UpperViewTextStyle3"
+        android:theme="@style/HeaderTextStyle3"
         app:layout_constraintStart_toEndOf="@+id/currencyToolbar"
         app:layout_constraintTop_toBottomOf="@+id/totalTextView"
         tools:text="10000.20202" />
@@ -53,7 +54,7 @@
         android:id="@+id/secCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/UpperViewTextStyle1"
+        android:theme="@style/HeaderTextStyle1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/currencyToolbar"
         tools:text="$"/>
@@ -62,7 +63,7 @@
         android:id="@+id/secCountToolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/UpperViewTextStyle1"
+        android:theme="@style/HeaderTextStyle1"
         app:layout_constraintStart_toEndOf="@+id/secCurrency"
         app:layout_constraintTop_toBottomOf="@+id/currencyToolbar"
         tools:text="1230210" />
@@ -71,7 +72,7 @@
         android:id="@+id/changes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/UpperViewTextStyle1"
+        android:theme="@style/HeaderTextStyle1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="24h -1.6% -307$" />

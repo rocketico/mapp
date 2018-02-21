@@ -17,7 +17,7 @@
 
         <include
             android:id="@+id/include"
-            layout="@layout/upper_view_main"
+            layout="@layout/header_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,14 +32,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include" />
-
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:id="@+id/dragView"
-        android:background="#AAAAAA"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.constraint.ConstraintLayout>
+        <include layout="@layout/sliding_menu"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+    </FrameLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

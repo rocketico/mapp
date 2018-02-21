@@ -9,8 +9,10 @@ import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import io.rocketico.mapp.R
+import io.rocketico.mapp.fragment.WalletListFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.upper_view_main.*
+import kotlinx.android.synthetic.main.header_main.*
+import kotlinx.android.synthetic.main.sliding_menu.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,12 +21,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         init()
+        setupListeners()
+
+//        supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragmentContainer, WalletListFragment.newInstance(listOf()))
+//                .commit()
     }
 
-    fun init() {
+    private fun init() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         slidingLayout.isTouchEnabled = false
+    }
+
+    private fun setupListeners() {
         slidingLayout.addPanelSlideListener(object : PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
                 Log.i(SLIDER_TAG, "onPanelSlide, offset " + slideOffset)
@@ -42,6 +52,10 @@ class MainActivity : AppCompatActivity() {
             } else {
                 slidingLayout.panelState = PanelState.EXPANDED
             }
+        }
+
+        closeMenuButton.setOnClickListener {
+            slidingLayout.panelState = PanelState.COLLAPSED
         }
     }
 

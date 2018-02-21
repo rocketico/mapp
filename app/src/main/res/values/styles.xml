@@ -8,21 +8,32 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="UpperViewStyle" parent="AppTheme">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="HeaderStyle" parent="AppTheme">
+        <item name="android:textColor">@color/White</item>
     </style>
     
-    <style name="UpperViewTextStyle1" parent="UpperViewStyle">
+    <style name="HeaderTextStyle1" parent="HeaderStyle">
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="UpperViewTextStyle2" parent="UpperViewStyle">
+    <style name="HeaderTextStyle2" parent="HeaderStyle">
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="UpperViewTextStyle3" parent="UpperViewStyle">
+    <style name="HeaderTextStyle3" parent="HeaderStyle">
         <item name="android:textSize">29sp</item>
+    </style>
+
+    <style name="WalletItemTextStyle">
+        <item name="android:textColor">@color/Grey</item>
+    </style>
+
+    <style name="WalletItemTextStyle.Small" parent="WalletItemTextStyle">
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="WalletItemTextStyle.Large" parent="WalletItemTextStyle">
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>
