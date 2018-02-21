@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/mainFragmentBg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include
         android:id="@+id/header"
         layout="@layout/header_main"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header">
+        android:fillViewport="true">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/tokenList"
@@ -34,23 +29,24 @@
                 android:theme="@style/RecyclerViewStyle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
                 style="@style/TabLayoutStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tokenList"
+                app:tabMinWidth="100dp"
                 app:tabTextAppearance="@style/TabTextAppearanceStyle">
 
                 <android.support.design.widget.TabItem
                     android:id="@+id/staticTab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/statistic_tab_label" />
+                    android:text="@string/statistics_tab_label" />
 
                 <android.support.design.widget.TabItem
                     android:id="@+id/historyTab"
@@ -62,11 +58,16 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="572dp"
+                android:layout_height="456dp"
+                android:layout_marginBottom="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginStart="9dp"
+                android:background="@drawable/background_view_pager"
+                android:elevation="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tabs" />
-
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

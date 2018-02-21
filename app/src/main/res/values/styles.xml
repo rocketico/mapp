@@ -50,7 +50,7 @@
     </style>
 
     <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
-        <item name="tabBackground">@color/tabsBg</item>
+        <item name="tabBackground">@color/mainFragmentBg</item>
         <item name="tabIndicatorColor">@color/colorPrimaryDark</item>
         <item name="tabIndicatorHeight">3dp</item>
         <item name="tabGravity">center</item>
