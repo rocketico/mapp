@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.uxname.uxwalletcore.model.Wallet
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.WalletFlexibleItem
@@ -15,14 +14,8 @@ import java.io.Serializable
 import java.util.*
 
 class WalletListFragment : Fragment() {
-
-    private lateinit var walletList: List<Wallet>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        walletList = listOf(Wallet("address1", "public_key1", "name1"),
-                Wallet("address2", "public_key2", "name2"))
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,12 +23,7 @@ class WalletListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        val dataList : MutableList<WalletFlexibleItem> = mutableListOf(WalletFlexibleItem(walletList[0]),
-                WalletFlexibleItem(walletList[1]))
-        val adapter = FlexibleAdapter(dataList)
 
-        walletListView.layoutManager = LinearLayoutManager(context)
-        walletListView.adapter = adapter
     }
 
     companion object {

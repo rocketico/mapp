@@ -2,12 +2,11 @@ package io.rocketico.mapp.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.uxname.uxwalletcore.model.Wallet
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.mapp.R
 
-class WalletFlexibleItem(private val wallet: Wallet) : IFlexible<WalletFlexibleItem.ViewHolder> {
+class WalletFlexibleItem() : IFlexible<WalletFlexibleItem.ViewHolder> {
 
     override fun isSelectable(): Boolean = false
 
@@ -43,7 +42,9 @@ class WalletFlexibleItem(private val wallet: Wallet) : IFlexible<WalletFlexibleI
 
     override fun isEnabled(): Boolean = true
 
-    override fun getBubbleText(position: Int): String = wallet.name[0].toString()
+    override fun getBubbleText(position: Int): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun setEnabled(enabled: Boolean) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
