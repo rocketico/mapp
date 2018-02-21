@@ -29,7 +29,8 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_action_menu" />
+        app:srcCompat="@drawable/ic_dehaze_black_24dp"
+        android:tint="@color/white"/>
 
     <TextView
         android:id="@+id/etherTextView"
