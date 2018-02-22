@@ -11,4 +11,5 @@
     <color name="mainFragmentBg">#FFFBFBFB</color>
     <color name="tabNotSelected">#FF4CD9F0</color>
     <color name="transparentColor">#00000000</color>
+    <color name="dividerColor">#FFD4D6D9</color>
 </resources>

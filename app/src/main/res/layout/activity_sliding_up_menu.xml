@@ -19,107 +19,108 @@
         app:srcCompat="@drawable/ic_close_black_34dp" />
 
     <FrameLayout
-        android:id="@+id/fragmentContainer"
+        android:id="@+id/container"
         android:layout_width="0dp"
         android:layout_height="267dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
         android:background="@drawable/background_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentContainer">
+        app:layout_constraintTop_toBottomOf="@+id/container">
 
-        <LinearLayout
-            android:id="@+id/upperButtons"
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/sendButton"
+            style="@style/MenuButton1"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:divider="@drawable/divider_dark"
-            android:showDividers="middle"
-            android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/lowerButtons"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_weight="1"
+            android:text="@string/send_button" />
 
-            <Button
-                android:id="@+id/sendButton"
-                style="@style/MenuButton1"
-                android:layout_width="210dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/send_button" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/dividerColor"/>
 
-            <Button
-                android:id="@+id/receiveButton"
-                style="@style/MenuButton1"
-                android:layout_width="210dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/receive_button" />
+        <Button
+            android:id="@+id/receiveButton"
+            style="@style/MenuButton1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/receive_button" />
 
-            <Button
-                android:id="@+id/releaseButton"
-                style="@style/MenuButton1"
-                android:layout_width="210dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/release_button" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/dividerColor"/>
 
-            <Button
-                android:id="@+id/backersToken"
-                style="@style/MenuButton1"
-                android:layout_width="210dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/backers_button" />
+        <Button
+            android:id="@+id/releaseButton"
+            style="@style/MenuButton1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/release_button" />
 
-        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/dividerColor"/>
 
-        <LinearLayout
-            android:id="@+id/lowerButtons"
+        <Button
+            android:id="@+id/backersToken"
+            style="@style/MenuButton1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/backers_button" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/dividerColor"/>
+
+        <Button
+            android:id="@+id/settingsButton"
+            style="@style/MenuButton2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/settings_button" />
+
+        <View
             android:layout_width="123dp"
+            android:layout_height="0.5dp"
+            android:background="@color/white"/>
+
+        <Button
+            android:id="@+id/faqButton"
+            style="@style/MenuButton2"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:divider="@drawable/divider_light"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:showDividers="end|middle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upperButtons">
+            android:layout_weight="1"
+            android:text="@string/faq_button" />
 
-            <Button
-                android:id="@+id/settingsButton"
-                style="@style/MenuButton2"
-                android:layout_width="210dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/settings_button" />
+        <View
+            android:layout_width="123dp"
+            android:layout_height="0.5dp"
+            android:background="@color/white"/>
 
-            <Button
-                android:id="@+id/faqButton"
-                style="@style/MenuButton2"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/faq_button" />
-
-            <Button
-                android:id="@+id/onlineSuppButton"
-                style="@style/MenuButton2"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/online_support_button" />
-        </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/onlineSuppButton"
+            style="@style/MenuButton2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/online_support_button" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(),
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, MainFragment.newInstance())
+                .replace(R.id.container, MainFragment.newInstance())
                 .commit()
     }
 }

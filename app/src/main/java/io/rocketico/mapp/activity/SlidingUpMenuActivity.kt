@@ -2,6 +2,7 @@ package io.rocketico.mapp.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MotionEvent
 import io.rocketico.mapp.R
 
 import kotlinx.android.synthetic.main.activity_sliding_up_menu.*
@@ -16,8 +17,11 @@ class SlidingUpMenuActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        closeButton.setOnClickListener {
-            onBackPressed()
+        closeButton.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                onBackPressed()
+                true
+            } else false
         }
     }
 

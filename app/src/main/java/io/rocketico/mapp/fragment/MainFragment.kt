@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -62,12 +63,11 @@ class MainFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        menuImageButton.setOnClickListener {
-            mainFragmentListener.onMenuButtonClick()
-        }
-
-        fab.setOnClickListener {
-            mainFragmentListener.onFabClick()
+        menuImageButton.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                mainFragmentListener.onMenuButtonClick()
+                true
+            } else false
         }
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
