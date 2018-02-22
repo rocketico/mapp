@@ -10,9 +10,8 @@ import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import kotlinx.android.synthetic.main.activity_create_wallet.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
-import org.web3j.crypto.ECKeyPair
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class CreateWalletActivity : AppCompatActivity() {
 
@@ -36,29 +35,27 @@ class CreateWalletActivity : AppCompatActivity() {
                     .show();
 
             //Delete all wallets, generate and save new wallet
-            async {
-                var walletAddress: String? = null
-                var keyPair: ECKeyPair? = null
-                val wm = WalletManager(this@CreateWalletActivity)
-                async(CommonPool) {
-                    keyPair = wm.generatePrivateKey()!!
-                    walletAddress = wm.publicKeyToAddress(keyPair!!.publicKey.toString(16))!!
+            val wm = WalletManager(this@CreateWalletActivity)
+            doAsync {
+                val keyPair = wm.generatePrivateKey()!!
+                val walletAddress = wm.publicKeyToAddress(keyPair.publicKey.toString(16))!!
 
-                    val walletName = Cc.WALLET_NAME
-                    val wallet = Wallet(
-                            "0x" + walletAddress,
-                            keyPair!!.publicKey.toString(16),
-                            walletName
-                    )
-                    wallet.privateKey = keyPair!!.privateKey.toString(16)
-                    wm.deleteAllWallets()
-                    wm.saveWallet(wallet)
-                }.await()
-
-                dialog.dismiss()
-                startActivity(Intent(this@CreateWalletActivity, MainActivity::class.java))
-                finish()
+                val walletName = Cc.WALLET_NAME
+                val wallet = Wallet(
+                        "0x" + walletAddress,
+                        keyPair.publicKey.toString(16),
+                        walletName
+                )
+                wallet.privateKey = keyPair.privateKey.toString(16)
+                wm.deleteAllWallets()
+                wm.saveWallet(wallet)
+                uiThread {
+                    dialog.dismiss()
+                    startActivity(Intent(this@CreateWalletActivity, MainActivity::class.java))
+                    finish()
+                }
             }
+
         }
     }
 }

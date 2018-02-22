@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.mapp.R
+import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.MainFragment
 
 class MainActivity : AppCompatActivity(),
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun init() {
+        Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimary))
+
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         supportFragmentManager.beginTransaction()
