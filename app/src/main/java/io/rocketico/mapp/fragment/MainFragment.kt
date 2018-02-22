@@ -21,12 +21,12 @@ class MainFragment : Fragment() {
         mainFragmentListener = activity as MainFragmentListener
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_main, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        viewPager.adapter = object : FragmentStatePagerAdapter(activity.supportFragmentManager) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewPager.adapter = object : FragmentStatePagerAdapter(activity?.supportFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
                 0 -> StatisticsFragment()
                 1 -> HistoryFragment()

@@ -1,8 +1,8 @@
 package io.rocketico.core
 
 import android.content.Context
-import io.rocketico.core.model.Wallet
 import io.paperdb.Paper
+import io.rocketico.core.model.Wallet
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
 import java.math.BigInteger
@@ -49,6 +49,12 @@ class WalletManager(val context: Context) {
         Paper.init(context)
         WalletsPasswordManager.deleteWalletPrivateKey(uuid)
         Paper.book(WALLETS_DATABASE).delete(uuid.toString())
+    }
+
+    fun deleteAllWallets() {
+        getWalletIdList()?.forEach {
+            deleteWallet(it)
+        }
     }
 
     fun existsWallet(uuid: UUID): Boolean {

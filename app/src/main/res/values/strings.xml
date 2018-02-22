@@ -9,6 +9,6 @@
 
     <string name="wallet_total">Total wallet</string>
     <string name="create_new_wallet">Create new wallet</string>
-    <string name="generate_wallet">Generate wallet</string>
+    <string name="import_wallet">Import wallet</string>
     <string name="manage_your_digital_assets">Manage your digital assets</string>
 </resources>

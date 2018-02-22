@@ -32,8 +32,19 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'eu.davidea:flexible-adapter:5.0.0-rc4'
     implementation 'com.android.support:design:26.1.0'
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.2'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'org.web3j:core:3.1.1-android'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':core')
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
