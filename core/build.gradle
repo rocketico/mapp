@@ -1,9 +1,9 @@
 apply plugin: 'com.android.library'
 
+apply plugin: 'kotlin-android'
+
 android {
     compileSdkVersion 26
-
-
 
     defaultConfig {
         minSdkVersion 22
@@ -31,4 +31,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.2'
+    implementation 'org.web3j:core:3.1.1-android'
+
+    implementation 'io.paperdb:paperdb:2.6'
+    implementation 'de.adorsys.android:securestoragelibrary:1.0.0'
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
