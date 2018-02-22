@@ -23,10 +23,10 @@
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
+                android:background="@color/listBackground"
                 android:id="@+id/tokenList"
                 android:layout_width="0dp"
-                android:layout_height="430dp"
-                android:theme="@style/RecyclerViewStyle"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
