@@ -44,12 +44,17 @@ class MainFragment : Fragment() {
             mainFragmentListener.onMenuButtonClick()
         }
 
+        fab.setOnClickListener {
+            mainFragmentListener.onFabClick()
+        }
+
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
     }
 
     interface MainFragmentListener {
         fun onMenuButtonClick()
+        fun onFabClick()
     }
 
     companion object {

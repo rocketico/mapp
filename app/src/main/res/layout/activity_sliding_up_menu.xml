@@ -1,9 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="io.rocketico.mapp.activity.SlidingUpMenuActivity">
 
-</android.support.design.widget.CoordinatorLayout>
+    <ImageButton
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="17dp"
+        android:layout_marginTop="14dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_black_34dp" />
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="267dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainer">
+
+        <LinearLayout
+            android:id="@+id/upperButtons"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:divider="@drawable/divider_dark"
+            android:showDividers="middle"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/lowerButtons"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/sendButton"
+                style="@style/MenuButton1"
+                android:layout_width="210dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/send_button" />
+
+            <Button
+                android:id="@+id/receiveButton"
+                style="@style/MenuButton1"
+                android:layout_width="210dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/receive_button" />
+
+            <Button
+                android:id="@+id/releaseButton"
+                style="@style/MenuButton1"
+                android:layout_width="210dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/release_button" />
+
+            <Button
+                android:id="@+id/backersToken"
+                style="@style/MenuButton1"
+                android:layout_width="210dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/backers_button" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lowerButtons"
+            android:layout_width="123dp"
+            android:layout_height="0dp"
+            android:divider="@drawable/divider_light"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:showDividers="end|middle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upperButtons">
+
+            <Button
+                android:id="@+id/settingsButton"
+                style="@style/MenuButton2"
+                android:layout_width="210dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/settings_button" />
+
+            <Button
+                android:id="@+id/faqButton"
+                style="@style/MenuButton2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/faq_button" />
+
+            <Button
+                android:id="@+id/onlineSuppButton"
+                style="@style/MenuButton2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/online_support_button" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

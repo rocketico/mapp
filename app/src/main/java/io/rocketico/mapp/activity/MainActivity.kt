@@ -18,6 +18,11 @@ class MainActivity : AppCompatActivity(),
 
     override fun onMenuButtonClick() {
         startActivity(Intent(this, SlidingUpMenuActivity::class.java))
+        overridePendingTransition(R.anim.anim_slide_up, R.anim.anim_slide_down)
+    }
+
+    override fun onFabClick() {
+        //transaction to AddNewTokenFragment
     }
 
     private fun init() {
