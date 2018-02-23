@@ -19,4 +19,11 @@
     <string name="settings_button">Settings</string>
     <string name="faq_button">FAQ</string>
     <string name="online_support_button">Online support</string>
+
+    <string name="log_in_button"><u>Log in</u></string>
+    <string name="join_button">Join</string>
+
+    <string name="verified_status">verified</string>
+    <string name="not_verified_status">not verified</string>
+    <string name="copy_arr_button"><u>Copy address</u></string>
 </resources>

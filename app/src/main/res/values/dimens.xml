@@ -14,6 +14,8 @@
     <dimen name="white_menu_item_div_height">1dp</dimen>
     <dimen name="grey_menu_item_div_height">0.5dp</dimen>
     <dimen name="white_div_width">123dp</dimen>
+    <dimen name="menu_frame_layout_height">267dp</dimen>
+    <dimen name="user_photo_size">98dp</dimen>
 
     <integer name="animation_duration">100</integer>
 </resources>

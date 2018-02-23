@@ -75,5 +75,12 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/transparentColor</item>
     </style>
+    
+    <style name="VerificationViewStyle">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/background_verification</item>
+    </style>
 
 </resources>
