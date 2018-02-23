@@ -13,6 +13,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
+import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.*
 
@@ -42,6 +43,7 @@ class MainFragment : Fragment() {
 
             override fun getCount(): Int = 2
         }
+        viewPager.currentItem = 0
 
         setupListeners()
         setupRecyclerViews()
@@ -66,6 +68,13 @@ class MainFragment : Fragment() {
         menuImageButton.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 mainFragmentListener.onMenuButtonClick()
+                true
+            } else false
+        }
+
+        fab.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                mainFragmentListener.onFabClick()
                 true
             } else false
         }

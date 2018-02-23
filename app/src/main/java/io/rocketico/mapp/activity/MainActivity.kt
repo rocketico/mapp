@@ -7,6 +7,7 @@ import io.rocketico.core.WalletManager
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.MainFragment
+import io.rocketico.mapp.fragment.TokenFragment
 
 class MainActivity : AppCompatActivity(),
         MainFragment.MainFragmentListener {
@@ -33,7 +34,11 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onFabClick() {
-        //transaction to AddNewTokenFragment
+//        TODO for testing
+//        supportFragmentManager.beginTransaction()
+//                .replace(R.id.container, TokenFragment())
+//                .addToBackStack(null)
+//                .commit()
     }
 
     private fun init() {

@@ -26,4 +26,16 @@
     <string name="verified_status">verified</string>
     <string name="not_verified_status">not verified</string>
     <string name="copy_arr_button"><u>Copy address</u></string>
+
+    <string name="market_cap">Market capitalization:</string>
+    <string name="lowest_rate">The lowest rate for 24H:</string>
+    <string name="highest_rate">The highest rate for 24H:</string>
+    <string name="trading_volume">Trading volume 24H:</string>
+
+    <string name="launch_date">Launch date</string>
+    <string name="hasing_alg">Hashing algorithm</string>
+    <string name="net_power">Network power</string>
+    <string name="of_site">Official website</string>
+    <string name="av_and_support">Available/Support</string>
+    <string name="blockchain">Blockchain</string>
 </resources>
