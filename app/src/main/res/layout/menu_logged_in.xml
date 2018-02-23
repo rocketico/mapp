@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/menu_frame_layout_height"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/loggedOutPhoto"
@@ -20,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
         android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loggedOutPhoto"
@@ -32,35 +32,35 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:text="@string/verified_status"
         android:theme="@style/VerificationViewStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        android:text="@string/verified_status"/>
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <TextView
         android:id="@+id/walletAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:textSize="14sp"
         android:textColor="@color/black"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/verificationStatus"
-        tools:text="0x0a0c0b00341b42ce93c20ca0304941"/>
+        tools:text="0x0a0c0b00341b42ce93c20ca0304941" />
 
     <Button
         android:id="@+id/copyAddressButton"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:layout_marginTop="2dp"
         android:background="@color/transparentColor"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:text="@string/copy_arr_button"
-        android:textSize="12sp"
         android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
