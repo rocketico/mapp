@@ -9,10 +9,10 @@
 
     <ImageButton
         android:id="@+id/closeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:layout_marginTop="14dp"
+        android:layout_width="@dimen/menu_button_size"
+        android:layout_height="@dimen/menu_button_size"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:tint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
 
         <Button
             android:id="@+id/sendButton"
-            style="@style/MenuButton1"
+            style="@style/MenuButtonDark"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -48,12 +48,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="@dimen/grey_menu_item_div_height"
             android:background="@color/dividerColor"/>
 
         <Button
             android:id="@+id/receiveButton"
-            style="@style/MenuButton1"
+            style="@style/MenuButtonDark"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -61,12 +61,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="@dimen/grey_menu_item_div_height"
             android:background="@color/dividerColor"/>
 
         <Button
             android:id="@+id/releaseButton"
-            style="@style/MenuButton1"
+            style="@style/MenuButtonDark"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -74,12 +74,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="@dimen/grey_menu_item_div_height"
             android:background="@color/dividerColor"/>
 
         <Button
             android:id="@+id/backersToken"
-            style="@style/MenuButton1"
+            style="@style/MenuButtonDark"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -87,38 +87,38 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="@dimen/grey_menu_item_div_height"
             android:background="@color/dividerColor"/>
 
         <Button
             android:id="@+id/settingsButton"
-            style="@style/MenuButton2"
+            style="@style/MenuButtonWhite"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/settings_button" />
 
         <View
-            android:layout_width="123dp"
-            android:layout_height="1dp"
+            android:layout_width="@dimen/white_div_width"
+            android:layout_height="@dimen/white_menu_item_div_height"
             android:background="@color/white"/>
 
         <Button
             android:id="@+id/faqButton"
-            style="@style/MenuButton2"
+            style="@style/MenuButtonWhite"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/faq_button" />
 
         <View
-            android:layout_width="123dp"
-            android:layout_height="1dp"
+            android:layout_width="@dimen/white_div_width"
+            android:layout_height="@dimen/white_menu_item_div_height"
             android:background="@color/white"/>
 
         <Button
             android:id="@+id/onlineSuppButton"
-            style="@style/MenuButton2"
+            style="@style/MenuButtonWhite"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

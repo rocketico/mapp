@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,12 +10,15 @@
     <include
         android:id="@+id/header"
         layout="@layout/header_main"
+        android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/header_height"
         android:fillViewport="true">
 
         <android.support.constraint.ConstraintLayout
@@ -27,20 +30,10 @@
                 android:id="@+id/tokenList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                style="@style/FabStyle"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_marginBottom="22dp"
-                android:layout_marginEnd="15dp"
-                app:layout_constraintBottom_toBottomOf="@id/tokenList"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_add_black_16dp" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
@@ -70,9 +63,9 @@
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="456dp"
-                android:layout_marginBottom="9dp"
-                android:layout_marginEnd="9dp"
-                android:layout_marginStart="9dp"
+                android:layout_marginBottom="@dimen/view_pager_margin"
+                android:layout_marginEnd="@dimen/view_pager_margin"
+                android:layout_marginStart="@dimen/view_pager_margin"
                 android:background="@drawable/background_view_pager"
                 android:elevation="3dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,4 +74,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/tabs" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        style="@style/FabStyle"
+        android:layout_width="@dimen/main_fab_size"
+        android:layout_height="@dimen/main_fab_size"
+        android:layout_marginBottom="22dp"
+        android:layout_marginEnd="15dp"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@drawable/ic_add_black_16dp" />
+</android.support.design.widget.CoordinatorLayout>

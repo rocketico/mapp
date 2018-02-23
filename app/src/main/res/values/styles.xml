@@ -10,19 +10,19 @@
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
     </style>
 
-    <style name="HeaderStyle" parent="AppTheme">
+    <style name="HeaderTextStyle" parent="AppTheme">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="HeaderTextStyle1" parent="HeaderStyle">
+    <style name="HeaderTextStyle.Small" parent="HeaderTextStyle">
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="HeaderTextStyle2" parent="HeaderStyle">
+    <style name="HeaderTextStyle.Medium" parent="HeaderTextStyle">
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="HeaderTextStyle3" parent="HeaderStyle">
+    <style name="HeaderTextStyle.Large" parent="HeaderTextStyle">
         <item name="android:textSize">29sp</item>
     </style>
 
@@ -66,12 +66,12 @@
         <item name="fabSize">normal</item>
     </style>
 
-    <style name="MenuButton1">
+    <style name="MenuButtonDark">
         <item name="android:textColor">@color/menuText</item>
         <item name="android:background">@color/transparentColor</item>
     </style>
 
-    <style name="MenuButton2">
+    <style name="MenuButtonWhite">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/transparentColor</item>
     </style>

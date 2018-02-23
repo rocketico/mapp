@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/HeaderStyle"
+    android:theme="@style/HeaderTextStyle"
     android:background="@drawable/background_header"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="15dp"
-    android:paddingStart="24dp"
-    android:paddingEnd="15dp"
-    android:paddingBottom="15dp"
+    android:layout_height="@dimen/header_height"
+    android:paddingTop="@dimen/header_other_padding"
+    android:paddingStart="@dimen/header_start_padding"
+    android:paddingEnd="@dimen/header_other_padding"
+    android:padding="@dimen/header_other_padding"
     android:orientation="vertical">
 
     <TextView
@@ -18,25 +18,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wallet_total"
-        android:theme="@style/HeaderTextStyle2"
+        android:theme="@style/HeaderTextStyle.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/menuImageButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/menu_button_size"
+        android:layout_height="@dimen/menu_button_size"
+        android:tint="@color/white"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_dehaze_black_24dp"
-        android:tint="@color/white"/>
+        app:srcCompat="@drawable/ic_dehaze_black_24dp" />
 
     <TextView
         android:id="@+id/etherTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/HeaderTextStyle3"
+        android:theme="@style/HeaderTextStyle.Large"
         android:text="@string/ether_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalTextView" />
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:theme="@style/HeaderTextStyle3"
+        android:theme="@style/HeaderTextStyle.Large"
         app:layout_constraintStart_toEndOf="@+id/etherTextView"
         app:layout_constraintTop_toBottomOf="@+id/totalTextView"
         tools:text="10000.20202" />
@@ -55,27 +55,33 @@
         android:id="@+id/fiatCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/HeaderTextStyle1"
+        android:theme="@style/HeaderTextStyle.Small"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etherTextView"
-        tools:text="$"/>
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="$" />
 
     <TextView
         android:id="@+id/fiatTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/HeaderTextStyle1"
+        android:theme="@style/HeaderTextStyle.Small"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fiatCurrency"
         app:layout_constraintTop_toBottomOf="@+id/etherTextView"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="1230210" />
 
     <TextView
         android:id="@+id/changes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/HeaderTextStyle1"
+        android:theme="@style/HeaderTextStyle.Small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tokensTotal"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="24h -1.6% -307$" />
 
 </android.support.constraint.ConstraintLayout>

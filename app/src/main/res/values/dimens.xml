@@ -3,5 +3,17 @@
     <dimen name="button_min_height">42dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="header_other_padding">15dp</dimen>
+    <dimen name="header_start_padding">26dp</dimen>
+    <dimen name="header_height">106dp</dimen>
+    <dimen name="menu_button_size">24dp</dimen>
+
+    <dimen name="view_pager_margin">9dp</dimen>
+    <dimen name="main_fab_size">56dp</dimen>
+
+    <dimen name="white_menu_item_div_height">1dp</dimen>
+    <dimen name="grey_menu_item_div_height">0.5dp</dimen>
+    <dimen name="white_div_width">123dp</dimen>
+
     <integer name="animation_duration">100</integer>
 </resources>

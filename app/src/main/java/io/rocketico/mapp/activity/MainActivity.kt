@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun init() {
-        Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimary))
-
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         supportFragmentManager.beginTransaction()
