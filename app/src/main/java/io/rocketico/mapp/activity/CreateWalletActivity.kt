@@ -11,6 +11,7 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import kotlinx.android.synthetic.main.activity_create_wallet.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 class CreateWalletActivity : AppCompatActivity() {
@@ -25,7 +26,10 @@ class CreateWalletActivity : AppCompatActivity() {
     private fun init() {
         Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
 
-
+        importWallet.setOnClickListener {
+            //TODO implement me
+            toast("Coming soon...")
+        }
         createNewWallet.setOnClickListener {
             val dialog = MaterialDialog.Builder(this)
                     .title("Please wait")
