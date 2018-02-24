@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/HeaderTextStyle"
+    android:elevation="3dp"
     android:background="@drawable/background_header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/header_height"
