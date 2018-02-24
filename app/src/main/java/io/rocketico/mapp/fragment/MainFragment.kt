@@ -72,11 +72,8 @@ class MainFragment : Fragment() {
             } else false
         }
 
-        fab.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
+        fab.setOnClickListener {
                 mainFragmentListener.onFabClick()
-                true
-            } else false
         }
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
