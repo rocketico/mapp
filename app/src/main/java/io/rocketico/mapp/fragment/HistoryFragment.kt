@@ -44,5 +44,15 @@ class HistoryFragment : Fragment() {
         historyListAdapter.addItem(HistoryFlexibleItem())
         historyListAdapter.addItem(HistoryFlexibleItem())
         historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
+        historyListAdapter.addItem(HistoryFlexibleItem())
     }
 }

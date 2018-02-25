@@ -62,6 +62,16 @@ class MainFragment : Fragment() {
         tokenListAdapter.addItem(TokenFlexibleItem())
         tokenListAdapter.addItem(TokenFlexibleItem())
         tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem())
     }
 
     private fun setupListeners() {
