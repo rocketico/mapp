@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_statistics.*
-import lecho.lib.hellocharts.model.Line
-import lecho.lib.hellocharts.model.LineChartData
-import lecho.lib.hellocharts.model.PointValue
+import lecho.lib.hellocharts.model.*
 
 
 class StatisticsFragment : Fragment() {
@@ -20,11 +18,12 @@ class StatisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpChart()
+        setUpCharts()
     }
 
-    private fun setUpChart() {
+    private fun setUpCharts() {
         //TODO DEBUG
+        //Top chart
         val values = ArrayList<PointValue>()
         values.add(PointValue(0f, 2f))
         values.add(PointValue(1f, 4f))
@@ -35,7 +34,6 @@ class StatisticsFragment : Fragment() {
         values.add(PointValue(6f, 6f))
         values.add(PointValue(7f, 6f))
 
-        //In most cased you can call data2 model methods in builder-pattern-like manner.
         val line = Line(values)
         line.color = context!!.resources.getColor(R.color.colorPrimaryDark)
         line.isCubic = true
@@ -52,5 +50,21 @@ class StatisticsFragment : Fragment() {
 
         chart.isZoomEnabled = false
         chart.lineChartData = data
+
+        //Bottom chart
+        val columns = mutableListOf<Column>()
+        val subColumns = mutableListOf<SubcolumnValue>()
+        subColumns.add(SubcolumnValue(4f))
+        subColumns.add(SubcolumnValue(7f))
+        subColumns.add(SubcolumnValue(3f))
+        subColumns.add(SubcolumnValue(1f))
+        subColumns.add(SubcolumnValue(9f))
+
+        columns.add(Column(subColumns))
+
+        val columnChartData = ColumnChartData(columns)
+
+        bottomChart.isZoomEnabled = false
+        bottomChart.columnChartData = columnChartData
     }
 }
