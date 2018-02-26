@@ -38,4 +38,9 @@
     <string name="of_site">Official website</string>
     <string name="av_and_support">Available/Support</string>
     <string name="blockchain">Blockchain</string>
+    
+    <string name="send_payment_label">Send payment</string>
+    <string name="send_payment_description">Select the token of crypto currency you want to send</string>
+
+    <string name="create_button">Create</string>
 </resources>

@@ -16,4 +16,5 @@
     <color name="logInButtonColor">#FF0028DC</color>
     <color name="colorChartBackground">#2800e6f6</color>
     <color name="colorReceive">#FF00D268</color>
+    <color name="detailsTextColor">#FF5A6170</color>
 </resources>

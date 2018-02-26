@@ -18,8 +18,8 @@
         </activity>
         <activity android:name=".activity.CreateWalletActivity" />
         <activity
-            android:name=".activity.SlidingUpMenuActivity"
-            android:theme="@style/AppTheme"/>
+            android:name=".activity.MenuActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onMenuButtonClick() {
-        startActivity(Intent(this, SlidingUpMenuActivity::class.java))
+        startActivity(Intent(this, MenuActivity::class.java))
         overridePendingTransition(R.anim.anim_slide_up, R.anim.anim_slide_down)
     }
 
