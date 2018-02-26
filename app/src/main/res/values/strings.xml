@@ -43,4 +43,8 @@
     <string name="send_payment_description">Select the token of crypto currency you want to send</string>
 
     <string name="create_button">Create</string>
+    <string name="from_label">From:</string>
+    <string name="enter_address_hint">Enter address</string>
+    <string name="txfee_label">TxFee</string>
+    <string name="total_label">Total:</string>
 </resources>
