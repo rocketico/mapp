@@ -43,4 +43,14 @@
     <string name="send_payment_description">Select the token of crypto currency you want to send</string>
 
     <string name="create_button">Create</string>
+    <string name="all">All</string>
+    <string name="receive">Receive</string>
+    <string name="send">Send</string>
+    <string name="_1d">1D</string>
+    <string name="_1w">1W</string>
+    <string name="_1m">1M</string>
+    <string name="_3m">3M</string>
+    <string name="_6m">6M</string>
+    <string name="_1y">1Y</string>
+    <string name="_2y">2Y</string>
 </resources>

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="All"
+        android:text="@string/all"
         android:textAlignment="textStart"
         android:textColor="@color/colorPrimaryDark" />
 
@@ -24,7 +24,7 @@
         app:layout_constraintStart_toEndOf="@+id/all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Receive"
+        android:text="@string/receive"
         android:textColor="@color/colorReceive" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Send"
+        android:text="@string/send"
         android:textColor="@color/colorAccent" />
 
     <LinearLayout
@@ -59,7 +59,7 @@
             android:focusable="true"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="1D"
+            android:text="@string/_1d"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -72,7 +72,7 @@
             android:focusable="true"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="1W"
+            android:text="@string/_1w"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -85,7 +85,7 @@
             android:focusable="true"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="1M"
+            android:text="@string/_1m"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -98,7 +98,7 @@
             android:focusable="true"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="3M"
+            android:text="@string/_3m"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -111,7 +111,7 @@
             android:focusable="true"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="6M"
+            android:text="@string/_6m"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -124,7 +124,7 @@
             android:focusable="true"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="1Y"
+            android:text="@string/_1y"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -137,7 +137,7 @@
             android:focusable="true"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="2Y"
+            android:text="@string/_2y"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark" />
 
