@@ -6,11 +6,15 @@ import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
+import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.fragment.MainFragment
+import io.rocketico.mapp.fragment.TokenFragment
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(),
-        MainFragment.MainFragmentListener {
+        MainFragment.MainFragmentListener,
+        TokenFlexibleItem.OnItemClickListener{
+
     private lateinit var wm: WalletManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +40,14 @@ class MainActivity : AppCompatActivity(),
     override fun onFabClick() {
 //        TODO for testing
         toast("FAB clicked")
-//        supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, TokenFragment())
-//                .addToBackStack(null)
-//                .commit()
+
+    }
+
+    override fun onClick(position: Int) {
+                supportFragmentManager.beginTransaction()
+                .replace(R.id.container, TokenFragment())
+                .addToBackStack(null)
+                .commit()
     }
 
     private fun init() {

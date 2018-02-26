@@ -10,7 +10,7 @@ import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_token.view.*
 import java.util.*
 
-class TokenFlexibleItem : IFlexible<TokenFlexibleItem.ViewHolder> {
+class TokenFlexibleItem(listener: OnItemClickListener) : IFlexible<TokenFlexibleItem.ViewHolder> {
     override fun getItemViewType() = 0
 
     private lateinit var view: View
@@ -26,7 +26,7 @@ class TokenFlexibleItem : IFlexible<TokenFlexibleItem.ViewHolder> {
 
     override fun getBubbleText(position: Int) = ""
 
-    var onItemClickListener: OnItemClickListener? = null
+    var onItemClickListener: OnItemClickListener = listener
 
     override fun isEnabled(): Boolean {
         return true
@@ -87,6 +87,10 @@ class TokenFlexibleItem : IFlexible<TokenFlexibleItem.ViewHolder> {
         holder.tokenRateDiff.text = rnd()
         holder.tokenBalance.text = rnd()
         holder.tokenCurrencyBalance.text = rnd()
+
+        holder.view.setOnClickListener {
+            onItemClickListener.onClick(position)
+        }
     }
 
     override fun unbindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int) {

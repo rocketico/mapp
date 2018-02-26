@@ -55,23 +55,25 @@ class MainFragment : Fragment() {
         tokenList.layoutManager = LinearLayoutManager(context)
         tokenList.adapter = tokenListAdapter
 
+        val itemListener = activity as TokenFlexibleItem.OnItemClickListener
+
         //TODO for debug
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
-        tokenListAdapter.addItem(TokenFlexibleItem())
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
     }
 
     private fun setupListeners() {
