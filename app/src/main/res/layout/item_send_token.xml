@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="3dp"
-    android:background="@color/white">
+    android:layout_marginBottom="2dp"
+    android:background="@drawable/background_token_send">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/tokenImage"
+        android:id="@+id/tokenSendImage"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
@@ -19,19 +19,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tokenName"
+        android:id="@+id/tokenSendName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textSize="15sp"
         android:textColor="@color/menuText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tokenImage"
+        app:layout_constraintStart_toEndOf="@+id/tokenSendImage"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Ethereum"/>
 
     <TextView
-        android:id="@+id/tokenBalance"
+        android:id="@+id/tokenSendBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -43,7 +43,7 @@
         tools:text="1000"/>
 
     <TextView
-        android:id="@+id/tokenFiatBalance"
+        android:id="@+id/tokenSendFiatBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -52,7 +52,7 @@
         android:textColor="@color/menuText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tokenBalance"
+        app:layout_constraintTop_toBottomOf="@+id/tokenSendBalance"
         tools:text="$234234"/>
 
 </android.support.constraint.ConstraintLayout>

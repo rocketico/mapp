@@ -70,7 +70,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/body"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="320dp"
         android:background="@drawable/background_send_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,11 +82,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:text="@string/from_label"
             android:textColor="@color/detailsTextColor"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="From:" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/fromEditText"
@@ -95,6 +95,7 @@
             android:layout_marginEnd="12dp"
             android:layout_marginStart="12dp"
             android:ems="10"
+            android:hint="@string/enter_address_hint"
             android:inputType="textPersonName"
             android:textColor="@color/detailsTextColor"
             android:textSize="16sp"
@@ -109,7 +110,9 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="24dp"
             android:ems="10"
+            android:textSize="18sp"
             android:inputType="textPersonName"
+            android:background="@drawable/background_quantity_edit_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fromEditText" />
 
@@ -119,9 +122,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:text="@string/txfee_label"
+            android:textColor="@color/detailsTextColor"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quantity"
-            tools:text="TxFee" />
+            app:layout_constraintTop_toBottomOf="@+id/quantity" />
 
         <TextView
             android:id="@+id/txFeeQuantity"
@@ -129,19 +134,27 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
+            android:textColor="@color/detailsTextColor"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quantity"
             tools:text="0.5$" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/quantityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="26dp"
-            android:text="TextView"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/detailsTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/quantity"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fromEditText" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/quantity"
+            app:layout_constraintTop_toTopOf="@+id/quantity"
+            tools:text="$332.5" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -149,30 +162,53 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:theme="@style/SeekBarStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txFeeTextView" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/totalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_label"
+            android:textColor="@color/detailsTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/totalCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/detailsTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="$333" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/background_swap_button"
+            android:tint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fromEditText"
+            app:srcCompat="@drawable/ic_swap_horiz_black_32dp" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -53,4 +53,8 @@
     <string name="_6m">6M</string>
     <string name="_1y">1Y</string>
     <string name="_2y">2Y</string>
+    <string name="from_label">From:</string>
+    <string name="enter_address_hint">Enter address</string>
+    <string name="txfee_label">TxFee</string>
+    <string name="total_label">Total:</string>
 </resources>
