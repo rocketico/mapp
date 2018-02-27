@@ -98,4 +98,10 @@
         <item name="android:colorControlNormal">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="DetailEditTextStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/detailsTextColor</item>
+        <item name="colorControlActivated">@color/detailsTextColor</item>
+        <item name="colorControlHighlight">@color/detailsTextColor</item>
+    </style>
+
 </resources>

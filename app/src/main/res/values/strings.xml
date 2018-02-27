@@ -57,4 +57,7 @@
     <string name="enter_address_hint">Enter address</string>
     <string name="txfee_label">TxFee</string>
     <string name="total_label">Total:</string>
+
+    <string name="bill_description">Verify that the data entered is correct</string>
+    <string name="send_payment_button_text">Send payment</string>
 </resources>

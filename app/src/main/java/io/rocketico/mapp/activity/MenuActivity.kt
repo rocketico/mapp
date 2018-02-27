@@ -8,13 +8,16 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenSendFlexibleItem
 import io.rocketico.mapp.fragment.MenuFragment
 import io.rocketico.mapp.fragment.MenuFragment.OnMenuButtonsClickListener
+import io.rocketico.mapp.fragment.SendBillFragment
 import io.rocketico.mapp.fragment.SendDetailsFragment
 import io.rocketico.mapp.fragment.SendFragment
 
 class MenuActivity : AppCompatActivity(),
         OnMenuButtonsClickListener,
         TokenSendFlexibleItem.OnItemClickListener,
-        SendFragment.SendFragmentListener{
+        SendFragment.SendFragmentListener,
+        SendDetailsFragment.SendDetailsFragmentListener,
+        SendBillFragment.SendBillFragmentListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +35,6 @@ class MenuActivity : AppCompatActivity(),
     override fun onSendClick() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, SendFragment())
-                .addToBackStack(null)
                 .commit()
     }
 
@@ -50,5 +52,16 @@ class MenuActivity : AppCompatActivity(),
                 .replace(R.id.container, SendDetailsFragment())
                 .addToBackStack(null)
                 .commit()
+    }
+
+    override fun onCreateClick() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, SendBillFragment())
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun onCloseClick() {
+        finish()
     }
 }

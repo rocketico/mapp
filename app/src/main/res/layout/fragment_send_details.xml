@@ -90,6 +90,7 @@
 
         <EditText
             android:id="@+id/fromEditText"
+            android:theme="@style/DetailEditTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
@@ -97,20 +98,22 @@
             android:ems="10"
             android:hint="@string/enter_address_hint"
             android:inputType="textPersonName"
-            android:textColor="@color/detailsTextColor"
             android:textSize="16sp"
+            android:textColor="@color/detailsTextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
 
         <EditText
             android:id="@+id/quantity"
+            android:theme="@style/DetailEditTextStyle"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="24dp"
             android:ems="10"
             android:textSize="18sp"
+            android:textColor="@color/detailsTextColor"
             android:inputType="textPersonName"
             android:background="@drawable/background_quantity_edit_text"
             app:layout_constraintStart_toStartOf="parent"
@@ -216,17 +219,18 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/listBackground"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/createButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/body" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/createButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:text="@string/create_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

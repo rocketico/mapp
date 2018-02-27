@@ -5,10 +5,13 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.mapp.R
@@ -83,6 +86,16 @@ class MainFragment : Fragment() {
                 true
             } else false
         }
+
+        sliding.addPanelSlideListener(object : PanelSlideListener {
+            override fun onPanelSlide(panel: View?, slideOffset: Float) {
+
+            }
+
+            override fun onPanelStateChanged(panel: View?, previousState: PanelState?, newState: PanelState?) {
+                Log.i("SLIDING", sliding.panelState.toString())
+            }
+        })
 
         fab.setOnClickListener {
                 mainFragmentListener.onFabClick()

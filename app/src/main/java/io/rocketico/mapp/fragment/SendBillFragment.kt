@@ -6,20 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.rocketico.mapp.R
-import kotlinx.android.synthetic.main.fragment_send_details.*
+import kotlinx.android.synthetic.main.fragment_send_bill.*
 
-class SendDetailsFragment : Fragment() {
+class SendBillFragment : Fragment() {
 
-    private lateinit var listener: SendDetailsFragmentListener
+    private lateinit var listener: SendBillFragmentListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        listener = activity as SendDetailsFragmentListener
+        listener = activity as SendBillFragmentListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_send_details, container, false)
+        return inflater.inflate(R.layout.fragment_send_bill, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,13 +31,13 @@ class SendDetailsFragment : Fragment() {
             listener.onBackClick()
         }
 
-        createButton.setOnClickListener {
-            listener.onCreateClick()
+        closeButton.setOnClickListener {
+            listener.onCloseClick()
         }
     }
 
-    interface SendDetailsFragmentListener {
+    interface SendBillFragmentListener {
         fun onBackClick()
-        fun onCreateClick()
+        fun onCloseClick()
     }
 }
