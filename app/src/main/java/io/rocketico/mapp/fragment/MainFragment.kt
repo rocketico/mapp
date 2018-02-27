@@ -17,6 +17,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import kotlinx.android.synthetic.main.bottom_main.*
+import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.*
 
@@ -94,6 +95,7 @@ class MainFragment : Fragment() {
 
             override fun onPanelStateChanged(panel: View?, previousState: PanelState?, newState: PanelState?) {
                 Log.i("SLIDING", sliding.panelState.toString())
+                sliding.setScrollableView(recyclerViewHistory)
             }
         })
 

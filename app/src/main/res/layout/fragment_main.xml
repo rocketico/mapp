@@ -27,7 +27,6 @@
         app:layout_constraintTop_toBottomOf="@+id/header"
         sothree:umanoDragView="@+id/bottom"
         sothree:umanoFadeColor="@color/transparentColor"
-        sothree:umanoScrollableView="@+id/tokenList"
         sothree:umanoPanelHeight="48dp">
 
         <android.support.v7.widget.RecyclerView
