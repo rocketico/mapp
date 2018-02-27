@@ -13,7 +13,8 @@ import io.rocketico.mapp.fragment.SendFragment
 
 class MenuActivity : AppCompatActivity(),
         OnMenuButtonsClickListener,
-        TokenSendFlexibleItem.OnItemClickListener{
+        TokenSendFlexibleItem.OnItemClickListener,
+        SendFragment.SendFragmentListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

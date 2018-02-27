@@ -14,10 +14,12 @@ import kotlinx.android.synthetic.main.fragment_send.*
 
 class SendFragment : Fragment() {
 
+    private lateinit var listener: SendFragmentListener
     lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
     lateinit var tokens: MutableList<TokenSendFlexibleItem>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        listener = activity as SendFragmentListener
         return inflater.inflate(R.layout.fragment_send, container, false)
     }
 
@@ -42,5 +44,17 @@ class SendFragment : Fragment() {
         tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
         tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
         tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        backButton.setOnClickListener {
+            listener.onBackClick()
+        }
+    }
+
+    interface SendFragmentListener {
+        fun onBackClick()
     }
 }
