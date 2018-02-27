@@ -36,6 +36,7 @@
         android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/view_pager_margin"
         android:layout_marginStart="@dimen/view_pager_margin"
+        android:layout_marginBottom="@dimen/view_pager_margin"
         android:background="@drawable/background_view_pager"
         android:elevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
