@@ -34,5 +34,13 @@ class SendFragment : Fragment() {
         tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
         tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
         tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+        tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+        tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+        tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+        tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+        tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+        tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+        tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
+        tokenListAdapter.addItem(TokenSendFlexibleItem(listener))
     }
 }
