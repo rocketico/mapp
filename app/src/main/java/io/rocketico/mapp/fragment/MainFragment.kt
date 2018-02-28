@@ -38,7 +38,7 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager.adapter = object : FragmentStatePagerAdapter(activity?.supportFragmentManager) {
+        viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
                 0 -> StatisticsFragment()
                 1 -> HistoryFragment()
@@ -47,7 +47,6 @@ class MainFragment : Fragment() {
 
             override fun getCount(): Int = 2
         }
-        viewPager.currentItem = 0
 
         setupListeners()
         setupRecyclerViews()
