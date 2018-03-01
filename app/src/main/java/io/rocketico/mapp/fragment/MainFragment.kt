@@ -1,7 +1,6 @@
 package io.rocketico.mapp.fragment
 
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
@@ -90,19 +89,23 @@ class MainFragment : Fragment() {
         }
 
         sliding.addPanelSlideListener(object : PanelSlideListener {
+            private var prevState: PanelState = PanelState.COLLAPSED
+
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
                 Log.i("SLIDING", slideOffset.toString())
             }
 
             override fun onPanelStateChanged(panel: View?, previousState: PanelState?, newState: PanelState?) {
-                Log.i("SLIDING", sliding.panelState.toString())
-                if (newState == PanelState.EXPANDED) {
+                Log.i("SLIDING", "${newState} ${prevState}")
+                if (newState == PanelState.EXPANDED && newState != prevState) {
                     fab.startAnimation(AnimationUtils.loadAnimation(context, R.anim.anim_stand))
                     fab.visibility = View.GONE
+                    prevState = newState
                 }
-                if (newState == PanelState.COLLAPSED) {
+                if (newState == PanelState.COLLAPSED && newState != prevState) {
                     fab.startAnimation(AnimationUtils.loadAnimation(context, R.anim.anim_slide_up))
                     fab.visibility = View.VISIBLE
+                    prevState = newState
                 }
                 sliding.setScrollableView(recyclerViewHistory)
             }
