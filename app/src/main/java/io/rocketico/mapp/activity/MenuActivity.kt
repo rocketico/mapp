@@ -63,5 +63,6 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onCloseClick() {
         finish()
+        overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
     }
 }
