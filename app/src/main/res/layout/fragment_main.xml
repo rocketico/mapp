@@ -48,7 +48,7 @@
         style="@style/FabStyle"
         android:layout_width="@dimen/main_fab_size"
         android:layout_height="@dimen/main_fab_size"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

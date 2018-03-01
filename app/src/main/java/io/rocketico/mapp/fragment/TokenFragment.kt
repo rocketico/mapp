@@ -13,7 +13,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_token.*
 import kotlinx.android.synthetic.main.header_main.*
 
 class TokenFragment : Fragment() {
@@ -43,7 +43,6 @@ class TokenFragment : Fragment() {
 
             override fun getCount(): Int = 2
         }
-
         setupListeners()
     }
 

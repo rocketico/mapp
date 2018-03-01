@@ -78,7 +78,7 @@
                 android:id="@+id/linear1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
                 android:id="@+id/linear2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:gravity="end"
                 android:orientation="vertical"
@@ -150,7 +150,9 @@
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +162,7 @@
                 android:id="@+id/linear3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +178,7 @@
                     android:id="@+id/hashingTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/token_text_height"
-                    android:text="@string/hasing_alg" />
+                    android:text="@string/hashing_alg" />
 
                 <TextView
                     android:id="@+id/netPowerTextView"
@@ -208,10 +210,10 @@
                 android:id="@+id/linear4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="12dp"
-                android:orientation="vertical"
                 android:gravity="end"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view">
 
