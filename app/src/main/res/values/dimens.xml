@@ -18,6 +18,8 @@
     <dimen name="menu_frame_layout_height">267dp</dimen>
     <dimen name="user_photo_size">98dp</dimen>
 
+    <dimen name="token_text_height">32dp</dimen>
+
     <dimen name="text_small_size">10sp</dimen>
     <integer name="animation_duration">200</integer>
 </resources>

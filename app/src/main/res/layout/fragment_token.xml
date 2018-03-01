@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <include
-        layout="@layout/header_main"
         android:id="@+id/header"
+        layout="@layout/header_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/header_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/sliding"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/mainFragmentBg"
+        android:gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        sothree:umanoDragView="@+id/bottom"
+        sothree:umanoFadeColor="@color/transparentColor"
+        sothree:umanoPanelHeight="48dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/listBackground">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -56,226 +68,212 @@
                 android:id="@+id/expandableListView"
                 android:layout_width="0dp"
                 android:layout_height="38dp"
-                android:layout_marginTop="68dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tokenImage" />
 
-            <TextView
-                android:id="@+id/marketTextView"
+            <LinearLayout
+                android:id="@+id/linear1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/market_cap"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expandableListView" />
+                app:layout_constraintTop_toBottomOf="@+id/expandableListView">
 
-            <TextView
-                android:id="@+id/lowestRateTextView"
+                <TextView
+                    android:id="@+id/marketTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/market_cap" />
+
+                <TextView
+                    android:id="@+id/lowestRateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/lowest_rate" />
+
+                <TextView
+                    android:id="@+id/highestRateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/highest_rate" />
+
+                <TextView
+                    android:id="@+id/tradVolTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/trading_volume" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/lowest_rate"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/marketTextView" />
-
-            <TextView
-                android:id="@+id/highestRateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/highest_rate"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lowestRateTextView" />
-
-            <TextView
-                android:id="@+id/tradVolTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/trading_volume"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/highestRateTextView" />
-
-            <TextView
-                android:id="@+id/marketCapitalization"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:gravity="end"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expandableListView"
-                tools:text="23421$" />
+                app:layout_constraintTop_toBottomOf="@+id/expandableListView">
 
-            <TextView
-                android:id="@+id/lowestRate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/marketCapitalization"
-                tools:text="23421$" />
+                <TextView
+                    android:id="@+id/marketCapitalization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="23421$" />
 
-            <TextView
-                android:id="@+id/highestRate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lowestRate"
-                tools:text="23421$" />
+                <TextView
+                    android:id="@+id/lowestRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="23421$" />
 
-            <TextView
-                android:id="@+id/tradingVolume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/highestRate"
-                tools:text="23421$" />
+                <TextView
+                    android:id="@+id/highestRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="23421$" />
+
+                <TextView
+                    android:id="@+id/tradingVolume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="23421$" />
+            </LinearLayout>
 
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:background="@color/grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tradVolTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/linear1" />
 
-            <TextView
-                android:id="@+id/launchTextView"
+            <LinearLayout
+                android:id="@+id/linear3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/launch_date"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                app:layout_constraintTop_toBottomOf="@+id/view">
 
-            <TextView
-                android:id="@+id/hashingTextView"
+                <TextView
+                    android:id="@+id/launchTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/launch_date" />
+
+                <TextView
+                    android:id="@+id/hashingTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/hasing_alg" />
+
+                <TextView
+                    android:id="@+id/netPowerTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/net_power" />
+
+                <TextView
+                    android:id="@+id/webSiteTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/of_site" />
+
+                <TextView
+                    android:id="@+id/avSuppTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/av_and_support" />
+
+                <TextView
+                    android:id="@+id/blchainTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:text="@string/blockchain" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/hasing_alg"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/launchTextView" />
-
-            <TextView
-                android:id="@+id/netPowerTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/net_power"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hashingTextView" />
-
-            <TextView
-                android:id="@+id/webSiteTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/of_site"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/netPowerTextView" />
-
-            <TextView
-                android:id="@+id/avSuppTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/av_and_support"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/webSiteTextView" />
-
-            <TextView
-                android:id="@+id/launchDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:gravity="end"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                tools:text="July 30, 2015" />
+                app:layout_constraintTop_toBottomOf="@+id/view">
 
-            <TextView
-                android:id="@+id/hashingAlgorithm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/launchDate"
-                tools:text="Ethash" />
+                <TextView
+                    android:id="@+id/launchDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="July 30, 2015" />
 
-            <TextView
-                android:id="@+id/networkPower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hashingAlgorithm"
-                tools:text="Try cloud mining" />
+                <TextView
+                    android:id="@+id/hashingAlgorithm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="Ethash" />
 
-            <TextView
-                android:id="@+id/officialWebsite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/networkPower"
-                tools:text="ethereum.com" />
+                <TextView
+                    android:id="@+id/networkPower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="Try cloud mining" />
 
-            <TextView
-                android:id="@+id/support"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/officialWebsite"
-                tools:text="230,0" />
+                <TextView
+                    android:id="@+id/officialWebsite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="ethereum.com" />
 
-            <TextView
-                android:id="@+id/blchainTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/blockchain"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/avSuppTextView" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/available"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/support"
-                app:layout_constraintTop_toTopOf="@+id/support"
-                tools:text="230,0" />
+                    <TextView
+                        android:id="@+id/available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/token_text_height"
+                        tools:text="230,0" />
 
-            <TextView
-                android:id="@+id/blockchain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/support"
-                tools:text="gastracker.io" />
+                    <TextView
+                        android:id="@+id/support"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/token_text_height"
+                        tools:text="230,0" />
 
-            <include
-                layout="@layout/bottom_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/blockchain" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/blockchain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/token_text_height"
+                    tools:text="gastracker.io" />
+
+            </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+
+        <include
+            android:id="@+id/bottom"
+            layout="@layout/bottom_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+</android.support.constraint.ConstraintLayout>
