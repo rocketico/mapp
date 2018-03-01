@@ -7,28 +7,51 @@
     android:elevation="3dp"
     android:background="@drawable/background_header"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/header_height"
-    android:paddingTop="@dimen/header_other_padding"
-    android:paddingStart="@dimen/header_start_padding"
-    android:paddingEnd="@dimen/header_other_padding"
-    android:padding="@dimen/header_other_padding"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/transparentColor"
+        android:tint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_left_black_32dp" />
+
+    <View
+        android:id="@+id/helpingView"
+        android:layout_width="13dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="13dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/totalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
         android:text="@string/wallet_total"
         android:theme="@style/HeaderTextStyle.Medium"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/helpingView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/menuImageButton"
         android:layout_width="@dimen/menu_button_size"
         android:layout_height="@dimen/menu_button_size"
-        android:tint="@color/white"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_dehaze_black_24dp" />
@@ -37,9 +60,10 @@
         android:id="@+id/etherTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/HeaderTextStyle.Large"
+        android:layout_marginStart="25dp"
         android:text="@string/ether_label"
-        app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/HeaderTextStyle.Large"
+        app:layout_constraintStart_toStartOf="@+id/helpingView"
         app:layout_constraintTop_toBottomOf="@+id/totalTextView" />
 
     <TextView
@@ -56,9 +80,10 @@
         android:id="@+id/fiatCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
         android:theme="@style/HeaderTextStyle.Small"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/helpingView"
         app:layout_constraintTop_toBottomOf="@+id/etherTextView"
         app:layout_constraintVertical_bias="0.0"
         tools:text="$" />
@@ -67,6 +92,7 @@
         android:id="@+id/fiatTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:theme="@style/HeaderTextStyle.Small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fiatCurrency"
@@ -78,6 +104,8 @@
         android:id="@+id/changes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
         android:theme="@style/HeaderTextStyle.Small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

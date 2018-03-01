@@ -13,7 +13,8 @@ import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(),
         MainFragment.MainFragmentListener,
-        TokenFlexibleItem.OnItemClickListener{
+        TokenFlexibleItem.OnItemClickListener,
+        TokenFragment.TokenFragmentListener{
 
     private lateinit var wm: WalletManager
 
@@ -30,6 +31,16 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
 
         init()
+    }
+
+    private fun init() {
+        Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimary))
+
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MainFragment.newInstance())
+                .commit()
     }
 
     override fun onMenuButtonClick() {
@@ -50,13 +61,8 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    private fun init() {
-        Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimary))
-
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
-                .commit()
+    override fun onBackClick() {
+        onBackPressed()
     }
+
 }
