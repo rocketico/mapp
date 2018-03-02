@@ -26,14 +26,14 @@ class StatisticsFragment : Fragment() {
         //TODO DEBUG
         //Top chart
         val values = ArrayList<PointValue>()
-        values.add(PointValue(0f, 2f))
-        values.add(PointValue(1f, 4f))
-        values.add(PointValue(2f, 3f))
-        values.add(PointValue(3f, 6f))
-        values.add(PointValue(4f, 3f))
-        values.add(PointValue(5f, 8f))
-        values.add(PointValue(6f, 6f))
-        values.add(PointValue(7f, 6f))
+        values.add(PointValue(0f, Random().nextInt(15).toFloat()))
+        values.add(PointValue(1f, Random().nextInt(15).toFloat()))
+        values.add(PointValue(2f, Random().nextInt(15).toFloat()))
+        values.add(PointValue(3f, Random().nextInt(15).toFloat()))
+        values.add(PointValue(4f, Random().nextInt(15).toFloat()))
+        values.add(PointValue(5f, Random().nextInt(15).toFloat()))
+        values.add(PointValue(6f, Random().nextInt(15).toFloat()))
+        values.add(PointValue(7f, Random().nextInt(15).toFloat()))
 
         val line = Line(values)
         line.color = context!!.resources.getColor(R.color.colorPrimaryDark)
