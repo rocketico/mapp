@@ -2,8 +2,6 @@ package io.rocketico.mapp.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.MotionEvent
-import android.view.View
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenSendFlexibleItem
 import io.rocketico.mapp.fragment.MenuFragment
@@ -18,6 +16,10 @@ class MenuActivity : AppCompatActivity(),
         SendFragment.SendFragmentListener,
         SendDetailsFragment.SendDetailsFragmentListener,
         SendBillFragment.SendBillFragmentListener {
+
+    override fun onSettingsClick() {
+        startActivity(SettingsActivity.getIntent(this))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -34,10 +34,15 @@ class MenuFragment : Fragment() {
         sendButton.setOnClickListener {
             onMenuButtonsClickListener.onSendClick()
         }
+
+        settingsButton.setOnClickListener {
+            onMenuButtonsClickListener.onSettingsClick()
+        }
     }
 
     interface OnMenuButtonsClickListener {
         fun onSendClick()
         fun onBackClick()
+        fun onSettingsClick()
     }
 }
