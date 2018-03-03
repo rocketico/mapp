@@ -3,6 +3,8 @@ package io.rocketico.mapp.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 import io.rocketico.core.WalletManager
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Fabric.with(this, Crashlytics())
+
         wm = WalletManager(this)
         val walletList = wm.getWalletIdList()
         if (walletList == null || walletList.isEmpty()) {
