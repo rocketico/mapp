@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--todo move fabric api key to new account-->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3571844db4c892ce6439982d4ad2f57badae9e91" />
