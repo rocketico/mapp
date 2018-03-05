@@ -83,7 +83,7 @@
 
     <style name="MenuButtonWhite">
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/transparentColor</item>
+        <item name="android:background">@drawable/background_menu_button</item>
     </style>
     
     <style name="VerificationViewStyle">

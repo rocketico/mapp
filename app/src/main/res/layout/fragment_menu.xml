@@ -4,18 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/listBackground"
     tools:context="io.rocketico.mapp.activity.MenuActivity">
-
-    <ImageButton
-        android:id="@+id/closeButton"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:tint="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_close_black_34dp" />
 
     <FrameLayout
         android:id="@+id/userContainer"
@@ -23,29 +13,39 @@
         android:layout_height="@dimen/menu_frame_layout_height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/menu_logged_out"
+        <include
             android:id="@+id/loggedOutView"
+            layout="@layout/menu_logged_out"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
-        <include layout="@layout/menu_logged_in"
+        <include
             android:id="@+id/loggedInView"
+            layout="@layout/menu_logged_in"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </FrameLayout>
 
+    <ImageButton
+        android:id="@+id/closeButton"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_black_34dp" />
+
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
+        android:layout_height="200dp"
         android:gravity="center"
-        android:background="@drawable/background_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userContainer">
@@ -60,8 +60,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/grey_menu_item_div_height"
-            android:background="@color/dividerColor"/>
+            android:layout_height="@dimen/white_menu_item_div_height"
+            android:background="@color/white" />
 
         <Button
             android:id="@+id/receiveButton"
@@ -73,8 +73,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/grey_menu_item_div_height"
-            android:background="@color/dividerColor"/>
+            android:layout_height="@dimen/white_menu_item_div_height"
+            android:background="@color/white" />
 
         <Button
             android:id="@+id/releaseButton"
@@ -86,8 +86,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/grey_menu_item_div_height"
-            android:background="@color/dividerColor"/>
+            android:layout_height="@dimen/white_menu_item_div_height"
+            android:background="@color/white" />
 
         <Button
             android:id="@+id/backersToken"
@@ -99,41 +99,43 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/grey_menu_item_div_height"
-            android:background="@color/dividerColor"/>
+            android:layout_height="@dimen/white_menu_item_div_height"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/settingsButton"
             style="@style/MenuButtonWhite"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/settings_button" />
-
-        <View
-            android:layout_width="@dimen/white_div_width"
-            android:layout_height="@dimen/white_menu_item_div_height"
-            android:background="@color/white"/>
 
         <Button
             android:id="@+id/faqButton"
             style="@style/MenuButtonWhite"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/faq_button" />
-
-        <View
-            android:layout_width="@dimen/white_div_width"
-            android:layout_height="@dimen/white_menu_item_div_height"
-            android:background="@color/white"/>
 
         <Button
             android:id="@+id/onlineSuppButton"
             style="@style/MenuButtonWhite"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/online_support_button" />
+
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
