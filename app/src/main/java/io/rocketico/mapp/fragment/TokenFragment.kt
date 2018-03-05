@@ -72,6 +72,20 @@ class TokenFragment : Fragment() {
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                sliding.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                sliding.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+            }
+
+        })
     }
 
     interface TokenFragmentListener {
