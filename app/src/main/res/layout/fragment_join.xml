@@ -58,10 +58,10 @@
 
             <EditText
                 android:id="@+id/firstNameEditText"
-                android:theme="@style/DetailEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/first_name" />
+                android:hint="@string/first_name"
+                android:theme="@style/DetailEditTextStyle" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -145,6 +145,7 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:hint="@string/email_label"
                 android:theme="@style/DetailEditTextStyle" />
 
@@ -179,9 +180,9 @@
             android:layout_marginEnd="13dp"
             android:layout_marginStart="13dp"
             android:layout_marginTop="8dp"
+            android:background="@color/joinColor"
             android:text="@string/join_button"
             android:textColor="@color/black"
-            android:background="@color/joinColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

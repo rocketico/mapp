@@ -61,6 +61,7 @@
                 android:theme="@style/DetailEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:hint="@string/email_label" />
 
         </android.support.design.widget.TextInputLayout>
