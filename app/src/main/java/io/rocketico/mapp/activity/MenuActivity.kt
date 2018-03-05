@@ -1,5 +1,6 @@
 package io.rocketico.mapp.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.rocketico.mapp.R
@@ -66,5 +67,13 @@ class MenuActivity : AppCompatActivity(),
     override fun onCloseClick() {
         finish()
         overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
+    }
+
+    override fun onLogInClick() {
+        startActivity(LogInActivity.newIntent(this, LogInActivity.LOG_IN_FRAGMENT))
+    }
+
+    override fun onJoinClick() {
+        startActivity(LogInActivity.newIntent(this, LogInActivity.JOIN_FRAGMENT))
     }
 }

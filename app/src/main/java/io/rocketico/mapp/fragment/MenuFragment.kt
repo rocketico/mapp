@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_menu.*
+import kotlinx.android.synthetic.main.menu_logged_out.*
 
 class MenuFragment : Fragment() {
 
@@ -35,6 +36,14 @@ class MenuFragment : Fragment() {
             onMenuButtonsClickListener.onSendClick()
         }
 
+        logInButton.setOnClickListener {
+            onMenuButtonsClickListener.onLogInClick()
+        }
+
+        joinButton.setOnClickListener {
+            onMenuButtonsClickListener.onJoinClick()
+        }
+
         settingsButton.setOnClickListener {
             onMenuButtonsClickListener.onSettingsClick()
         }
@@ -44,5 +53,7 @@ class MenuFragment : Fragment() {
         fun onSendClick()
         fun onBackClick()
         fun onSettingsClick()
+        fun onLogInClick()
+        fun onJoinClick()
     }
 }

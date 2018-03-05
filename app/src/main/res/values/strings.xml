@@ -64,4 +64,13 @@
     <string name="customization">Customization</string>
     <string name="privacy_and_security"><![CDATA[Privacy & Security]]></string>
     <string name="export_private_key">Export private key</string>
+
+    <string name="log_in_label">Log in</string>
+    <string name="email_label">E-mail</string>
+    <string name="password_label">Password</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="eth_address">Ethereum Address</string>
+    <string name="citizenship">Select your Citizenship</string>
+    <string name="forget_pass"><u>Forgot password?</u></string>
 </resources>
