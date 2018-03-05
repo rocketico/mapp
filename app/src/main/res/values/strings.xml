@@ -73,4 +73,7 @@
     <string name="eth_address">Ethereum Address</string>
     <string name="citizenship">Select your Citizenship</string>
     <string name="forget_pass"><u>Forgot password?</u></string>
+
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
 </resources>
