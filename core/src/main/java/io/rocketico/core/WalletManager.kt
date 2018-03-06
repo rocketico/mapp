@@ -6,10 +6,10 @@ import io.rocketico.core.model.Wallet
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
 import java.math.BigInteger
-import java.util.*
 
 class WalletManager(val context: Context) {
     private val WALLETS_DATABASE = "wallets"
+    private val WALLET_KEY = "main_wallet"
 
     fun generatePrivateKey(): ECKeyPair? {
         return Keys.createEcKeyPair()
@@ -26,39 +26,24 @@ class WalletManager(val context: Context) {
     fun saveWallet(wallet: Wallet) {
         Paper.init(context)
         Paper.book(WALLETS_DATABASE).write(
-                wallet.uuid.toString(),
+                WALLET_KEY,
                 wallet
         )
     }
 
-    fun getWallet(uuid: UUID, decryptPrivateKey: Boolean = false): Wallet? {
+    fun getWallet(): Wallet? {
         Paper.init(context)
-        return Paper.book(WALLETS_DATABASE).read<Wallet>(uuid.toString())
+        return Paper.book(WALLETS_DATABASE).read<Wallet>(WALLET_KEY)
     }
 
-    fun getWalletIdList(): List<UUID>? {
+    fun deleteWallet() {
         Paper.init(context)
-        val result: MutableList<UUID> = mutableListOf()
-        Paper.book(WALLETS_DATABASE).allKeys.forEach {
-            result.add(UUID.fromString(it))
-        }
-        return result
+        WalletsPasswordManager.deleteWalletPrivateKey(getWallet()?.uuid!!)
+        Paper.book(WALLETS_DATABASE).delete(WALLET_KEY.toString())
     }
 
-    fun deleteWallet(uuid: UUID) {
+    fun existsWallet(): Boolean {
         Paper.init(context)
-        WalletsPasswordManager.deleteWalletPrivateKey(uuid)
-        Paper.book(WALLETS_DATABASE).delete(uuid.toString())
-    }
-
-    fun deleteAllWallets() {
-        getWalletIdList()?.forEach {
-            deleteWallet(it)
-        }
-    }
-
-    fun existsWallet(uuid: UUID): Boolean {
-        Paper.init(context)
-        return Paper.book(WALLETS_DATABASE).contains(uuid.toString())
+        return Paper.book(WALLETS_DATABASE).contains(WALLET_KEY)
     }
 }
