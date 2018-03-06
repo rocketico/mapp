@@ -9,5 +9,6 @@ data class Token(
         var decimals: Int?,
         var balance: Float? = null,
         var balanceLastUpdate: Date? = Date(),
+        var rate: Rate? = null,
         val uuid: UUID = UUID.randomUUID()
 ) : Serializable

@@ -15,7 +15,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.rocketico.core.RateHelper
 import io.rocketico.core.WalletManager
+import io.rocketico.core.model.Token
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
@@ -23,6 +25,8 @@ import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class MainFragment : Fragment() {
 
@@ -70,7 +74,20 @@ class MainFragment : Fragment() {
         val itemListener = activity as TokenFlexibleItem.OnItemClickListener
 
         //TODO for debug
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
+        doAsync {
+            var totalBalance = 0f
+            wallet.tokens?.forEach {
+                it.rate = RateHelper.getRate()
+                totalBalance += it.balance!!
+            }
+            uiThread {
+                wallet.tokens?.forEach {
+                    tokenListAdapter.addItem(TokenFlexibleItem(it, itemListener))
+                }
+                tokensTotal.text = totalBalance.toString()
+            }
+        }
+
     }
 
     private fun setupListeners() {
