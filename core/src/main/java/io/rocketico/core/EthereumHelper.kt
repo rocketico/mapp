@@ -1,5 +1,6 @@
 package io.rocketico.core
 
+import io.rocketico.core.model.Rate
 import org.web3j.protocol.Web3jFactory
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.response.EthGetBalance

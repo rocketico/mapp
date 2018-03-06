@@ -71,21 +71,6 @@ class MainFragment : Fragment() {
 
         //TODO for debug
         tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
-        tokenListAdapter.addItem(TokenFlexibleItem(itemListener))
     }
 
     private fun setupListeners() {

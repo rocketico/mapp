@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'org.web3j:core:3.1.1-android'
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
-    implementation 'com.takisoft.fix:preference-v7:27.0.2.0'
+    implementation 'com.takisoft.fix:preference-v7:27.1.0.0'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
         transitive = true;
     }
