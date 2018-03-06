@@ -25,15 +25,14 @@ class MainActivity : AppCompatActivity(),
         Fabric.with(this, Crashlytics())
 
         wm = WalletManager(this)
-        val walletList = wm.getWalletIdList()
-        if (walletList == null || walletList.isEmpty()) {
+        val walletList = wm.getWallet()
+        if (walletList == null) {
             startActivity(Intent(this, CreateWalletActivity::class.java))
             finish()
             return
         }
 
         setContentView(R.layout.activity_main)
-
         init()
     }
 

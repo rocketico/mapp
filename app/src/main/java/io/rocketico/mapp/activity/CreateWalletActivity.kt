@@ -51,7 +51,9 @@ class CreateWalletActivity : AppCompatActivity() {
                         walletName
                 )
                 wallet.privateKey = keyPair.privateKey.toString(16)
-                wm.deleteAllWallets()
+                if (wm.existsWallet()) {
+                    wm.deleteWallet()
+                }
                 wm.saveWallet(wallet)
                 uiThread {
                     dialog.dismiss()
