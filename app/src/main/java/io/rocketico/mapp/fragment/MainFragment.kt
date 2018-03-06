@@ -15,6 +15,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.rocketico.core.WalletManager
+import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import kotlinx.android.synthetic.main.bottom_main.*
@@ -28,6 +30,9 @@ class MainFragment : Fragment() {
     lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
     lateinit var tokens: MutableList<TokenFlexibleItem>
 
+    lateinit var walletManager: WalletManager
+    lateinit var wallet: Wallet
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +44,9 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        walletManager = WalletManager(context!!)
+        wallet = walletManager.getWallet()!!
+
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
                 0 -> StatisticsFragment()
