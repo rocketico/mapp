@@ -15,10 +15,12 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.rocketico.core.EthereumHelper
 import io.rocketico.core.RateHelper
+import io.rocketico.core.Utils
 import io.rocketico.core.WalletManager
-import io.rocketico.core.model.Token
 import io.rocketico.core.model.Wallet
+import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import kotlinx.android.synthetic.main.bottom_main.*
@@ -37,6 +39,8 @@ class MainFragment : Fragment() {
     lateinit var walletManager: WalletManager
     lateinit var wallet: Wallet
 
+    lateinit var ethHelper: EthereumHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,6 +56,8 @@ class MainFragment : Fragment() {
 
         walletManager = WalletManager(context!!)
         wallet = walletManager.getWallet()!!
+
+        ethHelper = EthereumHelper(Cc.ETH_NODE)
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
@@ -80,8 +86,9 @@ class MainFragment : Fragment() {
             var totalBalance = 0f
             val rate = RateHelper.getRate()
             wallet.tokens?.forEach {
-                val tokenName = it.name
-                it.rate = rate?.rates?.find { it.tokenSymbol.equals(tokenName) }?.rate
+                val tokenName = it.name.toString()
+                it.rate = rate?.rates?.find { it.tokenSymbol == tokenName }?.rate
+                it.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(it.address))
                 totalBalance += it.balance!!
             }
             uiThread {
