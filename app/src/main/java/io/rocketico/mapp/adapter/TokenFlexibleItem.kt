@@ -83,10 +83,10 @@ class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener)
     override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
         //TODO debug
         holder.tokenName.text = token.name
-        holder.tokenRate.text = token.rate?.currentRate.toString()
+        holder.tokenRate.text = token.rate.toString()
         holder.tokenRateDiff.text = 0.toString()
         holder.tokenBalance.text = token.balance.toString()
-        holder.tokenFiatBalance.text = (token.balance!! * token.rate?.currentRate!!).toString()
+        holder.tokenFiatBalance.text = (token.balance!! * token.rate!!).toString()
 
         holder.view.setOnClickListener {
             onItemClickListener.onClick(position)

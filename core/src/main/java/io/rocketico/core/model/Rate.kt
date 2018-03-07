@@ -1,3 +1,10 @@
 package io.rocketico.core.model
 
-class Rate(val currentRate: Float)
+import java.util.*
+
+class Rate(val currency: String,
+           val rates: List<TokenRate>,
+           val timestamp: Long)
+
+class TokenRate(val tokenSymbol: String,
+                val rate: Float)

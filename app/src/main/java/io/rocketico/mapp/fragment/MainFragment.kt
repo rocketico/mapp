@@ -48,6 +48,8 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        prograssBar.visibility = View.VISIBLE
+
         walletManager = WalletManager(context!!)
         wallet = walletManager.getWallet()!!
 
@@ -76,8 +78,10 @@ class MainFragment : Fragment() {
         //TODO for debug
         doAsync {
             var totalBalance = 0f
+            val rate = RateHelper.getRate()
             wallet.tokens?.forEach {
-                it.rate = RateHelper.getRate()
+                val tokenName = it.name
+                it.rate = rate?.rates?.find { it.tokenSymbol.equals(tokenName) }?.rate
                 totalBalance += it.balance!!
             }
             uiThread {
@@ -85,6 +89,7 @@ class MainFragment : Fragment() {
                     tokenListAdapter.addItem(TokenFlexibleItem(it, itemListener))
                 }
                 tokensTotal.text = totalBalance.toString()
+                prograssBar.visibility = View.GONE
             }
         }
 

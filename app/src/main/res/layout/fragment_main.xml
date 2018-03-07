@@ -2,9 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/listBackground"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/listBackground">
 
     <include
         android:id="@+id/header"
@@ -31,7 +32,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tokenList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <include
             android:id="@+id/bottom"
@@ -40,6 +41,17 @@
             android:layout_height="match_parent" />
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+    <ProgressBar
+        android:id="@+id/prograssBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/colorPrimaryDark"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
