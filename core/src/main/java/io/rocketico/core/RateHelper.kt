@@ -1,6 +1,6 @@
 package io.rocketico.core
 
-import io.rocketico.core.CurrencyHelper.CurrencyResponse
+import io.rocketico.core.model.response.CurrencyResponse
 
 object RateHelper {
 
