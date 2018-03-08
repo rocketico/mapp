@@ -84,19 +84,40 @@ class MainFragment : Fragment() {
         //TODO for debug
         doAsync {
             var totalBalance = 0f
-            val rate = RateHelper.getRate()
+            var totalFiatBalance = 0f
+            val rate = RateHelper.getRates()
+
+            //fill ether token
+            val ethToken = wallet.tokens?.find { it.isEther }!!
+            ethToken.rate = rate?.rates?.find { it.tokenSymbol.toLowerCase() == "eth" }?.rate
+            ethToken.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(wallet.address))
+            totalBalance += ethToken.balance!!
+            if (ethToken.balance != null && ethToken.rate != null) {
+                totalFiatBalance += ethToken.balance!! * ethToken.rate!!
+            }
+
+            //fill other tokens
             wallet.tokens?.forEach {
+                if (it.isEther) return@forEach // skip ether token
+
                 val tokenName = it.name.toString()
                 it.rate = rate?.rates?.find { it.tokenSymbol == tokenName }?.rate
-                it.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(it.address))
+                it.balance = 999f //todo implement get token balance
                 totalBalance += it.balance!!
+                if (it.balance != null && it.rate != null) {
+                    totalFiatBalance += it.balance!! * it.rate!!
+                }
             }
             uiThread {
+                tokenListAdapter.addItem(TokenFlexibleItem(ethToken, itemListener))
+
                 wallet.tokens?.forEach {
+                    if (it.isEther) return@forEach // skip ether token
                     tokenListAdapter.addItem(TokenFlexibleItem(it, itemListener))
                 }
                 tokensTotal.text = totalBalance.toString()
                 prograssBar.visibility = View.GONE
+                fiatTotal.text = totalFiatBalance.toString()
             }
         }
 

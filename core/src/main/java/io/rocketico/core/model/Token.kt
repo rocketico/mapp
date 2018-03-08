@@ -12,4 +12,8 @@ data class Token(
         var balance: Float? = null,
         var balanceLastUpdate: Date? = Date(),
         val uuid: UUID = UUID.randomUUID()
-) : Serializable
+) : Serializable {
+    val isEther: Boolean
+        get() = name.toString().toLowerCase() == "eth"
+
+}
