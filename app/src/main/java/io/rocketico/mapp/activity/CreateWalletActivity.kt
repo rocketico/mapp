@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Token
+import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
-import io.rocketico.core.model.response.Tokens
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
@@ -46,6 +46,7 @@ class CreateWalletActivity : AppCompatActivity() {
                 runOnUiThread {
                     dialog.dismiss()
                     toast(getString(R.string.wallet_generation_error) + ": " + it.message)
+                    it.printStackTrace()
                 }
             }) {
                 val keyPair = wm.generatePrivateKey()!!
@@ -58,7 +59,7 @@ class CreateWalletActivity : AppCompatActivity() {
                         walletName
                 )
                 wallet.privateKey = keyPair.privateKey.toString(16)
-                wallet.tokens = mutableListOf(Token(wallet.address, Tokens.ETH, 18))
+                wallet.tokens = mutableListOf(Token(wallet.address, TokenType.ETH))
                 if (wm.existsWallet()) {
                     wm.deleteWallet()
                 }

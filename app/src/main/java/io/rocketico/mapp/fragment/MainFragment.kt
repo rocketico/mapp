@@ -28,6 +28,8 @@ import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 class MainFragment : Fragment() {
@@ -82,10 +84,15 @@ class MainFragment : Fragment() {
         val itemListener = activity as TokenFlexibleItem.OnItemClickListener
 
         //TODO for debug
-        doAsync {
+        doAsync({
+            context?.runOnUiThread {
+                toast(getString(R.string.update_info_error) + ": " + it.message)
+                it.printStackTrace()
+            }
+        }) {
             var totalBalance = 0f
             var totalFiatBalance = 0f
-            val rate = RateHelper.getRates()
+            val rate = RateHelper.getLastTokenRates()
 
             //fill ether token
             val ethToken = wallet.tokens?.find { it.isEther }!!
@@ -100,7 +107,7 @@ class MainFragment : Fragment() {
             wallet.tokens?.forEach {
                 if (it.isEther) return@forEach // skip ether token
 
-                val tokenName = it.name.toString()
+                val tokenName = it.type.toString()
                 it.rate = rate?.rates?.find { it.tokenSymbol == tokenName }?.rate
                 it.balance = 999f //todo implement get token balance
                 totalBalance += it.balance!!

@@ -9,7 +9,6 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.model.Token
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_token.view.*
-import java.util.*
 
 class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener) : IFlexible<TokenFlexibleItem.ViewHolder> {
     override fun getItemViewType() = 0
@@ -82,7 +81,7 @@ class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
         //TODO debug
-        holder.tokenName.text = token.name.toString()
+        holder.tokenName.text = token.type.toString()
         holder.tokenRate.text = token.rate.toString()
         holder.tokenRateDiff.text = 0.toString()
         holder.tokenBalance.text = token.balance.toString()

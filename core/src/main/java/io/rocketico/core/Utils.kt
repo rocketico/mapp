@@ -6,8 +6,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.math.BigInteger
 
 object Utils {
-    private const val BASE_URL = "https://gist.githubusercontent.com/KirillZholnerovich/c8f50d91479599e2ce79cd773e7c16e1/raw/462c2715eab236db5aceeff2094077bed91a0061/"
-    private lateinit var retrofit: Retrofit
+    private const val BASE_URL = "http://server.com/api/v1/"
+    private val retrofit: Retrofit
     val api: Api
 
     init {

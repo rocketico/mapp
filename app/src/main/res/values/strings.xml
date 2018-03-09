@@ -74,6 +74,7 @@
     <string name="citizenship">Select your Citizenship</string>
     <string name="forget_pass"><u>Forgot password?</u></string>
     <string name="wallet_generation_error">Wallet generation error</string>
+    <string name="update_info_error">Update info error</string>
 
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>

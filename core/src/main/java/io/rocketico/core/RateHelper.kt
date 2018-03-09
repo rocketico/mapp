@@ -1,10 +1,10 @@
 package io.rocketico.core
 
-import io.rocketico.core.model.response.CurrencyResponse
+import io.rocketico.core.model.response.TokenRatesResponse
 
 object RateHelper {
 
-    fun getRates(): CurrencyResponse? {
+    fun getLastTokenRates(): TokenRatesResponse? {
         return Utils.api.getRate().execute().body()
     }
 }
