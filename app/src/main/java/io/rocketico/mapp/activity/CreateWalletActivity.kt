@@ -42,7 +42,12 @@ class CreateWalletActivity : AppCompatActivity() {
 
             //Delete all wallets, generate and save new wallet
             val wm = WalletManager(this@CreateWalletActivity)
-            doAsync {
+            doAsync({
+                runOnUiThread {
+                    dialog.dismiss()
+                    toast(getString(R.string.wallet_generation_error) + ": " + it.message)
+                }
+            }) {
                 val keyPair = wm.generatePrivateKey()!!
                 val walletAddress = wm.publicKeyToAddress(keyPair.publicKey.toString(16))!!
 
