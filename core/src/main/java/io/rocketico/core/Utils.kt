@@ -3,7 +3,9 @@ package io.rocketico.core
 import io.rocketico.core.api.Api
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.math.BigDecimal
 import java.math.BigInteger
+import java.math.RoundingMode
 
 object Utils {
     private const val BASE_URL = "http://server.com/api/v1/"
@@ -19,8 +21,10 @@ object Utils {
         api = retrofit.create(Api::class.java)
     }
 
-    fun bigIntegerToFloat(value: BigInteger, round: Boolean = false, scale: Int = 5): Float {
-        var result = value.toFloat().div(1_000_000_000_000_000_000)
+    fun bigIntegerToFloat(value: BigInteger, round: Boolean = false, decimals: Int = 18, scale: Int = 5): Float {
+        val tmp = BigDecimal(value)
+        val resultBigDecimal = tmp.divide(BigDecimal.valueOf(10).pow(decimals))
+        var result = resultBigDecimal.setScale(5, RoundingMode.FLOOR).toFloat()
         if (round) {
             result = Utils.round(result, scale);
         }

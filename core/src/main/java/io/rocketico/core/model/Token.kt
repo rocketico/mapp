@@ -4,7 +4,6 @@ import java.io.Serializable
 import java.util.*
 
 data class Token(
-        val address: String,
         var type: TokenType,
         var rate: Float? = null,
         var balance: Float? = null,
