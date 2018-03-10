@@ -31,7 +31,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
-import java.math.BigInteger
 
 class MainFragment : Fragment() {
 
@@ -97,7 +96,8 @@ class MainFragment : Fragment() {
 
             //fill ether token
             val ethToken = wallet.tokens?.find { it.isEther }!!
-            ethToken.rate = rate?.rates?.find { it.tokenSymbol.toLowerCase() == "eth" }?.rate
+            val ethRate = rate?.rates?.find { it.tokenSymbol.toLowerCase() == "eth" }?.rate
+            ethToken.rate = ethRate
             ethToken.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(wallet.address), true)
             totalBalance += ethToken.balance!!
             if (ethToken.balance != null && ethToken.rate != null) {
@@ -118,7 +118,7 @@ class MainFragment : Fragment() {
                 )
                 it.balance = Utils.bigIntegerToFloat(tmpBalance, true, it.type.decimals)
 
-                totalBalance += it.balance!!
+                totalBalance += RateHelper.convertCurrency(it.rate!!, ethRate!!, it.balance!!)
                 if (it.balance != null && it.rate != null) {
                     totalFiatBalance += it.balance!! * it.rate!!
                 }
