@@ -92,7 +92,7 @@ class MainFragment : Fragment() {
         }) {
             var totalBalance = 0f
             var totalFiatBalance = 0f
-            val rate = RateHelper.getLastTokenRates()
+            val rate = RateHelper.getTokenRateByDate()
 
             //fill ether token
             val ethToken = wallet.tokens?.find { it.isEther }!!
