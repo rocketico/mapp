@@ -34,8 +34,8 @@ class CreateWalletActivity : AppCompatActivity() {
         }
         createNewWallet.setOnClickListener {
             val dialog = MaterialDialog.Builder(this)
-                    .title("Please wait")
-                    .content("Generating new wallet...")
+                    .title(getString(R.string.please_wait))
+                    .content(getString(R.string.generating_new_wallet))
                     .progress(true, 0)
                     .cancelable(false)
                     .show();
