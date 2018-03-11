@@ -64,8 +64,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ExpandableListView
-                android:id="@+id/expandableListView"
+            <Spinner
+                android:id="@+id/markets"
                 android:layout_width="0dp"
                 android:layout_height="38dp"
                 android:layout_marginTop="20dp"
@@ -82,7 +82,7 @@
                 android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expandableListView">
+                app:layout_constraintTop_toBottomOf="@+id/markets">
 
                 <TextView
                     android:id="@+id/marketTextView"
@@ -119,7 +119,7 @@
                 android:gravity="end"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expandableListView">
+                app:layout_constraintTop_toBottomOf="@+id/markets">
 
                 <TextView
                     android:id="@+id/marketCapitalization"
