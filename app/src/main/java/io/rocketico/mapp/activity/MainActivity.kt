@@ -57,9 +57,9 @@ class MainActivity : AppCompatActivity(),
 
     }
 
-    override fun onClick(position: Int) {
+    override fun onTokenListItemClick(position: Int, tokenType: String) {
                 supportFragmentManager.beginTransaction()
-                .replace(R.id.container, TokenFragment())
+                .replace(R.id.container, TokenFragment.newInstance(tokenType))
                 .addToBackStack(null)
                 .commit()
     }

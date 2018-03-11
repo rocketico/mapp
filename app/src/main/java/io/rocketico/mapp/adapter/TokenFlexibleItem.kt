@@ -88,7 +88,7 @@ class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener)
         holder.tokenFiatBalance.text = (token.balance!! * token.rate!!).toString()
 
         holder.view.setOnClickListener {
-            onItemClickListener.onClick(position)
+            onItemClickListener.onTokenListItemClick(position, token.type.toString())
         }
     }
 
@@ -97,7 +97,7 @@ class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener)
     }
 
     interface OnItemClickListener {
-        fun onClick(position: Int)
+        fun onTokenListItemClick(position: Int, tokenType: String)
     }
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
