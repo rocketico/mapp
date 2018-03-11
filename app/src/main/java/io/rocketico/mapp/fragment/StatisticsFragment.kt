@@ -2,6 +2,7 @@ package io.rocketico.mapp.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +86,7 @@ class StatisticsFragment : Fragment() {
                 averageYInEther /= foundTokensCount
                 averageVolume /= foundTokensCount
 
-                if (averageYInEther >= ethTopValue) {
+                if (averageYInEther > ethTopValue) {
                     ethTopValue = averageYInEther
                 } else {
                     if (averageYInEther <= ethBottomValue) {
