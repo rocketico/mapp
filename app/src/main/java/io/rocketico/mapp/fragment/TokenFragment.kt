@@ -72,6 +72,7 @@ class TokenFragment : Fragment() {
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 sliding.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
@@ -91,5 +92,19 @@ class TokenFragment : Fragment() {
     interface TokenFragmentListener {
         fun onBackClick()
         fun onMenuButtonClick()
+    }
+
+    companion object {
+        private const val TOKEN_TYPE = "TokenType"
+
+        fun newInstance(tokenType: String) : TokenFragment {
+            val fragment = TokenFragment()
+            val args = Bundle()
+
+            args.putString(TOKEN_TYPE, tokenType)
+            fragment.arguments = args
+
+            return fragment
+        }
     }
 }
