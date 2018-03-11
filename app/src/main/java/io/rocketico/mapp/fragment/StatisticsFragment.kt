@@ -39,9 +39,9 @@ class StatisticsFragment : Fragment() {
     }
 
     private fun setUpCharts() {
-        //TODO DEBUG
-        //Top chart
         val values = ArrayList<PointValue>()
+
+        val subColumnsData = mutableListOf<SubcolumnValue>()
 
         doAsync({
             context?.runOnUiThread {
@@ -63,9 +63,12 @@ class StatisticsFragment : Fragment() {
                 averageY /= ratesItem!!.values!!.size
 
                 values.add(PointValue(index.toFloat(), averageY))
+
+                subColumnsData.add(SubcolumnValue(ratesItem.volume!!));
             }
 
             uiThread {
+                //Top chart
                 val line = Line(values)
                 line.color = context!!.resources.getColor(R.color.colorPrimaryDark)
                 line.isCubic = true
@@ -86,36 +89,7 @@ class StatisticsFragment : Fragment() {
 
                 //Bottom chart
                 val columns = mutableListOf<Column>()
-                val subColumnsData1 = mutableListOf<SubcolumnValue>()
-                subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData1.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-
-                val subColumnsData2 = mutableListOf<SubcolumnValue>()
-                subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData2.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-
-                val subColumnsData3 = mutableListOf<SubcolumnValue>()
-                subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData3.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-
-                val subColumnsData4 = mutableListOf<SubcolumnValue>()
-                subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData4.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-
-                val subColumnsData5 = mutableListOf<SubcolumnValue>()
-                subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-                subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));subColumnsData5.add(SubcolumnValue(Random().nextInt(15).toFloat()));
-
-                columns.add(Column(subColumnsData1).setHasLabelsOnlyForSelected(true))
-                columns.add(Column(subColumnsData2).setHasLabelsOnlyForSelected(true))
-                columns.add(Column(subColumnsData3).setHasLabelsOnlyForSelected(true))
-                columns.add(Column(subColumnsData4).setHasLabelsOnlyForSelected(true))
-                columns.add(Column(subColumnsData5).setHasLabelsOnlyForSelected(true))
+                columns.add(Column(subColumnsData).setHasLabelsOnlyForSelected(true))
 
                 val columnChartData = ColumnChartData(columns)
 
