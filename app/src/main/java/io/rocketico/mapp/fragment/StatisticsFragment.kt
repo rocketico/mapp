@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.rocketico.core.RateHelper
+import io.rocketico.core.Utils
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
@@ -51,23 +52,44 @@ class StatisticsFragment : Fragment() {
         }) {
             val rates = RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.yesterday(), Date())
 
+            var ethTopValue = Float.MIN_VALUE;
+            var ethBottomValue = Float.MAX_VALUE;
+
             rates?.rates?.forEachIndexed { index, ratesItem ->
-                var averageY = 0f
-                ratesItem?.values?.forEach { rateItem ->
-                    if (wallet.tokens!!.find { walletToken ->
-                                (rateItem?.tokenSymbol == walletToken.type.codeName) || (rateItem?.tokenSymbol == TokenType.ETH.codeName)
-                            } != null) {
-                        averageY += rateItem?.rate!!
+                var averageYInEther = 0f
+                val ethRate = ratesItem?.values?.find { it?.tokenSymbol == TokenType.ETH.codeName }!!.rate
+                ratesItem.values?.forEach { rateItem ->
+
+                    val walletToken = wallet.tokens!!.find { walletToken ->
+                        (rateItem?.tokenSymbol == walletToken.type.codeName) || (rateItem?.tokenSymbol == TokenType.ETH.codeName)
+                    }
+                    if (walletToken != null) {
+                        if (walletToken.balance != null) {
+                            averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, walletToken.balance!!)
+                        } else {
+                            averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, 1f)
+                        }
                     }
                 }
-                averageY /= ratesItem!!.values!!.size
+                averageYInEther /= ratesItem.values!!.size
 
-                values.add(PointValue(index.toFloat(), averageY))
+                if (averageYInEther >= ethTopValue) {
+                    ethTopValue = averageYInEther
+                } else {
+                    if (averageYInEther <= ethBottomValue) {
+                        ethBottomValue = averageYInEther
+                    }
+                }
+
+                values.add(PointValue(index.toFloat(), averageYInEther).setLabel(averageYInEther.toString() + " ETH"))
 
                 subColumnsData.add(SubcolumnValue(ratesItem.volume!!));
             }
 
             uiThread {
+                topValue.text = Utils.round(ethTopValue, 5).toString()
+                bottomValue.text = Utils.round(ethBottomValue, 5).toString()
+
                 //Top chart
                 val line = Line(values)
                 line.color = context!!.resources.getColor(R.color.colorPrimaryDark)

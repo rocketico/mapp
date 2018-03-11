@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/datePanel" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/topValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/datePanel" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/bottomValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
