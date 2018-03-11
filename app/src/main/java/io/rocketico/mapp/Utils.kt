@@ -2,10 +2,9 @@ package io.rocketico.mapp
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.graphics.Color
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
+import java.util.*
 
 
 object Utils {
@@ -16,5 +15,11 @@ object Utils {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = color
         }
+    }
+
+    fun yesterday(): Date {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -1)
+        return cal.getTime()
     }
 }
