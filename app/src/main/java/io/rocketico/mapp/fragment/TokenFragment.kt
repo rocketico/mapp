@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.mapp.R
+import io.rocketico.mapp.adapter.MarketAdapter
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
@@ -43,7 +45,15 @@ class TokenFragment : Fragment() {
 
             override fun getCount(): Int = 2
         }
+
+        setupExchangesList()
         setupListeners()
+    }
+
+    private fun setupExchangesList() {
+        //todo Debug data. please, kill me :*(
+        val data = listOf("one", "two", "three", "four", "five")
+        markets.adapter = MarketAdapter(context!!, data)
     }
 
     private fun setupListeners() {
@@ -87,6 +97,17 @@ class TokenFragment : Fragment() {
             }
 
         })
+
+        markets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            }
+
+        }
     }
 
     interface TokenFragmentListener {
