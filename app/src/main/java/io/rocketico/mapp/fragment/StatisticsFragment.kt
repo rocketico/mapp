@@ -63,7 +63,7 @@ class StatisticsFragment : Fragment() {
                 val ethRate = ratesItem?.values?.find { it?.tokenSymbol == TokenType.ETH.codeName }!!.rate
                 ratesItem.values?.forEach { rateItem ->
                     if (rateItem?.tokenSymbol == TokenType.ETH.codeName) {
-                        averageYInEther += rateItem.rate!!
+                        averageYInEther += 1
                         averageVolume += rateItem.volume!!
                         foundTokensCount++
                     } else {
