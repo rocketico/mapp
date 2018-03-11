@@ -83,6 +83,10 @@ class MainFragment : Fragment() {
         tokenList.layoutManager = LinearLayoutManager(context)
         tokenList.adapter = tokenListAdapter
 
+        showTokens()
+    }
+
+    private fun showTokens() {
         val itemListener = activity as TokenFlexibleItem.OnItemClickListener
 
         //TODO for debug
@@ -137,7 +141,6 @@ class MainFragment : Fragment() {
                 fiatTotal.text = totalFiatBalance.toString()
             }
         }
-
     }
 
     private fun setupListeners() {
