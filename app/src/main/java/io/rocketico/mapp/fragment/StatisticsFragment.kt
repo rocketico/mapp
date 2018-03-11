@@ -62,18 +62,24 @@ class StatisticsFragment : Fragment() {
                 var foundTokensCount = 0
                 val ethRate = ratesItem?.values?.find { it?.tokenSymbol == TokenType.ETH.codeName }!!.rate
                 ratesItem.values?.forEach { rateItem ->
-                    val walletToken = wallet.tokens!!.find { walletToken ->
-                        (rateItem?.tokenSymbol == walletToken.type.codeName) || (rateItem?.tokenSymbol == TokenType.ETH.codeName)
-                    }
-                    if (walletToken != null) {
-                        if (walletToken.balance != null) {
-                            averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, walletToken.balance!!)
-                        } else {
-                            averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, 1f)
-                        }
-
+                    if (rateItem?.tokenSymbol == TokenType.ETH.codeName) {
+                        averageYInEther += rateItem.rate!!
                         averageVolume += rateItem.volume!!
                         foundTokensCount++
+                    } else {
+                        val walletToken = wallet.tokens!!.find { walletToken ->
+                            (rateItem?.tokenSymbol == walletToken.type.codeName)
+                        }
+                        if (walletToken != null) {
+                            if (walletToken.balance != null) {
+                                averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, walletToken.balance!!)
+                            } else {
+                                averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, 1f)
+                            }
+
+                            averageVolume += rateItem.volume!!
+                            foundTokensCount++
+                        }
                     }
                 }
                 averageYInEther /= foundTokensCount
