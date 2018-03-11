@@ -16,6 +16,11 @@ class WalletManager(val context: Context) {
         return Keys.createEcKeyPair()
     }
 
+    fun privateKeyToKeyPair(privateKey: String): ECKeyPair? {
+        return ECKeyPair.create(BigInteger(privateKey, 16))
+    }
+
+
     fun publicKeyToAddress(publicKey: String): String? {
         return Keys.getAddress(publicKey)
     }

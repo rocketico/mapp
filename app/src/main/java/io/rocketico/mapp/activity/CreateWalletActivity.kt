@@ -1,5 +1,6 @@
 package io.rocketico.mapp.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -29,8 +30,8 @@ class CreateWalletActivity : AppCompatActivity() {
         Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
 
         importWallet.setOnClickListener {
-            //TODO implement me
-            toast("Coming soon...")
+            startActivity(ImportWalletActivity.newIntent(this))
+            finish()
         }
         createNewWallet.setOnClickListener {
             val dialog = MaterialDialog.Builder(this)
@@ -74,6 +75,13 @@ class CreateWalletActivity : AppCompatActivity() {
                 }
             }
 
+        }
+    }
+
+    companion object {
+        fun newIntent(context: Context): Intent {
+            val intent = Intent(context, CreateWalletActivity::class.java)
+            return intent
         }
     }
 }

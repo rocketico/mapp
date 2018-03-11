@@ -77,7 +77,10 @@
     <string name="update_info_error">Update info error</string>
     <string name="generating_new_wallet">Generating new wallet…</string>
     <string name="please_wait">Please wait</string>
+    <string name="private_key">Private key</string>
+    <string name="label_import">Import</string>
+    <string name="wrong_private_key">Wrong private key</string>
 
-    <item name="visible" type="id"/>
-    <item name="masked" type="id"/>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
 </resources>

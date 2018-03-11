@@ -27,7 +27,8 @@
             android:name=".activity.MenuActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.LogInActivity"></activity>
+        <activity android:name=".activity.LogInActivity" />
+        <activity android:name=".activity.ImportWalletActivity" />
     </application>
 
 </manifest>

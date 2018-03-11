@@ -1,6 +1,8 @@
 package io.rocketico.core
 
 import io.rocketico.core.api.Api
+import org.web3j.crypto.WalletUtils
+import org.web3j.protocol.Web3j
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.math.BigDecimal
@@ -29,6 +31,10 @@ object Utils {
             result = Utils.round(result, scale);
         }
         return result;
+    }
+
+    fun isPrivateKeyValid(privateKey: String): Boolean {
+        return WalletUtils.isValidPrivateKey(privateKey)
     }
 
     fun round(value: Float, scale: Int): Float {
