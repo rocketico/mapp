@@ -1,7 +1,10 @@
 package io.rocketico.mapp.activity
 
-import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenSendFlexibleItem
@@ -36,9 +39,14 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onSendClick() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendFragment())
-                .commit()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0);
+        } else {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, SendFragment())
+                    .commit()
+        }
     }
 
     override fun onBackClick() {

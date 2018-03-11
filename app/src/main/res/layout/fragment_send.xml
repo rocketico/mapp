@@ -16,12 +16,19 @@
         app:srcCompat="@drawable/ic_left_black_32dp" />
 
     <FrameLayout
-        android:id="@+id/qr"
+        android:id="@+id/qr_frame"
         android:layout_width="0dp"
         android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <me.dm7.barcodescanner.zxing.ZXingScannerView
+            android:id="@+id/qr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
@@ -30,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qr">
+        app:layout_constraintTop_toBottomOf="@+id/qr_frame">
 
         <TextView
             android:id="@+id/sendPaymentTextView"

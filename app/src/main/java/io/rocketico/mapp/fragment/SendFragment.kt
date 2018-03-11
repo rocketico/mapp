@@ -48,6 +48,19 @@ class SendFragment : Fragment() {
         setupListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        qr.setResultHandler {
+            it.text
+        }
+        qr.startCamera()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        qr.stopCamera()
+    }
+
     private fun setupListeners() {
         backButton.setOnClickListener {
             listener.onBackClick()
