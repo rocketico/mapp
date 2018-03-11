@@ -44,6 +44,7 @@ class StatisticsFragment : Fragment() {
 
         val subColumnsData = mutableListOf<SubcolumnValue>()
 
+        //todo add loading animation
         doAsync({
             context?.runOnUiThread {
                 toast(getString(R.string.update_info_error) + ": " + it.message)
