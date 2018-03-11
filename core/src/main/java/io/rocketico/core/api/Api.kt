@@ -13,7 +13,7 @@ interface Api {
             @Query("date") date: Date
     ): Call<TokensRatesResponse>
 
-    @GET("https://gist.githubusercontent.com/uxname/8aa54537ea27bead85e14bd160a06b78/raw/70edf54b0a3352ee80ed31ecaa8787deadbb97eb/gistfile1.txt")
+    @GET("https://gist.githubusercontent.com/uxname/bd779159538c914ab8563241d5c37858/raw/acd09e0b05f025444578af807370001e79b99d09/gistfile1.txt")
     fun getRatesByDateRange(
             @Query("fromDate") fromDate: Date,
             @Query("toDate") toDate: Date

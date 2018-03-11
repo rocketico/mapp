@@ -57,9 +57,10 @@ class StatisticsFragment : Fragment() {
 
             rates?.rates?.forEachIndexed { index, ratesItem ->
                 var averageYInEther = 0f
+                var averageVolume = 0f
+                var foundTokensCount = 0
                 val ethRate = ratesItem?.values?.find { it?.tokenSymbol == TokenType.ETH.codeName }!!.rate
                 ratesItem.values?.forEach { rateItem ->
-
                     val walletToken = wallet.tokens!!.find { walletToken ->
                         (rateItem?.tokenSymbol == walletToken.type.codeName) || (rateItem?.tokenSymbol == TokenType.ETH.codeName)
                     }
@@ -69,9 +70,13 @@ class StatisticsFragment : Fragment() {
                         } else {
                             averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, 1f)
                         }
+
+                        averageVolume += rateItem.volume!!
+                        foundTokensCount++
                     }
                 }
-                averageYInEther /= ratesItem.values!!.size
+                averageYInEther /= foundTokensCount
+                averageVolume /= foundTokensCount
 
                 if (averageYInEther >= ethTopValue) {
                     ethTopValue = averageYInEther
@@ -82,8 +87,7 @@ class StatisticsFragment : Fragment() {
                 }
 
                 values.add(PointValue(index.toFloat(), averageYInEther).setLabel(averageYInEther.toString() + " ETH"))
-
-                subColumnsData.add(SubcolumnValue(ratesItem.volume!!));
+                subColumnsData.add(SubcolumnValue(averageVolume));
             }
 
             uiThread {
