@@ -59,7 +59,7 @@ class CreateWalletActivity : AppCompatActivity() {
                         walletName
                 )
                 wallet.privateKey = keyPair.privateKey.toString(16)
-                wallet.tokens = mutableListOf(Token(TokenType.ETH))
+                wallet.tokens = mutableListOf()
 
                 wallet.tokens!!.add(Token(TokenType.TEST)) //todo Debug. Remove me
 

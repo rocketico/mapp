@@ -19,6 +19,8 @@ import io.rocketico.core.EthereumHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.WalletManager
+import io.rocketico.core.model.Token
+import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
@@ -95,7 +97,7 @@ class MainFragment : Fragment() {
             val rate = RateHelper.getTokenRateByDate()
 
             //fill ether token
-            val ethToken = wallet.tokens?.find { it.isEther }!!
+            val ethToken = Token(TokenType.ETH)
             val ethRate = rate?.rates?.find { it.tokenSymbol.toLowerCase() == "eth" }?.rate
             ethToken.rate = ethRate
             ethToken.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(wallet.address), true)
