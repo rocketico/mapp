@@ -11,22 +11,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import io.rocketico.core.MarketsInfoHelper
 import io.rocketico.core.model.TokenType
+import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.MarketAdapter
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
 import kotlinx.android.synthetic.main.header_main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class TokenFragment : Fragment() {
 
     private lateinit var listener: TokenFragmentListener
+    private lateinit var tokenType: TokenType
+    private var list: List<TokenInfoFromMarket>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         listener = activity as TokenFragmentListener
+        tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,12 +56,40 @@ class TokenFragment : Fragment() {
 
         setupExchangesList()
         setupListeners()
+
+    }
+
+    private fun loadData() {
+
     }
 
     private fun setupExchangesList() {
         //todo Debug data. please, kill me :*(
-        val data = listOf("one", "two", "three", "four", "five")
-        markets.adapter = MarketAdapter(context!!, data)
+        val data = listOf("LOL", "KEK", "CHEBUREK")
+
+        doAsync {
+            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName)
+
+            uiThread {
+                markets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        //todo Debug
+                        marketCapitalization.text = list!![position].marketCapitalization[0].value.toString()
+                        lowestRate.text = list!![position].lowestRate24h[0].value.toString()
+                        highestRate.text = list!![position].highestRate24h[0].value.toString()
+                        tradingVolume.text = list!![position].tradingVolume24h[0].value.toString()
+                    }
+
+                }
+
+                markets.adapter = MarketAdapter(context!!, data)
+            }
+        }
+
     }
 
     private fun setupListeners() {
@@ -98,17 +133,6 @@ class TokenFragment : Fragment() {
             }
 
         })
-
-        markets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-            }
-
-        }
     }
 
     interface TokenFragmentListener {
