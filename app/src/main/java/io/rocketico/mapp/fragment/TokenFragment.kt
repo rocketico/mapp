@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.MarketAdapter
 import kotlinx.android.synthetic.main.bottom_main.*
@@ -118,11 +119,11 @@ class TokenFragment : Fragment() {
     companion object {
         private const val TOKEN_TYPE = "TokenType"
 
-        fun newInstance(tokenType: String) : TokenFragment {
+        fun newInstance(tokenType: TokenType) : TokenFragment {
             val fragment = TokenFragment()
             val args = Bundle()
 
-            args.putString(TOKEN_TYPE, tokenType)
+            args.putSerializable(TOKEN_TYPE, tokenType)
             fragment.arguments = args
 
             return fragment
