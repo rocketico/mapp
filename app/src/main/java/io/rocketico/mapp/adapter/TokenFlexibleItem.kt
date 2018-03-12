@@ -7,7 +7,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.model.Token
-import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_token.view.*
 
@@ -89,7 +88,7 @@ class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener)
         holder.tokenFiatBalance.text = (token.balance!! * token.rate!!).toString()
 
         holder.view.setOnClickListener {
-            onItemClickListener.onTokenListItemClick(position, token.type)
+            onItemClickListener.onTokenListItemClick(position, token)
         }
     }
 
@@ -98,7 +97,7 @@ class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener)
     }
 
     interface OnItemClickListener {
-        fun onTokenListItemClick(position: Int, tokenType: TokenType)
+        fun onTokenListItemClick(position: Int, token: Token)
     }
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {

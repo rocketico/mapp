@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.MarketsInfoHelper
-import io.rocketico.core.model.TokenType
+import io.rocketico.core.model.Token
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.MarketAdapter
@@ -26,14 +26,14 @@ import org.jetbrains.anko.uiThread
 class TokenFragment : Fragment() {
 
     private lateinit var listener: TokenFragmentListener
-    private lateinit var tokenType: TokenType
+    private lateinit var token: Token
     private var list: List<TokenInfoFromMarket>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         listener = activity as TokenFragmentListener
-        tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
+        token = arguments?.getSerializable(TOKEN) as Token
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,7 +68,7 @@ class TokenFragment : Fragment() {
         val data = listOf("LOL", "KEK", "CHEBUREK")
 
         doAsync {
-            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName)
+            list = MarketsInfoHelper.getTokenInfoFromMarkets(token.type.codeName)
 
             uiThread {
                 markets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -141,13 +141,13 @@ class TokenFragment : Fragment() {
     }
 
     companion object {
-        private const val TOKEN_TYPE = "TokenType"
+        private const val TOKEN = "Token"
 
-        fun newInstance(tokenType: TokenType) : TokenFragment {
+        fun newInstance(token: Token) : TokenFragment {
             val fragment = TokenFragment()
             val args = Bundle()
 
-            args.putSerializable(TOKEN_TYPE, tokenType)
+            args.putSerializable(TOKEN, token)
             fragment.arguments = args
 
             return fragment
