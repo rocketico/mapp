@@ -10,17 +10,21 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ExpandableListView
+import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.MarketsInfoHelper
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
-import io.rocketico.mapp.adapter.MarketAdapter
+import io.rocketico.mapp.adapter.ExpandableListAdapter
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
 import kotlinx.android.synthetic.main.header_main.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 class TokenFragment : Fragment() {
@@ -59,37 +63,52 @@ class TokenFragment : Fragment() {
 
     }
 
-    private fun loadData() {
-
-    }
-
     private fun setupExchangesList() {
         //todo Debug data. please, kill me :*(
         val data = listOf("CoinMarketcap", "Bittrex", "Poloniex")
 
-        doAsync {
+        doAsync({
+            context?.runOnUiThread {
+                toast(getString(R.string.update_info_error) + ": " + it.message)
+                it.printStackTrace()
+            }
+        }) {
             list = MarketsInfoHelper.getTokenInfoFromMarkets(token.type.codeName, "USD") //todo currency Debug
 
             uiThread {
-                markets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                markets.setOnChildClickListener(object : ExpandableListView.OnChildClickListener {
+                    override fun onChildClick(parent: ExpandableListView, v: View, groupPosition: Int, childPosition: Int, id: Long): Boolean {
+                        val newState = mutableListOf<String>()
+                        val clickedView = v.findViewById<TextView>(R.id.marketName)
 
+                        val clickedPosition = data.indexOf(data.find { it == clickedView.text }!!)
+
+                        newState.add(data.find { it == clickedView.text }!!)
+
+                        for (i in 0 until data.size) {
+                            if (data[i] == clickedView.text) continue
+
+                            newState.add(data[i])
+                        }
+
+                        fillData(clickedPosition)
+
+                        markets.setAdapter(ExpandableListAdapter(context!!, newState))
+                        return false
                     }
+                })
 
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        //todo Debug
-                        marketCapitalization.text = list!![position].marketCapitalization.toString()
-                        lowestRate.text = list!![position].lowestRate24h.toString()
-                        highestRate.text = list!![position].highestRate24h.toString()
-                        tradingVolume.text = list!![position].tradingVolume24h.toString()
-                    }
-
-                }
-
-                markets.adapter = MarketAdapter(context!!, data)
+                fillData(0)
+                markets.setAdapter(ExpandableListAdapter(context!!, data))
             }
         }
+    }
 
+    private fun fillData(position: Int) {
+        marketCapitalization.text = list!![position].marketCapitalization.toString()
+        lowestRate.text = list!![position].lowestRate24h.toString()
+        highestRate.text = list!![position].highestRate24h.toString()
+        tradingVolume.text = list!![position].tradingVolume24h.toString()
     }
 
     private fun setupListeners() {
