@@ -47,12 +47,12 @@
             <TextView
                 android:id="@+id/tokenName"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:layout_marginTop="16dp"
                 android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tokenImage"
                 app:layout_constraintStart_toEndOf="@+id/tokenImage"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tokenImage"
                 tools:text="Ethereum" />
 
             <Button
@@ -67,7 +67,7 @@
             <Spinner
                 android:id="@+id/markets"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,196 +75,259 @@
                 app:layout_constraintTop_toBottomOf="@+id/tokenImage" />
 
             <LinearLayout
-                android:id="@+id/linear1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/markets">
-
-                <TextView
-                    android:id="@+id/marketTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/market_cap" />
-
-                <TextView
-                    android:id="@+id/lowestRateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/lowest_rate" />
-
-                <TextView
-                    android:id="@+id/highestRateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/highest_rate" />
-
-                <TextView
-                    android:id="@+id/tradVolTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/trading_volume" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:gravity="end"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/markets">
-
-                <TextView
-                    android:id="@+id/marketCapitalization"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="23421$" />
-
-                <TextView
-                    android:id="@+id/lowestRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="23421$" />
-
-                <TextView
-                    android:id="@+id/highestRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="23421$" />
-
-                <TextView
-                    android:id="@+id/tradingVolume"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="23421$" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linear1" />
-
-            <LinearLayout
-                android:id="@+id/linear3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
-
-                <TextView
-                    android:id="@+id/launchTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/launch_date" />
-
-                <TextView
-                    android:id="@+id/hashingTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/hashing_alg" />
-
-                <TextView
-                    android:id="@+id/netPowerTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/net_power" />
-
-                <TextView
-                    android:id="@+id/webSiteTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/of_site" />
-
-                <TextView
-                    android:id="@+id/avSuppTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/av_and_support" />
-
-                <TextView
-                    android:id="@+id/blchainTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    android:text="@string/blockchain" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="12dp"
-                android:gravity="end"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
-
-                <TextView
-                    android:id="@+id/launchDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="July 30, 2015" />
-
-                <TextView
-                    android:id="@+id/hashingAlgorithm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="Ethash" />
-
-                <TextView
-                    android:id="@+id/networkPower"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="Try cloud mining" />
-
-                <TextView
-                    android:id="@+id/officialWebsite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="ethereum.com" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/marketTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/market_cap" />
+
+                    <TextView
+                        android:id="@+id/marketCapitalization"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="23421$" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/lowestRateTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/lowest_rate" />
+
+                    <TextView
+                        android:id="@+id/lowestRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="23421$" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/highestRateTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/highest_rate" />
+
+                    <TextView
+                        android:id="@+id/highestRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="23421$" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tradVolTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/trading_volume" />
+
+                    <TextView
+                        android:id="@+id/tradingVolume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="23421$" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/colorBorder" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/launchTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/launch_date" />
+
+                    <TextView
+                        android:id="@+id/launchDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="July 30, 2015" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/hashingTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/hashing_alg" />
+
+                    <TextView
+                        android:id="@+id/hashingAlgorithm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Ethash" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/netPowerTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/net_power" />
+
+                    <TextView
+                        android:id="@+id/networkPower"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Try cloud mining" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/webSiteTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/of_site" />
+
+                    <TextView
+                        android:id="@+id/officialWebsite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="ethereum.com" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/avSuppTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/av_and_support" />
 
                     <TextView
                         android:id="@+id/available"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/token_text_height"
+                        android:layout_height="wrap_content"
                         tools:text="230,0" />
 
                     <TextView
                         android:id="@+id/support"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/token_text_height"
+                        android:layout_height="wrap_content"
                         tools:text="230,0" />
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/blockchain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/token_text_height"
-                    tools:text="gastracker.io" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/blchainTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/blockchain" />
+
+                    <TextView
+                        android:id="@+id/blockchain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="gastracker.io" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

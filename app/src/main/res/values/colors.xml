@@ -5,6 +5,7 @@
     <color name="colorAccent">#FFFA4600</color>
     <color name="white">#FFFFFF</color>
     <color name="grey">#FFA2A6AF</color>
+    <color name="colorBorder">#FF4A4A4A</color>
     <color name="black">#000000</color>
     <color name="recycler_view_divider_light">#FFEAEAEA</color>
     <color name="menuText">#FF454545</color>
