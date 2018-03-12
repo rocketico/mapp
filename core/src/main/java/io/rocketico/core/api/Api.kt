@@ -20,6 +20,8 @@ interface Api {
             @Query("toDate") toDate: Date
     ): Call<TokenRatesRangeResponse>
 
-    @GET("https://gist.githubusercontent.com/KirillZholnerovich/2223525229c2de361bb37f347b5c33d9/raw/c4e4198dba77b8369cba5f4536d8ecc12828ef5e/gistfile1.txt")
-    fun getTokenInfo(@Query("tokenType") tokenType: String): Call<List<TokenInfoFromMarket>>
+    @GET("https://gist.githubusercontent.com/KirillZholnerovich/2223525229c2de361bb37f347b5c33d9/raw/28c5fa1c14618e63aea250d03a3a02860c276823/gistfile1.txt")
+    fun getTokenInfo(@Query("tokenType") tokenType: String,
+                     @Query("currency") currency: String
+    ): Call<List<TokenInfoFromMarket>>
 }

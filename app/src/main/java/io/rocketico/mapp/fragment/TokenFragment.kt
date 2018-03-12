@@ -65,10 +65,10 @@ class TokenFragment : Fragment() {
 
     private fun setupExchangesList() {
         //todo Debug data. please, kill me :*(
-        val data = listOf("LOL", "KEK", "CHEBUREK")
+        val data = listOf("CoinMarketcap", "Bittrex", "Poloniex")
 
         doAsync {
-            list = MarketsInfoHelper.getTokenInfoFromMarkets(token.type.codeName)
+            list = MarketsInfoHelper.getTokenInfoFromMarkets(token.type.codeName, "USD") //todo currency Debug
 
             uiThread {
                 markets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -78,10 +78,10 @@ class TokenFragment : Fragment() {
 
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         //todo Debug
-                        marketCapitalization.text = list!![position].marketCapitalization[0].value.toString()
-                        lowestRate.text = list!![position].lowestRate24h[0].value.toString()
-                        highestRate.text = list!![position].highestRate24h[0].value.toString()
-                        tradingVolume.text = list!![position].tradingVolume24h[0].value.toString()
+                        marketCapitalization.text = list!![position].marketCapitalization.toString()
+                        lowestRate.text = list!![position].lowestRate24h.toString()
+                        highestRate.text = list!![position].highestRate24h.toString()
+                        tradingVolume.text = list!![position].tradingVolume24h.toString()
                     }
 
                 }
