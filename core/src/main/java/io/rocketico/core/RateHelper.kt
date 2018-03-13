@@ -5,7 +5,7 @@ import io.rocketico.core.model.response.TokensRatesResponse
 import java.util.*
 
 object RateHelper {
-    fun getTokensRatesByDate(date: Date = Date()): TokensRatesResponse? {
+    fun getTokenRateByDate(date: Date = Date()): TokensRatesResponse? {
         return Utils.api.getRatesByDate(date).execute().body()
     }
 

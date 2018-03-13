@@ -98,7 +98,7 @@ class MainFragment : Fragment() {
         }) {
             var totalBalance = 0f
             var totalFiatBalance = 0f
-            val ratesResponse = RateHelper.getTokensRatesByDate()
+            val ratesResponse = RateHelper.getTokenRateByDate()
 
             //fill ether token
             val ethToken = Token(TokenType.ETH)
