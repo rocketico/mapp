@@ -26,7 +26,7 @@ class EthereumHelper(networkUrl: String) {
         return token.balanceOf(address).sendAsync().get()
     }
 
-    fun getTokensHistory(dateFrom: Date, dateTo: Date, tokenTypeList: List<String>): List<TokenHistoryResponse>? {
+    fun getTokensHistory(tokenTypeList: List<String>, dateFrom: Date, dateTo: Date = Date()): List<TokenHistoryResponse>? {
         return Utils.api.getTokensHistory(dateFrom, dateTo, tokenTypeList).execute().body()
     }
 }
