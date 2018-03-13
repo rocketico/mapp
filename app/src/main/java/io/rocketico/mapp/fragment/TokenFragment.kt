@@ -14,7 +14,6 @@ import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.MarketsInfoHelper
 import io.rocketico.core.RateHelper
-import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
@@ -27,7 +26,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
-import java.util.*
 
 class TokenFragment : Fragment() {
 
@@ -49,6 +47,8 @@ class TokenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         backButton.visibility = View.VISIBLE
         helpingView.visibility = View.VISIBLE
+        helpingLoadView.visibility = View.VISIBLE
+        prograssBar.visibility = View.VISIBLE
 
         if (token.isEther) tokensTotal.text = token.balance.toString()
         else {
@@ -118,6 +118,9 @@ class TokenFragment : Fragment() {
 
                 fillInfo(0)
                 markets.setAdapter(ExpandableListAdapter(context!!, listItemData))
+
+                helpingLoadView.visibility = View.GONE
+                prograssBar.visibility = View.GONE
             }
         }
     }
