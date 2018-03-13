@@ -1,8 +1,9 @@
 package io.rocketico.core.api
 
+import io.rocketico.core.model.response.TokenHistoryResponse
 import io.rocketico.core.model.response.TokenInfoFromMarket
-import io.rocketico.core.model.response.TokensRatesResponse
 import io.rocketico.core.model.response.TokenRatesRangeResponse
+import io.rocketico.core.model.response.TokensRatesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -24,4 +25,11 @@ interface Api {
     fun getTokenInfo(@Query("tokenType") tokenType: String,
                      @Query("currency") currency: String
     ): Call<List<TokenInfoFromMarket>>
+
+    @GET("https://gist.githubusercontent.com/uxname/e20bf8593ccb38063d25a881cdf01fd1/raw/ccffc49f621097d9180edc9a37d68bd07028df39/gistfile1.txt")
+    fun getTokensHistory(
+            @Query("dateFrom") dateFrom: Date,
+            @Query("dateTo") dateTo: Date,
+            @Query("tokenTypeList") tokenTypeList: List<String>
+    ): Call<List<TokenHistoryResponse>>
 }
