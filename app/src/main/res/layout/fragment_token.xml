@@ -343,6 +343,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/listBackground"
                 android:elevation="6dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
