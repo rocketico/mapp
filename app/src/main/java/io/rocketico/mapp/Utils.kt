@@ -22,4 +22,10 @@ object Utils {
         cal.add(Calendar.DATE, -1)
         return cal.getTime()
     }
+
+    fun nDaysAgo(days: Int): Date {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -days)
+        return cal.getTime()
+    }
 }
