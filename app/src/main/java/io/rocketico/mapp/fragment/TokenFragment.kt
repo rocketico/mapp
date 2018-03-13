@@ -57,8 +57,13 @@ class TokenFragment : Fragment() {
         }
         fiatTotal.text = (token.balance!! * token.rate!!).toString()
         tokenName.text = token.type.codeName
-
-
+        launchDate.text = token.type.launchDate
+        hashingAlgorithm.text = token.type.hashAlgorithm
+        networkPower.text = token.type.networkPower
+        officialWebsite.text = token.type.officialSite
+        available.text = token.type.available.toString()
+        support.text = token.type.support.toString()
+        blockchain.text = token.type.blockChain
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
