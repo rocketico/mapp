@@ -56,12 +56,14 @@
                 app:layout_constraintTop_toTopOf="@+id/tokenImage"
                 tools:text="Ethereum" />
 
-            <Button
-                android:id="@+id/chooseFiatButton"
+            <Spinner
+                android:id="@+id/chooseFiatSpinner"
                 android:layout_width="74dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/background_currency_spinner"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

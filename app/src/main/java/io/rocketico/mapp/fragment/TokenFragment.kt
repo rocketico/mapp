@@ -9,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ExpandableListView
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.MarketsInfoHelper
 import io.rocketico.core.RateHelper
+import io.rocketico.core.model.Currency
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
@@ -77,7 +79,7 @@ class TokenFragment : Fragment() {
 
         setupExchangesList()
         setupListeners()
-
+        setupCurrencySpinner()
     }
 
     private fun setupExchangesList() {
@@ -173,6 +175,15 @@ class TokenFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun setupCurrencySpinner() {
+        //todo Debug
+        val currency = listOf<String>("${Currency.USD.currencySymbol} - ${Currency.USD.codeName}",
+                "${Currency.TEST.currencySymbol} - ${Currency.TEST.codeName}")
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, currency)
+
+        chooseFiatSpinner.adapter = adapter
     }
 
     interface TokenFragmentListener {
