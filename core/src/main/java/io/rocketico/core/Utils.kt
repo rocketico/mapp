@@ -2,7 +2,6 @@ package io.rocketico.core
 
 import io.rocketico.core.api.Api
 import org.web3j.crypto.WalletUtils
-import org.web3j.protocol.Web3j
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.math.BigDecimal
@@ -26,10 +25,7 @@ object Utils {
     fun bigIntegerToFloat(value: BigInteger, round: Boolean = false, decimals: Int = 18, scale: Int = 5): Float {
         val tmp = BigDecimal(value)
         val resultBigDecimal = tmp.divide(BigDecimal.valueOf(10).pow(decimals))
-        var result = resultBigDecimal.setScale(5, RoundingMode.FLOOR).toFloat()
-        if (round) {
-            result = Utils.round(result, scale);
-        }
+        val result = resultBigDecimal.setScale(scale, RoundingMode.FLOOR).toFloat()
         return result;
     }
 

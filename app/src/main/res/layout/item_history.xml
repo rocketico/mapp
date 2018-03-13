@@ -7,93 +7,93 @@
     android:clickable="true">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/direction"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/fast_scroller_handle" />
+        android:src="@drawable/ic_direction_down" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="0xd104f43d9fed0c..."
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/direction"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/valueFiat"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_marginEnd="24dp"
         android:text="$ 30"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
+        app:layout_constraintBaseline_toBaselineOf="@+id/address"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/fee"
         android:layout_width="wrap_content"
         android:layout_height="13dp"
         android:layout_marginTop="4dp"
         android:text="Actual Tx Cost/Fee: 0.0000861 Ether"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_small_size"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="@+id/address"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/confirmations"
         android:layout_width="wrap_content"
         android:layout_height="13dp"
         android:layout_marginStart="16dp"
         android:text="Status: 0 / 12"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_small_size"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
-        app:layout_constraintStart_toEndOf="@+id/textView7" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/date"
+        app:layout_constraintStart_toEndOf="@+id/date" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="13dp"
         android:layout_marginTop="4dp"
         android:text="19 min ago"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_small_size"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/fee"
+        app:layout_constraintTop_toBottomOf="@+id/fee" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/feeFiat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$ 0.10"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_small_size"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
-        app:layout_constraintEnd_toEndOf="@+id/textView8" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/fee"
+        app:layout_constraintEnd_toEndOf="@+id/valueFiat" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ETH 0.001155"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_small_size"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="@+id/textView9" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/confirmations"
+        app:layout_constraintEnd_toEndOf="@+id/feeFiat" />
 
     <View
         android:layout_marginTop="8dp"
         android:layout_width="0dp"
         android:layout_height="0.5dp"
         android:background="@color/recycler_view_divider_light"
-        app:layout_constraintTop_toBottomOf="@id/textView7"
+        app:layout_constraintTop_toBottomOf="@id/date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

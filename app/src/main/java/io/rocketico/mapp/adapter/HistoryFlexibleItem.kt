@@ -1,16 +1,18 @@
 package io.rocketico.mapp.adapter
 
+import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
-import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
-import kotlinx.android.synthetic.main.item_token.view.*
+import kotlinx.android.synthetic.main.item_history.view.*
 import java.util.*
 
-class HistoryFlexibleItem : IFlexible<HistoryFlexibleItem.ViewHolder> {
+class HistoryFlexibleItem(val item: HistoryItem) : IFlexible<HistoryFlexibleItem.ViewHolder> {
     override fun getItemViewType() = 0
 
     private lateinit var view: View
@@ -79,14 +81,19 @@ class HistoryFlexibleItem : IFlexible<HistoryFlexibleItem.ViewHolder> {
         return ViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
-        //TODO debug
-//        fun rnd() = "%.4f".format(Random().nextFloat())
-//        holder.tokenName.text = rnd()
-//        holder.tokenRate.text = rnd()
-//        holder.tokenRateDiff.text = rnd()
-//        holder.tokenBalance.text = rnd()
-//        holder.tokenCurrencyBalance.text = rnd()
+        if (item.isReceived) {
+            holder.direction.setImageDrawable(holder.view.resources.getDrawable(R.drawable.ic_direction_down))
+        } else {
+            holder.direction.setImageDrawable(holder.view.resources.getDrawable(R.drawable.ic_direction_up))
+        }
+        holder.address.text = item.address!!.substring(0..15) + "..."
+        holder.valueFiat.text = item.value?.toString()
+        holder.value.text = item.value.toString()
+        holder.fee.text = item.fee.toString() + " " + item.tokenName
+        holder.feeFiat.text = item.feeFiat?.toString()
+        holder.confirmations.text = item.confirmations.toString()
     }
 
     override fun unbindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int) {
@@ -98,11 +105,25 @@ class HistoryFlexibleItem : IFlexible<HistoryFlexibleItem.ViewHolder> {
     }
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
-//        val tokenImage: CircleImageView? = view.tokenImage
-//        val tokenName: TextView = view.tokenName
-//        val tokenRate: TextView = view.tokenRate
-//        val tokenRateDiff: TextView = view.tokenRateDiff
-//        val tokenBalance: TextView = view.tokenBalance
-//        val tokenCurrencyBalance: TextView = view.tokenCurrencyBalance
+        val direction: ImageView = view.direction
+        val address: TextView = view.address
+        val valueFiat: TextView = view.valueFiat
+        val value: TextView = view.value
+        val fee: TextView = view.fee
+        val feeFiat: TextView = view.feeFiat
+        val confirmations: TextView = view.confirmations
+        val date: TextView = view.date
     }
+
+    class HistoryItem(
+            var tokenName: String? = null,
+            var isReceived: Boolean = false,
+            var address: String? = null,
+            var valueFiat: Float? = null,
+            var value: Float? = null,
+            var fee: Float? = null,
+            var feeFiat: Float? = null,
+            var confirmations: Long? = null,
+            var date: Date? = null
+    )
 }

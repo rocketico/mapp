@@ -26,7 +26,7 @@ interface Api {
                      @Query("currency") currency: String
     ): Call<List<TokenInfoFromMarket>>
 
-    @GET("https://gist.githubusercontent.com/uxname/ade3971a438fbd3672e9f74f33a67b28/raw/6665ca9f643c9d7fcb92263c21bd993e6035543f/gistfile1.txt")
+    @GET("https://gist.githubusercontent.com/uxname/1c6689cac6b8bb69e39ed4aeeb8280de/raw/435216688cbe9430959bc91cafffe374cf63feb9/gistfile1.txt")
     fun getTokensHistory(
             @Query("dateFrom") dateFrom: Date,
             @Query("dateTo") dateTo: Date,
