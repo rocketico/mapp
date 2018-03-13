@@ -98,11 +98,11 @@ class MainFragment : Fragment() {
         }) {
             var totalBalance = 0f
             var totalFiatBalance = 0f
-            val rate = RateHelper.getTokenRateByDate()
+            val ratesResponse = RateHelper.getTokenRateByDate()
 
             //fill ether token
             val ethToken = Token(TokenType.ETH)
-            val ethRate = rate?.rates?.find { it.tokenSymbol.toLowerCase() == "eth" }?.rate
+            val ethRate = ratesResponse?.rates?.find { it.tokenSymbol.toLowerCase() == TokenType.ETH.codeName.toLowerCase() }?.rate
             ethToken.rate = ethRate
             ethToken.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(wallet.address), true)
             totalBalance += ethToken.balance!!
@@ -115,7 +115,7 @@ class MainFragment : Fragment() {
                 if (it.isEther) return@forEach // skip ether token
 
                 val tokenName = it.type.toString()
-                it.rate = rate?.rates?.find { it.tokenSymbol == tokenName }?.rate
+                it.rate = ratesResponse?.rates?.find { it.tokenSymbol == tokenName }?.rate
 
                 val tmpBalance = ethHelper.getBalanceErc20(
                         it.type.contractAddress,
@@ -124,7 +124,7 @@ class MainFragment : Fragment() {
                 )
                 it.balance = Utils.bigIntegerToFloat(tmpBalance, true, it.type.decimals)
 
-                totalBalance += RateHelper.convertCurrency(it.rate!!, ethRate!!, it.balance!!)
+                totalBalance += RateHelper.convertCurrency(it.rate!!, ethToken.rate!!, it.balance!!)
                 if (it.balance != null && it.rate != null) {
                     totalFiatBalance += it.balance!! * it.rate!!
                 }

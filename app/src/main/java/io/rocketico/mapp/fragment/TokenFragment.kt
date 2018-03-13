@@ -9,11 +9,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ExpandableListView
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.MarketsInfoHelper
+import io.rocketico.core.RateHelper
+import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
@@ -26,6 +27,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 class TokenFragment : Fragment() {
 
@@ -48,6 +50,16 @@ class TokenFragment : Fragment() {
         backButton.visibility = View.VISIBLE
         helpingView.visibility = View.VISIBLE
 
+        if (token.isEther) tokensTotal.text = token.balance.toString()
+        else {
+            //val ethRate = WalletManager(context!!).getWallet()?.tokens?.find { it.isEther }?.rate
+            tokensTotal.text = RateHelper.convertCurrency(token.rate!!, 20f, token.balance!!).toString() //todo get eth token rate
+        }
+        fiatTotal.text = (token.balance!! * token.rate!!).toString()
+        tokenName.text = token.type.codeName
+
+
+
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
                 0 -> StatisticsFragment()
@@ -64,8 +76,8 @@ class TokenFragment : Fragment() {
     }
 
     private fun setupExchangesList() {
-        //todo Debug data. please, kill me :*(
-        val data = listOf("CoinMarketcap", "Bittrex", "Poloniex")
+        //todo Debug exchange. please, kill me :*(
+        val listItemData = mutableListOf<String>()
 
         doAsync({
             context?.runOnUiThread {
@@ -74,6 +86,7 @@ class TokenFragment : Fragment() {
             }
         }) {
             list = MarketsInfoHelper.getTokenInfoFromMarkets(token.type.codeName, "USD") //todo currency Debug
+            list?.forEach { listItemData.add(it.marketName) }
 
             uiThread {
                 markets.setOnChildClickListener(object : ExpandableListView.OnChildClickListener {
@@ -81,30 +94,30 @@ class TokenFragment : Fragment() {
                         val newState = mutableListOf<String>()
                         val clickedView = v.findViewById<TextView>(R.id.marketName)
 
-                        val clickedPosition = data.indexOf(data.find { it == clickedView.text }!!)
+                        val clickedPosition = listItemData.indexOf(listItemData.find { it == clickedView.text }!!)
 
-                        newState.add(data.find { it == clickedView.text }!!)
+                        newState.add(listItemData.find { it == clickedView.text }!!)
 
-                        for (i in 0 until data.size) {
-                            if (data[i] == clickedView.text) continue
+                        for (i in 0 until listItemData.size) {
+                            if (listItemData[i] == clickedView.text) continue
 
-                            newState.add(data[i])
+                            newState.add(listItemData[i])
                         }
 
-                        fillData(clickedPosition)
+                        fillInfo(clickedPosition)
 
                         markets.setAdapter(ExpandableListAdapter(context!!, newState))
                         return false
                     }
                 })
 
-                fillData(0)
-                markets.setAdapter(ExpandableListAdapter(context!!, data))
+                fillInfo(0)
+                markets.setAdapter(ExpandableListAdapter(context!!, listItemData))
             }
         }
     }
 
-    private fun fillData(position: Int) {
+    private fun fillInfo(position: Int) {
         marketCapitalization.text = list!![position].marketCapitalization.toString()
         lowestRate.text = list!![position].lowestRate24h.toString()
         highestRate.text = list!![position].highestRate24h.toString()
