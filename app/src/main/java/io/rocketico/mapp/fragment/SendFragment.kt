@@ -119,4 +119,10 @@ class SendFragment : Fragment() {
     interface SendFragmentListener {
         fun onBackClick()
     }
+
+    companion object {
+        fun newInstance(): SendFragment{
+            return SendFragment()
+        }
+    }
 }

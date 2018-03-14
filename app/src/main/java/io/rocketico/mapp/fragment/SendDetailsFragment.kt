@@ -40,4 +40,10 @@ class SendDetailsFragment : Fragment() {
         fun onBackClick()
         fun onCreateClick()
     }
+
+    companion object {
+        fun newInstance(): SendDetailsFragment{
+            return SendDetailsFragment()
+        }
+    }
 }

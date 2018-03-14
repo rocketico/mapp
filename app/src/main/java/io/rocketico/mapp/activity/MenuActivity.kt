@@ -34,7 +34,7 @@ class MenuActivity : AppCompatActivity(),
 
     private fun init() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MenuFragment())
+                .replace(R.id.container, MenuFragment.newInstance())
                 .commit()
     }
 
@@ -44,7 +44,7 @@ class MenuActivity : AppCompatActivity(),
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0);
         } else {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SendFragment())
+                    .replace(R.id.container, SendFragment.newInstance())
                     .commit()
         }
     }
@@ -60,14 +60,14 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onClick(position: Int) {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendDetailsFragment())
+                .replace(R.id.container, SendDetailsFragment.newInstance())
                 .addToBackStack(null)
                 .commit()
     }
 
     override fun onCreateClick() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendBillFragment())
+                .replace(R.id.container, SendBillFragment.newInstance())
                 .addToBackStack(null)
                 .commit()
     }

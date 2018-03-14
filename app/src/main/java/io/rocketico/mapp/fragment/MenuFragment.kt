@@ -56,4 +56,10 @@ class MenuFragment : Fragment() {
         fun onLogInClick()
         fun onJoinClick()
     }
+
+    companion object {
+        fun newInstance(): MenuFragment{
+            return MenuFragment()
+        }
+    }
 }

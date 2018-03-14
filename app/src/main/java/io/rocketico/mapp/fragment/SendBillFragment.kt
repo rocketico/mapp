@@ -40,4 +40,10 @@ class SendBillFragment : Fragment() {
         fun onBackClick()
         fun onCloseClick()
     }
+
+    companion object {
+        fun newInstance(): SendBillFragment{
+            return SendBillFragment()
+        }
+    }
 }
