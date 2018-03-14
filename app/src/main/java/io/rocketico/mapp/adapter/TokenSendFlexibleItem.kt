@@ -6,12 +6,13 @@ import android.widget.TextView
 import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.rocketico.core.model.Token
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_send_token.view.*
 import kotlinx.android.synthetic.main.item_token.view.*
 import java.util.*
 
-class TokenSendFlexibleItem(listener: OnItemClickListener) : IFlexible<TokenSendFlexibleItem.ViewHolder> {
+class TokenSendFlexibleItem(private val token: Token, listener: OnItemClickListener) : IFlexible<TokenSendFlexibleItem.ViewHolder> {
     override fun getItemViewType() = 0
 
     private lateinit var view: View
@@ -82,10 +83,9 @@ class TokenSendFlexibleItem(listener: OnItemClickListener) : IFlexible<TokenSend
 
     override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
         //TODO debug
-        fun rnd() = "%.4f".format(Random().nextFloat())
-        holder.tokenName.text = rnd()
-        holder.tokenBalance.text = rnd()
-        holder.tokenFiatBalance.text = rnd()
+        holder.tokenName.text = token.type.codeName
+        holder.tokenBalance.text = token.balance?.toString()
+        holder.tokenFiatBalance.text = (token.balance!! * token.rate!!).toString()
 
         holder.view.setOnClickListener {
             onItemClickListener.onClick(position)
