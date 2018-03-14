@@ -9,8 +9,6 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.model.Token
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_send_token.view.*
-import kotlinx.android.synthetic.main.item_token.view.*
-import java.util.*
 
 class TokenSendFlexibleItem(private val token: Token, listener: OnItemClickListener) : IFlexible<TokenSendFlexibleItem.ViewHolder> {
     override fun getItemViewType() = 0
@@ -88,7 +86,7 @@ class TokenSendFlexibleItem(private val token: Token, listener: OnItemClickListe
         holder.tokenFiatBalance.text = (token.balance!! * token.rate!!).toString()
 
         holder.view.setOnClickListener {
-            onItemClickListener.onClick(position)
+            onItemClickListener.onItemClick(token)
         }
     }
 
@@ -97,7 +95,7 @@ class TokenSendFlexibleItem(private val token: Token, listener: OnItemClickListe
     }
 
     interface OnItemClickListener {
-        fun onClick(position: Int)
+        fun onItemClick(token: Token)
     }
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {

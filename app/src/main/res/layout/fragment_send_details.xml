@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/fromEditText"
+            android:id="@+id/address"
             android:theme="@style/DetailEditTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -111,10 +111,10 @@
             android:ems="10"
             android:textSize="18sp"
             android:textColor="@color/detailsTextColor"
-            android:inputType="textPersonName"
+            android:inputType="numberDecimal"
             android:background="@drawable/background_quantity_edit_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fromEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/address" />
 
         <TextView
             android:id="@+id/txFeeTextView"
@@ -141,7 +141,7 @@
             tools:text="0.5$" />
 
         <TextView
-            android:id="@+id/quantityTextView"
+            android:id="@+id/quantityFiat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -207,7 +207,7 @@
             android:tint="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fromEditText"
+            app:layout_constraintTop_toBottomOf="@+id/address"
             app:srcCompat="@drawable/ic_swap_horiz_black_32dp" />
 
     </android.support.constraint.ConstraintLayout>

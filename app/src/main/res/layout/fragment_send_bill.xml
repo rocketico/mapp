@@ -159,7 +159,7 @@
         tools:text="0.25" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/sendPayment"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:text="@string/send_payment_button_text"
