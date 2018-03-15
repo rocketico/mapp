@@ -7,13 +7,16 @@ import android.widget.TextView
 import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
-import io.rocketico.core.model.Token
+import io.rocketico.core.Utils
+import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_token.view.*
 
-class TokenFlexibleItem(private val context: Context, private val token: Token,
+class TokenFlexibleItem(private val context: Context, private val tokenType: TokenType,
                         listener: OnItemClickListener) : IFlexible<TokenFlexibleItem.ViewHolder> {
+
     override fun getItemViewType() = 0
 
     private lateinit var view: View
@@ -83,17 +86,18 @@ class TokenFlexibleItem(private val context: Context, private val token: Token,
     }
 
     override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
-        //TODO debug
-        val rate = RateHelper.getTokenRate(context,token.type, RateHelper.getCurrentCurrency(context))?.rate
+        //TODO check rate
+        val rate = RateHelper.getTokenRate(context,tokenType, RateHelper.getCurrentCurrency(context))?.rate!!
+        val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context, tokenType)!!)
         
-        holder.tokenName.text = token.type.toString()
+        holder.tokenName.text = tokenType.toString()
         holder.tokenRate.text = rate.toString()
         holder.tokenRateDiff.text = 0.toString()
-        holder.tokenBalance.text = token.balance.toString()
-        holder.tokenFiatBalance.text = (token.balance!! * rate!!).toString()
+        holder.tokenBalance.text = balance.toString()
+        holder.tokenFiatBalance.text = (balance * rate).toString()
 
         holder.view.setOnClickListener {
-            onItemClickListener.onTokenListItemClick(position, token)
+            onItemClickListener.onTokenListItemClick(tokenType)
         }
     }
 
@@ -102,7 +106,7 @@ class TokenFlexibleItem(private val context: Context, private val token: Token,
     }
 
     interface OnItemClickListener {
-        fun onTokenListItemClick(position: Int, token: Token)
+        fun onTokenListItemClick(tokenType: TokenType)
     }
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {

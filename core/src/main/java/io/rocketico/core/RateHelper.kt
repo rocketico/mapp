@@ -46,6 +46,7 @@ object RateHelper {
     }
 
     fun isOutdated(context: Context, currency: Currency): Boolean {
+        //todo add check
         return !existsRates(context, currency)
     }
 
@@ -59,25 +60,32 @@ object RateHelper {
         Paper.book().write(CURRENT_CURRENCY_KEY, currentCurrency)
     }
 
-    fun getTokenRate(context: Context, token: TokenType, currency: Currency): RatesEntity.Rate? {
+    fun getTokenRate(context: Context, tokenType: TokenType, currency: Currency): RatesEntity.Rate? {
         Paper.init(context)
         val tmp = Paper.book(RATES_DB_KEY).read<RatesEntity>(currency.codeName).rates
-        return tmp.find { it.tokenSymbol.toLowerCase() == token.codeName.toLowerCase() }
+        return tmp.find { it.tokenType.codeName == tokenType.codeName }
     }
 
     class RatesEntity(val currency: Currency,
                       val rates: List<Rate>,
                       val date: Date) : Serializable {
 
-        class Rate(val tokenSymbol: String,
+        class Rate(val tokenType: TokenType,
                    val rate: Float) : Serializable
 
         companion object {
             fun parse(tokensRatesResponse: TokensRatesResponse): RatesEntity {
                 val currencyTmp = Currency.currencyFromString(tokensRatesResponse.currency)
                 val ratesTmp = mutableListOf<Rate>()
+
                 tokensRatesResponse.rates.forEach {
-                    ratesTmp.add(Rate(it.tokenSymbol, it.rate))
+                    val tokenType = it.tokenSymbol
+                    val tmpType = TokenType.values().find {
+                        it.codeName.toLowerCase() ==  tokenType.toLowerCase()
+                    }
+                    val tmpRate = it.rate
+
+                    tmpType?.let { ratesTmp.add(Rate(tmpType, tmpRate)) }
                 }
 
                 return RatesEntity(currencyTmp!!, ratesTmp, tokensRatesResponse.date)

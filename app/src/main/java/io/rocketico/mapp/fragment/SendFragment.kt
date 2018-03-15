@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import io.rocketico.core.EthereumHelper
-import io.rocketico.core.RateHelper
-import io.rocketico.core.Utils
-import io.rocketico.core.WalletManager
+import io.rocketico.core.*
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
@@ -33,8 +30,6 @@ class SendFragment : Fragment() {
     lateinit var walletManager: WalletManager
     lateinit var wallet: Wallet
 
-    lateinit var ethHelper: EthereumHelper
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         listener = activity as SendFragmentListener
         return inflater.inflate(R.layout.fragment_send, container, false)
@@ -48,49 +43,19 @@ class SendFragment : Fragment() {
 
         walletManager = WalletManager(context!!)
         wallet = walletManager.getWallet()!!
-        ethHelper = EthereumHelper(Cc.ETH_NODE)
 
         setupTokens()
         setupListeners()
     }
 
     private fun setupTokens() {
-        //todo debug
         val itemListener = activity as TokenSendFlexibleItem.OnItemClickListener
 
-        doAsync({
-            context?.runOnUiThread {
-                toast(getString(R.string.update_info_error) + ": " + it.message)
-                it.printStackTrace()
-            }
-        }) {
-            val ratesResponse = RateHelper.getTokenRateByDate()
+        tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, TokenType.ETH, itemListener))
 
-            //fill ether token
-            val ethToken = Token(TokenType.ETH)
-            ethToken.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(wallet.address), true)
-
-            //fill other tokens
-            wallet.tokens?.forEach {
-                if (it.isEther) return@forEach // skip ether token
-
-                val tokenName = it.type.toString()
-
-                val tmpBalance = ethHelper.getBalanceErc20(
-                        it.type.contractAddress,
-                        wallet.address,
-                        wallet.privateKey
-                )
-                it.balance = Utils.bigIntegerToFloat(tmpBalance, true, it.type.decimals)
-            }
-            uiThread {
-                tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, ethToken, itemListener))
-
-                wallet.tokens?.forEach {
-                    if (it.isEther) return@forEach // skip ether token
-                    tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, it, itemListener))
-                }
-            }
+        wallet.tokens?.forEach {
+            if (it.isEther) return@forEach // skip ether token
+            tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, it.type, itemListener))
         }
     }
 

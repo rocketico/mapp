@@ -9,7 +9,6 @@ class Wallet(
         private val _address: String,
         val publicKey: String,
         var name: String,
-        var ethBalance: Float? = null,
         var ethBalanceLastUpdate: Date? = Date(),
         var tokens: MutableList<Token>? = null,
         val uuid: UUID = UUID.randomUUID()

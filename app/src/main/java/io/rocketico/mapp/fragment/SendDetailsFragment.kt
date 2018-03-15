@@ -7,23 +7,27 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
+import io.rocketico.core.Utils
+import io.rocketico.core.model.Currency
 import io.rocketico.core.model.Token
+import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_details.*
-
+//todo debug
 class SendDetailsFragment : Fragment() {
 
     private lateinit var listener: SendDetailsFragmentListener
-    private lateinit var token: Token
+    private lateinit var tokenType: TokenType
+    private lateinit var currentCurrency: Currency
     private var rate: Float? = 0f
+    private var balance: Float? = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         listener = activity as SendDetailsFragmentListener
-        token = arguments?.getSerializable(TOKEN) as Token
-        rate = RateHelper.getTokenRate(context!!,token.type, RateHelper.getCurrentCurrency(context!!))?.rate
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,9 +35,14 @@ class SendDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tokenName.text = token.type.codeName
-        tokenBalance.text = token.balance!!.toString()
-        fiatBalance.text = (token.balance!! * rate!!).toString()
+        tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
+        currentCurrency = RateHelper.getCurrentCurrency(context!!)
+        rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate
+        balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
+
+        tokenName.text = tokenType.codeName
+        tokenBalance.text = balance.toString()
+        fiatBalance.text = (balance!! * rate!!).toString()
         //todo debug
         quantityFiat.text = "0.0"
         txFeeQuantity.text = "0.5"
@@ -50,7 +59,7 @@ class SendDetailsFragment : Fragment() {
 
         createButton.setOnClickListener {
             val f = quantity.text.toString()
-            listener.onCreateClick(token, f.toFloat(), address.text.toString())
+            listener.onCreateClick(tokenType, f.toFloat(), address.text.toString())
         }
 
         quantity.addTextChangedListener(object : TextWatcher {
@@ -79,21 +88,21 @@ class SendDetailsFragment : Fragment() {
     }
 
     private fun setupSeekBar() {
-        seekBar.max = token.balance?.toInt()!!
+        seekBar.max = balance?.toInt()!!
     }
 
     interface SendDetailsFragmentListener {
         fun onBackClick()
-        fun onCreateClick(token: Token, eth: Float, address: String)
+        fun onCreateClick(tokenType: TokenType, eth: Float, address: String)
     }
 
     companion object {
-        private const val TOKEN = "Token"
+        private const val TOKEN_TYPE = "token_type"
 
-        fun newInstance(token: Token): SendDetailsFragment{
+        fun newInstance(tokenType: TokenType): SendDetailsFragment{
             val fragment = SendDetailsFragment()
             val bundle = Bundle()
-            bundle.putSerializable(TOKEN, token)
+            bundle.putSerializable(TOKEN_TYPE, tokenType)
             fragment.arguments = bundle
             return fragment
         }
