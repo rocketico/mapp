@@ -9,11 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.model.Token
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenSendFlexibleItem
-import io.rocketico.mapp.fragment.MenuFragment
+import io.rocketico.mapp.fragment.*
 import io.rocketico.mapp.fragment.MenuFragment.OnMenuButtonsClickListener
-import io.rocketico.mapp.fragment.SendBillFragment
-import io.rocketico.mapp.fragment.SendDetailsFragment
-import io.rocketico.mapp.fragment.SendFragment
 
 class MenuActivity : AppCompatActivity(),
         OnMenuButtonsClickListener,
@@ -48,6 +45,13 @@ class MenuActivity : AppCompatActivity(),
                     .replace(R.id.container, SendFragment.newInstance())
                     .commit()
         }
+    }
+
+    override fun onReceiveClick() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, ReceiveFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onBackClick() {

@@ -2,9 +2,17 @@ package io.rocketico.mapp
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.WindowManager
 import java.util.*
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.Intent.ACTION_SEND
+
+
 
 
 object Utils {
@@ -27,5 +35,19 @@ object Utils {
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -days)
         return cal.getTime()
+    }
+
+    fun copyToClipboard(text: String, context: Context) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("", text)
+        clipboard.primaryClip = clip
+    }
+
+    fun shareTextIntent(text: String): Intent {
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text)
+        sendIntent.type = "text/plain"
+        return sendIntent
     }
 }

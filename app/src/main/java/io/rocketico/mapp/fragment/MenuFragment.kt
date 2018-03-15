@@ -36,6 +36,10 @@ class MenuFragment : Fragment() {
             onMenuButtonsClickListener.onSendClick()
         }
 
+        receiveButton.setOnClickListener {
+            onMenuButtonsClickListener.onReceiveClick()
+        }
+
         logInButton.setOnClickListener {
             onMenuButtonsClickListener.onLogInClick()
         }
@@ -51,6 +55,7 @@ class MenuFragment : Fragment() {
 
     interface OnMenuButtonsClickListener {
         fun onSendClick()
+        fun onReceiveClick()
         fun onBackClick()
         fun onSettingsClick()
         fun onLogInClick()

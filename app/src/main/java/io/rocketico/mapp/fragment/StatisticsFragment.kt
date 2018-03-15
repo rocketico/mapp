@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.WalletManager
+import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
@@ -25,12 +26,16 @@ class StatisticsFragment : Fragment() {
     lateinit var walletManager: WalletManager
     lateinit var wallet: Wallet
 
+    lateinit var token: Token
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_statistics, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        arguments?.getSerializable(TOKEN_KEY)?.let { token = it as Token }
 
         //todo move init wallet to fragment's constructor parameters
         walletManager = WalletManager(context!!)
@@ -130,6 +135,19 @@ class StatisticsFragment : Fragment() {
                 bottomChart.columnChartData = columnChartData
             }
 
+        }
+    }
+
+    companion object {
+        val TOKEN_KEY = "token_key"
+        fun newInstance(token: Token? = null): SettingsFragment {
+            val bundle = Bundle()
+            token?.let {
+                bundle.putSerializable(TOKEN_KEY, token)
+            }
+            val result = SettingsFragment()
+            result.arguments = bundle
+            return result
         }
     }
 }

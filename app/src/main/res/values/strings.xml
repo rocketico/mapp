@@ -80,6 +80,7 @@
     <string name="private_key">Private key</string>
     <string name="label_import">Import</string>
     <string name="wrong_private_key">Wrong private key</string>
+    <string name="copied">Copied</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
