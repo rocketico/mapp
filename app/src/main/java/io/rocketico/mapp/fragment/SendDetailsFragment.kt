@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.rocketico.core.RateHelper
 import io.rocketico.core.model.Token
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_details.*
@@ -15,12 +16,14 @@ class SendDetailsFragment : Fragment() {
 
     private lateinit var listener: SendDetailsFragmentListener
     private lateinit var token: Token
+    private var rate: Float? = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         listener = activity as SendDetailsFragmentListener
         token = arguments?.getSerializable(TOKEN) as Token
+        rate = RateHelper.getTokenRate(context!!,token.type, RateHelper.getCurrentCurrency(context!!))?.rate
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,7 +33,7 @@ class SendDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         tokenName.text = token.type.codeName
         tokenBalance.text = token.balance!!.toString()
-        fiatBalance.text = (token.balance!! * token.rate!!).toString()
+        fiatBalance.text = (token.balance!! * rate!!).toString()
         //todo debug
         quantityFiat.text = "0.0"
         txFeeQuantity.text = "0.5"
@@ -66,7 +69,7 @@ class SendDetailsFragment : Fragment() {
                     totalCount.text = "0.5"
                 } else {
                     val value = s.toString()
-                    val q = value.toFloat() * token.rate!!
+                    val q = value.toFloat() * rate!!
                     quantityFiat.text = q.toString()
                     totalCount.text = (q + 0.5f).toString()
                 }

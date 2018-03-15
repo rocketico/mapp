@@ -68,8 +68,6 @@ class SendFragment : Fragment() {
 
             //fill ether token
             val ethToken = Token(TokenType.ETH)
-            val ethRate = ratesResponse?.rates?.find { it.tokenSymbol.toLowerCase() == TokenType.ETH.codeName.toLowerCase() }?.rate
-            ethToken.rate = ethRate
             ethToken.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(wallet.address), true)
 
             //fill other tokens
@@ -77,7 +75,6 @@ class SendFragment : Fragment() {
                 if (it.isEther) return@forEach // skip ether token
 
                 val tokenName = it.type.toString()
-                it.rate = ratesResponse?.rates?.find { it.tokenSymbol == tokenName }?.rate
 
                 val tmpBalance = ethHelper.getBalanceErc20(
                         it.type.contractAddress,
@@ -87,11 +84,11 @@ class SendFragment : Fragment() {
                 it.balance = Utils.bigIntegerToFloat(tmpBalance, true, it.type.decimals)
             }
             uiThread {
-                tokenListAdapter.addItem(TokenSendFlexibleItem(ethToken, itemListener))
+                tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, ethToken, itemListener))
 
                 wallet.tokens?.forEach {
                     if (it.isEther) return@forEach // skip ether token
-                    tokenListAdapter.addItem(TokenSendFlexibleItem(it, itemListener))
+                    tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, it, itemListener))
                 }
             }
         }
