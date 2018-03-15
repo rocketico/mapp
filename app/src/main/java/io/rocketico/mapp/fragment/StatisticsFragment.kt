@@ -140,12 +140,12 @@ class StatisticsFragment : Fragment() {
 
     companion object {
         val TOKEN_KEY = "token_key"
-        fun newInstance(token: Token? = null): SettingsFragment {
+        fun newInstance(token: Token? = null): StatisticsFragment {
             val bundle = Bundle()
             token?.let {
                 bundle.putSerializable(TOKEN_KEY, token)
             }
-            val result = SettingsFragment()
+            val result = StatisticsFragment()
             result.arguments = bundle
             return result
         }
