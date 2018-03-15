@@ -38,7 +38,8 @@ class EthereumHelper(networkUrl: String) {
         return Utils.api.getTokensHistory(dateFrom, dateTo, tokenTypeList).execute().body()
     }
 
-    fun sendEth(credentials: Credentials, address: String, value: BigInteger, gasPrice: BigInteger = GAS_PRICE, gasLimit: BigInteger = GAS_LIMIT): String? {
+    fun sendEth(privateKey: String, address: String, value: BigInteger, gasPrice: BigInteger = GAS_PRICE, gasLimit: BigInteger = GAS_LIMIT): String? {
+        val credentials = Credentials.create(privateKey)
         //get nonce
         val ethGetTransactionCount: EthGetTransactionCount = web3.ethGetTransactionCount(
                 credentials.address, DefaultBlockParameterName.LATEST).send();
