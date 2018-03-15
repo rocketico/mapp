@@ -65,7 +65,7 @@ class MainFragment : Fragment() {
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
-                0 -> StatisticsFragment()
+                0 -> StatisticsFragment.newInstance()
                 1 -> HistoryFragment()
                 else -> throw IllegalArgumentException()
             }
