@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 import io.rocketico.core.WalletManager
-import io.rocketico.core.model.Token
+import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.adapter.TokenFlexibleItem
@@ -58,9 +58,9 @@ class MainActivity : AppCompatActivity(),
 
     }
 
-    override fun onTokenListItemClick(position: Int, token: Token) {
+    override fun onTokenListItemClick(tokenType: TokenType) {
                 supportFragmentManager.beginTransaction()
-                .replace(R.id.container, TokenFragment.newInstance(token))
+                .replace(R.id.container, TokenFragment.newInstance(tokenType))
                 .addToBackStack(null)
                 .commit()
     }

@@ -13,8 +13,10 @@ import android.widget.ArrayAdapter
 import android.widget.ExpandableListView
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import io.rocketico.core.BalanceHelper
 import io.rocketico.core.MarketsInfoHelper
 import io.rocketico.core.RateHelper
+import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
@@ -33,14 +35,15 @@ import org.jetbrains.anko.uiThread
 class TokenFragment : Fragment() {
 
     private lateinit var listener: TokenFragmentListener
-    private lateinit var token: Token
+    private lateinit var tokenType: TokenType
     private var list: List<TokenInfoFromMarket>? = null
+    private lateinit var currentCurrency: Currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         listener = activity as TokenFragmentListener
-        token = arguments?.getSerializable(TOKEN) as Token
+        tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,26 +56,28 @@ class TokenFragment : Fragment() {
         helpingLoadView.visibility = View.VISIBLE
         prograssBar.visibility = View.VISIBLE
 
-        val rate = RateHelper.getTokenRate(context!!, token.type, RateHelper.getCurrentCurrency(context!!))?.rate
+        currentCurrency = RateHelper.getCurrentCurrency(context!!)
+        val rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
+        val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
 
-        if (token.isEther) tokensTotal.text = token.balance.toString()
+        if (tokenType == TokenType.ETH) tokensTotal.text = balance.toString()
         else {
-            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, RateHelper.getCurrentCurrency(context!!))?.rate
-            tokensTotal.text = RateHelper.convertCurrency(rate!!, ethRate!!, token.balance!!).toString()
+            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
+            tokensTotal.text = RateHelper.convertCurrency(rate!!, ethRate!!, balance).toString()
         }
-        fiatTotal.text = (token.balance!! * rate!!).toString()
-        tokenName.text = token.type.codeName
-        launchDate.text = token.type.launchDate
-        hashingAlgorithm.text = token.type.hashAlgorithm
-        networkPower.text = token.type.networkPower
-        officialWebsite.text = token.type.officialSite
-        available.text = token.type.available.toString()
-        support.text = token.type.support.toString()
-        blockchain.text = token.type.blockChain
+        fiatTotal.text = (balance * rate!!).toString()
+        tokenName.text = tokenType.codeName
+        launchDate.text = tokenType.launchDate
+        hashingAlgorithm.text = tokenType.hashAlgorithm
+        networkPower.text = tokenType.networkPower
+        officialWebsite.text = tokenType.officialSite
+        available.text = tokenType.available.toString()
+        support.text = tokenType.support.toString()
+        blockchain.text = tokenType.blockChain
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
-                0 -> StatisticsFragment.newInstance(token)
+                0 -> StatisticsFragment.newInstance(Token(tokenType)) //todo change it
                 1 -> HistoryFragment()
                 else -> throw IllegalArgumentException()
             }
@@ -95,7 +100,7 @@ class TokenFragment : Fragment() {
                 it.printStackTrace()
             }
         }) {
-            list = MarketsInfoHelper.getTokenInfoFromMarkets(token.type.codeName, "USD") //todo currency Debug
+            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)
             list?.forEach { listItemData.add(it.marketName) }
 
             uiThread {
@@ -195,13 +200,13 @@ class TokenFragment : Fragment() {
     }
 
     companion object {
-        private const val TOKEN = "Token"
+        private const val TOKEN_TYPE = "token_type"
 
-        fun newInstance(token: Token) : TokenFragment {
+        fun newInstance(tokenType: TokenType) : TokenFragment {
             val fragment = TokenFragment()
             val args = Bundle()
 
-            args.putSerializable(TOKEN, token)
+            args.putSerializable(TOKEN_TYPE, tokenType)
             fragment.arguments = args
 
             return fragment

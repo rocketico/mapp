@@ -5,7 +5,6 @@ import java.util.*
 
 data class Token(
         var type: TokenType,
-        var balance: Float? = null,
         var balanceLastUpdate: Date? = Date(),
         val uuid: UUID = UUID.randomUUID()
 ) : Serializable {

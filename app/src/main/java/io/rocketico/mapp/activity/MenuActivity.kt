@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.model.Token
+import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenSendFlexibleItem
 import io.rocketico.mapp.fragment.*
@@ -63,16 +64,16 @@ class MenuActivity : AppCompatActivity(),
         overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
     }
 
-    override fun onItemClick(token: Token) {
+    override fun onItemClick(tokenType: TokenType) {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendDetailsFragment.newInstance(token))
+                .replace(R.id.container, SendDetailsFragment.newInstance(tokenType))
                 .addToBackStack(null)
                 .commit()
     }
 
-    override fun onCreateClick(token: Token, eth: Float, address: String) {
+    override fun onCreateClick(tokenType: TokenType, eth: Float, address: String) {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendBillFragment.newInstance(token, eth, address))
+                .replace(R.id.container, SendBillFragment.newInstance(tokenType, eth, address))
                 .addToBackStack(null)
                 .commit()
     }

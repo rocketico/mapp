@@ -22,11 +22,10 @@ object Utils {
         api = retrofit.create(Api::class.java)
     }
 
-    fun bigIntegerToFloat(value: BigInteger, round: Boolean = false, decimals: Int = 18, scale: Int = 5): Float {
+    fun bigIntegerToFloat(value: BigInteger, decimals: Int = 18, scale: Int = 5): Float {
         val tmp = BigDecimal(value)
         val resultBigDecimal = tmp.divide(BigDecimal.valueOf(10).pow(decimals))
-        val result = resultBigDecimal.setScale(scale, RoundingMode.FLOOR).toFloat()
-        return result;
+        return resultBigDecimal.setScale(scale, RoundingMode.DOWN).toFloat()
     }
 
     fun isPrivateKeyValid(privateKey: String): Boolean {

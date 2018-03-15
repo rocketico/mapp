@@ -15,10 +15,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import io.rocketico.core.EthereumHelper
-import io.rocketico.core.RateHelper
-import io.rocketico.core.Utils
-import io.rocketico.core.WalletManager
+import io.rocketico.core.*
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
@@ -37,13 +34,13 @@ import org.jetbrains.anko.uiThread
 class MainFragment : Fragment() {
 
     private lateinit var mainFragmentListener: MainFragmentListener
-    lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
-    lateinit var tokens: MutableList<TokenFlexibleItem>
+    private lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
+    private lateinit var tokens: MutableList<TokenFlexibleItem>
 
-    lateinit var walletManager: WalletManager
-    lateinit var wallet: Wallet
+    private lateinit var walletManager: WalletManager
+    private lateinit var wallet: Wallet
 
-    lateinit var ethHelper: EthereumHelper
+    private lateinit var ethHelper: EthereumHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,43 +106,48 @@ class MainFragment : Fragment() {
             val rates = RateHelper.loadRates(context!!, currentCurrency).rates
 
             //fill ether token
-            val ethToken = Token(TokenType.ETH)
-            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
-            ethToken.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(wallet.address), true)
+            val ethRate = rates.find { it.tokenType.codeName == TokenType.ETH.codeName }?.rate
+            val ethBalance = ethHelper.getBalance(wallet.address)
+            val floatEthBalance = Utils.bigIntegerToFloat(ethBalance)
 
-            totalBalance += ethToken.balance!!
-            if (ethToken.balance != null && ethRate != null) {
-                totalFiatBalance += ethToken.balance!! * ethRate
+            BalanceHelper.saveTokenBalance(context!!, TokenType.ETH, ethBalance)
+
+            totalBalance += floatEthBalance
+            if (ethRate != null) {
+                totalFiatBalance += floatEthBalance * ethRate
             }
 
             //fill other tokens
             wallet.tokens?.forEach {
                 if (it.isEther) return@forEach // skip ether token
 
-                val tmpBalance = ethHelper.getBalanceErc20(
-                        it.type.contractAddress,
+                val tokenType = it.type
+
+                val tokenBalance = ethHelper.getBalanceErc20(
+                        tokenType.contractAddress,
                         wallet.address,
                         wallet.privateKey
                 )
-                val tokenRate = RateHelper.getTokenRate(context!!, it.type, currentCurrency)?.rate
-                it.balance = Utils.bigIntegerToFloat(tmpBalance, true, it.type.decimals)
+                val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, tokenType.decimals)
+                val tokenRate = rates.find { it.tokenType ==  tokenType}?.rate
 
-                totalBalance += RateHelper.convertCurrency(tokenRate!!, ethRate!!, it.balance!!)
+                BalanceHelper.saveTokenBalance(context!!, tokenType, tokenBalance)
 
-                if (it.balance != null) {
-                    totalFiatBalance += it.balance!! * tokenRate
-                }
+                totalBalance += RateHelper.convertCurrency(tokenRate!!, ethRate!!, floatTokenBalance)
+                totalFiatBalance += floatTokenBalance * tokenRate
             }
             uiThread {
-                tokenListAdapter.addItem(TokenFlexibleItem(context!!, ethToken, itemListener))
+                tokenListAdapter.addItem(TokenFlexibleItem(context!!, TokenType.ETH, itemListener))
 
                 wallet.tokens?.forEach {
                     if (it.isEther) return@forEach // skip ether token
-                    tokenListAdapter.addItem(TokenFlexibleItem(context!!, it, itemListener))
+                    tokenListAdapter.addItem(TokenFlexibleItem(context!!, it.type, itemListener))
                 }
+
                 tokensTotal.text = totalBalance.toString()
-                prograssBar.visibility = View.GONE
                 fiatTotal.text = totalFiatBalance.toString()
+
+                prograssBar.visibility = View.GONE
             }
         }
     }

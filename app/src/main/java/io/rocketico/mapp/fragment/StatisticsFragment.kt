@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.WalletManager
@@ -75,9 +76,11 @@ class StatisticsFragment : Fragment() {
                         val walletToken = wallet.tokens!!.find { walletToken ->
                             (rateItem?.tokenSymbol == walletToken.type.codeName)
                         }
+                        //todo debug
+                        val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, walletToken?.type!!)!!)
                         if (walletToken != null) {
-                            if (walletToken.balance != null) {
-                                averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, walletToken.balance!!)
+                            if (balance != null) {
+                                averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, balance!!)
                             } else {
                                 averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, 1f)
                             }

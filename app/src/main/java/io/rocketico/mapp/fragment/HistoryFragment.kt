@@ -69,20 +69,17 @@ class HistoryFragment : Fragment() {
                     if (currentTokenType != null) {
                         tmpItem.value = io.rocketico.core.Utils.bigIntegerToFloat(
                                 BigInteger(historyItem.value, 16),
-                                true,
                                 currentTokenType.decimals
                         )
                     } else {
                         tmpItem.value = io.rocketico.core.Utils.bigIntegerToFloat(
                                 BigInteger(historyItem.value, 16),
-                                true,
                                 18 // todo
                         )
                     }
 
                     tmpItem.fee = io.rocketico.core.Utils.bigIntegerToFloat(
                             BigInteger(historyItem.fee, 16),
-                            true,
                             18
                     )
 
