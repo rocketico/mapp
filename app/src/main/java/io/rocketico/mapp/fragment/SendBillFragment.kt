@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.rocketico.core.RateHelper
 import io.rocketico.core.model.Token
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_bill.*
@@ -32,11 +33,13 @@ class SendBillFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val rate = RateHelper.getTokenRate(context!!,token.type, RateHelper.getCurrentCurrency(context!!))?.rate
+
         billAddress.text = address
         billQuantity.text = eth.toString()
-        billFiatQuantity.text = (eth * token.rate!!).toString()
+        billFiatQuantity.text = (eth * rate!!).toString()
         billTxFeeQuantity.text = "0.5"
-        billTotal.text = ((eth * token.rate!!) + 0.5f).toString()
+        billTotal.text = ((eth * rate) + 0.5f).toString()
 
         setupListeners()
     }

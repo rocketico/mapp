@@ -1,10 +1,18 @@
 package io.rocketico.core.model
 
-enum class Currency(val codeName: String, val currencySymbol: String) {
+import java.io.Serializable
+
+enum class Currency(val codeName: String, val currencySymbol: String): Serializable {
     USD("USD", "$"),
     TEST("TEST", "T"); //todo Debug. remove
 
     override fun toString(): String {
         return codeName
+    }
+
+    companion object {
+        fun currencyFromString(curr: String): Currency? {
+            return Currency.values().find { it.codeName == curr }
+        }
     }
 }

@@ -17,6 +17,7 @@ import io.rocketico.core.MarketsInfoHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.Token
+import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.ExpandableListAdapter
@@ -52,12 +53,14 @@ class TokenFragment : Fragment() {
         helpingLoadView.visibility = View.VISIBLE
         prograssBar.visibility = View.VISIBLE
 
+        val rate = RateHelper.getTokenRate(context!!, token.type, RateHelper.getCurrentCurrency(context!!))?.rate
+
         if (token.isEther) tokensTotal.text = token.balance.toString()
         else {
-            //val ethRate = WalletManager(context!!).getWallet()?.tokens?.find { it.isEther }?.rate
-            tokensTotal.text = RateHelper.convertCurrency(token.rate!!, 20f, token.balance!!).toString() //todo get eth token rate
+            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, RateHelper.getCurrentCurrency(context!!))?.rate
+            tokensTotal.text = RateHelper.convertCurrency(rate!!, ethRate!!, token.balance!!).toString()
         }
-        fiatTotal.text = (token.balance!! * token.rate!!).toString()
+        fiatTotal.text = (token.balance!! * rate!!).toString()
         tokenName.text = token.type.codeName
         launchDate.text = token.type.launchDate
         hashingAlgorithm.text = token.type.hashAlgorithm

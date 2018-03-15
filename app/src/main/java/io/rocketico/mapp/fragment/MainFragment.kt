@@ -98,43 +98,50 @@ class MainFragment : Fragment() {
         }) {
             var totalBalance = 0f
             var totalFiatBalance = 0f
-            val ratesResponse = RateHelper.getTokenRateByDate()
+
+            val currentCurrency = RateHelper.getCurrentCurrency(context!!)
+
+            if (RateHelper.isOutdated(context!!, currentCurrency)) {
+                val tmp = RateHelper.getTokenRateByDate()
+                RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(tmp!!))
+            }
+
+            val rates = RateHelper.loadRates(context!!, currentCurrency).rates
 
             //fill ether token
             val ethToken = Token(TokenType.ETH)
-            val ethRate = ratesResponse?.rates?.find { it.tokenSymbol.toLowerCase() == TokenType.ETH.codeName.toLowerCase() }?.rate
-            ethToken.rate = ethRate
+            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
             ethToken.balance = Utils.bigIntegerToFloat(ethHelper.getBalance(wallet.address), true)
+
             totalBalance += ethToken.balance!!
-            if (ethToken.balance != null && ethToken.rate != null) {
-                totalFiatBalance += ethToken.balance!! * ethToken.rate!!
+            if (ethToken.balance != null && ethRate != null) {
+                totalFiatBalance += ethToken.balance!! * ethRate
             }
 
             //fill other tokens
             wallet.tokens?.forEach {
                 if (it.isEther) return@forEach // skip ether token
 
-                val tokenName = it.type.toString()
-                it.rate = ratesResponse?.rates?.find { it.tokenSymbol == tokenName }?.rate
-
                 val tmpBalance = ethHelper.getBalanceErc20(
                         it.type.contractAddress,
                         wallet.address,
                         wallet.privateKey
                 )
+                val tokenRate = RateHelper.getTokenRate(context!!, it.type, currentCurrency)?.rate
                 it.balance = Utils.bigIntegerToFloat(tmpBalance, true, it.type.decimals)
 
-                totalBalance += RateHelper.convertCurrency(it.rate!!, ethToken.rate!!, it.balance!!)
-                if (it.balance != null && it.rate != null) {
-                    totalFiatBalance += it.balance!! * it.rate!!
+                totalBalance += RateHelper.convertCurrency(tokenRate!!, ethRate!!, it.balance!!)
+
+                if (it.balance != null) {
+                    totalFiatBalance += it.balance!! * tokenRate
                 }
             }
             uiThread {
-                tokenListAdapter.addItem(TokenFlexibleItem(ethToken, itemListener))
+                tokenListAdapter.addItem(TokenFlexibleItem(context!!, ethToken, itemListener))
 
                 wallet.tokens?.forEach {
                     if (it.isEther) return@forEach // skip ether token
-                    tokenListAdapter.addItem(TokenFlexibleItem(it, itemListener))
+                    tokenListAdapter.addItem(TokenFlexibleItem(context!!, it, itemListener))
                 }
                 tokensTotal.text = totalBalance.toString()
                 prograssBar.visibility = View.GONE

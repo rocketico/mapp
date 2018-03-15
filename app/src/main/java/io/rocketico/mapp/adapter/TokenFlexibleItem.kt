@@ -1,16 +1,19 @@
 package io.rocketico.mapp.adapter
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.rocketico.core.RateHelper
 import io.rocketico.core.model.Token
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_token.view.*
 
-class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener) : IFlexible<TokenFlexibleItem.ViewHolder> {
+class TokenFlexibleItem(private val context: Context, private val token: Token,
+                        listener: OnItemClickListener) : IFlexible<TokenFlexibleItem.ViewHolder> {
     override fun getItemViewType() = 0
 
     private lateinit var view: View
@@ -81,11 +84,13 @@ class TokenFlexibleItem(private val token: Token, listener: OnItemClickListener)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
         //TODO debug
+        val rate = RateHelper.getTokenRate(context,token.type, RateHelper.getCurrentCurrency(context))?.rate
+        
         holder.tokenName.text = token.type.toString()
-        holder.tokenRate.text = token.rate.toString()
+        holder.tokenRate.text = rate.toString()
         holder.tokenRateDiff.text = 0.toString()
         holder.tokenBalance.text = token.balance.toString()
-        holder.tokenFiatBalance.text = (token.balance!! * token.rate!!).toString()
+        holder.tokenFiatBalance.text = (token.balance!! * rate!!).toString()
 
         holder.view.setOnClickListener {
             onItemClickListener.onTokenListItemClick(position, token)
