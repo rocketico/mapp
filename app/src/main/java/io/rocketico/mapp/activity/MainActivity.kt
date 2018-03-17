@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
 import io.fabric.sdk.android.Fabric
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
+        Logger.addLogAdapter(AndroidLogAdapter())
 
         wm = WalletManager(this)
         val walletList = wm.getWallet()
