@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.EthereumHelper
@@ -16,6 +17,7 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.adapter.HistoryFlexibleItem
 import kotlinx.android.synthetic.main.fragment_history.*
+import kotlinx.android.synthetic.main.include_date_panel.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
@@ -36,10 +38,30 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         ethereumHelper = EthereumHelper(Cc.ETH_NODE)
-        setUpRecyclerView()
+        showHistory()
+
+        button1d.setOnClickListener { showHistory(1); selectButton(button1d) }
+        button1w.setOnClickListener { showHistory(7); selectButton(button1w) }
+        button1m.setOnClickListener { showHistory(30); selectButton(button1m) }
+        button3m.setOnClickListener { showHistory(30 * 3); selectButton(button3m) }
+        button6m.setOnClickListener { showHistory(30 * 6); selectButton(button6m) }
+        button1y.setOnClickListener { showHistory(30 * 12); selectButton(button1y) }
+        button2y.setOnClickListener { showHistory(30 * 12 * 2); selectButton(button2y) }
     }
 
-    private fun setUpRecyclerView() {
+    private fun selectButton(button: TextView) {
+        button1d.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button1w.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button1m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button3m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button6m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button1y.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button2y.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+
+        button.setTextColor(context?.resources!!.getColor(R.color.green))
+    }
+
+    private fun showHistory(nDaysAgo: Int = 1) {
         historyItems = mutableListOf()
         historyListAdapter = FlexibleAdapter(historyItems as List<IFlexible<*>>)
         recyclerViewHistory.layoutManager = LinearLayoutManager(context)
@@ -53,7 +75,7 @@ class HistoryFragment : Fragment() {
             }
         }) {
             //todo implement choosing days count
-            val history = ethereumHelper.getTokensHistory(listOf("", ""), Utils.nDaysAgo(10))
+            val history = ethereumHelper.getTokensHistory(listOf("", ""), Utils.nDaysAgo(nDaysAgo))
             val rates = RateHelper.getTokenRateByDate()
 
             uiThread {
