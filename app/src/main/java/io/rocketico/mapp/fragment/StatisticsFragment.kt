@@ -14,6 +14,7 @@ import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_statistics.*
+import kotlinx.android.synthetic.main.include_date_panel.*
 import lecho.lib.hellocharts.model.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
@@ -43,6 +44,10 @@ class StatisticsFragment : Fragment() {
         wallet = walletManager.getWallet()!!
 
         setUpCharts()
+
+        all.visibility = View.GONE
+        receive.visibility = View.GONE
+        sent.visibility = View.GONE
     }
 
     private fun setUpCharts() {

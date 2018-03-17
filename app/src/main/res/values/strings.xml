@@ -45,7 +45,7 @@
     <string name="create_button">Create</string>
     <string name="all">All</string>
     <string name="receive">Receive</string>
-    <string name="send">Send</string>
+    <string name="sent">Sent</string>
     <string name="_1d">1D</string>
     <string name="_1w">1W</string>
     <string name="_1m">1M</string>
