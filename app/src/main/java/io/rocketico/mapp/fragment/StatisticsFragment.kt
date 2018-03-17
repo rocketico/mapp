@@ -75,19 +75,17 @@ class StatisticsFragment : Fragment() {
                     } else {
                         val walletToken = wallet.tokens!!.find { walletToken ->
                             (rateItem?.tokenSymbol == walletToken.type.codeName)
-                        }
-                        //todo debug
-                        val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, walletToken?.type!!)!!)
-                        if (walletToken != null) {
-                            if (balance != null) {
-                                averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, balance!!)
-                            } else {
-                                averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, 1f)
-                            }
+                        } ?: return@forEach
 
-                            averageVolume += rateItem.volume!!
-                            foundTokensCount++
-                        }
+                        //todo debug
+                        val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(
+                                context!!,
+                                walletToken.type
+                        )!!)
+                        averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, balance)
+
+                        averageVolume += rateItem.volume!!
+                        foundTokensCount++
                     }
                 }
                 averageYInEther /= foundTokensCount

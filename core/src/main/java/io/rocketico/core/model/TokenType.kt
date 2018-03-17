@@ -1,6 +1,6 @@
 package io.rocketico.core.model
 
-import java.util.*
+import java.io.Serializable
 
 enum class TokenType(val codeName: String,
                      val decimals: Int,
@@ -11,7 +11,7 @@ enum class TokenType(val codeName: String,
                      val officialSite: String,
                      val available: Float,
                      val support: Float,
-                     val blockChain: String) {
+                     val blockChain: String) : Serializable {
     ETH("ETH",
             18,
             "",
