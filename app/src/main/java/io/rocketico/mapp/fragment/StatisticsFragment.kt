@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
@@ -43,14 +44,37 @@ class StatisticsFragment : Fragment() {
         walletManager = WalletManager(context!!)
         wallet = walletManager.getWallet()!!
 
-        setUpCharts()
+        showCharts()
 
         all.visibility = View.GONE
         receive.visibility = View.GONE
         sent.visibility = View.GONE
+
+        button1d.setOnClickListener { showCharts(1); selectButton(button1d) }
+        button1w.setOnClickListener { showCharts(7); selectButton(button1w) }
+        button1m.setOnClickListener { showCharts(30); selectButton(button1m) }
+        button3m.setOnClickListener { showCharts(30 * 3); selectButton(button3m) }
+        button6m.setOnClickListener { showCharts(30 * 6); selectButton(button6m) }
+        button1y.setOnClickListener { showCharts(30 * 12); selectButton(button1y) }
+        button2y.setOnClickListener { showCharts(30 * 12 * 2); selectButton(button2y) }
     }
 
-    private fun setUpCharts() {
+    private fun selectButton(button: TextView) {
+        button1d.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button1w.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button1m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button3m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button6m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button1y.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button2y.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+
+        button.setTextColor(context?.resources!!.getColor(R.color.green))
+    }
+
+    private fun showCharts(nDaysAgo: Int = 1) {
+        chart.lineChartData = null
+        bottomChart.columnChartData = null
+
         val values = ArrayList<PointValue>()
 
         val subColumnsData = mutableListOf<SubcolumnValue>()
@@ -62,7 +86,7 @@ class StatisticsFragment : Fragment() {
                 it.printStackTrace()
             }
         }) {
-            val rates = RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.yesterday(), Date())
+            val rates = RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date())
 
             var ethTopValue = Float.MIN_VALUE;
             var ethBottomValue = Float.MAX_VALUE;
