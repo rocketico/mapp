@@ -1,5 +1,6 @@
 package io.rocketico.mapp.fragment
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -29,6 +30,8 @@ class HistoryFragment : Fragment() {
     lateinit var historyListAdapter: FlexibleAdapter<IFlexible<*>>
     lateinit var historyItems: MutableList<HistoryFlexibleItem>
     lateinit var ethereumHelper: EthereumHelper
+    private var currentDirection: TokenDirection = TokenDirection.ALL
+    private var currentDayRange: Int = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_history, container, false)
@@ -40,28 +43,40 @@ class HistoryFragment : Fragment() {
         ethereumHelper = EthereumHelper(Cc.ETH_NODE)
         showHistory()
 
-        button1d.setOnClickListener { showHistory(1); selectButton(button1d) }
-        button1w.setOnClickListener { showHistory(7); selectButton(button1w) }
-        button1m.setOnClickListener { showHistory(30); selectButton(button1m) }
-        button3m.setOnClickListener { showHistory(30 * 3); selectButton(button3m) }
-        button6m.setOnClickListener { showHistory(30 * 6); selectButton(button6m) }
-        button1y.setOnClickListener { showHistory(30 * 12); selectButton(button1y) }
-        button2y.setOnClickListener { showHistory(30 * 12 * 2); selectButton(button2y) }
+        button1d.setOnClickListener { currentDayRange = 1; showHistory(); selectButtonRange(button1d) }
+        button1w.setOnClickListener { currentDayRange = 7; showHistory(); selectButtonRange(button1w) }
+        button1m.setOnClickListener { currentDayRange = 30; showHistory(); selectButtonRange(button1m) }
+        button3m.setOnClickListener { currentDayRange = 30 * 3; showHistory(); selectButtonRange(button3m) }
+        button6m.setOnClickListener { currentDayRange = 30 * 6; showHistory(); selectButtonRange(button6m) }
+        button1y.setOnClickListener { currentDayRange = 30 * 12; showHistory(); selectButtonRange(button1y) }
+        button2y.setOnClickListener { currentDayRange = 30 * 12 * 2; showHistory(); selectButtonRange(button2y) }
+
+        sent.setOnClickListener { currentDirection = TokenDirection.OUT; showHistory(); selectButtonDirection(sent) }
+        all.setOnClickListener { currentDirection = TokenDirection.ALL; showHistory(); selectButtonDirection(all) }
+        receive.setOnClickListener { currentDirection = TokenDirection.IN; showHistory(); selectButtonDirection(receive) }
     }
 
-    private fun selectButton(button: TextView) {
-        button1d.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button1w.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button1m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button3m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button6m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button1y.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button2y.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+    private fun selectButtonDirection(button: TextView) {
+        sent.typeface = Typeface.DEFAULT
+        all.typeface = Typeface.DEFAULT
+        receive.typeface = Typeface.DEFAULT
 
-        button.setTextColor(context?.resources!!.getColor(R.color.green))
+        button.typeface = Typeface.DEFAULT_BOLD
     }
 
-    private fun showHistory(nDaysAgo: Int = 1) {
+    private fun selectButtonRange(button: TextView) {
+        button1d.typeface = Typeface.DEFAULT
+        button1w.typeface = Typeface.DEFAULT
+        button1m.typeface = Typeface.DEFAULT
+        button3m.typeface = Typeface.DEFAULT
+        button6m.typeface = Typeface.DEFAULT
+        button1y.typeface = Typeface.DEFAULT
+        button2y.typeface = Typeface.DEFAULT
+
+        button.typeface = Typeface.DEFAULT_BOLD
+    }
+
+    private fun showHistory() {
         historyItems = mutableListOf()
         historyListAdapter = FlexibleAdapter(historyItems as List<IFlexible<*>>)
         recyclerViewHistory.layoutManager = LinearLayoutManager(context)
@@ -75,11 +90,18 @@ class HistoryFragment : Fragment() {
             }
         }) {
             //todo implement choosing days count
-            val history = ethereumHelper.getTokensHistory(listOf("", ""), Utils.nDaysAgo(nDaysAgo))
+            val history = ethereumHelper.getTokensHistory(listOf("", ""), Utils.nDaysAgo(currentDayRange))
             val rates = RateHelper.getTokenRateByDate()
 
             uiThread {
                 history?.forEach { historyItem ->
+                    if (currentDirection != TokenDirection.ALL) {
+                        if (currentDirection == TokenDirection.IN) {
+                            if (!historyItem.isReceived) return@forEach
+                        } else if (currentDirection == TokenDirection.OUT) {
+                            if (historyItem.isReceived) return@forEach
+                        }
+                    }
                     val tmpItem = HistoryFlexibleItem.HistoryItem()
                     tmpItem.isReceived = historyItem.isReceived
                     tmpItem.address = historyItem.address
@@ -116,6 +138,14 @@ class HistoryFragment : Fragment() {
                     historyListAdapter.addItem(HistoryFlexibleItem(tmpItem))
                 }
             }
+        }
+    }
+
+    companion object {
+        private enum class TokenDirection {
+            OUT,
+            IN,
+            ALL
         }
     }
 }

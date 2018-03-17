@@ -1,5 +1,6 @@
 package io.rocketico.mapp.fragment
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -60,15 +61,15 @@ class StatisticsFragment : Fragment() {
     }
 
     private fun selectButton(button: TextView) {
-        button1d.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button1w.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button1m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button3m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button6m.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button1y.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
-        button2y.setTextColor(context?.resources!!.getColor(R.color.colorPrimaryDark))
+        button1d.typeface = Typeface.DEFAULT
+        button1w.typeface = Typeface.DEFAULT
+        button1m.typeface = Typeface.DEFAULT
+        button3m.typeface = Typeface.DEFAULT
+        button6m.typeface = Typeface.DEFAULT
+        button1y.typeface = Typeface.DEFAULT
+        button2y.typeface = Typeface.DEFAULT
 
-        button.setTextColor(context?.resources!!.getColor(R.color.green))
+        button.typeface = Typeface.DEFAULT_BOLD
     }
 
     private fun showCharts(nDaysAgo: Int = 1) {
