@@ -86,7 +86,7 @@ class StatisticsFragment : Fragment() {
                         val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(
                                 context!!,
                                 walletToken.type
-                        )!!)
+                        ) ?: return@forEach)
                         averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, balance)
 
                         averageVolume += rateItem.volume!!
