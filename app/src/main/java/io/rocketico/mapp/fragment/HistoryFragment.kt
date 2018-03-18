@@ -42,7 +42,10 @@ class HistoryFragment : Fragment() {
 
         ethereumHelper = EthereumHelper(Cc.ETH_NODE)
         showHistory()
+        setupButtons()
+    }
 
+    private fun setupButtons() {
         button1d.setOnClickListener { currentDayRange = 1; showHistory(); selectButtonRange(button1d) }
         button1w.setOnClickListener { currentDayRange = 7; showHistory(); selectButtonRange(button1w) }
         button1m.setOnClickListener { currentDayRange = 30; showHistory(); selectButtonRange(button1m) }

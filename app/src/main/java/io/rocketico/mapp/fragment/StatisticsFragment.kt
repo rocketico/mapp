@@ -46,7 +46,10 @@ class StatisticsFragment : Fragment() {
         wallet = walletManager.getWallet()!!
 
         showCharts()
+        setupButtons()
+    }
 
+    private fun setupButtons() {
         all.visibility = View.GONE
         receive.visibility = View.GONE
         sent.visibility = View.GONE
