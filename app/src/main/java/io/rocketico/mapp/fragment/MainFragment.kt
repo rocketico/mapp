@@ -5,7 +5,6 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -16,7 +15,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
-import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
@@ -164,11 +162,9 @@ class MainFragment : Fragment() {
             private var prevState: PanelState = PanelState.COLLAPSED
 
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
-                Log.i("SLIDING", slideOffset.toString())
             }
 
             override fun onPanelStateChanged(panel: View?, previousState: PanelState?, newState: PanelState?) {
-                Log.i("SLIDING", "${newState} ${prevState}")
                 if (newState == PanelState.EXPANDED && newState != prevState) {
                     fab.startAnimation(AnimationUtils.loadAnimation(context, R.anim.anim_stand))
                     fab.visibility = View.GONE
