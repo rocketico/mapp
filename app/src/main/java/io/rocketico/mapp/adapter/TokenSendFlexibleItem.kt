@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.item_send_token.view.*
 
 class TokenSendFlexibleItem(private val context: Context,
                             private val tokenType: TokenType,
+                            private val address: String?,
                             listener: OnItemClickListener)
     : IFlexible<TokenSendFlexibleItem.ViewHolder> {
 
@@ -97,7 +98,7 @@ class TokenSendFlexibleItem(private val context: Context,
         holder.tokenFiatBalance.text = (balance * rate).toString()
 
         holder.view.setOnClickListener {
-            onItemClickListener.onItemClick(tokenType)
+            onItemClickListener.onItemClick(tokenType, address)
         }
     }
 
@@ -106,7 +107,7 @@ class TokenSendFlexibleItem(private val context: Context,
     }
 
     interface OnItemClickListener {
-        fun onItemClick(tokenType: TokenType)
+        fun onItemClick(tokenType: TokenType, address: String?)
     }
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {

@@ -70,6 +70,11 @@ class SendBillFragment : Fragment() {
                 var response: String = ""
                 if (tokenType == TokenType.ETH) {
                     ethHelper.sendEth(wallet.privateKey, address, ethBigInteger)!!
+                } else {
+                    ethHelper.sendErc20(wallet.privateKey,
+                            tokenType.contractAddress,
+                            address,
+                            ethBigInteger)
                 }
                 uiThread {
                     listener.onCloseClick()

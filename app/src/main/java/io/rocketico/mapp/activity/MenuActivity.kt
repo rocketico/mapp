@@ -66,9 +66,9 @@ class MenuActivity : AppCompatActivity(),
         overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
     }
 
-    override fun onItemClick(tokenType: TokenType) {
+    override fun onItemClick(tokenType: TokenType, address: String?) {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendDetailsFragment.newInstance(tokenType))
+                .replace(R.id.container, SendDetailsFragment.newInstance(tokenType, address))
                 .addToBackStack(null)
                 .commit()
     }

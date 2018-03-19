@@ -23,6 +23,7 @@ class SendDetailsFragment : Fragment() {
     private lateinit var listener: SendDetailsFragmentListener
     private lateinit var tokenType: TokenType
     private lateinit var currentCurrency: Currency
+    private var address: String? = null
 
     private var balance: Float = 0f
     private var rate: Float = 0f
@@ -46,6 +47,7 @@ class SendDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
+        address = arguments?.getString(ADDRESS)
 
         prefix = getString(R.string.prefix_template, tokenType.codeName)
 
@@ -57,6 +59,10 @@ class SendDetailsFragment : Fragment() {
         tokenName.text = tokenType.codeName
         tokenBalance.text = balance.toString()
         tokenFiatBalance.text = fiatBalance.toString()
+
+        if (address != null) {
+            addressEditText.setText(address)
+        }
 
         quantityEditText.setText(prefix)
 
@@ -163,11 +169,13 @@ class SendDetailsFragment : Fragment() {
 
     companion object {
         private const val TOKEN_TYPE = "token_type"
+        private const val ADDRESS = "address"
 
-        fun newInstance(tokenType: TokenType): SendDetailsFragment{
+        fun newInstance(tokenType: TokenType, address: String?): SendDetailsFragment{
             val fragment = SendDetailsFragment()
             val bundle = Bundle()
             bundle.putSerializable(TOKEN_TYPE, tokenType)
+            bundle.putString(ADDRESS, address)
             fragment.arguments = bundle
             return fragment
         }
