@@ -51,7 +51,7 @@
             tools:text="10.40444" />
 
         <TextView
-            android:id="@+id/fiatBalance"
+            android:id="@+id/tokenFiatBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/address"
+            android:id="@+id/addressEditText"
             android:theme="@style/DetailEditTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
             app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
 
         <EditText
-            android:id="@+id/quantity"
+            android:id="@+id/quantityEditText"
             android:theme="@style/DetailEditTextStyle"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
@@ -114,10 +114,10 @@
             android:inputType="numberDecimal"
             android:background="@drawable/background_quantity_edit_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address" />
+            app:layout_constraintTop_toBottomOf="@+id/addressEditText" />
 
         <TextView
-            android:id="@+id/txFeeTextView"
+            android:id="@+id/txFeeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -126,10 +126,10 @@
             android:textColor="@color/detailsTextColor"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quantity" />
+            app:layout_constraintTop_toBottomOf="@+id/quantityEditText" />
 
         <TextView
-            android:id="@+id/txFeeQuantity"
+            android:id="@+id/txFeeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -137,11 +137,11 @@
             android:textColor="@color/detailsTextColor"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quantity"
+            app:layout_constraintTop_toBottomOf="@+id/quantityEditText"
             tools:text="0.5$" />
 
         <TextView
-            android:id="@+id/quantityFiat"
+            android:id="@+id/quantityFiatTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -149,11 +149,11 @@
             android:layout_marginTop="8dp"
             android:textColor="@color/detailsTextColor"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/quantity"
+            app:layout_constraintBottom_toBottomOf="@+id/quantityEditText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/quantity"
-            app:layout_constraintTop_toTopOf="@+id/quantity"
+            app:layout_constraintStart_toEndOf="@+id/quantityEditText"
+            app:layout_constraintTop_toTopOf="@+id/quantityEditText"
             tools:text="$332.5" />
 
         <SeekBar
@@ -166,10 +166,10 @@
             android:theme="@style/SeekBarStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txFeeTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/txFeeLabel" />
 
         <TextView
-            android:id="@+id/totalTextView"
+            android:id="@+id/totalLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -184,7 +184,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/totalCount"
+            android:id="@+id/totalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -199,7 +199,7 @@
             tools:text="$333" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/changeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -207,7 +207,7 @@
             android:tint="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address"
+            app:layout_constraintTop_toBottomOf="@+id/addressEditText"
             app:srcCompat="@drawable/ic_swap_horiz_black_32dp" />
 
     </android.support.constraint.ConstraintLayout>

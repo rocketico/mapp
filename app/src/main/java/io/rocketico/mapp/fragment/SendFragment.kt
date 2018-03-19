@@ -24,11 +24,11 @@ import org.jetbrains.anko.uiThread
 class SendFragment : Fragment() {
 
     private lateinit var listener: SendFragmentListener
-    lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
-    lateinit var tokens: MutableList<TokenSendFlexibleItem>
+    private lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
+    private lateinit var tokens: MutableList<TokenSendFlexibleItem>
 
-    lateinit var walletManager: WalletManager
-    lateinit var wallet: Wallet
+    private lateinit var walletManager: WalletManager
+    private lateinit var wallet: Wallet
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         listener = activity as SendFragmentListener
