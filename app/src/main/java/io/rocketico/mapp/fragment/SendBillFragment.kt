@@ -9,13 +9,12 @@ import io.rocketico.core.EthereumHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.WalletManager
-import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_bill.*
-import org.jetbrains.anko.toast
-import java.math.BigInteger
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class SendBillFragment : Fragment() {
 
@@ -32,7 +31,9 @@ class SendBillFragment : Fragment() {
 
         tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
         eth = arguments?.getFloat(ETH)!!
-        address = arguments?.getString(ADDRESS)!!
+        //address = arguments?.getString(ADDRESS)!!
+        //todo debug. remove me
+        address = "0x67f40a629BFc03d0457248aaee5Af7405ACd97d0"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -65,7 +66,15 @@ class SendBillFragment : Fragment() {
             val ethHelper = EthereumHelper(Cc.ETH_NODE)
             val wallet = WalletManager(context!!).getWallet()!!
 
-            //ethHelper.sendEth(wallet.privateKey, address, ethBigInteger)
+            doAsync {
+                var response: String = ""
+                if (tokenType == TokenType.ETH) {
+                    ethHelper.sendEth(wallet.privateKey, address, ethBigInteger)!!
+                }
+                uiThread {
+                    listener.onCloseClick()
+                }
+            }
         }
     }
 

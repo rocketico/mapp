@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
+import io.rocketico.mapp.Utils
 import io.rocketico.mapp.adapter.TokenSendFlexibleItem
 import io.rocketico.mapp.fragment.*
 import io.rocketico.mapp.fragment.MenuFragment.OnMenuButtonsClickListener
@@ -56,6 +57,7 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onBackClick() {
+        Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
         onBackPressed()
     }
 
@@ -76,6 +78,7 @@ class MenuActivity : AppCompatActivity(),
                 .replace(R.id.container, SendBillFragment.newInstance(tokenType, eth, address))
                 .addToBackStack(null)
                 .commit()
+        Utils.setStatusBarColor(this, resources.getColor(R.color.white))
     }
 
     override fun onCloseClick() {
