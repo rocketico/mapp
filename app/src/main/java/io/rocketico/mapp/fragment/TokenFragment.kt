@@ -104,27 +104,24 @@ class TokenFragment : Fragment() {
             list?.forEach { listItemData.add(it.marketName) }
 
             uiThread {
-                markets.setOnChildClickListener(object : ExpandableListView.OnChildClickListener {
-                    override fun onChildClick(parent: ExpandableListView, v: View, groupPosition: Int, childPosition: Int, id: Long): Boolean {
-                        val newState = mutableListOf<String>()
-                        val clickedView = v.findViewById<TextView>(R.id.marketName)
+                markets.setOnChildClickListener { _, v, _, _, _ ->
+                    val clickedView = v.findViewById<TextView>(R.id.marketName)
+                    val clickedPosition = listItemData.indexOf(listItemData.find { it == clickedView.text }!!)
 
-                        val clickedPosition = listItemData.indexOf(listItemData.find { it == clickedView.text }!!)
+                    val newState = mutableListOf<String>()
+                    newState.add(listItemData.find { it == clickedView.text }!!)
 
-                        newState.add(listItemData.find { it == clickedView.text }!!)
+                    for (i in 0 until listItemData.size) {
+                        if (listItemData[i] == clickedView.text) continue
 
-                        for (i in 0 until listItemData.size) {
-                            if (listItemData[i] == clickedView.text) continue
-
-                            newState.add(listItemData[i])
-                        }
-
-                        fillInfo(clickedPosition)
-
-                        markets.setAdapter(ExpandableListAdapter(context!!, newState))
-                        return false
+                        newState.add(listItemData[i])
                     }
-                })
+
+                    fillInfo(clickedPosition)
+
+                    markets.setAdapter(ExpandableListAdapter(context!!, newState))
+                    false
+                }
 
                 fillInfo(0)
                 markets.setAdapter(ExpandableListAdapter(context!!, listItemData))
