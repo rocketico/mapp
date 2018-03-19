@@ -5,11 +5,17 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.rocketico.core.EthereumHelper
 import io.rocketico.core.RateHelper
+import io.rocketico.core.Utils
+import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
+import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_bill.*
+import org.jetbrains.anko.toast
+import java.math.BigInteger
 
 class SendBillFragment : Fragment() {
 
@@ -52,6 +58,14 @@ class SendBillFragment : Fragment() {
 
         closeButton.setOnClickListener {
             listener.onCloseClick()
+        }
+
+        sendPayment.setOnClickListener {
+            val ethBigInteger = Utils.floatToBigInteger(eth, tokenType.decimals)
+            val ethHelper = EthereumHelper(Cc.ETH_NODE)
+            val wallet = WalletManager(context!!).getWallet()!!
+
+            //ethHelper.sendEth(wallet.privateKey, address, ethBigInteger)
         }
     }
 

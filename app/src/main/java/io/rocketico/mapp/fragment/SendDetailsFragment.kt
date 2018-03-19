@@ -1,5 +1,6 @@
 package io.rocketico.mapp.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
@@ -31,9 +32,6 @@ class SendDetailsFragment : Fragment() {
     private var fiatQuantity: Float = 0f
     private var txFee: Float = 0.5f
 
-    //todo debug address
-    private val mAddress = "0x67f40a629BFc03d0457248aaee5Af7405ACd97d0"
-
     private lateinit var prefix: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +47,7 @@ class SendDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
 
-        prefix = tokenType.codeName + " "
+        prefix = getString(R.string.prefix_template, tokenType.codeName)
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
         rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate!!
@@ -70,6 +68,7 @@ class SendDetailsFragment : Fragment() {
         setupSeekBar()
     }
 
+    @SuppressLint("StringFormatMatches")
     private fun setupListeners() {
         backButton.setOnClickListener {
             listener.onBackClick()
@@ -77,18 +76,17 @@ class SendDetailsFragment : Fragment() {
 
         createButton.setOnClickListener {
             if (checkForNulls()) {
-                listener.onCreateClick(tokenType, ethQuantity, /*address.text.toString()*/ mAddress)
+                listener.onCreateClick(tokenType, ethQuantity, addressEditText.text.toString())
             }
         }
 
-        //todo debug
         changeButton.setOnClickListener {
-            if (prefix == tokenType.codeName + " ") {
-                prefix = currentCurrency.currencySymbol + " "
-                quantityEditText.setText(prefix + fiatQuantity)
+            if (prefix == getString(R.string.prefix_template, tokenType.codeName)) {
+                prefix = getString(R.string.prefix_template, currentCurrency.currencySymbol)
+                quantityEditText.setText(getString(R.string.quantity_template, prefix, fiatQuantity))
             } else {
-                prefix = tokenType.codeName + " "
-                quantityEditText.setText(prefix + ethQuantity)
+                prefix = getString(R.string.prefix_template, tokenType.codeName)
+                quantityEditText.setText(getString(R.string.quantity_template, prefix, ethQuantity))
             }
             Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
         }
@@ -104,10 +102,9 @@ class SendDetailsFragment : Fragment() {
                 val value = s?.toString()!!.replace(prefix, "")
 
                 if (!value.isBlank()) {
-                    if (prefix == tokenType.codeName + " ") {
+                    if (prefix == getString(R.string.prefix_template, tokenType.codeName)) {
                         if (value.toFloat() > balance) {
-                            //todo debug
-                            quantityEditText.setText(prefix + balance)
+                            quantityEditText.setText(getString(R.string.quantity_template, prefix, balance))
                             Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                             return
                         }
@@ -115,8 +112,7 @@ class SendDetailsFragment : Fragment() {
                         fiatQuantity = ethQuantity * rate
                     } else {
                         if (value.toFloat() > fiatBalance) {
-                            //todo debug
-                            quantityEditText.setText(prefix + fiatBalance)
+                            quantityEditText.setText(getString(R.string.quantity_template, prefix, fiatBalance))
                             Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                             return
                         }

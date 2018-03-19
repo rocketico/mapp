@@ -28,6 +28,11 @@ object Utils {
         return resultBigDecimal.setScale(scale, RoundingMode.DOWN).toFloat()
     }
 
+    fun floatToBigInteger(value: Float, decimals: Int = 18): BigInteger {
+        val tmp = BigDecimal(value.toString()).multiply(BigDecimal.TEN.pow(decimals))
+        return tmp.toBigInteger()
+    }
+
     fun isPrivateKeyValid(privateKey: String): Boolean {
         return WalletUtils.isValidPrivateKey(privateKey)
     }
