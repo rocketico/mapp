@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import io.rocketico.core.WalletManager
-import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.AddTokenFlexibleItem
@@ -50,6 +48,10 @@ class AddTokenFragment : Fragment() {
         setupListeners()
     }
 
+    private fun setupSearchView() {
+        searchToken.maxWidth = topPanel.width - backButton.width - menuImageButton.width
+    }
+
     private fun setupListeners() {
         backButton.setOnClickListener {
             listener.onBackClick()
@@ -58,6 +60,18 @@ class AddTokenFragment : Fragment() {
         menuImageButton.setOnClickListener {
             listener.onMenuButtonClick()
         }
+
+        searchToken.setOnCloseListener {
+            tokenListLabel.visibility = View.VISIBLE
+            false
+        }
+
+        searchToken.setOnSearchClickListener {
+            tokenListLabel.visibility = View.GONE
+            setupSearchView()
+        }
+
+
     }
 
     interface AddTokenFragmentListener {
