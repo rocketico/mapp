@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
-import kotlinx.android.synthetic.main.item_spinner.view.*
+import kotlinx.android.synthetic.main.item_markets.view.*
 
 class ExpandableListAdapter(context: Context, marketList: List<String>) : BaseExpandableListAdapter() {
 
@@ -28,7 +27,7 @@ class ExpandableListAdapter(context: Context, marketList: List<String>) : BaseEx
     override fun hasStableIds(): Boolean = false
 
     override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
-        val view = inflater.inflate(R.layout.item_spinner, null)
+        val view = inflater.inflate(R.layout.item_markets, null)
         view.marketName.text = mainMarket
         view.arrow.visibility = View.VISIBLE
 
@@ -48,7 +47,7 @@ class ExpandableListAdapter(context: Context, marketList: List<String>) : BaseEx
     override fun getGroupId(groupPosition: Int): Long = 0L
 
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
-        val view = inflater.inflate(R.layout.item_spinner, null)
+        val view = inflater.inflate(R.layout.item_markets, null)
         view.marketName.text = secondaryMarkets[childPosition]
         return view
     }

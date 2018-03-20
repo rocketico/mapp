@@ -23,6 +23,7 @@ import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.ExpandableListAdapter
+import io.rocketico.mapp.adapter.FiatCurrencySpinnerAdapter
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
@@ -183,10 +184,8 @@ class TokenFragment : Fragment() {
     }
 
     private fun setupCurrencySpinner() {
-        //todo Debug
-        val currency = listOf<String>("${Currency.USD.currencySymbol} - ${Currency.USD.codeName}",
-                "${Currency.TEST.currencySymbol} - ${Currency.TEST.codeName}")
-        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, currency)
+        val currency = Currency.values()
+        val adapter = FiatCurrencySpinnerAdapter(context!!, currency)
 
         chooseFiatSpinner.adapter = adapter
     }

@@ -3,24 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:gravity="center"
+    android:background="@color/white"
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/symbol"
+        android:id="@+id/symbolDD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$"
-        android:textSize="15sp"
-        android:textColor="@color/colorPrimaryDark" />
+        android:textSize="15sp" />
 
     <TextView
-        android:id="@+id/codeName"
+        android:id="@+id/lineDD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
+        android:text="-"/>
+
+    <TextView
+        android:id="@+id/codeNameDD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="USD"
-        android:textSize="15sp"
-        android:textColor="@color/colorPrimaryDark" />
+        android:textSize="15sp" />
 
 </LinearLayout>
