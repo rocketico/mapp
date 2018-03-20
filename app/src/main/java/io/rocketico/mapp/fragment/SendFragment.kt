@@ -69,6 +69,8 @@ class SendFragment : Fragment() {
 
             fromLabel.visibility = View.VISIBLE
             addressTextView.visibility = View.VISIBLE
+            dividerSend.visibility = View.VISIBLE
+            hoverLabel.visibility = View.GONE
             qr.visibility = View.GONE
 
             tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
