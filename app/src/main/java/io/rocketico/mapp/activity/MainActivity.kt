@@ -11,7 +11,9 @@ import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
+import io.rocketico.mapp.adapter.AddTokenFlexibleItem
 import io.rocketico.mapp.adapter.TokenFlexibleItem
+import io.rocketico.mapp.fragment.AddTokenFragment
 import io.rocketico.mapp.fragment.MainFragment
 import io.rocketico.mapp.fragment.TokenFragment
 import org.jetbrains.anko.toast
@@ -19,7 +21,9 @@ import org.jetbrains.anko.toast
 class MainActivity : AppCompatActivity(),
         MainFragment.MainFragmentListener,
         TokenFlexibleItem.OnItemClickListener,
-        TokenFragment.TokenFragmentListener{
+        TokenFragment.TokenFragmentListener,
+        AddTokenFragment.AddTokenFragmentListener,
+        AddTokenFlexibleItem.OnItemClickListener{
 
     private lateinit var wm: WalletManager
 
@@ -56,9 +60,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onFabClick() {
-//        TODO for testing
-        toast("FAB clicked")
-
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, AddTokenFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onTokenListItemClick(tokenType: TokenType) {
@@ -66,6 +71,12 @@ class MainActivity : AppCompatActivity(),
                 .replace(R.id.container, TokenFragment.newInstance(tokenType))
                 .addToBackStack(null)
                 .commit()
+    }
+
+    override fun onAddTokenListItemClick(tokenType: TokenType) {
+        //todo debug
+        toast("added")
+        onBackPressed()
     }
 
     override fun onBackClick() {

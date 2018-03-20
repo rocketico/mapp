@@ -66,6 +66,7 @@ class SendFragment : Fragment() {
         qr.setResultHandler {
             address = it.text
             addressTextView.text = address
+
             fromLabel.visibility = View.VISIBLE
             addressTextView.visibility = View.VISIBLE
             qr.visibility = View.GONE

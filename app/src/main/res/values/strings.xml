@@ -84,6 +84,7 @@
 
     <string name="prefix_template">%s\u0020</string>
     <string name="quantity_template">%s%s</string>
+    <string name="balance_template">%s %s</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
