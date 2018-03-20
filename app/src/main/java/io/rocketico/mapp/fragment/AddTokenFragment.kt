@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.SearchView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.model.TokenType
@@ -17,6 +18,8 @@ import kotlinx.android.synthetic.main.fragment_add_token.*
 class AddTokenFragment : Fragment() {
 
     private lateinit var listener: AddTokenFragmentListener
+    private lateinit var itemListener: AddTokenFlexibleItem.OnItemClickListener
+    private lateinit var availableTokens: Array<TokenType>
     private lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
     private lateinit var tokens: MutableList<AddTokenFlexibleItem>
 
@@ -31,14 +34,10 @@ class AddTokenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tokens = mutableListOf()
-        tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
-        addTokenList.layoutManager = LinearLayoutManager(context)
-        addTokenList.adapter = tokenListAdapter
+        setupRecyclerView()
 
-        val itemListener = activity as AddTokenFlexibleItem.OnItemClickListener
-
-        val availableTokens = TokenType.values()
+        itemListener = activity as AddTokenFlexibleItem.OnItemClickListener
+        availableTokens = TokenType.values()
 
         availableTokens.forEach {
             if (it == TokenType.ETH) return@forEach
@@ -53,6 +52,13 @@ class AddTokenFragment : Fragment() {
         editText.setHintTextColor(resources.getColor(R.color.white))
 
         setupListeners()
+    }
+
+    private fun setupRecyclerView() {
+        tokens = mutableListOf()
+        tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
+        addTokenList.layoutManager = LinearLayoutManager(context)
+        addTokenList.adapter = tokenListAdapter
     }
 
     private fun setupSearchViewWidth() {
@@ -77,6 +83,26 @@ class AddTokenFragment : Fragment() {
             tokenListLabel.visibility = View.GONE
             setupSearchViewWidth()
         }
+
+        searchToken.setOnQueryTextListener(object : android.support.v7.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                setupRecyclerView()
+
+                availableTokens.forEach {
+                    if (it == TokenType.ETH) return@forEach
+
+                    if (it.codeName.startsWith(newText, true)) {
+                        tokenListAdapter.addItem(AddTokenFlexibleItem(context!!, it, itemListener))
+                    }
+                }
+                return false
+            }
+
+        })
     }
 
     interface AddTokenFragmentListener {
