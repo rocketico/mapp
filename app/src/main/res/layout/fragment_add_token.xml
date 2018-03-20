@@ -45,8 +45,9 @@
             android:gravity="end|center"
             android:orientation="horizontal">
 
-            <SearchView
+            <android.support.v7.widget.SearchView
                 android:id="@+id/searchToken"
+                style="@style/SearchViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

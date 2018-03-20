@@ -17,7 +17,8 @@
             android:name="io.fabric.ApiKey"
             android:value="3571844db4c892ce6439982d4ad2f57badae9e91" />
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:theme="@style/MainActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.model.TokenType
@@ -45,10 +46,16 @@ class AddTokenFragment : Fragment() {
             tokenListAdapter.addItem(AddTokenFlexibleItem(context!!, it, itemListener))
         }
 
+        //todo debug
+        val editText = searchToken.findViewById<EditText>(android.support.v7.appcompat.R.id.search_src_text)
+        editText.setHintTextColor(resources.getColor(R.color.transp_white))
+        editText.setTextColor(resources.getColor(R.color.white))
+        editText.setHintTextColor(resources.getColor(R.color.white))
+
         setupListeners()
     }
 
-    private fun setupSearchView() {
+    private fun setupSearchViewWidth() {
         searchToken.maxWidth = topPanel.width - backButton.width - menuImageButton.width
     }
 
@@ -68,10 +75,8 @@ class AddTokenFragment : Fragment() {
 
         searchToken.setOnSearchClickListener {
             tokenListLabel.visibility = View.GONE
-            setupSearchView()
+            setupSearchViewWidth()
         }
-
-
     }
 
     interface AddTokenFragmentListener {

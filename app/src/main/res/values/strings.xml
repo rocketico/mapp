@@ -85,7 +85,9 @@
     <string name="prefix_template">%s\u0020</string>
     <string name="quantity_template">%s%s</string>
     <string name="balance_template">%s %s</string>
+
     <string name="token_list">Token list</string>
+    <string name="search_token">Search token...</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

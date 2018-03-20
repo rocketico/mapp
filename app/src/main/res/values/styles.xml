@@ -10,6 +10,10 @@
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
     </style>
 
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
     <style name="TextViewClickable">
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
@@ -108,6 +112,15 @@
         <item name="colorControlActivated">@color/detailsTextColor</item>
         <item name="colorControlHighlight">@color/detailsTextColor</item>
         <item name="colorAccent">@color/detailsTextColor</item>
+    </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
+        <item name="searchIcon">@drawable/ic_action_search</item>
+        <item name="queryBackground">@color/transparentColor</item>
+        <item name="searchHintIcon">@null</item>
+        <item name="closeIcon">@drawable/ic_search_close</item>
+        <item name="queryHint">@string/search_token</item>
+        <item name="android:colorAccent">@color/white</item>
     </style>
 
 </resources>
