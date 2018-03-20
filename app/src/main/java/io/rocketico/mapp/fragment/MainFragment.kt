@@ -105,10 +105,14 @@ class MainFragment : Fragment() {
 
             //fill ether token
             val ethRate = rates.find { it.tokenType.codeName == TokenType.ETH.codeName }?.rate
-            val ethBalance = ethHelper.getBalance(wallet.address)
+
+            if (BalanceHelper.isTokenBalanceOutdated(context!!, TokenType.ETH)) {
+                BalanceHelper.saveTokenBalance(context!!, TokenType.ETH, ethHelper.getBalance(wallet.address))
+            }
+            val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)!!
+
             val floatEthBalance = Utils.bigIntegerToFloat(ethBalance)
 
-            BalanceHelper.saveTokenBalance(context!!, TokenType.ETH, ethBalance)
 
             totalBalance += floatEthBalance
             if (ethRate != null) {
@@ -121,11 +125,16 @@ class MainFragment : Fragment() {
 
                 val tokenType = it.type
 
-                val tokenBalance = ethHelper.getBalanceErc20(
-                        tokenType.contractAddress,
-                        wallet.address,
-                        wallet.privateKey
-                )
+                if (BalanceHelper.isTokenBalanceOutdated(context!!, tokenType)) {
+                    BalanceHelper.saveTokenBalance(context!!, tokenType, ethHelper.getBalanceErc20(
+                            tokenType.contractAddress,
+                            wallet.address,
+                            wallet.privateKey
+                    ))
+                }
+
+                val tokenBalance = BalanceHelper.loadTokenBalance(context!!, tokenType)!!
+
                 val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, tokenType.decimals)
                 val tokenRate = rates.find { it.tokenType ==  tokenType}?.rate
 
