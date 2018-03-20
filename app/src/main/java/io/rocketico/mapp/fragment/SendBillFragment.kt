@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.EthereumHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
@@ -14,6 +15,8 @@ import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_bill.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.uiThread
 
 class SendBillFragment : Fragment() {
@@ -66,18 +69,34 @@ class SendBillFragment : Fragment() {
             val ethHelper = EthereumHelper(Cc.ETH_NODE)
             val wallet = WalletManager(context!!).getWallet()!!
 
-            doAsync {
-                var response: String = ""
+            val dialog = MaterialDialog.Builder(context!!)
+                    .title(getString(R.string.please_wait))
+                    .content(getString(R.string.sending))
+                    .progress(true, 0)
+                    .cancelable(false)
+                    .show();
+
+
+            doAsync({
+                context?.runOnUiThread {
+                    dialog.dismiss()
+                    longToast(it.message!!)
+                    it.printStackTrace()
+                }
+            }) {
+                val response: String
                 if (tokenType == TokenType.ETH) {
-                    ethHelper.sendEth(wallet.privateKey, address, ethBigInteger)!!
+                    response = ethHelper.sendEth(wallet.privateKey, address, ethBigInteger)!!
                 } else {
-                    ethHelper.sendErc20(wallet.privateKey,
+                    response = ethHelper.sendErc20(wallet.privateKey,
                             tokenType.contractAddress,
                             address,
-                            ethBigInteger)
+                            ethBigInteger)!!.transactionHash
                 }
                 uiThread {
+                    dialog.dismiss()
                     listener.onCloseClick()
+                    context?.longToast("Success (TX hash $response)") // todo
                 }
             }
         }

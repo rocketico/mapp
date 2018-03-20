@@ -89,6 +89,7 @@
 
     <string name="token_list">Token list</string>
     <string name="search_token">Search token...</string>
+    <string name="sending">Sending</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
