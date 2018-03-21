@@ -88,7 +88,6 @@ class TokenFlexibleItem(private val context: Context, private val tokenType: Tok
 
     @SuppressLint("StringFormatMatches")
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        //TODO check rate
         val currentCurrency = RateHelper.getCurrentCurrency(context)
         val rate = RateHelper.getTokenRate(context,tokenType, currentCurrency)?.rate!!
         val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context, tokenType)!!)

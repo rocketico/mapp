@@ -89,7 +89,7 @@ class SendDetailsFragment : Fragment() {
         }
 
         createButton.setOnClickListener {
-            if (checkForNulls()) {
+            if (checkForErrors()) {
                 listener.onCreateClick(tokenType, ethQuantity, seekBar.progress + 1, addressEditText.text.toString())
             }
         }
@@ -185,18 +185,17 @@ class SendDetailsFragment : Fragment() {
         seekBar.progress = if (tokenType == TokenType.ETH) 40 else 21
     }
 
-    //todo debug
-    private fun checkForNulls(): Boolean {
+    private fun checkForErrors(): Boolean {
         if (addressEditText.text.isBlank()) {
-            context?.toast("Address is empty")
+            context?.toast(context?.getString(R.string.address_error)!!)
             return false
         }
         if (ethQuantity == 0f) {
-            context?.toast("Incorrect. Payment can not be null")
+            context?.toast(context?.getString(R.string.payment_error)!!)
             return false
         }
         if (fiatQuantity + txFee > fiatBalance) {
-            context?.toast("You don't have much money")
+            context?.toast(context?.getString(R.string.balance_error)!!)
             return false
         }
 

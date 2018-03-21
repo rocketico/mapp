@@ -93,6 +93,13 @@
     <string name="available_support_template">%s / %s</string>
     <string name="bill_template">%s Bill</string>
 
+    <string name="added_string">Added</string>
+    <string name="success_transaction">"Success (TX hash %s)"</string>
+
+    <string name="address_error">Address is empty</string>
+    <string name="payment_error">Payment can not be null</string>
+    <string name="balance_error">You don\'t have much money</string>
+
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 </resources>

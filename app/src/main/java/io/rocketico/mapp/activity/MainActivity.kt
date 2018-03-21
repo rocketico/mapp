@@ -73,8 +73,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onAddTokenListItemClick(tokenType: TokenType) {
-        //todo debug
-        toast("added" + tokenType.codeName)
+        val wallet = wm.getWallet()!!
+        wallet.tokens?.add(tokenType)
+        wm.saveWallet(wallet)
+        toast(getString(R.string.added_string))
         onBackPressed()
     }
 

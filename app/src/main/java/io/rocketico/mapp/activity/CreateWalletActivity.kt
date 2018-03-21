@@ -61,8 +61,6 @@ class CreateWalletActivity : AppCompatActivity() {
                 wallet.privateKey = keyPair.privateKey.toString(16)
                 wallet.tokens = mutableListOf()
 
-                wallet.tokens!!.add(TokenType.TEST) //todo Debug. Remove me
-
                 if (wm.existsWallet()) {
                     wm.deleteWallet()
                 }

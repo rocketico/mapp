@@ -29,7 +29,7 @@ data class AddTokenFlexibleItem(val tokenType: TokenType) :
     }
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>, holder: AddTokenViewHolder, position: Int, payloads: MutableList<Any>) {
-        //todo debug
+        //todo debug. Test values
         holder.tokenName.text = tokenType.codeName
         holder.tokenCoast.text = "0.01"
         holder.tokenMarket.text = "Bitrix"

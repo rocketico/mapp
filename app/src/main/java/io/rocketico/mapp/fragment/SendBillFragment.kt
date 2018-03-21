@@ -40,9 +40,7 @@ class SendBillFragment : Fragment() {
         tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
         eth = arguments?.getFloat(ETH)!!
         gasPrice = arguments?.getInt(GAS_PRICE)!!
-        //address = arguments?.getString(ADDRESS)!!
-        //todo debug. remove me
-        address = "0x67f40a629BFc03d0457248aaee5Af7405ACd97d0"
+        address = arguments?.getString(ADDRESS)!!
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -114,7 +112,7 @@ class SendBillFragment : Fragment() {
                 uiThread {
                     dialog.dismiss()
                     listener.onCloseClick()
-                    context?.longToast("Success (TX hash $response)") // todo
+                    context?.longToast(context?.getString(R.string.success_transaction, response)!!)
                 }
             }
         }

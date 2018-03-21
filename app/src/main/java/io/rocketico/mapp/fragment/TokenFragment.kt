@@ -92,7 +92,6 @@ class TokenFragment : Fragment() {
     }
 
     private fun setupExchangesList() {
-        //todo Debug exchange. please, kill me :*(
         val listItemData = mutableListOf<String>()
 
         doAsync({
