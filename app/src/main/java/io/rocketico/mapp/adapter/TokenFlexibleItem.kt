@@ -23,11 +23,11 @@ class TokenFlexibleItem(private val context: Context, private val tokenType: Tok
     private lateinit var view: View
     private var position: Int = -1
 
-    override fun onViewDetached(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder?, position: Int) {
+    override fun onViewDetached(adapter: FlexibleAdapter<IFlexible<*>>?, holder: ViewHolder?, position: Int) {
 
     }
 
-    override fun onViewAttached(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder?, position: Int) {
+    override fun onViewAttached(adapter: FlexibleAdapter<IFlexible<*>>?, holder: ViewHolder?, position: Int) {
 
     }
 
@@ -82,12 +82,12 @@ class TokenFlexibleItem(private val context: Context, private val tokenType: Tok
 
     override fun getLayoutRes() = R.layout.item_token
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<*>): ViewHolder {
+    override fun createViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>): ViewHolder {
         return ViewHolder(view)
     }
 
     @SuppressLint("StringFormatMatches")
-    override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         //TODO check rate
         val currentCurrency = RateHelper.getCurrentCurrency(context)
         val rate = RateHelper.getTokenRate(context,tokenType, currentCurrency)?.rate!!
@@ -106,7 +106,7 @@ class TokenFlexibleItem(private val context: Context, private val tokenType: Tok
         }
     }
 
-    override fun unbindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int) {
+    override fun unbindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int) {
 
     }
 

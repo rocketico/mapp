@@ -18,11 +18,11 @@ class HistoryFlexibleItem(val item: HistoryItem) : IFlexible<HistoryFlexibleItem
     private lateinit var view: View
     private var position: Int = -1
 
-    override fun onViewDetached(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder?, position: Int) {
+    override fun onViewDetached(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int) {
 
     }
 
-    override fun onViewAttached(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder?, position: Int) {
+    override fun onViewAttached(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int) {
 
     }
 
@@ -77,12 +77,12 @@ class HistoryFlexibleItem(val item: HistoryItem) : IFlexible<HistoryFlexibleItem
 
     override fun getLayoutRes() = R.layout.item_history
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<*>): ViewHolder {
+    override fun createViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>): ViewHolder {
         return ViewHolder(view)
     }
 
     @SuppressLint("SetTextI18n")
-    override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (item.isReceived) {
             holder.direction.setImageDrawable(holder.view.resources.getDrawable(R.drawable.ic_direction_down))
         } else {
@@ -96,7 +96,7 @@ class HistoryFlexibleItem(val item: HistoryItem) : IFlexible<HistoryFlexibleItem
         holder.confirmations.text = item.confirmations.toString()
     }
 
-    override fun unbindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int) {
+    override fun unbindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int) {
 
     }
 

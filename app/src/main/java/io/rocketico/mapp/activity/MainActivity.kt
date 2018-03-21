@@ -22,8 +22,7 @@ class MainActivity : AppCompatActivity(),
         MainFragment.MainFragmentListener,
         TokenFlexibleItem.OnItemClickListener,
         TokenFragment.TokenFragmentListener,
-        AddTokenFragment.AddTokenFragmentListener,
-        AddTokenFlexibleItem.OnItemClickListener{
+        AddTokenFragment.AddTokenFragmentListener {
 
     private lateinit var wm: WalletManager
 
@@ -75,7 +74,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onAddTokenListItemClick(tokenType: TokenType) {
         //todo debug
-        toast("added")
+        toast("added" + tokenType.codeName)
         onBackPressed()
     }
 
