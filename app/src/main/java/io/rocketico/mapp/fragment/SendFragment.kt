@@ -12,68 +12,18 @@ import io.rocketico.core.*
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
-import io.rocketico.mapp.adapter.TokenSendFlexibleItem
+import io.rocketico.mapp.adapter.SendTokenFlexibleItem
 import kotlinx.android.synthetic.main.fragment_send.*
 
 class SendFragment : Fragment() {
 
-    private lateinit var listener: SendFragmentListener
-    private lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
-    private lateinit var tokens: MutableList<TokenSendFlexibleItem>
+    private lateinit var fragmentListener: SendFragmentListener
+    private lateinit var listAdapter: FlexibleAdapter<IFlexible<*>>
 
     private lateinit var walletManager: WalletManager
     private lateinit var wallet: Wallet
 
     private var address: String? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        listener = activity as SendFragmentListener
-        return inflater.inflate(R.layout.fragment_send, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        address = null
-
-        tokens = mutableListOf()
-        tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
-        sendTokenList.layoutManager = LinearLayoutManager(context)
-        sendTokenList.adapter = tokenListAdapter
-
-        walletManager = WalletManager(context!!)
-        wallet = walletManager.getWallet()!!
-
-        setupTokens()
-        setupListeners()
-    }
-
-    private fun setupTokens() {
-        val itemListener = activity as TokenSendFlexibleItem.OnItemClickListener
-
-        tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, TokenType.ETH, address, itemListener))
-
-        wallet.tokens?.forEach {
-            if (it.isEther()) return@forEach // skip ether token
-            tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, it, address, itemListener))
-        }
-    }
-
-    private fun setQRHandler() {
-        qr.setResultHandler {
-            address = it.text
-            addressTextView.text = address
-
-            fromLabel.visibility = View.VISIBLE
-            addressTextView.visibility = View.VISIBLE
-            dividerSend.visibility = View.VISIBLE
-            hoverLabel.visibility = View.GONE
-            qr.visibility = View.GONE
-
-            tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
-            sendTokenList.adapter = tokenListAdapter
-            setupTokens()
-        }
-        qr.stopCamera()
-    }
 
     override fun onResume() {
         super.onResume()
@@ -86,9 +36,40 @@ class SendFragment : Fragment() {
         qr.stopCamera()
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_send, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fragmentListener = activity as SendFragmentListener
+        address = null
+
+        val tokens = mutableListOf<IFlexible<*>>()
+        listAdapter = FlexibleAdapter(tokens)
+
+        sendTokenList.layoutManager = LinearLayoutManager(context)
+        sendTokenList.adapter = listAdapter
+
+        walletManager = WalletManager(context!!)
+        wallet = walletManager.getWallet()!!
+
+        setupTokens()
+        setupListeners()
+    }
+
+    private fun setupTokens() {
+        listAdapter.addItem(SendTokenFlexibleItem(context!!, TokenType.ETH))
+
+        wallet.tokens?.forEach {
+            if (it.isEther()) return@forEach
+
+            listAdapter.addItem(SendTokenFlexibleItem(context!!, it))
+        }
+    }
+
     private fun setupListeners() {
         backButton.setOnClickListener {
-            listener.onBackClick()
+            fragmentListener.onBackClick()
         }
 
         qr_frame.setOnClickListener {
@@ -101,18 +82,35 @@ class SendFragment : Fragment() {
                 hoverLabel.visibility = View.VISIBLE
                 qr.visibility = View.VISIBLE
 
-                tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
-                sendTokenList.adapter = tokenListAdapter
-                setupTokens()
-
                 setQRHandler()
                 qr.startCamera()
             }
         }
+
+        listAdapter.addListener(FlexibleAdapter.OnItemClickListener { _, position ->
+            val listItem = listAdapter.getItem(position) as SendTokenFlexibleItem
+            fragmentListener.onSendTokenListItemClick(listItem.tokenType, address)
+            true
+        })
+    }
+
+    private fun setQRHandler() {
+        qr.setResultHandler {
+            address = it.text
+            addressTextView.text = address
+
+            fromLabel.visibility = View.VISIBLE
+            addressTextView.visibility = View.VISIBLE
+            dividerSend.visibility = View.VISIBLE
+            hoverLabel.visibility = View.GONE
+            qr.visibility = View.GONE
+        }
+        qr.stopCamera()
     }
 
     interface SendFragmentListener {
         fun onBackClick()
+        fun onSendTokenListItemClick(tokenType: TokenType, address: String?)
     }
 
     companion object {

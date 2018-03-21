@@ -9,13 +9,11 @@ import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
-import io.rocketico.mapp.adapter.TokenSendFlexibleItem
 import io.rocketico.mapp.fragment.*
 import io.rocketico.mapp.fragment.MenuFragment.OnMenuButtonsClickListener
 
 class MenuActivity : AppCompatActivity(),
         OnMenuButtonsClickListener,
-        TokenSendFlexibleItem.OnItemClickListener,
         SendFragment.SendFragmentListener,
         SendDetailsFragment.SendDetailsFragmentListener,
         SendBillFragment.SendBillFragmentListener {
@@ -65,7 +63,7 @@ class MenuActivity : AppCompatActivity(),
         overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
     }
 
-    override fun onItemClick(tokenType: TokenType, address: String?) {
+    override fun onSendTokenListItemClick(tokenType: TokenType, address: String?) {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, SendDetailsFragment.newInstance(tokenType, address))
                 .addToBackStack(null)
