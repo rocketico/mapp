@@ -33,7 +33,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
-    implementation 'eu.davidea:flexible-adapter:5.0.2'
+    implementation 'eu.davidea:flexible-adapter:5.0.0-rc4'
     implementation 'com.android.support:design:27.1.0'
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
