@@ -190,6 +190,15 @@ class SendDetailsFragment : Fragment() {
             context?.toast("Address is empty")
             return false
         }
+        if (ethQuantity == 0f) {
+            context?.toast("Incorrect. Payment can not be null")
+            return false
+        }
+        if (fiatQuantity + txFee > fiatBalance) {
+            context?.toast("You don't have much money")
+            return false
+        }
+
         return true
     }
 
