@@ -1,5 +1,6 @@
 package io.rocketico.mapp.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -85,16 +86,20 @@ class TokenFlexibleItem(private val context: Context, private val tokenType: Tok
         return ViewHolder(view)
     }
 
+    @SuppressLint("StringFormatMatches")
     override fun bindViewHolder(adapter: FlexibleAdapter<*>, holder: ViewHolder, position: Int, payloads: List<*>) {
         //TODO check rate
-        val rate = RateHelper.getTokenRate(context,tokenType, RateHelper.getCurrentCurrency(context))?.rate!!
+        val currentCurrency = RateHelper.getCurrentCurrency(context)
+        val rate = RateHelper.getTokenRate(context,tokenType, currentCurrency)?.rate!!
         val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context, tokenType)!!)
         
         holder.tokenName.text = tokenType.toString()
-        holder.tokenRate.text = rate.toString()
+        holder.tokenRate.text = context.getString(R.string.balance_template,
+                currentCurrency.currencySymbol, rate)
         holder.tokenRateDiff.text = 0.toString()
         holder.tokenBalance.text = balance.toString()
-        holder.tokenFiatBalance.text = (balance * rate).toString()
+        holder.tokenFiatBalance.text = context.getString(R.string.balance_template,
+                currentCurrency.currencySymbol, balance * rate)
 
         holder.view.setOnClickListener {
             onItemClickListener.onTokenListItemClick(tokenType)

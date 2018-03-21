@@ -49,6 +49,7 @@ class SendDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_send_details, container, false)
     }
 
+    @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
         address = arguments?.getString(ADDRESS)
@@ -63,7 +64,8 @@ class SendDetailsFragment : Fragment() {
 
         tokenName.text = tokenType.codeName
         tokenBalance.text = balance.toString()
-        tokenFiatBalance.text = fiatBalance.toString()
+        tokenFiatBalance.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, fiatBalance)
 
         if (address != null) {
             addressEditText.setText(address)
@@ -71,8 +73,9 @@ class SendDetailsFragment : Fragment() {
 
         quantityEditText.setText(prefix)
 
-        quantityFiatTextView.text = fiatQuantity.toString()
-        txFeeTextView.text = txFee.toString()
+        quantityFiatTextView.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, fiatQuantity)
+        txFeeTextView.text = getString(R.string.balance_template, currentCurrency.currencySymbol, txFee)
 
         setupListeners()
         setupSeekBar()
@@ -135,11 +138,14 @@ class SendDetailsFragment : Fragment() {
                 }
 
                 if (prefix == tokenType.codeName + " ") {
-                    quantityFiatTextView.text = fiatQuantity.toString()
+                    quantityFiatTextView.text = getString(R.string.balance_template,
+                            currentCurrency.currencySymbol, fiatQuantity)
                 } else {
-                    quantityFiatTextView.text = ethQuantity.toString()
+                    quantityFiatTextView.text = getString(R.string.balance_template,
+                            tokenType.codeName, ethQuantity)
                 }
-                totalTextView.text = (txFee + fiatQuantity).toString()
+                totalTextView.text = getString(R.string.balance_template,
+                        currentCurrency.currencySymbol, txFee + fiatQuantity)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -152,15 +158,17 @@ class SendDetailsFragment : Fragment() {
 
         })
     }
-
+    @SuppressLint("StringFormatMatches")
     private fun setupSeekBar() {
         seekBar.max = gasPriceMax
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 txFee = Utils.txFeeFromGwei(progress + 1, ethRate, tokenType)
-                txFeeTextView.text = txFee.toString()
-                totalTextView.text = (fiatQuantity + txFee).toString()
+                txFeeTextView.text = getString(R.string.balance_template,
+                        currentCurrency.currencySymbol, txFee)
+                totalTextView.text = getString(R.string.balance_template,
+                        currentCurrency.currencySymbol, txFee + fiatQuantity)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {

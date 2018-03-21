@@ -1,5 +1,6 @@
 package io.rocketico.mapp.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -48,17 +49,22 @@ class SendBillFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_send_bill, container, false)
     }
 
+    @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
         val rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate!!
         val ethRate = RateHelper.getTokenRate(context!!,TokenType.ETH, currentCurrency)?.rate!!
         val txFee = Utils.txFeeFromGwei(gasPrice, ethRate, tokenType)
 
+        billName.text = getString(R.string.bill_template, tokenType.codeName)
         billAddress.text = address
-        billQuantity.text = eth.toString()
-        billFiatQuantity.text = (eth * rate).toString()
-        billTxFeeQuantity.text = txFee.toString()
-        billTotal.text = ((eth * rate) + txFee).toString()
+        billQuantity.text = getString(R.string.balance_template, tokenType.codeName, eth)
+        billFiatQuantity.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, eth * rate)
+        billTxFeeQuantity.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, txFee)
+        billTotal.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, (eth * rate) + txFee)
 
         setupListeners()
     }

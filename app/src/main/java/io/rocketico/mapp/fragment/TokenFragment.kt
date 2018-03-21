@@ -1,5 +1,6 @@
 package io.rocketico.mapp.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -51,6 +52,7 @@ class TokenFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_token, container, false)
     }
 
+    @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         backButton.visibility = View.VISIBLE
         helpingView.visibility = View.VISIBLE
@@ -66,14 +68,15 @@ class TokenFragment : Fragment() {
             val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
             tokensTotal.text = RateHelper.convertCurrency(rate!!, ethRate!!, balance).toString()
         }
+        fiatCurrency.text = currentCurrency.currencySymbol
         fiatTotal.text = (balance * rate!!).toString()
         tokenName.text = tokenType.codeName
         launchDate.text = tokenType.launchDate
         hashingAlgorithm.text = tokenType.hashAlgorithm
         networkPower.text = tokenType.networkPower
         officialWebsite.text = tokenType.officialSite
-        available.text = tokenType.available.toString()
-        support.text = tokenType.support.toString()
+        availableSupport.text = getString(R.string.available_support_template,
+                tokenType.available, tokenType.support)
         blockchain.text = tokenType.blockChain
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
@@ -133,11 +136,18 @@ class TokenFragment : Fragment() {
         }
     }
 
+    @SuppressLint("StringFormatMatches")
     private fun fillInfo(position: Int) {
-        marketCapitalization.text = list!![position].marketCapitalization.toString()
-        lowestRate.text = list!![position].lowestRate24h.toString()
-        highestRate.text = list!![position].highestRate24h.toString()
-        tradingVolume.text = list!![position].tradingVolume24h.toString()
+        val info = list!![position]
+
+        marketCapitalization.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, info.marketCapitalization)
+        lowestRate.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, info.lowestRate24h)
+        highestRate.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, info.highestRate24h)
+        tradingVolume.text = getString(R.string.balance_template,
+                currentCurrency.currencySymbol, info.tradingVolume24h)
     }
 
     private fun setupListeners() {

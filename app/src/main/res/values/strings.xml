@@ -90,6 +90,8 @@
     <string name="token_list">Token list</string>
     <string name="search_token">Search token...</string>
     <string name="sending">Sending</string>
+    <string name="available_support_template">%s / %s</string>
+    <string name="bill_template">%s Bill</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

@@ -15,6 +15,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
+import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
@@ -39,6 +40,8 @@ class MainFragment : Fragment() {
     private lateinit var wallet: Wallet
 
     private lateinit var ethHelper: EthereumHelper
+
+    private lateinit var currentCurrency: Currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +71,8 @@ class MainFragment : Fragment() {
             override fun getCount(): Int = 2
         }
 
+        currentCurrency = RateHelper.getCurrentCurrency(context!!)
+
         setupListeners()
         setupRecyclerViews()
     }
@@ -93,8 +98,6 @@ class MainFragment : Fragment() {
         }) {
             var totalBalance = 0f
             var totalFiatBalance = 0f
-
-            val currentCurrency = RateHelper.getCurrentCurrency(context!!)
 
             if (RateHelper.isOutdated(context!!, currentCurrency)) {
                 val tmp = RateHelper.getTokenRateByDate()
@@ -151,6 +154,7 @@ class MainFragment : Fragment() {
                     tokenListAdapter.addItem(TokenFlexibleItem(context!!, it.type, itemListener))
                 }
 
+                fiatCurrency.text = currentCurrency.currencySymbol
                 tokensTotal.text = totalBalance.toString()
                 fiatTotal.text = totalFiatBalance.toString()
 

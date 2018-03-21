@@ -52,29 +52,19 @@
 
     <TextView
         android:id="@+id/billAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:textSize="19sp"
         android:textColor="@color/black"
+        android:textSize="19sp"
+        android:singleLine="true"
+        android:ellipsize="middle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/billDescription"
-        tools:text="0xd90bdc90ac90a9dc90d9cb0c90a9b"/>
-
-    <TextView
-        android:id="@+id/billToken"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/billAddress"
-        tools:text="ETH" />
+        tools:text="0xd90bdc90ac90a9dc90d9cb0c90a9b" />
 
     <TextView
         android:id="@+id/billFiatQuantity"
@@ -98,7 +88,7 @@
         android:textSize="15sp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/billToken" />
+        app:layout_constraintTop_toBottomOf="@+id/billQuantity" />
 
     <TextView
         android:id="@+id/billTxFeeQuantity"
@@ -150,11 +140,11 @@
         android:id="@+id/billQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/billToken"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/billAddress"
         tools:text="0.25" />
 

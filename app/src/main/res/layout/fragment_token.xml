@@ -288,16 +288,10 @@
                         android:text="@string/av_and_support" />
 
                     <TextView
-                        android:id="@+id/available"
+                        android:id="@+id/availableSupport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="230,0" />
-
-                    <TextView
-                        android:id="@+id/support"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="230,0" />
+                        tools:text="99,5 / 230,0" />
 
                 </LinearLayout>
 
