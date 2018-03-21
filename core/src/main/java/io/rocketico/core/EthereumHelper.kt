@@ -18,11 +18,6 @@ import java.util.concurrent.Future
 class EthereumHelper(networkUrl: String) {
     private val web3 = Web3jFactory.build(HttpService(networkUrl))
 
-    val GAS_PRICE = BigInteger.valueOf(41000000000L)
-    val GAS_LIMIT = BigInteger.valueOf(21000L)
-    val ERC_20_GAS_PRICE = BigInteger.valueOf(22000000000L)
-    val ERC_20_GAS_LIMIT = BigInteger.valueOf(100000L)
-
     fun getBalance(address: String): BigInteger {
         return web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get().balance
     }
@@ -76,5 +71,12 @@ class EthereumHelper(networkUrl: String) {
         )
 
         return token.transfer(to, value).sendAsync().get()
+    }
+
+    companion object {
+        val GAS_PRICE = BigInteger.valueOf(41000000000L)
+        val GAS_LIMIT = BigInteger.valueOf(21000L)
+        val ERC_20_GAS_PRICE = BigInteger.valueOf(22000000000L)
+        val ERC_20_GAS_LIMIT = BigInteger.valueOf(100000L)
     }
 }

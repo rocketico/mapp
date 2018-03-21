@@ -1,6 +1,7 @@
 package io.rocketico.core
 
 import io.rocketico.core.api.Api
+import io.rocketico.core.model.TokenType
 import org.web3j.crypto.WalletUtils
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,6 +32,16 @@ object Utils {
     fun floatToBigInteger(value: Float, decimals: Int = 18): BigInteger {
         val tmp = BigDecimal(value.toString()).multiply(BigDecimal.TEN.pow(decimals))
         return tmp.toBigInteger()
+    }
+
+    fun txFeeFromGwei(gwei: Int, ethRate: Float, tokenType: TokenType): Float {
+        val gasLimit = if (tokenType == TokenType.ETH) EthereumHelper.GAS_LIMIT
+                        else EthereumHelper.ERC_20_GAS_LIMIT
+
+        val tmp1 = BigInteger.valueOf(gwei.toLong()) * gasLimit
+        val tmp2 = tmp1.toBigDecimal() * BigDecimal(ethRate.toString())
+        val tmp3 = tmp2.divide(BigDecimal.TEN.pow(9), 5, RoundingMode.DOWN)
+        return tmp3.toFloat()
     }
 
     fun isPrivateKeyValid(privateKey: String): Boolean {

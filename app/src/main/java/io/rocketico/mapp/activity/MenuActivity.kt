@@ -73,9 +73,9 @@ class MenuActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onCreateClick(tokenType: TokenType, eth: Float, address: String) {
+    override fun onCreateClick(tokenType: TokenType, eth: Float, gasPrice: Int, address: String) {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendBillFragment.newInstance(tokenType, eth, address))
+                .replace(R.id.container, SendBillFragment.newInstance(tokenType, eth, gasPrice, address))
                 .addToBackStack(null)
                 .commit()
         Utils.setStatusBarColor(this, resources.getColor(R.color.white))

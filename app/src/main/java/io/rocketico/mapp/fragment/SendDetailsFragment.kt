@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
@@ -27,6 +28,7 @@ class SendDetailsFragment : Fragment() {
 
     private var balance: Float = 0f
     private var rate: Float = 0f
+    private var ethRate: Float = 0f
     private var fiatBalance: Float = 0f
 
     private var ethQuantity: Float = 0f
@@ -34,6 +36,8 @@ class SendDetailsFragment : Fragment() {
     private var txFee: Float = 0.5f
 
     private lateinit var prefix: String
+
+    private val gasPriceMax = 98
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +57,7 @@ class SendDetailsFragment : Fragment() {
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
         rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate!!
+        ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate!!
         balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
         fiatBalance = balance * rate
 
@@ -68,7 +73,6 @@ class SendDetailsFragment : Fragment() {
 
         quantityFiatTextView.text = fiatQuantity.toString()
         txFeeTextView.text = txFee.toString()
-        totalTextView.text = txFee.toString()
 
         setupListeners()
         setupSeekBar()
@@ -82,7 +86,7 @@ class SendDetailsFragment : Fragment() {
 
         createButton.setOnClickListener {
             if (checkForNulls()) {
-                listener.onCreateClick(tokenType, ethQuantity, addressEditText.text.toString())
+                listener.onCreateClick(tokenType, ethQuantity, seekBar.progress + 1, addressEditText.text.toString())
             }
         }
 
@@ -150,7 +154,26 @@ class SendDetailsFragment : Fragment() {
     }
 
     private fun setupSeekBar() {
-        seekBar.max = balance.toInt()
+        seekBar.max = gasPriceMax
+
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                txFee = Utils.txFeeFromGwei(progress + 1, ethRate, tokenType)
+                txFeeTextView.text = txFee.toString()
+                totalTextView.text = (fiatQuantity + txFee).toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })
+
+        seekBar.progress = if (tokenType == TokenType.ETH) 40 else 21
     }
 
     //todo debug
@@ -164,7 +187,7 @@ class SendDetailsFragment : Fragment() {
 
     interface SendDetailsFragmentListener {
         fun onBackClick()
-        fun onCreateClick(tokenType: TokenType, eth: Float, address: String)
+        fun onCreateClick(tokenType: TokenType, eth: Float, gasPrice: Int, address: String)
     }
 
     companion object {
