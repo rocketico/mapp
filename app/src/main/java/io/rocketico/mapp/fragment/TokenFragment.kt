@@ -10,8 +10,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ExpandableListView
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.BalanceHelper
@@ -68,7 +66,7 @@ class TokenFragment : Fragment() {
             tokensTotal.text = RateHelper.convertCurrency(rate!!, ethRate!!, balance).toString()
         }
         fiatCurrency.text = currentCurrency.currencySymbol
-        fiatTotal.text = (balance * rate!!).toString()
+        fiatTotal.text = Utils.scaleFloat(balance * rate!!)
         tokenName.text = tokenType.codeName
         launchDate.text = tokenType.launchDate
         hashingAlgorithm.text = tokenType.hashAlgorithm

@@ -58,13 +58,13 @@ class SendBillFragment : Fragment() {
 
         billName.text = getString(R.string.bill_template, tokenType.codeName)
         billAddress.text = address
-        billQuantity.text = getString(R.string.balance_template, tokenType.codeName, eth)
+        billQuantity.text = getString(R.string.balance_template, tokenType.codeName, Utils.scaleFloat(eth))
         billFiatQuantity.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, eth * rate)
+                currentCurrency.currencySymbol, Utils.scaleFloat(eth * rate))
         billTxFeeQuantity.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, txFee)
+                currentCurrency.currencySymbol, Utils.scaleFloat(txFee))
         billTotal.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, (eth * rate) + txFee)
+                currentCurrency.currencySymbol, Utils.scaleFloat((eth * rate) + txFee))
 
         setupListeners()
     }

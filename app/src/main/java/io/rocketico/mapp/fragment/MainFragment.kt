@@ -156,7 +156,7 @@ class MainFragment : Fragment() {
 
                 fiatCurrency.text = currentCurrency.currencySymbol
                 tokensTotal.text = totalBalance.toString()
-                fiatTotal.text = totalFiatBalance.toString()
+                fiatTotal.text = Utils.scaleFloat(totalFiatBalance)
 
                 prograssBar.visibility = View.GONE
             }

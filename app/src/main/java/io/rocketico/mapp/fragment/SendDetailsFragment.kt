@@ -65,7 +65,7 @@ class SendDetailsFragment : Fragment() {
         tokenName.text = tokenType.codeName
         tokenBalance.text = balance.toString()
         tokenFiatBalance.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, fiatBalance)
+                currentCurrency.currencySymbol, Utils.scaleFloat(fiatBalance))
 
         if (address != null) {
             addressEditText.setText(address)
@@ -74,8 +74,9 @@ class SendDetailsFragment : Fragment() {
         quantityEditText.setText(prefix)
 
         quantityFiatTextView.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, fiatQuantity)
-        txFeeTextView.text = getString(R.string.balance_template, currentCurrency.currencySymbol, txFee)
+                currentCurrency.currencySymbol, Utils.scaleFloat(fiatQuantity))
+        txFeeTextView.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
+                Utils.scaleFloat(txFee))
 
         setupListeners()
         setupSeekBar()
@@ -139,13 +140,13 @@ class SendDetailsFragment : Fragment() {
 
                 if (prefix == tokenType.codeName + " ") {
                     quantityFiatTextView.text = getString(R.string.balance_template,
-                            currentCurrency.currencySymbol, fiatQuantity)
+                            currentCurrency.currencySymbol, Utils.scaleFloat(fiatQuantity))
                 } else {
                     quantityFiatTextView.text = getString(R.string.balance_template,
-                            tokenType.codeName, ethQuantity)
+                            tokenType.codeName, Utils.scaleFloat(ethQuantity))
                 }
                 totalTextView.text = getString(R.string.balance_template,
-                        currentCurrency.currencySymbol, txFee + fiatQuantity)
+                        currentCurrency.currencySymbol, Utils.scaleFloat(txFee + fiatQuantity))
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -166,9 +167,9 @@ class SendDetailsFragment : Fragment() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 txFee = Utils.txFeeFromGwei(progress + 1, ethRate, tokenType)
                 txFeeTextView.text = getString(R.string.balance_template,
-                        currentCurrency.currencySymbol, txFee)
+                        currentCurrency.currencySymbol, Utils.scaleFloat(txFee))
                 totalTextView.text = getString(R.string.balance_template,
-                        currentCurrency.currencySymbol, txFee + fiatQuantity)
+                        currentCurrency.currencySymbol, Utils.scaleFloat(txFee + fiatQuantity))
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {

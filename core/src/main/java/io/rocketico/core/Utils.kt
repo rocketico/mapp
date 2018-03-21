@@ -44,6 +44,11 @@ object Utils {
         return tmp3.toFloat()
     }
 
+    fun scaleFloat(fiatValue: Float, scale: Int = 5): String {
+        val formatString = "%.${scale}f"
+        return String.format(formatString, fiatValue).replace(',', '.')
+    }
+
     fun isPrivateKeyValid(privateKey: String): Boolean {
         return WalletUtils.isValidPrivateKey(privateKey)
     }

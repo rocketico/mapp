@@ -99,7 +99,7 @@ class TokenFlexibleItem(private val context: Context, private val tokenType: Tok
         holder.tokenRateDiff.text = 0.toString()
         holder.tokenBalance.text = balance.toString()
         holder.tokenFiatBalance.text = context.getString(R.string.balance_template,
-                currentCurrency.currencySymbol, balance * rate)
+                currentCurrency.currencySymbol, Utils.scaleFloat(balance * rate))
 
         holder.view.setOnClickListener {
             onItemClickListener.onTokenListItemClick(tokenType)

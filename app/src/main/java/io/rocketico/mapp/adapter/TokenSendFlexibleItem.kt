@@ -99,7 +99,7 @@ class TokenSendFlexibleItem(private val context: Context,
         holder.tokenName.text = tokenType.codeName
         holder.tokenBalance.text = balance.toString()
         holder.tokenFiatBalance.text = context.getString(R.string.balance_template,
-                currentCurrency.currencySymbol, balance * rate)
+                currentCurrency.currencySymbol, Utils.scaleFloat(balance * rate))
 
         holder.view.setOnClickListener {
             onItemClickListener.onItemClick(tokenType, address)
