@@ -61,8 +61,7 @@ class SendFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun setQRHandler() {
         qr.setResultHandler {
             address = it.text
             addressTextView.text = address
@@ -77,6 +76,12 @@ class SendFragment : Fragment() {
             sendTokenList.adapter = tokenListAdapter
             setupTokens()
         }
+        qr.stopCamera()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setQRHandler()
         qr.startCamera()
     }
 
@@ -88,6 +93,25 @@ class SendFragment : Fragment() {
     private fun setupListeners() {
         backButton.setOnClickListener {
             listener.onBackClick()
+        }
+
+        qr_frame.setOnClickListener {
+            if (qr.visibility == View.GONE) {
+                address = null
+
+                fromLabel.visibility = View.GONE
+                addressTextView.visibility = View.GONE
+                dividerSend.visibility = View.GONE
+                hoverLabel.visibility = View.VISIBLE
+                qr.visibility = View.VISIBLE
+
+                tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
+                sendTokenList.adapter = tokenListAdapter
+                setupTokens()
+
+                setQRHandler()
+                qr.startCamera()
+            }
         }
     }
 

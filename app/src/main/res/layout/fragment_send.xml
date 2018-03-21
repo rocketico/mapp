@@ -22,7 +22,7 @@
             app:borderColor="@color/colorPrimaryDark"
             app:borderLength="10dp"
             app:squaredFinder="true"
-            app:finderOffset="40dp"
+            app:finderOffset="30dp"
             app:maskColor="@color/transparentColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
