@@ -38,6 +38,8 @@ class SendFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        address = null
+
         tokens = mutableListOf()
         tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
         sendTokenList.layoutManager = LinearLayoutManager(context)
