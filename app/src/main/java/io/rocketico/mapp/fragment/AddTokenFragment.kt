@@ -39,6 +39,7 @@ class AddTokenFragment : Fragment() {
         itemListener = activity as AddTokenFlexibleItem.OnItemClickListener
         availableTokens = TokenType.values()
 
+        //todo remove added tokens
         availableTokens.forEach {
             if (it == TokenType.ETH) return@forEach
 
@@ -92,6 +93,7 @@ class AddTokenFragment : Fragment() {
             override fun onQueryTextChange(newText: String): Boolean {
                 setupRecyclerView()
 
+                //todo remove added tokens
                 availableTokens.forEach {
                     if (it == TokenType.ETH) return@forEach
 
