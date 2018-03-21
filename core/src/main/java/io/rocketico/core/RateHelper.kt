@@ -46,8 +46,10 @@ object RateHelper {
     }
 
     fun isOutdated(context: Context, currency: Currency): Boolean {
-        //todo add check
-        return !existsRates(context, currency)
+        if (!existsRates(context, currency)) return true
+        val currentTime = System.currentTimeMillis()
+        val differenceTime = currentTime - Paper.book(RATES_DB_KEY).lastModified(currency.codeName)
+        return differenceTime > 1000 * 60 * 60 * 5 //5h //todo move to constants or settings
     }
 
     fun getCurrentCurrency(context: Context): Currency {

@@ -4,7 +4,6 @@ import android.content.Context
 import io.paperdb.Paper
 import io.rocketico.core.model.TokenType
 import java.math.BigInteger
-import java.util.*
 
 object BalanceHelper {
     private const val BALANCE_DB_KEY = "balance_db_key"
@@ -19,8 +18,16 @@ object BalanceHelper {
         return Paper.book(BALANCE_DB_KEY).read<BigInteger>(tokenType.codeName)
     }
 
-    //todo implement: return true if balance not saved and if balance is outdated
+    fun exists(context: Context, tokenType: TokenType): Boolean {
+        Paper.init(context)
+        return Paper.book(BALANCE_DB_KEY).contains(tokenType.codeName)
+    }
+
     fun isTokenBalanceOutdated(context: Context, tokenType: TokenType): Boolean {
-        return Random().nextBoolean()
+        Paper.init(context)
+        if (!exists(context, tokenType)) return true
+        val currentTime = System.currentTimeMillis()
+        val differenceTime = currentTime - Paper.book(BALANCE_DB_KEY).lastModified(tokenType.codeName)
+        return differenceTime > 1000 * 60 * 60 * 5 //5h //todo move to constants or settings
     }
 }
