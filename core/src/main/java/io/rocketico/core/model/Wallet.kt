@@ -10,7 +10,7 @@ class Wallet(
         val publicKey: String,
         var name: String,
         var ethBalanceLastUpdate: Date? = Date(),
-        var tokens: MutableList<Token>? = null,
+        var tokens: MutableList<TokenType>? = null,
         val uuid: UUID = UUID.randomUUID()
 ) : Serializable {
     val address: String

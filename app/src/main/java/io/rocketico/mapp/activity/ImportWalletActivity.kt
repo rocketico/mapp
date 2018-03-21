@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
-import io.rocketico.core.model.Token
-import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R

@@ -9,17 +9,11 @@ import android.view.ViewGroup
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
-import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
-import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenSendFlexibleItem
 import kotlinx.android.synthetic.main.fragment_send.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 
 class SendFragment : Fragment() {
 
@@ -58,8 +52,8 @@ class SendFragment : Fragment() {
         tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, TokenType.ETH, address, itemListener))
 
         wallet.tokens?.forEach {
-            if (it.isEther) return@forEach // skip ether token
-            tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, it.type, address, itemListener))
+            if (it.isEther()) return@forEach // skip ether token
+            tokenListAdapter.addItem(TokenSendFlexibleItem(context!!, it, address, itemListener))
         }
     }
 

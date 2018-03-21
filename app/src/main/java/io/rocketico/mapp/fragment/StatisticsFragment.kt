@@ -11,7 +11,6 @@ import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.WalletManager
-import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
@@ -30,7 +29,7 @@ class StatisticsFragment : Fragment() {
     lateinit var walletManager: WalletManager
     lateinit var wallet: Wallet
 
-    lateinit var token: Token
+    lateinit var token: TokenType
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_statistics, container, false)
@@ -39,7 +38,7 @@ class StatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getSerializable(TOKEN_KEY)?.let { token = it as Token }
+        arguments?.getSerializable(TOKEN_KEY)?.let { token = it as TokenType }
 
         //todo move init wallet to fragment's constructor parameters
         walletManager = WalletManager(context!!)
@@ -107,13 +106,13 @@ class StatisticsFragment : Fragment() {
                         foundTokensCount++
                     } else {
                         val walletToken = wallet.tokens!!.find { walletToken ->
-                            (rateItem?.tokenSymbol == walletToken.type.codeName)
+                            (rateItem?.tokenSymbol == walletToken.codeName)
                         } ?: return@forEach
 
                         //todo debug
                         val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(
                                 context!!,
-                                walletToken.type
+                                walletToken
                         ) ?: return@forEach)
                         averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, balance)
 
@@ -174,7 +173,7 @@ class StatisticsFragment : Fragment() {
 
     companion object {
         val TOKEN_KEY = "token_key"
-        fun newInstance(token: Token? = null): StatisticsFragment {
+        fun newInstance(token: TokenType? = null): StatisticsFragment {
             val bundle = Bundle()
             token?.let {
                 bundle.putSerializable(TOKEN_KEY, token)

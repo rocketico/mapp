@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
-import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
@@ -62,7 +61,7 @@ class CreateWalletActivity : AppCompatActivity() {
                 wallet.privateKey = keyPair.privateKey.toString(16)
                 wallet.tokens = mutableListOf()
 
-                wallet.tokens!!.add(Token(TokenType.TEST)) //todo Debug. Remove me
+                wallet.tokens!!.add(TokenType.TEST) //todo Debug. Remove me
 
                 if (wm.existsWallet()) {
                     wm.deleteWallet()

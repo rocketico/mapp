@@ -12,6 +12,7 @@ enum class TokenType(val codeName: String,
                      val available: Float,
                      val support: Float,
                      val blockChain: String) : Serializable {
+
     ETH("ETH",
             18,
             "",
@@ -32,6 +33,10 @@ enum class TokenType(val codeName: String,
             99.5f,
             230.0f,
             "gastracker.io"); //todo test token. Remove me
+
+    fun isEther(): Boolean {
+        return codeName == TokenType.ETH.codeName
+    }
 
     override fun toString(): String {
         return codeName

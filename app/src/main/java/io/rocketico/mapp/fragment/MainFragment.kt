@@ -124,9 +124,9 @@ class MainFragment : Fragment() {
 
             //fill other tokens
             wallet.tokens?.forEach {
-                if (it.isEther) return@forEach // skip ether token
+                if (it.isEther()) return@forEach // skip ether token
 
-                val tokenType = it.type
+                val tokenType = it
 
                 if (BalanceHelper.isTokenBalanceOutdated(context!!, tokenType)) {
                     BalanceHelper.saveTokenBalance(context!!, tokenType, ethHelper.getBalanceErc20(
@@ -150,8 +150,8 @@ class MainFragment : Fragment() {
                 tokenListAdapter.addItem(TokenFlexibleItem(context!!, TokenType.ETH, itemListener))
 
                 wallet.tokens?.forEach {
-                    if (it.isEther) return@forEach // skip ether token
-                    tokenListAdapter.addItem(TokenFlexibleItem(context!!, it.type, itemListener))
+                    if (it.isEther()) return@forEach // skip ether token
+                    tokenListAdapter.addItem(TokenFlexibleItem(context!!, it, itemListener))
                 }
 
                 fiatCurrency.text = currentCurrency.currencySymbol

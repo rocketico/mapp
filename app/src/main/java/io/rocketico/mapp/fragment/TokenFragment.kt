@@ -19,7 +19,6 @@ import io.rocketico.core.MarketsInfoHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
-import io.rocketico.core.model.Token
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.R
@@ -81,7 +80,7 @@ class TokenFragment : Fragment() {
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
-                0 -> StatisticsFragment.newInstance(Token(tokenType)) //todo change it
+                0 -> StatisticsFragment.newInstance(tokenType)
                 1 -> HistoryFragment()
                 else -> throw IllegalArgumentException()
             }
