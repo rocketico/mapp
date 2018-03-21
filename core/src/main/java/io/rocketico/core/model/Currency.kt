@@ -3,8 +3,7 @@ package io.rocketico.core.model
 import java.io.Serializable
 
 enum class Currency(val codeName: String, val currencySymbol: String): Serializable {
-    USD("USD", "$"),
-    TEST("TEST", "T"); //todo Debug. remove
+    USD("USD", "$");
 
     override fun toString(): String {
         return codeName

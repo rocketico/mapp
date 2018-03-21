@@ -89,7 +89,6 @@ class MainFragment : Fragment() {
     private fun showTokens() {
         val itemListener = activity as TokenFlexibleItem.OnItemClickListener
 
-        //TODO for debug
         doAsync({
             context?.runOnUiThread {
                 toast(getString(R.string.update_info_error) + ": " + it.message)

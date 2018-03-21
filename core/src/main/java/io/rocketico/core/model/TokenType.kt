@@ -22,17 +22,7 @@ enum class TokenType(val codeName: String,
             "ethereumclassic.org",
             99.5f,
             230.0f,
-            "gastracker.io"),
-    TEST("AED",
-            18,
-            "0x8f6a033f38a41cf12c4fe28ae7475187ab9884cc",
-            "July 30, 2015",
-            "Ethash",
-            "Try Cloud Mining",
-            "ethereumclassic.org",
-            99.5f,
-            230.0f,
-            "gastracker.io"); //todo test token. Remove me
+            "gastracker.io");
 
     fun isEther(): Boolean {
         return codeName == TokenType.ETH.codeName
