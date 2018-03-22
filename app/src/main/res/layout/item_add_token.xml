@@ -6,8 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/white">
 
-    <!--todo change icon-->
-    <!--todo remove text (on the right)-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/tokenImage"
         android:layout_width="28dp"
@@ -15,7 +13,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@mipmap/ic_launcher_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,11 +35,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         android:theme="@style/WalletItemTextStyle.Large"
         app:layout_constraintBottom_toTopOf="@+id/tokenMarket"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="9596.65" />
+        tools:text="0.014" />
 
     <TextView
         android:id="@+id/tokenMarket"
@@ -49,11 +48,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="12dp"
+        android:visibility="invisible"
         android:theme="@style/WalletItemTextStyle.Small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tokenCoast"
-        tools:text="$ 20504030" />
+        tools:text="Bitrix" />
 
     <View
         android:layout_width="0dp"
