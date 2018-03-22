@@ -1,8 +1,6 @@
 package io.rocketico.mapp.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import de.hdodenhof.circleimageview.CircleImageView
@@ -10,14 +8,16 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
-import io.rocketico.core.BalanceHelper
-import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
+import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_send_token.view.*
 
-data class SendTokenFlexibleItem(private val context: Context, val tokenType: TokenType) :
+data class SendTokenFlexibleItem(val tokenType: TokenType,
+                                 private val currentCurrency: Currency,
+                                 private val tokenBalance: Float,
+                                 private val tokenRate: Float) :
         AbstractFlexibleItem<SendTokenFlexibleItem.ViewHolder>() {
 
     override fun getLayoutRes() = R.layout.item_send_token
@@ -28,14 +28,12 @@ data class SendTokenFlexibleItem(private val context: Context, val tokenType: To
 
     @SuppressLint("StringFormatMatches")
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        val currentCurrency = RateHelper.getCurrentCurrency(context)
-        val rate = RateHelper.getTokenRate(context,tokenType, currentCurrency)?.rate!!
-        val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context, tokenType)!!)
+        val context = holder.itemView.context
 
         holder.tokenName.text = tokenType.codeName
-        holder.tokenBalance.text = balance.toString()
+        holder.tokenBalance.text = tokenBalance.toString()
         holder.tokenFiatBalance.text = context.getString(R.string.balance_template,
-                currentCurrency.currencySymbol, Utils.scaleFloat(balance * rate))
+                currentCurrency.currencySymbol, Utils.scaleFloat(tokenBalance * tokenRate))
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {

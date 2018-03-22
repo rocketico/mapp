@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
+import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
@@ -22,6 +23,8 @@ class SendFragment : Fragment() {
 
     private lateinit var walletManager: WalletManager
     private lateinit var wallet: Wallet
+
+    private lateinit var currentCurrency: Currency
 
     private var address: String? = null
 
@@ -58,12 +61,20 @@ class SendFragment : Fragment() {
     }
 
     private fun setupTokens() {
-        listAdapter.addItem(SendTokenFlexibleItem(context!!, TokenType.ETH))
+        currentCurrency = RateHelper.getCurrentCurrency(context!!)
+
+        val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)!!
+        val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate!!
+        listAdapter.addItem(SendTokenFlexibleItem(TokenType.ETH, currentCurrency,
+                Utils.bigIntegerToFloat(ethBalance), ethRate))
 
         wallet.tokens?.forEach {
             if (it.isEther()) return@forEach
 
-            listAdapter.addItem(SendTokenFlexibleItem(context!!, it))
+            val tokenBalance = BalanceHelper.loadTokenBalance(context!!, it)!!
+            val tokenRate = RateHelper.getTokenRate(context!!, it, currentCurrency)?.rate!!
+            listAdapter.addItem(SendTokenFlexibleItem(it, currentCurrency,
+                    Utils.bigIntegerToFloat(tokenBalance), tokenRate))
         }
     }
 
