@@ -30,4 +30,10 @@ object BalanceHelper {
         val differenceTime = currentTime - Paper.book(BALANCE_DB_KEY).lastModified(tokenType.codeName)
         return differenceTime > 1000 * 60 * 60 * 5 //5h //todo move to constants or settings
     }
+
+    //force make token balance outdated
+    fun outDateBalance(context: Context, tokenType: TokenType) {
+        Paper.init(context)
+        Paper.book(BALANCE_DB_KEY).delete(tokenType.codeName)
+    }
 }

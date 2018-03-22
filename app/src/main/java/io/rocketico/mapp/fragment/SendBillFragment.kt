@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.afollestad.materialdialogs.MaterialDialog
-import io.rocketico.core.EthereumHelper
-import io.rocketico.core.RateHelper
-import io.rocketico.core.Utils
-import io.rocketico.core.WalletManager
+import io.rocketico.core.*
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.Cc
@@ -102,13 +99,22 @@ class SendBillFragment : Fragment() {
                             address,
                             ethBigInteger,
                             BigInteger.valueOf(gasPrice.toLong()))!!
+
+                    if (!response.isBlank()) {
+                        BalanceHelper.outDateBalance(context!!, TokenType.ETH)
+                    }
                 } else {
                     response = ethHelper.sendErc20(wallet.privateKey,
                             tokenType.contractAddress,
                             address,
                             ethBigInteger,
                             BigInteger.valueOf(gasPrice.toLong()))!!.transactionHash
+
+                    if (!response.isBlank()) {
+                        BalanceHelper.outDateBalance(context!!, tokenType)
+                    }
                 }
+
                 uiThread {
                     dialog.dismiss()
                     listener.onCloseClick()
