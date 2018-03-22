@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.widget.SwipeRefreshLayout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -12,13 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import io.rocketico.core.BalanceHelper
-import io.rocketico.core.MarketsInfoHelper
-import io.rocketico.core.RateHelper
-import io.rocketico.core.Utils
+import io.rocketico.core.*
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.response.TokenInfoFromMarket
+import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.ExpandableListAdapter
 import io.rocketico.mapp.adapter.FiatCurrencySpinnerAdapter
@@ -26,16 +25,18 @@ import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
 import kotlinx.android.synthetic.main.header_main.*
+import kotlinx.android.synthetic.main.item_markets.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
-class TokenFragment : Fragment() {
+class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var listener: TokenFragmentListener
     private lateinit var tokenType: TokenType
-    private var list: List<TokenInfoFromMarket>? = null
+    private lateinit var list: List<TokenInfoFromMarket>
+    private lateinit var listItemData: MutableList<String>
     private lateinit var currentCurrency: Currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +87,8 @@ class TokenFragment : Fragment() {
             override fun getCount(): Int = 2
         }
 
+        refresher.setColorSchemeColors(resources.getColor(R.color.colorPrimaryDark))
+
         setupExchangesList()
         setupListeners()
         setupCurrencySpinner()
@@ -100,8 +103,8 @@ class TokenFragment : Fragment() {
                 it.printStackTrace()
             }
         }) {
-            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)
-            list?.forEach { listItemData.add(it.marketName) }
+            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)!!
+            list.forEach { listItemData.add(it.marketName) }
 
             uiThread {
                 markets.setOnChildClickListener { _, v, _, _, _ ->
@@ -134,7 +137,7 @@ class TokenFragment : Fragment() {
 
     @SuppressLint("StringFormatMatches")
     private fun fillInfo(position: Int) {
-        val info = list!![position]
+        val info = list[position]
 
         marketCapitalization.text = getString(R.string.balance_template,
                 currentCurrency.currencySymbol, info.marketCapitalization)
@@ -187,6 +190,44 @@ class TokenFragment : Fragment() {
             }
 
         })
+
+        refresher.setOnRefreshListener(this)
+    }
+
+    override fun onRefresh() {
+        doAsync {
+            val newRates = RateHelper.getTokenRateByDate()
+            RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(newRates!!))
+
+            val wallet = WalletManager(context!!).getWallet()!!
+            val ethHelper = EthereumHelper(Cc.ETH_NODE)
+            if (tokenType == TokenType.ETH) {
+                BalanceHelper.saveTokenBalance(context!!, tokenType, ethHelper.getBalance(wallet.address))
+            } else {
+                BalanceHelper.saveTokenBalance(context!!, tokenType, ethHelper.getBalanceErc20(
+                        tokenType.contractAddress,
+                        wallet.address,
+                        wallet.privateKey))
+            }
+
+            listItemData = mutableListOf()
+            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)!!
+            list.forEach { listItemData.add(it.marketName) }
+
+            uiThread {
+                val rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
+                val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
+
+                if (tokenType == TokenType.ETH) tokensTotal.text = balance.toString()
+                else {
+                    val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
+                    tokensTotal.text = RateHelper.convertCurrency(rate!!, ethRate!!, balance).toString()
+                }
+                fiatTotal.text = Utils.scaleFloat(balance * rate!!)
+
+                refresher.isRefreshing = false
+            }
+        }
     }
 
     private fun setupCurrencySpinner() {
