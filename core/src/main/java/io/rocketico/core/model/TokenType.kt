@@ -13,16 +13,28 @@ enum class TokenType(val codeName: String,
                      val support: Float,
                      val blockChain: String) : Serializable {
 
+    //todo change description of tokens
     ETH("ETH",
             18,
             "",
             "July 30, 2015",
-            "Ethash",
-            "Try Cloud Mining",
-            "ethereumclassic.org",
-            99.5f,
-            230.0f,
-            "gastracker.io");
+            "",
+            "",
+            "https://www.ethereum.org",
+            0f,
+            0f,
+            "https://etherscan.io"),
+
+    WABI("WABI",
+            18,
+            "0x286bda1413a2df81731d4930ce2f862a35a609fe",
+            "",
+            "",
+            "",
+            "https://wacoin.io",
+            0f,
+            0f,
+            "https://etherscan.io");
 
     fun isEther(): Boolean {
         return codeName == TokenType.ETH.codeName
