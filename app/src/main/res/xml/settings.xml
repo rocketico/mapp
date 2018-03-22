@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/customization" />
+    <!--<PreferenceCategory android:title="@string/customization" />-->
 
-    <ListPreference
-        android:entries="@array/language_title"
-        android:entryValues="@array/language_code"
-        android:key="lang"
-        android:title="Language" />
+    <!--<ListPreference-->
+        <!--android:entries="@array/language_title"-->
+        <!--android:entryValues="@array/language_code"-->
+        <!--android:key="lang"-->
+        <!--android:title="Language" />-->
 
     <PreferenceCategory android:title="@string/privacy_and_security" />
 

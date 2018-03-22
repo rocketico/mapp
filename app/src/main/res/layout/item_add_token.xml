@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:background="@color/white">
 
+    <!--todo change icon-->
+    <!--todo remove text (on the right)-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/tokenImage"
         android:layout_width="28dp"

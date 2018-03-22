@@ -86,6 +86,7 @@ class MainFragment : Fragment() {
         showTokens()
     }
 
+    //todo implement getting info async in separated threads
     private fun showTokens() {
         val itemListener = activity as TokenFlexibleItem.OnItemClickListener
 

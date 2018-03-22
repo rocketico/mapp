@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/listBackground">
@@ -29,6 +28,7 @@
         sothree:umanoFadeColor="@color/transparentColor"
         sothree:umanoPanelHeight="48dp">
 
+        <!--todo add swipe to refresh ability -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tokenList"
             android:layout_width="match_parent"

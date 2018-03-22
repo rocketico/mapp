@@ -8,6 +8,9 @@ import io.rocketico.mapp.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
+    //todo implement logout
+    //todo implement export private key via share
+
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.settings);
     }

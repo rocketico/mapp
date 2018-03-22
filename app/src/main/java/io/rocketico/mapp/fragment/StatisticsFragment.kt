@@ -135,6 +135,7 @@ class StatisticsFragment : Fragment() {
                 subColumnsData.add(SubcolumnValue(averageVolume));
             }
 
+            //todo replace by "context?.runOnUiThread"
             uiThread {
                 topValue.text = Utils.round(ethTopValue, 5).toString()
                 bottomValue.text = Utils.round(ethBottomValue, 5).toString()
