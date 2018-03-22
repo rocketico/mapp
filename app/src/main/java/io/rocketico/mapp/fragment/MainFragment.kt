@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -30,7 +31,7 @@ import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var fragmentListener: MainFragmentListener
     private lateinit var listAdapter: FlexibleAdapter<IFlexible<*>>
@@ -71,6 +72,8 @@ class MainFragment : Fragment() {
         }
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
+
+        refresher.setColorSchemeColors(resources.getColor(R.color.colorPrimaryDark))
 
         setupRecyclerViews()
         setupListeners()
@@ -209,6 +212,60 @@ class MainFragment : Fragment() {
             fragmentListener.onTokenListItemClick(listItem.tokenType)
             true
         })
+
+        refresher.setOnRefreshListener(this)
+    }
+
+    override fun onRefresh() {
+        doAsync {
+            val newRates = RateHelper.getTokenRateByDate()
+            RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(newRates!!))
+
+            BalanceHelper.saveTokenBalance(context!!, TokenType.ETH, ethHelper.getBalance(wallet.address))
+
+            wallet.tokens?.forEach {
+                BalanceHelper.saveTokenBalance(context!!, it, ethHelper.getBalanceErc20(
+                        it.contractAddress,
+                        wallet.address,
+                        wallet.privateKey))
+            }
+
+            uiThread {
+                var totalBalance = 0f
+                var totalFiatBalance = 0f
+
+                val rates = RateHelper.loadRates(context!!, currentCurrency).rates
+                val ethRate = rates.find { it.tokenType == TokenType.ETH }?.rate!!
+
+                val newItems = listAdapter.currentItems
+                newItems.forEach {
+                    if (it is TokenFlexibleItem) {
+                        val tokenType = it.tokenType
+
+                        val tokenRate = rates.find { it.tokenType ==  tokenType}?.rate!!
+                        val tokenBalance = BalanceHelper.loadTokenBalance(context!!, tokenType)!!
+                        val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, tokenType.decimals)
+
+                        it.tokenRate = tokenRate
+                        it.tokenBalance = floatTokenBalance
+
+                        totalBalance += if (tokenType == TokenType.ETH) {
+                            floatTokenBalance
+                        } else {
+                            RateHelper.convertCurrency(tokenRate, ethRate, floatTokenBalance)
+                        }
+                        totalFiatBalance += floatTokenBalance * tokenRate
+                    }
+                }
+
+                fiatCurrency.text = currentCurrency.currencySymbol
+                tokensTotal.text = totalBalance.toString()
+                fiatTotal.text = Utils.scaleFloat(totalFiatBalance)
+
+                listAdapter.updateDataSet(newItems)
+                refresher.isRefreshing = false
+            }
+        }
     }
 
     interface MainFragmentListener {

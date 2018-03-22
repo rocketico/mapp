@@ -19,9 +19,9 @@ import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_token.view.*
 
 data class TokenFlexibleItem(val tokenType: TokenType,
-                             private val currentCurrency: Currency,
-                             private val tokenBalance: Float,
-                             private val tokenRate: Float) :
+                             var currentCurrency: Currency,
+                             var tokenBalance: Float,
+                             var tokenRate: Float) :
         AbstractFlexibleItem<TokenFlexibleItem.ViewHolder>() {
 
     override fun getLayoutRes() = R.layout.item_token
