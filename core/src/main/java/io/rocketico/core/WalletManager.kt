@@ -45,7 +45,7 @@ class WalletManager(val context: Context) {
     fun deleteWallet() {
         Paper.init(context)
         WalletsPasswordManager.deleteWalletPrivateKey(getWallet()?.uuid!!)
-        Paper.book(WALLETS_DATABASE).delete(WALLET_KEY.toString())
+        Paper.book(WALLETS_DATABASE).delete(WALLET_KEY)
     }
 
     fun existsWallet(): Boolean {
