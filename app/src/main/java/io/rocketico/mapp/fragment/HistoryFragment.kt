@@ -33,12 +33,16 @@ class HistoryFragment : Fragment() {
     private var currentDirection: TokenDirection = TokenDirection.ALL
     private var currentDayRange: Int = 1
 
+    private var tokenType: TokenType? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_history, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        arguments?.getSerializable(TOKEN_TYPE)?.let { tokenType = it as TokenType }
 
         ethereumHelper = EthereumHelper(Cc.ETH_NODE)
         showHistory()
@@ -145,10 +149,20 @@ class HistoryFragment : Fragment() {
     }
 
     companion object {
+        private const val TOKEN_TYPE = "token_type"
+
         private enum class TokenDirection {
             OUT,
             IN,
             ALL
+        }
+
+        fun newInstance(tokenType: TokenType? = null): HistoryFragment {
+            val fragment = HistoryFragment()
+            val bundle = Bundle()
+            tokenType?.let { bundle.putSerializable(TOKEN_TYPE, it) }
+            fragment.arguments = bundle
+            return fragment
         }
     }
 }

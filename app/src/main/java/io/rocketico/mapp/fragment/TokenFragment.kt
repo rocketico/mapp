@@ -79,7 +79,7 @@ class TokenFragment : Fragment() {
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
                 0 -> StatisticsFragment.newInstance(tokenType)
-                1 -> HistoryFragment()
+                1 -> HistoryFragment.newInstance(tokenType)
                 else -> throw IllegalArgumentException()
             }
 

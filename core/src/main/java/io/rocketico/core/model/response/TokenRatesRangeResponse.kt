@@ -8,7 +8,7 @@ data class TokenRatesRangeResponse(
 ) {
     data class RatesItem(
             val date: Date? = null,
-            val values: List<ValuesItem?>? = null
+            var values: List<ValuesItem?>? = null
     ) {
         data class ValuesItem(
                 val tokenSymbol: String? = null,

@@ -29,7 +29,7 @@ class StatisticsFragment : Fragment() {
     lateinit var walletManager: WalletManager
     lateinit var wallet: Wallet
 
-    lateinit var token: TokenType
+    private var token: TokenType? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_statistics, container, false)
@@ -89,12 +89,22 @@ class StatisticsFragment : Fragment() {
                 it.printStackTrace()
             }
         }) {
-            val rates = RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date())
+            var rates = RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date())?.rates
+
+            token?.let {
+                val token = it
+
+                for (i in 0 until rates?.size!!) {
+                    rates[i]?.values = rates[i]?.values?.filter {
+                        it?.tokenSymbol?.toLowerCase() ==  token.codeName.toLowerCase()
+                    }
+                }
+            }
 
             var ethTopValue = Float.MIN_VALUE;
             var ethBottomValue = Float.MAX_VALUE;
 
-            rates?.rates?.forEachIndexed { index, ratesItem ->
+            rates?.forEachIndexed { index, ratesItem ->
                 var averageYInEther = 0f
                 var averageVolume = 0f
                 var foundTokensCount = 0
