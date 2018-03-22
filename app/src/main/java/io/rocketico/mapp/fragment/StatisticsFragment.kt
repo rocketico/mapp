@@ -89,7 +89,7 @@ class StatisticsFragment : Fragment() {
                 it.printStackTrace()
             }
         }) {
-            var rates = RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date())?.rates
+            val rates = RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date())?.rates
 
             token?.let {
                 val token = it

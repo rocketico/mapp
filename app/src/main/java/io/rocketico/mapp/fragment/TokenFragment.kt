@@ -89,7 +89,6 @@ class TokenFragment : Fragment() {
         setupExchangesList()
         setupListeners()
         setupCurrencySpinner()
-        //todo implement show charts and history for current token
     }
 
     private fun setupExchangesList() {

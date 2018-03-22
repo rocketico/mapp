@@ -12,6 +12,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.EthereumHelper
 import io.rocketico.core.RateHelper
+import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
@@ -32,6 +33,7 @@ class HistoryFragment : Fragment() {
     lateinit var ethereumHelper: EthereumHelper
     private var currentDirection: TokenDirection = TokenDirection.ALL
     private var currentDayRange: Int = 1
+    private lateinit var walletManager: WalletManager
 
     private var tokenType: TokenType? = null
 
@@ -45,6 +47,8 @@ class HistoryFragment : Fragment() {
         arguments?.getSerializable(TOKEN_TYPE)?.let { tokenType = it as TokenType }
 
         ethereumHelper = EthereumHelper(Cc.ETH_NODE)
+        walletManager = WalletManager(context!!)
+
         showHistory()
         setupButtons()
     }
@@ -97,7 +101,18 @@ class HistoryFragment : Fragment() {
             }
         }) {
             //todo implement choosing days count
-            val history = ethereumHelper.getTokensHistory(listOf("", ""), Utils.nDaysAgo(currentDayRange))
+            val wallet = walletManager.getWallet()!!
+
+            val typeList: MutableList<String>
+
+            if (tokenType == null) {
+                typeList = wallet.tokens?.map { it.codeName }?.toMutableList()!!
+                typeList.add(TokenType.ETH.codeName)
+            } else {
+                typeList = mutableListOf(tokenType?.codeName!!)
+            }
+
+            val history = ethereumHelper.getTokensHistory(typeList, Utils.nDaysAgo(currentDayRange))
             val rates = RateHelper.getTokenRateByDate()
 
             uiThread {
