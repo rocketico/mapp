@@ -32,9 +32,8 @@ import org.jetbrains.anko.uiThread
 
 class MainFragment : Fragment() {
 
-    private lateinit var mainFragmentListener: MainFragmentListener
-    private lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
-    private lateinit var tokens: MutableList<TokenFlexibleItem>
+    private lateinit var fragmentListener: MainFragmentListener
+    private lateinit var listAdapter: FlexibleAdapter<IFlexible<*>>
 
     private lateinit var walletManager: WalletManager
     private lateinit var wallet: Wallet
@@ -46,7 +45,7 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainFragmentListener = activity as MainFragmentListener
+        fragmentListener = activity as MainFragmentListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,85 +72,76 @@ class MainFragment : Fragment() {
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
 
-        setupListeners()
         setupRecyclerViews()
+        setupListeners()
     }
 
     private fun setupRecyclerViews() {
-        tokens = mutableListOf()
-        tokenListAdapter = FlexibleAdapter(tokens as List<IFlexible<*>>)
+        val tokens = mutableListOf<IFlexible<*>>()
+        listAdapter = FlexibleAdapter(tokens)
         tokenList.layoutManager = LinearLayoutManager(context)
-        tokenList.adapter = tokenListAdapter
+        tokenList.adapter = listAdapter
 
         showTokens()
     }
 
     //todo implement getting info async in separated threads
     private fun showTokens() {
-        val itemListener = activity as TokenFlexibleItem.OnItemClickListener
-
         doAsync({
             context?.runOnUiThread {
                 toast(getString(R.string.update_info_error) + ": " + it.message)
                 it.printStackTrace()
             }
         }) {
-            var totalBalance = 0f
-            var totalFiatBalance = 0f
-
+            //updating balances and rates
             if (RateHelper.isOutdated(context!!, currentCurrency)) {
                 val tmp = RateHelper.getTokenRateByDate()
                 RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(tmp!!))
             }
 
-            val rates = RateHelper.loadRates(context!!, currentCurrency).rates
-
-            //fill ether token
-            val ethRate = rates.find { it.tokenType.codeName == TokenType.ETH.codeName }?.rate
-
             if (BalanceHelper.isTokenBalanceOutdated(context!!, TokenType.ETH)) {
                 BalanceHelper.saveTokenBalance(context!!, TokenType.ETH, ethHelper.getBalance(wallet.address))
             }
-            val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)!!
 
-            val floatEthBalance = Utils.bigIntegerToFloat(ethBalance)
-
-
-            totalBalance += floatEthBalance
-            if (ethRate != null) {
-                totalFiatBalance += floatEthBalance * ethRate
-            }
-
-            //fill other tokens
             wallet.tokens?.forEach {
-                if (it.isEther()) return@forEach // skip ether token
-
-                val tokenType = it
-
-                if (BalanceHelper.isTokenBalanceOutdated(context!!, tokenType)) {
-                    BalanceHelper.saveTokenBalance(context!!, tokenType, ethHelper.getBalanceErc20(
-                            tokenType.contractAddress,
+                if (BalanceHelper.isTokenBalanceOutdated(context!!, it)) {
+                    BalanceHelper.saveTokenBalance(context!!, it, ethHelper.getBalanceErc20(
+                            it.contractAddress,
                             wallet.address,
                             wallet.privateKey
                     ))
                 }
-
-                val tokenBalance = BalanceHelper.loadTokenBalance(context!!, tokenType)!!
-
-                val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, tokenType.decimals)
-                val tokenRate = rates.find { it.tokenType ==  tokenType}?.rate
-
-                BalanceHelper.saveTokenBalance(context!!, tokenType, tokenBalance)
-
-                totalBalance += RateHelper.convertCurrency(tokenRate!!, ethRate!!, floatTokenBalance)
-                totalFiatBalance += floatTokenBalance * tokenRate
             }
-            uiThread {
-                tokenListAdapter.addItem(TokenFlexibleItem(context!!, TokenType.ETH, itemListener))
 
+            uiThread {
+                var totalBalance = 0f
+                var totalFiatBalance = 0f
+
+                val rates = RateHelper.loadRates(context!!, currentCurrency).rates
+
+                //fill ether token
+                val ethRate = rates.find { it.tokenType == TokenType.ETH }?.rate!!
+                val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)!!
+                val floatEthBalance = Utils.bigIntegerToFloat(ethBalance)
+
+                totalBalance += floatEthBalance
+                totalFiatBalance += floatEthBalance * ethRate
+
+                listAdapter.addItem(TokenFlexibleItem(TokenType.ETH, currentCurrency, floatEthBalance, ethRate))
+
+                //fill other tokens
                 wallet.tokens?.forEach {
-                    if (it.isEther()) return@forEach // skip ether token
-                    tokenListAdapter.addItem(TokenFlexibleItem(context!!, it, itemListener))
+                    val tokenType = it
+
+                    val tokenBalance = BalanceHelper.loadTokenBalance(context!!, tokenType)!!
+                    val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, tokenType.decimals)
+
+                    val tokenRate = rates.find { it.tokenType ==  tokenType}?.rate!!
+
+                    totalBalance += RateHelper.convertCurrency(tokenRate, ethRate, floatTokenBalance)
+                    totalFiatBalance += floatTokenBalance * tokenRate
+
+                    listAdapter.addItem(TokenFlexibleItem(tokenType, currentCurrency, floatTokenBalance, tokenRate))
                 }
 
                 fiatCurrency.text = currentCurrency.currencySymbol
@@ -166,7 +156,7 @@ class MainFragment : Fragment() {
     private fun setupListeners() {
         menuImageButton.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                mainFragmentListener.onMenuButtonClick()
+                fragmentListener.onMenuButtonClick()
                 true
             } else false
         }
@@ -193,7 +183,7 @@ class MainFragment : Fragment() {
         })
 
         fab.setOnClickListener {
-                mainFragmentListener.onFabClick()
+                fragmentListener.onFabClick()
         }
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
@@ -213,11 +203,18 @@ class MainFragment : Fragment() {
             }
 
         })
+
+        listAdapter.addListener(FlexibleAdapter.OnItemClickListener { _, position ->
+            val listItem = listAdapter.getItem(position) as TokenFlexibleItem
+            fragmentListener.onTokenListItemClick(listItem.tokenType)
+            true
+        })
     }
 
     interface MainFragmentListener {
         fun onMenuButtonClick()
         fun onFabClick()
+        fun onTokenListItemClick(tokenType: TokenType)
     }
 
     companion object {

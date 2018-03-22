@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.rocketico.core.RateHelper
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
@@ -35,12 +36,13 @@ class AddTokenFragment : Fragment() {
 
         val availableTokens = TokenType.values()
         val wallet = WalletManager(context!!).getWallet()
+        val currentCurrency = RateHelper.getCurrentCurrency(context!!)
 
         availableTokens.forEach {
             if (it == TokenType.ETH) return@forEach
             if (wallet?.tokens?.contains(it)!!) return@forEach
 
-            listAdapter.addItem(AddTokenFlexibleItem(it))
+            listAdapter.addItem(AddTokenFlexibleItem(it, currentCurrency))
         }
 
         setupSearchEditText()

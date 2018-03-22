@@ -11,8 +11,6 @@ import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
-import io.rocketico.mapp.adapter.AddTokenFlexibleItem
-import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.fragment.AddTokenFragment
 import io.rocketico.mapp.fragment.MainFragment
 import io.rocketico.mapp.fragment.TokenFragment
@@ -20,7 +18,6 @@ import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(),
         MainFragment.MainFragmentListener,
-        TokenFlexibleItem.OnItemClickListener,
         TokenFragment.TokenFragmentListener,
         AddTokenFragment.AddTokenFragmentListener {
 
