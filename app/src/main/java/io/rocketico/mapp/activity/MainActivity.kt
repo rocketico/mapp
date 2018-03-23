@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(),
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, MainFragment.newInstance(wm.getWallet()!!))
                 .commit()
     }
 
@@ -57,14 +57,14 @@ class MainActivity : AppCompatActivity(),
 
     override fun onFabClick() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, AddTokenFragment.newInstance())
+                .replace(R.id.container, AddTokenFragment.newInstance(wm.getWallet()!!))
                 .addToBackStack(null)
                 .commit()
     }
 
     override fun onTokenListItemClick(tokenType: TokenType) {
                 supportFragmentManager.beginTransaction()
-                .replace(R.id.container, TokenFragment.newInstance(tokenType))
+                .replace(R.id.container, TokenFragment.newInstance(wm.getWallet()!!, tokenType))
                 .addToBackStack(null)
                 .commit()
     }

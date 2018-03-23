@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
+import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.*
@@ -18,6 +20,8 @@ class MenuActivity : AppCompatActivity(),
         SendDetailsFragment.SendDetailsFragmentListener,
         SendBillFragment.SendBillFragmentListener {
 
+    private lateinit var wallet: Wallet
+
     override fun onSettingsClick() {
         startActivity(SettingsActivity.getIntent(this))
     }
@@ -25,6 +29,8 @@ class MenuActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+
+        wallet = WalletManager(this).getWallet()!!
 
         init()
     }
@@ -41,14 +47,14 @@ class MenuActivity : AppCompatActivity(),
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0);
         } else {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SendFragment.newInstance())
+                    .replace(R.id.container, SendFragment.newInstance(wallet))
                     .commit()
         }
     }
 
     override fun onReceiveClick() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ReceiveFragment.newInstance())
+                .replace(R.id.container, ReceiveFragment.newInstance(wallet))
                 .addToBackStack(null)
                 .commit()
     }
@@ -72,7 +78,7 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onCreateClick(tokenType: TokenType, eth: Float, gasPrice: Int, address: String) {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendBillFragment.newInstance(tokenType, eth, gasPrice, address))
+                .replace(R.id.container, SendBillFragment.newInstance(wallet, tokenType, eth, gasPrice, address))
                 .addToBackStack(null)
                 .commit()
         Utils.setStatusBarColor(this, resources.getColor(R.color.white))

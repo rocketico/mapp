@@ -26,7 +26,6 @@ import java.util.*
 
 class StatisticsFragment : Fragment() {
 
-    lateinit var walletManager: WalletManager
     lateinit var wallet: Wallet
 
     private var token: TokenType? = null
@@ -40,9 +39,7 @@ class StatisticsFragment : Fragment() {
 
         arguments?.getSerializable(TOKEN_KEY)?.let { token = it as TokenType }
 
-        //todo move init wallet to fragment's constructor parameters
-        walletManager = WalletManager(context!!)
-        wallet = walletManager.getWallet()!!
+        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
 
         showCharts()
         setupButtons()
@@ -145,7 +142,6 @@ class StatisticsFragment : Fragment() {
                 subColumnsData.add(SubcolumnValue(averageVolume));
             }
 
-            //todo replace by "context?.runOnUiThread"
             uiThread {
                 view?.let {
                     topValue.text = Utils.round(ethTopValue, 5).toString()
@@ -185,12 +181,15 @@ class StatisticsFragment : Fragment() {
     }
 
     companion object {
-        val TOKEN_KEY = "token_key"
-        fun newInstance(token: TokenType? = null): StatisticsFragment {
+        private const val TOKEN_KEY = "token_key"
+        private const val WALLET_KEY = "wallet_key"
+
+        fun newInstance(wallet: Wallet, token: TokenType? = null): StatisticsFragment {
             val bundle = Bundle()
             token?.let {
                 bundle.putSerializable(TOKEN_KEY, token)
             }
+            bundle.putSerializable(WALLET_KEY, wallet)
             val result = StatisticsFragment()
             result.arguments = bundle
             return result

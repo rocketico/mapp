@@ -14,6 +14,7 @@ import io.rocketico.core.EthereumHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
+import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
@@ -33,7 +34,7 @@ class HistoryFragment : Fragment() {
     lateinit var ethereumHelper: EthereumHelper
     private var currentDirection: TokenDirection = TokenDirection.ALL
     private var currentDayRange: Int = 1
-    private lateinit var walletManager: WalletManager
+    private lateinit var wallet: Wallet
 
     private var tokenType: TokenType? = null
 
@@ -45,9 +46,9 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.getSerializable(TOKEN_TYPE)?.let { tokenType = it as TokenType }
+        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
 
         ethereumHelper = EthereumHelper(Cc.ETH_NODE)
-        walletManager = WalletManager(context!!)
 
         showHistory()
         setupButtons()
@@ -101,8 +102,6 @@ class HistoryFragment : Fragment() {
             }
         }) {
             //todo implement choosing days count
-            val wallet = walletManager.getWallet()!!
-
             val typeList: MutableList<String>
 
             if (tokenType == null) {
@@ -167,6 +166,7 @@ class HistoryFragment : Fragment() {
 
     companion object {
         private const val TOKEN_TYPE = "token_type"
+        private const val WALLET_KEY = "wallet_key"
 
         private enum class TokenDirection {
             OUT,
@@ -174,10 +174,11 @@ class HistoryFragment : Fragment() {
             ALL
         }
 
-        fun newInstance(tokenType: TokenType? = null): HistoryFragment {
+        fun newInstance(wallet: Wallet, tokenType: TokenType? = null): HistoryFragment {
             val fragment = HistoryFragment()
             val bundle = Bundle()
             tokenType?.let { bundle.putSerializable(TOKEN_TYPE, it) }
+            bundle.putSerializable(WALLET_KEY, wallet)
             fragment.arguments = bundle
             return fragment
         }

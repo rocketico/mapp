@@ -10,6 +10,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.*
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
+import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_bill.*
@@ -24,10 +25,12 @@ class SendBillFragment : Fragment() {
     private lateinit var listener: SendBillFragmentListener
 
     private lateinit var tokenType: TokenType
+    private lateinit var currentCurrency: Currency
+    private lateinit var wallet: Wallet
+
     private var eth: Float = 0f
     private var gasPrice: Int = 0
     private var address: String = ""
-    private lateinit var currentCurrency: Currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,8 @@ class SendBillFragment : Fragment() {
         listener = activity as SendBillFragmentListener
 
         tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
+        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
+
         eth = arguments?.getFloat(ETH)!!
         gasPrice = arguments?.getInt(GAS_PRICE)!!
         address = arguments?.getString(ADDRESS)!!
@@ -76,7 +81,6 @@ class SendBillFragment : Fragment() {
         sendPayment.setOnClickListener {
             val ethBigInteger = Utils.floatToBigInteger(eth, tokenType.decimals)
             val ethHelper = EthereumHelper(Cc.ETH_NODE)
-            val wallet = WalletManager(context!!).getWallet()!!
 
             val dialog = MaterialDialog.Builder(context!!)
                     .title(getString(R.string.please_wait))
@@ -131,14 +135,16 @@ class SendBillFragment : Fragment() {
 
     companion object {
         private const val TOKEN_TYPE = "token_type"
+        private const val WALLET_KEY = "wallet_key"
         private const val ETH = "eth"
         private const val ADDRESS = "address"
         private const val GAS_PRICE = "gas_price"
 
-        fun newInstance(tokenType: TokenType, eth: Float, gasPrice: Int, address: String): SendBillFragment{
+        fun newInstance(wallet: Wallet, tokenType: TokenType, eth: Float, gasPrice: Int, address: String): SendBillFragment{
             val fragment = SendBillFragment()
             val bundle = Bundle()
             bundle.putSerializable(TOKEN_TYPE, tokenType)
+            bundle.putSerializable(WALLET_KEY, wallet)
             bundle.putFloat(ETH, eth)
             bundle.putString(ADDRESS, address)
             bundle.putInt(GAS_PRICE, gasPrice)

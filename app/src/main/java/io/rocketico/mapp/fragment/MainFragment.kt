@@ -36,11 +36,9 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var fragmentListener: MainFragmentListener
     private lateinit var listAdapter: FlexibleAdapter<IFlexible<*>>
 
-    private lateinit var walletManager: WalletManager
-    private lateinit var wallet: Wallet
-
     private lateinit var ethHelper: EthereumHelper
 
+    private lateinit var wallet: Wallet
     private lateinit var currentCurrency: Currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,15 +54,13 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prograssBar.visibility = View.VISIBLE
 
-        walletManager = WalletManager(context!!)
-        wallet = walletManager.getWallet()!!
-
         ethHelper = EthereumHelper(Cc.ETH_NODE)
+        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
-                0 -> StatisticsFragment.newInstance()
-                1 -> HistoryFragment.newInstance()
+                0 -> StatisticsFragment.newInstance(wallet)
+                1 -> HistoryFragment.newInstance(wallet)
                 else -> throw IllegalArgumentException()
             }
 
@@ -277,8 +273,16 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     companion object {
-        fun newInstance(): MainFragment {
-            return MainFragment()
+        private const val WALLET_KEY = "wallet_key"
+
+        fun newInstance(wallet: Wallet): MainFragment {
+            val fragment = MainFragment()
+            val args = Bundle()
+
+            args.putSerializable(WALLET_KEY, wallet)
+            fragment.arguments = args
+
+            return fragment
         }
     }
 }

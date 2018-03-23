@@ -16,6 +16,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.*
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
+import io.rocketico.core.model.Wallet
 import io.rocketico.core.model.response.TokenInfoFromMarket
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
@@ -38,12 +39,14 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var list: List<TokenInfoFromMarket>
     private lateinit var listItemData: MutableList<String>
     private lateinit var currentCurrency: Currency
+    private lateinit var wallet: Wallet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         listener = activity as TokenFragmentListener
         tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
+        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -79,8 +82,8 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
-                0 -> StatisticsFragment.newInstance(tokenType)
-                1 -> HistoryFragment.newInstance(tokenType)
+                0 -> StatisticsFragment.newInstance(wallet, tokenType)
+                1 -> HistoryFragment.newInstance(wallet, tokenType)
                 else -> throw IllegalArgumentException()
             }
 
@@ -246,12 +249,14 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
         private const val TOKEN_TYPE = "token_type"
+        private const val WALLET_KEY = "wallet_key"
 
-        fun newInstance(tokenType: TokenType) : TokenFragment {
+        fun newInstance(wallet: Wallet, tokenType: TokenType) : TokenFragment {
             val fragment = TokenFragment()
             val args = Bundle()
 
             args.putSerializable(TOKEN_TYPE, tokenType)
+            args.putSerializable(WALLET_KEY, wallet)
             fragment.arguments = args
 
             return fragment

@@ -16,7 +16,6 @@ import org.jetbrains.anko.toast
 
 
 class ReceiveFragment : Fragment() {
-    lateinit var walletManager: WalletManager
     lateinit var wallet: Wallet
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,9 +25,7 @@ class ReceiveFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //todo move init wallet to fragment's constructor parameters
-        walletManager = WalletManager(context!!)
-        wallet = walletManager.getWallet()!!
+        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
 
         val qrBitmap = QRCode.from(wallet.address).bitmap()
         qr.setImageBitmap(qrBitmap)
@@ -57,8 +54,14 @@ class ReceiveFragment : Fragment() {
 
 
     companion object {
-        fun newInstance(): ReceiveFragment {
-            return ReceiveFragment()
+        private const val WALLET_KEY = "wallet_key"
+
+        fun newInstance(wallet: Wallet): ReceiveFragment {
+            val fragment = ReceiveFragment()
+            val bundle = Bundle()
+            bundle.putSerializable(WALLET_KEY, wallet)
+            fragment.arguments = bundle
+            return fragment
         }
     }
 }

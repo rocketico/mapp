@@ -12,6 +12,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.RateHelper
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
+import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.AddTokenFlexibleItem
 import kotlinx.android.synthetic.main.fragment_add_token.*
@@ -35,12 +36,12 @@ class AddTokenFragment : Fragment() {
         addTokenList.adapter = listAdapter
 
         val availableTokens = TokenType.values()
-        val wallet = WalletManager(context!!).getWallet()
+        val wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
         val currentCurrency = RateHelper.getCurrentCurrency(context!!)
 
         availableTokens.forEach {
             if (it == TokenType.ETH) return@forEach
-            if (wallet?.tokens?.contains(it)!!) return@forEach
+            if (wallet.tokens?.contains(it)!!) return@forEach
 
             listAdapter.addItem(AddTokenFlexibleItem(it, currentCurrency))
         }
@@ -106,8 +107,16 @@ class AddTokenFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): AddTokenFragment {
-            return AddTokenFragment()
+        private const val WALLET_KEY = "wallet_key"
+
+        fun newInstance(wallet: Wallet): AddTokenFragment {
+            val fragment = AddTokenFragment()
+            val args = Bundle()
+
+            args.putSerializable(WALLET_KEY, wallet)
+            fragment.arguments = args
+
+            return fragment
         }
     }
 }

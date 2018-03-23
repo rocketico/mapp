@@ -21,9 +21,7 @@ class SendFragment : Fragment() {
     private lateinit var fragmentListener: SendFragmentListener
     private lateinit var listAdapter: FlexibleAdapter<IFlexible<*>>
 
-    private lateinit var walletManager: WalletManager
     private lateinit var wallet: Wallet
-
     private lateinit var currentCurrency: Currency
 
     private var address: String? = null
@@ -53,8 +51,7 @@ class SendFragment : Fragment() {
         sendTokenList.layoutManager = LinearLayoutManager(context)
         sendTokenList.adapter = listAdapter
 
-        walletManager = WalletManager(context!!)
-        wallet = walletManager.getWallet()!!
+        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
 
         setupTokens()
         setupListeners()
@@ -125,8 +122,16 @@ class SendFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): SendFragment{
-            return SendFragment()
+        private const val WALLET_KEY = "wallet_key"
+
+        fun newInstance(wallet: Wallet): SendFragment{
+            val fragment = SendFragment()
+            val args = Bundle()
+
+            args.putSerializable(WALLET_KEY, wallet)
+            fragment.arguments = args
+
+            return fragment
         }
     }
 }
