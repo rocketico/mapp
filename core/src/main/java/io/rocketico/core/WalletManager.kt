@@ -12,7 +12,6 @@ class WalletManager(val context: Context) {
     private val WALLET_KEY = "main_wallet"
 
     fun generatePrivateKey(): ECKeyPair? {
-        //return ECKeyPair.create(BigInteger("90653bcaf8bea8d07258ba9191fb0a2496245f916fe8e4b6044017283d15054e", 16)) //todo debug. remove me
         return Keys.createEcKeyPair()
     }
 
