@@ -49,7 +49,7 @@ object RateHelper {
         if (!existsRates(context, currency)) return true
         val currentTime = System.currentTimeMillis()
         val differenceTime = currentTime - Paper.book(RATES_DB_KEY).lastModified(currency.codeName)
-        return differenceTime > 1000 * 60 * 60 * 5 //5h //todo move to constants or settings
+        return differenceTime > Cc.timeout
     }
 
     fun getCurrentCurrency(context: Context): Currency {

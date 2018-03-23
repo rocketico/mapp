@@ -28,7 +28,7 @@ object BalanceHelper {
         if (!exists(context, tokenType)) return true
         val currentTime = System.currentTimeMillis()
         val differenceTime = currentTime - Paper.book(BALANCE_DB_KEY).lastModified(tokenType.codeName)
-        return differenceTime > 1000 * 60 * 60 * 5 //5h //todo move to constants or settings
+        return differenceTime > Cc.timeout
     }
 
     //force make token balance outdated
