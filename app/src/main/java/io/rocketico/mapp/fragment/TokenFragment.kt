@@ -107,30 +107,32 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             list.forEach { listItemData.add(it.marketName) }
 
             uiThread {
-                markets.setOnChildClickListener { _, v, _, _, _ ->
-                    val clickedView = v.findViewById<TextView>(R.id.marketName)
-                    val clickedPosition = listItemData.indexOf(listItemData.find { it == clickedView.text }!!)
+                view?.let {
+                    markets.setOnChildClickListener { _, v, _, _, _ ->
+                        val clickedView = v.findViewById<TextView>(R.id.marketName)
+                        val clickedPosition = listItemData.indexOf(listItemData.find { it == clickedView.text }!!)
 
-                    val newState = mutableListOf<String>()
-                    newState.add(listItemData.find { it == clickedView.text }!!)
+                        val newState = mutableListOf<String>()
+                        newState.add(listItemData.find { it == clickedView.text }!!)
 
-                    for (i in 0 until listItemData.size) {
-                        if (listItemData[i] == clickedView.text) continue
+                        for (i in 0 until listItemData.size) {
+                            if (listItemData[i] == clickedView.text) continue
 
-                        newState.add(listItemData[i])
+                            newState.add(listItemData[i])
+                        }
+
+                        fillInfo(clickedPosition)
+
+                        markets.setAdapter(ExpandableListAdapter(context!!, newState))
+                        false
                     }
 
-                    fillInfo(clickedPosition)
+                    fillInfo(0)
+                    markets.setAdapter(ExpandableListAdapter(context!!, listItemData))
 
-                    markets.setAdapter(ExpandableListAdapter(context!!, newState))
-                    false
+                    helpingLoadView.visibility = View.GONE
+                    prograssBar.visibility = View.GONE
                 }
-
-                fillInfo(0)
-                markets.setAdapter(ExpandableListAdapter(context!!, listItemData))
-
-                helpingLoadView.visibility = View.GONE
-                prograssBar.visibility = View.GONE
             }
         }
     }
