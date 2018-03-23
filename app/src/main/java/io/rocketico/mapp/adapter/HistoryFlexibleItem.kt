@@ -6,87 +6,28 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
+import eu.davidea.viewholders.FlexibleViewHolder
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_history.view.*
 import java.util.*
 
-class HistoryFlexibleItem(val item: HistoryItem) : IFlexible<HistoryFlexibleItem.ViewHolder> {
-    override fun getItemViewType() = 0
-
-    private lateinit var view: View
-    private var position: Int = -1
-
-    override fun onViewDetached(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int) {
-
-    }
-
-    override fun onViewAttached(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int) {
-
-    }
-
-    override fun getBubbleText(position: Int) = ""
-
-    var onItemClickListener: OnItemClickListener? = null
-
-    override fun isEnabled(): Boolean {
-        return true
-    }
-
-    override fun setEnabled(enabled: Boolean) {
-
-    }
-
-    override fun isHidden(): Boolean {
-        return false
-    }
-
-    override fun setHidden(hidden: Boolean) {
-
-    }
-
-    override fun getSpanSize(spanCount: Int, position: Int): Int {
-        return 1
-    }
-
-    override fun shouldNotifyChange(newItem: IFlexible<*>): Boolean {
-        return false
-    }
-
-    override fun isSelectable(): Boolean {
-        return false
-    }
-
-    override fun setSelectable(selectable: Boolean) {
-
-    }
-
-    override fun isDraggable() = false
-
-    override fun setDraggable(draggable: Boolean) {
-
-    }
-
-    override fun isSwipeable() = false
-
-
-    override fun setSwipeable(swipeable: Boolean) {
-
-    }
+data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<HistoryFlexibleItem.ViewHolder>() {
 
     override fun getLayoutRes() = R.layout.item_history
 
     override fun createViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>): ViewHolder {
-        return ViewHolder(view)
+        return ViewHolder(view, adapter)
     }
 
     @SuppressLint("SetTextI18n")
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (item.isReceived) {
-            holder.direction.setImageDrawable(holder.view.resources.getDrawable(R.drawable.ic_direction_down))
+            holder.direction.setImageDrawable(holder.itemView.resources.getDrawable(R.drawable.ic_direction_down))
         } else {
-            holder.direction.setImageDrawable(holder.view.resources.getDrawable(R.drawable.ic_direction_up))
+            holder.direction.setImageDrawable(holder.itemView.resources.getDrawable(R.drawable.ic_direction_up))
         }
         holder.address.text = item.address!!.substring(0..15) + "..."
         holder.valueFiat.text = item.value?.toString()
@@ -96,15 +37,7 @@ class HistoryFlexibleItem(val item: HistoryItem) : IFlexible<HistoryFlexibleItem
         holder.confirmations.text = item.confirmations.toString()
     }
 
-    override fun unbindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int) {
-
-    }
-
-    interface OnItemClickListener {
-        fun onClick(position: Int)
-    }
-
-    class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {
         val direction: ImageView = view.direction
         val address: TextView = view.address
         val valueFiat: TextView = view.valueFiat
