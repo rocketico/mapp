@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Wallet
@@ -73,6 +74,22 @@ class ImportWalletActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        qr.setResultHandler {
+            private_key.setText(it.text)
+            qr.visibility = View.GONE
+        }
+        qr.startCamera()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        qr.stopCamera()
     }
 
     companion object {

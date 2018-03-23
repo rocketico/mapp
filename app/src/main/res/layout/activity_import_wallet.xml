@@ -33,7 +33,6 @@
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="@+id/backButton" />
 
-    <!--todo add scan qr code ability -->
     <android.support.constraint.ConstraintLayout
         android:layout_width="320dp"
         android:layout_height="wrap_content"
@@ -43,6 +42,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3">
+
+        <me.dm7.barcodescanner.zxing.ZXingScannerView
+            android:id="@+id/qr"
+            android:layout_width="0dp"
+            android:layout_height="288dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="19dp"
+            app:squaredFinder="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </me.dm7.barcodescanner.zxing.ZXingScannerView>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textInputLayout"
@@ -54,7 +67,7 @@
             android:theme="@style/DetailEditTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/qr">
 
             <EditText
                 android:id="@+id/private_key"
