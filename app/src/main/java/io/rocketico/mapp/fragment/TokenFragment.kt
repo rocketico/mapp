@@ -109,7 +109,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)!!
             list.forEach { listItemData.add(it.marketName) }
 
-            uiThread {
+            uiThread { //todo change to context?.runOnUiThread
                 view?.let {
                     markets.setOnChildClickListener { _, v, _, _, _ ->
                         val clickedView = v.findViewById<TextView>(R.id.marketName)
@@ -219,7 +219,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)!!
             list.forEach { listItemData.add(it.marketName) }
 
-            uiThread {
+            uiThread { //todo change to context?.runOnUiThread
                 val rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
                 val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
 

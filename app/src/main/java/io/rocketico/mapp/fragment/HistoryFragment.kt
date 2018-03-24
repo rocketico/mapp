@@ -114,7 +114,7 @@ class HistoryFragment : Fragment() {
             val history = ethereumHelper.getTokensHistory(typeList, Utils.nDaysAgo(currentDayRange))
             val rates = RateHelper.getTokenRateByDate()
 
-            uiThread {
+            uiThread { //todo change to context?.runOnUiThread
                 view?.let {
                     history?.forEach { historyItem ->
                         if (currentDirection != TokenDirection.ALL) {

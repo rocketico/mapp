@@ -119,7 +119,7 @@ class SendBillFragment : Fragment() {
                     }
                 }
 
-                uiThread {
+                uiThread { //todo change to context?.runOnUiThread
                     dialog.dismiss()
                     listener.onCloseClick()
                     context?.longToast(context?.getString(R.string.success_transaction, response)!!)

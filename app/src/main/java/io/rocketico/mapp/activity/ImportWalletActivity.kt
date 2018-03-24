@@ -68,7 +68,7 @@ class ImportWalletActivity : AppCompatActivity() {
                 wm.deleteWallet()
             }
             wm.saveWallet(wallet)
-            uiThread {
+            uiThread { //todo change to context?.runOnUiThread
                 dialog.dismiss()
                 startActivity(Intent(this@ImportWalletActivity, MainActivity::class.java))
                 finish()
