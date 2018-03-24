@@ -49,7 +49,7 @@ object RateHelper {
         if (!existsRates(context, currency)) return true
         val currentTime = System.currentTimeMillis()
         val differenceTime = currentTime - Paper.book(RATES_DB_KEY).lastModified(currency.codeName)
-        return differenceTime > Cc.timeout
+        return differenceTime > Cc.HTTP_TIMEOUT
     }
 
     fun getCurrentCurrency(context: Context): Currency {

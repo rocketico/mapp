@@ -28,7 +28,7 @@ object BalanceHelper {
         if (!exists(context, tokenType)) return true
         val currentTime = System.currentTimeMillis()
         val differenceTime = currentTime - Paper.book(BALANCE_DB_KEY).lastModified(tokenType.codeName)
-        return differenceTime > Cc.timeout
+        return differenceTime > Cc.HTTP_TIMEOUT
     }
 
     //force make token balance outdated
