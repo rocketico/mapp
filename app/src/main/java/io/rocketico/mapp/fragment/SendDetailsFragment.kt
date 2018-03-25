@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
@@ -98,9 +99,11 @@ class SendDetailsFragment : Fragment() {
             if (prefix == getString(R.string.prefix_template, tokenType.codeName)) {
                 prefix = getString(R.string.prefix_template, currentCurrency.currencySymbol)
                 quantityEditText.setText(getString(R.string.quantity_template, prefix, fiatQuantity))
+                changeButton.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_right))
             } else {
                 prefix = getString(R.string.prefix_template, tokenType.codeName)
                 quantityEditText.setText(getString(R.string.quantity_template, prefix, ethQuantity))
+                changeButton.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_left))
             }
             Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
         }
