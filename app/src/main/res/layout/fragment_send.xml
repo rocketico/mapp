@@ -14,73 +14,96 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <me.dm7.barcodescanner.zxing.ZXingScannerView
-            android:id="@+id/qr"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:laserEnabled="false"
-            app:borderColor="@color/colorPrimaryDark"
-            app:borderLength="10dp"
-            app:squaredFinder="true"
-            app:finderOffset="30dp"
-            app:maskColor="@color/transparentColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/fromLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/from_label"
-            android:textColor="@color/detailsTextColor"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/addressTextView"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/qrContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="40dp"
-            android:singleLine="true"
-            android:textColor="@color/detailsTextColor"
-            android:textSize="18sp"
-            android:ellipsize="middle"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fromLabel" />
-
-        <TextView
-            android:id="@+id/hoverLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginStart="24dp"
-            android:shadowColor="@color/black"
-            android:shadowRadius="1.6"
-            android:text="@string/hover_label"
-            android:textColor="@color/white"
-            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <View
-            android:id="@+id/dividerSend"
-            android:layout_width="wrap_content"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/white"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressTextView" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <me.dm7.barcodescanner.zxing.ZXingScannerView
+                android:id="@+id/qr"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:borderColor="@color/colorPrimaryDark"
+                app:borderLength="10dp"
+                app:finderOffset="30dp"
+                app:laserEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:maskColor="@color/transparentColor"
+                app:squaredFinder="true" />
+
+            <TextView
+                android:id="@+id/hoverLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="24dp"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1.6"
+                android:text="@string/hover_label"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/addressContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/fromLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/from_label"
+                android:textColor="@color/detailsTextColor"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/addressTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="40dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:textColor="@color/detailsTextColor"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fromLabel" />
+
+            <View
+                android:id="@+id/dividerSend"
+                android:layout_width="wrap_content"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressTextView" />
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 

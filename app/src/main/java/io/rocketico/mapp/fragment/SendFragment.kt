@@ -84,11 +84,8 @@ class SendFragment : Fragment() {
             if (qr.visibility == View.GONE) {
                 address = null
 
-                fromLabel.visibility = View.GONE
-                addressTextView.visibility = View.GONE
-                dividerSend.visibility = View.GONE
-                hoverLabel.visibility = View.VISIBLE
-                qr.visibility = View.VISIBLE
+                addressContent.visibility = View.GONE
+                qrContent.visibility = View.VISIBLE
 
                 setQRHandler()
                 qr.startCamera()
@@ -107,11 +104,8 @@ class SendFragment : Fragment() {
             address = it.text
             addressTextView.text = address
 
-            fromLabel.visibility = View.VISIBLE
-            addressTextView.visibility = View.VISIBLE
-            dividerSend.visibility = View.VISIBLE
-            hoverLabel.visibility = View.GONE
-            qr.visibility = View.GONE
+            addressContent.visibility = View.VISIBLE
+            qrContent.visibility = View.GONE
         }
         qr.stopCamera()
     }
