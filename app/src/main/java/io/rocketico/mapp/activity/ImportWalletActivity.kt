@@ -12,6 +12,7 @@ import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import kotlinx.android.synthetic.main.activity_import_wallet.*
+import org.jetbrains.anko.activityUiThread
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
@@ -68,7 +69,7 @@ class ImportWalletActivity : AppCompatActivity() {
                 wm.deleteWallet()
             }
             wm.saveWallet(wallet)
-            uiThread { //todo change to context?.runOnUiThread
+            activityUiThread {
                 dialog.dismiss()
                 startActivity(Intent(this@ImportWalletActivity, MainActivity::class.java))
                 finish()

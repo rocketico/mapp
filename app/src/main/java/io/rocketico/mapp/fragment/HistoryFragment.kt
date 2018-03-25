@@ -114,51 +114,49 @@ class HistoryFragment : Fragment() {
             val history = ethereumHelper.getTokensHistory(typeList, Utils.nDaysAgo(currentDayRange))
             val rates = RateHelper.getTokenRateByDate()
 
-            uiThread { //todo change to context?.runOnUiThread
-                view?.let {
-                    history?.forEach { historyItem ->
-                        if (currentDirection != TokenDirection.ALL) {
-                            if (currentDirection == TokenDirection.IN) {
-                                if (!historyItem.isReceived) return@forEach
-                            } else if (currentDirection == TokenDirection.OUT) {
-                                if (historyItem.isReceived) return@forEach
-                            }
+            context?.runOnUiThread {
+                history?.forEach { historyItem ->
+                    if (currentDirection != TokenDirection.ALL) {
+                        if (currentDirection == TokenDirection.IN) {
+                            if (!historyItem.isReceived) return@forEach
+                        } else if (currentDirection == TokenDirection.OUT) {
+                            if (historyItem.isReceived) return@forEach
                         }
-                        val tmpItem = HistoryFlexibleItem.HistoryItem()
-                        tmpItem.isReceived = historyItem.isReceived
-                        tmpItem.address = historyItem.address
-                        tmpItem.date = historyItem.date
-                        tmpItem.confirmations = historyItem.confirmations
-                        tmpItem.tokenName = historyItem.tokenType!!
-
-                        val currentTokenType = TokenType.values().find { tt -> tt.codeName.toLowerCase() == historyItem.tokenType!!.toLowerCase() }
-                        if (currentTokenType != null) {
-                            tmpItem.value = io.rocketico.core.Utils.bigIntegerToFloat(
-                                    BigInteger(historyItem.value, 16),
-                                    currentTokenType.decimals
-                            )
-                        } else {
-                            tmpItem.value = io.rocketico.core.Utils.bigIntegerToFloat(
-                                    BigInteger(historyItem.value, 16),
-                                    18 // todo
-                            )
-                        }
-
-                        tmpItem.fee = io.rocketico.core.Utils.bigIntegerToFloat(
-                                BigInteger(historyItem.fee, 16),
-                                18
-                        )
-
-
-                        val fiatRate = rates?.rates?.find { rate -> rate.tokenSymbol == historyItem.tokenType }?.rate
-
-                        fiatRate?.let {
-                            tmpItem.valueFiat = tmpItem.value!! * fiatRate
-                            tmpItem.feeFiat = tmpItem.fee!! * fiatRate
-                        }
-
-                        historyListAdapter.addItem(HistoryFlexibleItem(tmpItem))
                     }
+                    val tmpItem = HistoryFlexibleItem.HistoryItem()
+                    tmpItem.isReceived = historyItem.isReceived
+                    tmpItem.address = historyItem.address
+                    tmpItem.date = historyItem.date
+                    tmpItem.confirmations = historyItem.confirmations
+                    tmpItem.tokenName = historyItem.tokenType!!
+
+                    val currentTokenType = TokenType.values().find { tt -> tt.codeName.toLowerCase() == historyItem.tokenType!!.toLowerCase() }
+                    if (currentTokenType != null) {
+                        tmpItem.value = io.rocketico.core.Utils.bigIntegerToFloat(
+                                BigInteger(historyItem.value, 16),
+                                currentTokenType.decimals
+                        )
+                    } else {
+                        tmpItem.value = io.rocketico.core.Utils.bigIntegerToFloat(
+                                BigInteger(historyItem.value, 16),
+                                18 // todo
+                        )
+                    }
+
+                    tmpItem.fee = io.rocketico.core.Utils.bigIntegerToFloat(
+                            BigInteger(historyItem.fee, 16),
+                            18
+                    )
+
+
+                    val fiatRate = rates?.rates?.find { rate -> rate.tokenSymbol == historyItem.tokenType }?.rate
+
+                    fiatRate?.let {
+                        tmpItem.valueFiat = tmpItem.value!! * fiatRate
+                        tmpItem.feeFiat = tmpItem.fee!! * fiatRate
+                    }
+
+                    historyListAdapter.addItem(HistoryFlexibleItem(tmpItem))
                 }
             }
         }

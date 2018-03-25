@@ -112,44 +112,42 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 }
             }
 
-            uiThread { //todo change to context?.runOnUiThread
-                view?.let {
-                    var totalBalance = 0f
-                    var totalFiatBalance = 0f
+            context?.runOnUiThread {
+                var totalBalance = 0f
+                var totalFiatBalance = 0f
 
-                    val rates = RateHelper.loadRates(context!!, currentCurrency).rates
+                val rates = RateHelper.loadRates(context!!, currentCurrency).rates
 
-                    //fill ether token
-                    val ethRate = rates.find { it.tokenType == TokenType.ETH }?.rate!!
-                    val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)!!
-                    val floatEthBalance = Utils.bigIntegerToFloat(ethBalance)
+                //fill ether token
+                val ethRate = rates.find { it.tokenType == TokenType.ETH }?.rate!!
+                val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)!!
+                val floatEthBalance = Utils.bigIntegerToFloat(ethBalance)
 
-                    totalBalance += floatEthBalance
-                    totalFiatBalance += floatEthBalance * ethRate
+                totalBalance += floatEthBalance
+                totalFiatBalance += floatEthBalance * ethRate
 
-                    listAdapter.addItem(TokenFlexibleItem(TokenType.ETH, currentCurrency, floatEthBalance, ethRate))
+                listAdapter.addItem(TokenFlexibleItem(TokenType.ETH, currentCurrency, floatEthBalance, ethRate))
 
-                    //fill other tokens
-                    wallet.tokens?.forEach {
-                        val tokenType = it
+                //fill other tokens
+                wallet.tokens?.forEach {
+                    val tokenType = it
 
-                        val tokenBalance = BalanceHelper.loadTokenBalance(context!!, tokenType)!!
-                        val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, tokenType.decimals)
+                    val tokenBalance = BalanceHelper.loadTokenBalance(context!!, tokenType)!!
+                    val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, tokenType.decimals)
 
-                        val tokenRate = rates.find { it.tokenType ==  tokenType}?.rate!!
+                    val tokenRate = rates.find { it.tokenType ==  tokenType}?.rate!!
 
-                        totalBalance += RateHelper.convertCurrency(tokenRate, ethRate, floatTokenBalance)
-                        totalFiatBalance += floatTokenBalance * tokenRate
+                    totalBalance += RateHelper.convertCurrency(tokenRate, ethRate, floatTokenBalance)
+                    totalFiatBalance += floatTokenBalance * tokenRate
 
-                        listAdapter.addItem(TokenFlexibleItem(tokenType, currentCurrency, floatTokenBalance, tokenRate))
-                    }
-
-                    fiatCurrency.text = currentCurrency.currencySymbol
-                    tokensTotal.text = totalBalance.toString()
-                    fiatTotal.text = Utils.scaleFloat(totalFiatBalance)
-
-                    prograssBar.visibility = View.GONE
+                    listAdapter.addItem(TokenFlexibleItem(tokenType, currentCurrency, floatTokenBalance, tokenRate))
                 }
+
+                fiatCurrency.text = currentCurrency.currencySymbol
+                tokensTotal.text = totalBalance.toString()
+                fiatTotal.text = Utils.scaleFloat(totalFiatBalance)
+
+                prograssBar.visibility = View.GONE
             }
         }
     }
@@ -228,7 +226,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         wallet.privateKey))
             }
 
-            uiThread { //todo change to context?.runOnUiThread
+            context?.runOnUiThread {
                 var totalBalance = 0f
                 var totalFiatBalance = 0f
 

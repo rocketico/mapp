@@ -142,41 +142,38 @@ class StatisticsFragment : Fragment() {
                 subColumnsData.add(SubcolumnValue(averageVolume));
             }
 
-            uiThread { //todo change to context?.runOnUiThread
-                view?.let {
-                    topValue.text = Utils.round(ethTopValue, 5).toString()
-                    bottomValue.text = Utils.round(ethBottomValue, 5).toString()
+            context?.runOnUiThread {
+                topValue.text = Utils.round(ethTopValue, 5).toString()
+                bottomValue.text = Utils.round(ethBottomValue, 5).toString()
 
-                    //Top chart
-                    val line = Line(values)
-                    line.color = context!!.resources.getColor(R.color.colorPrimaryDark)
-                    line.isCubic = true
-                    line.strokeWidth = 1
-                    line.pointRadius = 3
-                    line.isFilled = true
-                    line.areaTransparency = 10
-                    line.setHasLabelsOnlyForSelected(true)
+                //Top chart
+                val line = Line(values)
+                line.color = context!!.resources.getColor(R.color.colorPrimaryDark)
+                line.isCubic = true
+                line.strokeWidth = 1
+                line.pointRadius = 3
+                line.isFilled = true
+                line.areaTransparency = 10
+                line.setHasLabelsOnlyForSelected(true)
 
-                    val lines = ArrayList<Line>()
-                    lines.add(line)
+                val lines = ArrayList<Line>()
+                lines.add(line)
 
-                    val data = LineChartData()
-                    data.lines = lines
+                val data = LineChartData()
+                data.lines = lines
 
-                    chart.isZoomEnabled = false
-                    chart.lineChartData = data
+                chart.isZoomEnabled = false
+                chart.lineChartData = data
 
-                    //Bottom chart
-                    val columns = mutableListOf<Column>()
-                    columns.add(Column(subColumnsData).setHasLabelsOnlyForSelected(true))
+                //Bottom chart
+                val columns = mutableListOf<Column>()
+                columns.add(Column(subColumnsData).setHasLabelsOnlyForSelected(true))
 
-                    val columnChartData = ColumnChartData(columns)
+                val columnChartData = ColumnChartData(columns)
 
-                    bottomChart.isZoomEnabled = false
-                    bottomChart.columnChartData = columnChartData
-                }
+                bottomChart.isZoomEnabled = false
+                bottomChart.columnChartData = columnChartData
             }
-
         }
     }
 
