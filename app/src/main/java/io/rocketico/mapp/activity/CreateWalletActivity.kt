@@ -75,7 +75,7 @@ class CreateWalletActivity : AppCompatActivity() {
                     wm.deleteWallet()
                 }
                 wm.saveWallet(wallet)
-                activityUiThread {
+                runOnUiThread {
                     dialog.dismiss()
                     startActivity(Intent(this@CreateWalletActivity, MainActivity::class.java))
                     finish()

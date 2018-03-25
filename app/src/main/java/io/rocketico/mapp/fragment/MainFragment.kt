@@ -112,7 +112,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 }
             }
 
-            context?.runOnUiThread {
+            view?.context?.runOnUiThread {
                 var totalBalance = 0f
                 var totalFiatBalance = 0f
 
@@ -226,7 +226,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         wallet.privateKey))
             }
 
-            context?.runOnUiThread {
+            view?.context?.runOnUiThread {
                 var totalBalance = 0f
                 var totalFiatBalance = 0f
 
