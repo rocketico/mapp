@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.*
@@ -57,7 +58,6 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         backButton.visibility = View.VISIBLE
         helpingView.visibility = View.VISIBLE
-        helpingLoadView.visibility = View.VISIBLE
         prograssBar.visibility = View.VISIBLE
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
@@ -132,8 +132,9 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 fillInfo(0)
                 markets.setAdapter(ExpandableListAdapter(context!!, listItemData))
 
-                helpingLoadView.visibility = View.GONE
                 prograssBar.visibility = View.GONE
+                tokenContent.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadein))
+                tokenContent.visibility = View.VISIBLE
             }
         }
     }
