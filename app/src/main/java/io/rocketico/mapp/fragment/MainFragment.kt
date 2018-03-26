@@ -52,7 +52,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        prograssBar.visibility = View.VISIBLE
+        refresher.isRefreshing = true
 
         ethHelper = EthereumHelper(Cc.ETH_NODE)
         wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
@@ -147,7 +147,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 tokensTotal.text = totalBalance.toString()
                 fiatTotal.text = Utils.scaleFloat(totalFiatBalance)
 
-                prograssBar.visibility = View.GONE
+                refresher.isRefreshing = false
             }
         }
     }

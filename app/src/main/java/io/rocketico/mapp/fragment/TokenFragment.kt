@@ -58,7 +58,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         backButton.visibility = View.VISIBLE
         helpingView.visibility = View.VISIBLE
-        prograssBar.visibility = View.VISIBLE
+        refresher.isRefreshing = true
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
         val rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
@@ -132,7 +132,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 fillInfo(0)
                 markets.setAdapter(ExpandableListAdapter(context!!, listItemData))
 
-                prograssBar.visibility = View.GONE
+                refresher.isRefreshing = false
                 tokenContent.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadein))
                 tokenContent.visibility = View.VISIBLE
             }
