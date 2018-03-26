@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
@@ -81,7 +83,7 @@ class SendFragment : Fragment() {
         }
 
         qr_frame.setOnClickListener {
-            if (qr.visibility == View.GONE) {
+            if (qrContent.visibility == View.GONE) {
                 address = null
 
                 addressContent.visibility = View.GONE

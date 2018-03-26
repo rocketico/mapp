@@ -47,7 +47,7 @@ object Utils {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, text)
-        sendIntent.type = "text/plain"
+        sendIntent.type = "anim_test/plain"
         return sendIntent
     }
 }
