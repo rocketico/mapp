@@ -50,6 +50,12 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        sliding.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_token, container, false)
     }

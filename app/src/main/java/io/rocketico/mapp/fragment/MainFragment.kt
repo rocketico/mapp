@@ -47,11 +47,17 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         fragmentListener = activity as MainFragmentListener
     }
 
+    override fun onResume() {
+        super.onResume()
+        sliding.panelState = PanelState.COLLAPSED
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        refresher.setColorSchemeColors(resources.getColor(R.color.colorPrimaryDark))
         refresher.isRefreshing = true
 
         ethHelper = EthereumHelper(Cc.ETH_NODE)
@@ -68,8 +74,6 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
-
-        refresher.setColorSchemeColors(resources.getColor(R.color.colorPrimaryDark))
 
         setupRecyclerViews()
         setupListeners()
