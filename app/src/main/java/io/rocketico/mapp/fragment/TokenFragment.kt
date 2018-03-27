@@ -70,13 +70,16 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         val rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
         val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
 
-        if (tokenType == TokenType.ETH) tokensTotal.text = balance.toString()
+        if (tokenType == TokenType.ETH)
+            tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), balance)
         else {
             val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
-            tokensTotal.text = RateHelper.convertCurrency(rate!!, ethRate!!, balance).toString()
+            tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label),
+                    RateHelper.convertCurrency(rate!!, ethRate!!, balance))
         }
-        fiatCurrency.text = currentCurrency.currencySymbol
-        fiatTotal.text = Utils.scaleFloat(balance * rate!!)
+
+        fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
+                Utils.scaleFloat(balance * rate!!))
         tokenName.text = tokenType.codeName
         launchDate.text = tokenType.launchDate
         hashingAlgorithm.text = tokenType.hashAlgorithm
@@ -204,6 +207,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         refresher.setOnRefreshListener(this)
     }
 
+    @SuppressLint("StringFormatMatches")
     override fun onRefresh() {
         doAsync {
             val newRates = RateHelper.getTokenRateByDate()
@@ -228,12 +232,15 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 val rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
                 val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
 
-                if (tokenType == TokenType.ETH) tokensTotal.text = balance.toString()
+                if (tokenType == TokenType.ETH)
+                    tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), balance)
                 else {
                     val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
-                    tokensTotal.text = RateHelper.convertCurrency(rate!!, ethRate!!, balance).toString()
+                    tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label),
+                            RateHelper.convertCurrency(rate!!, ethRate!!, balance))
                 }
-                fiatTotal.text = Utils.scaleFloat(balance * rate!!)
+                fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
+                        Utils.scaleFloat(balance * rate!!))
 
                 refresher.isRefreshing = false
             }

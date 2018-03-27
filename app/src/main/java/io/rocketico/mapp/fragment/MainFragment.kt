@@ -1,5 +1,6 @@
 package io.rocketico.mapp.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -89,6 +90,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     //todo implement getting info async in separated threads
+    @SuppressLint("StringFormatMatches")
     private fun showTokens() {
         doAsync({
             context?.runOnUiThread {
@@ -147,9 +149,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     listAdapter.addItem(TokenFlexibleItem(tokenType, currentCurrency, floatTokenBalance, tokenRate))
                 }
 
-                fiatCurrency.text = currentCurrency.currencySymbol
-                tokensTotal.text = totalBalance.toString()
-                fiatTotal.text = Utils.scaleFloat(totalFiatBalance)
+                tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), totalBalance)
+                fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol, Utils.scaleFloat(totalFiatBalance))
 
                 refresher.isRefreshing = false
             }
@@ -216,6 +217,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         refresher.setOnRefreshListener(this)
     }
 
+    @SuppressLint("StringFormatMatches")
     override fun onRefresh() {
         doAsync {
             val newRates = RateHelper.getTokenRateByDate()
@@ -258,9 +260,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     }
                 }
 
-                fiatCurrency.text = currentCurrency.currencySymbol
-                tokensTotal.text = totalBalance.toString()
-                fiatTotal.text = Utils.scaleFloat(totalFiatBalance)
+                tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), totalBalance)
+                fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol, Utils.scaleFloat(totalFiatBalance))
 
                 listAdapter.updateDataSet(newItems)
                 refresher.isRefreshing = false

@@ -54,47 +54,25 @@
         app:srcCompat="@drawable/ic_dehaze_black_24dp" />
 
     <TextView
-        android:id="@+id/etherTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:text="@string/ether_label"
-        android:theme="@style/HeaderTextStyle.Large"
-        app:layout_constraintStart_toStartOf="@+id/helpingView"
-        app:layout_constraintTop_toBottomOf="@+id/totalTextView" />
-
-    <TextView
         android:id="@+id/tokensTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="25dp"
         android:theme="@style/HeaderTextStyle.Large"
-        app:layout_constraintStart_toEndOf="@+id/etherTextView"
+        app:layout_constraintStart_toStartOf="@+id/helpingView"
         app:layout_constraintTop_toBottomOf="@+id/totalTextView"
         tools:text="10000.20202" />
-
-    <TextView
-        android:id="@+id/fiatCurrency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:theme="@style/HeaderTextStyle.Small"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/helpingView"
-        app:layout_constraintTop_toBottomOf="@+id/etherTextView"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="$" />
 
     <TextView
         android:id="@+id/fiatTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="25dp"
         android:theme="@style/HeaderTextStyle.Small"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fiatCurrency"
-        app:layout_constraintTop_toBottomOf="@+id/etherTextView"
+        app:layout_constraintStart_toStartOf="@+id/helpingView"
+        app:layout_constraintTop_toBottomOf="@+id/tokensTotal"
         app:layout_constraintVertical_bias="0.0"
         tools:text="1230210" />
 
