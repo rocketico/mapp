@@ -42,6 +42,10 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var wallet: Wallet
     private lateinit var currentCurrency: Currency
 
+    private var totalBalance = 0f
+    private var totalFiatBalance = 0f
+    private var isEthMainCurrency = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -119,8 +123,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             }
 
             view?.context?.runOnUiThread {
-                var totalBalance = 0f
-                var totalFiatBalance = 0f
+                totalBalance = 0f
+                totalFiatBalance = 0f
 
                 val rates = RateHelper.loadRates(context!!, currentCurrency).rates
 
@@ -215,6 +219,9 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         })
 
         refresher.setOnRefreshListener(this)
+
+        tokensTotal.setOnClickListener(onBalanceClickListener)
+        fiatTotal.setOnClickListener(onBalanceClickListener)
     }
 
     @SuppressLint("StringFormatMatches")
@@ -233,8 +240,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             }
 
             view?.context?.runOnUiThread {
-                var totalBalance = 0f
-                var totalFiatBalance = 0f
+                totalBalance = 0f
+                totalFiatBalance = 0f
 
                 val rates = RateHelper.loadRates(context!!, currentCurrency).rates
                 val ethRate = rates.find { it.tokenType == TokenType.ETH }?.rate!!
@@ -266,6 +273,23 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 listAdapter.updateDataSet(newItems)
                 refresher.isRefreshing = false
             }
+        }
+    }
+
+    @SuppressLint("StringFormatMatches")
+    private val onBalanceClickListener = View.OnClickListener {
+        if (isEthMainCurrency) {
+            tokensTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
+                    totalFiatBalance)
+            fiatTotal.text = getString(R.string.balance_template, getString(R.string.ether_label),
+                    totalBalance)
+            isEthMainCurrency = false
+        } else {
+            tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label),
+                    totalBalance)
+            fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
+                    totalFiatBalance)
+            isEthMainCurrency = true
         }
     }
 
