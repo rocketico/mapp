@@ -23,4 +23,8 @@
     <integer name="animation_duration">200</integer>
 
     <dimen name="text_header_size">18sp</dimen>
+
+    <dimen name="qr_height">200dp</dimen>
+    <dimen name="address_height">61dp</dimen>
+
 </resources>

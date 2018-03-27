@@ -1,5 +1,8 @@
 package io.rocketico.mapp.fragment
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -7,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
@@ -17,6 +19,12 @@ import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.SendTokenFlexibleItem
 import kotlinx.android.synthetic.main.fragment_send.*
+import io.rocketico.mapp.R.id.view
+import android.support.v4.view.ViewCompat.setAlpha
+import android.view.animation.AlphaAnimation
+import android.view.animation.AnimationSet
+import android.view.animation.AnimationUtils
+
 
 class SendFragment : Fragment() {
 
@@ -83,14 +91,10 @@ class SendFragment : Fragment() {
         }
 
         qr_frame.setOnClickListener {
-            if (qrContent.visibility == View.GONE) {
+            if (qr.visibility == View.GONE) {
                 address = null
-
-                addressContent.visibility = View.GONE
-                qrContent.visibility = View.VISIBLE
-
+                startAnim(false)
                 setQRHandler()
-                qr.startCamera()
             }
         }
 
@@ -106,10 +110,61 @@ class SendFragment : Fragment() {
             address = it.text
             addressTextView.text = address
 
-            addressContent.visibility = View.VISIBLE
-            qrContent.visibility = View.GONE
+            startAnim(true)
         }
         qr.stopCamera()
+    }
+
+    private fun startAnim(isOpened: Boolean) {
+
+        val newHeight = if (isOpened) {
+            resources.getDimension(R.dimen.address_height)
+        } else {
+            resources.getDimension(R.dimen.qr_height)
+        }
+
+        val qrScaleAnim = ValueAnimator.ofInt(qr.measuredHeight, newHeight.toInt())
+
+        qrScaleAnim.addUpdateListener {
+            val height = it.animatedValue as Int
+            val layoutParams = qr.layoutParams
+            layoutParams.height = height
+            qr.layoutParams = layoutParams
+        }
+
+        qrScaleAnim.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                if (isOpened) {
+                    qr.visibility = View.GONE
+                    hoverLabel.visibility = View.GONE
+                    addressContent.visibility = View.VISIBLE
+                    qr.stopCameraPreview()
+                } else {
+                    qr.startCamera()
+                }
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                qr.stopCamera()
+                if (!isOpened) {
+                    qr.visibility = View.VISIBLE
+                    hoverLabel.visibility = View.VISIBLE
+                    addressContent.visibility = View.GONE
+                }
+            }
+
+        })
+
+        qrScaleAnim.duration = 200
+        qrScaleAnim.start()
     }
 
     interface SendFragmentListener {
