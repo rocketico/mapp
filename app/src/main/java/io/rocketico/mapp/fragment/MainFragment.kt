@@ -23,14 +23,15 @@ import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
+import io.rocketico.mapp.test.MainCurrencyEvent
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 
 class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -44,7 +45,6 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private var totalBalance = 0f
     private var totalFiatBalance = 0f
-    private var isEthMainCurrency = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,8 +153,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     listAdapter.addItem(TokenFlexibleItem(tokenType, currentCurrency, floatTokenBalance, tokenRate))
                 }
 
-                tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), totalBalance)
-                fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol, Utils.scaleFloat(totalFiatBalance))
+                setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
                 refresher.isRefreshing = false
             }
@@ -267,8 +266,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     }
                 }
 
-                tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), totalBalance)
-                fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol, Utils.scaleFloat(totalFiatBalance))
+                setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
                 listAdapter.updateDataSet(newItems)
                 refresher.isRefreshing = false
@@ -276,20 +274,25 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
-    @SuppressLint("StringFormatMatches")
     private val onBalanceClickListener = View.OnClickListener {
-        if (isEthMainCurrency) {
-            tokensTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
-                    totalFiatBalance)
-            fiatTotal.text = getString(R.string.balance_template, getString(R.string.ether_label),
-                    totalBalance)
-            isEthMainCurrency = false
-        } else {
+        val mainCurrency = BalanceHelper.getMainCurrency(context!!)
+        setHeaderBalances(!mainCurrency)
+        BalanceHelper.setMainCurrency(context!!, !mainCurrency)
+        EventBus.getDefault().post(MainCurrencyEvent)
+    }
+
+    @SuppressLint("StringFormatMatches")
+    private fun setHeaderBalances(flag: Boolean) {
+        if (flag) {
             tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label),
                     totalBalance)
             fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
                     totalFiatBalance)
-            isEthMainCurrency = true
+        } else {
+            tokensTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
+                    totalFiatBalance)
+            fiatTotal.text = getString(R.string.balance_template, getString(R.string.ether_label),
+                    totalBalance)
         }
     }
 

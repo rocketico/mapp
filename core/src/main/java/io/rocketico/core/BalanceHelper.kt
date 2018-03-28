@@ -7,6 +7,7 @@ import java.math.BigInteger
 
 object BalanceHelper {
     private const val BALANCE_DB_KEY = "balance_db_key"
+    private const val MAIN_BALANCE = "main_balance"
 
     fun saveTokenBalance(context: Context, tokenType: TokenType, value: BigInteger) {
         Paper.init(context)
@@ -35,5 +36,16 @@ object BalanceHelper {
     fun outDateBalance(context: Context, tokenType: TokenType) {
         Paper.init(context)
         Paper.book(BALANCE_DB_KEY).delete(tokenType.codeName)
+    }
+
+    fun getMainCurrency(context: Context): Boolean {
+        Paper.init(context)
+        return if (!Paper.book(BALANCE_DB_KEY).contains(MAIN_BALANCE)) true
+        else Paper.book(BALANCE_DB_KEY).read<Boolean>(MAIN_BALANCE)
+    }
+
+    fun setMainCurrency(context: Context, flag: Boolean) {
+        Paper.init(context)
+        Paper.book(BALANCE_DB_KEY).write(MAIN_BALANCE, flag)
     }
 }
