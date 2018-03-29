@@ -30,8 +30,10 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.doAsyncResult
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
+import java.math.BigInteger
 
 class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -112,15 +114,29 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 BalanceHelper.saveTokenBalance(context!!, TokenType.ETH, ethHelper.getBalance(wallet.address))
             }
 
-            wallet.tokens?.forEach {
-                if (BalanceHelper.isTokenBalanceOutdated(context!!, it)) {
-                    BalanceHelper.saveTokenBalance(context!!, it, ethHelper.getBalanceErc20(
-                            it.contractAddress,
-                            wallet.address,
-                            wallet.privateKey
-                    ))
+            val badTokenList = mutableListOf<TokenType>()
+            wallet.tokens?.forEach {token ->
+                if (BalanceHelper.isTokenBalanceOutdated(context!!, token)) {
+                    val result = doAsync({
+                        badTokenList.add(token)
+                        it.printStackTrace()
+                    }) {
+                        val updatedBalance = ethHelper.getBalanceErc20(
+                                token.contractAddress,
+                                wallet.address,
+                                wallet.privateKey
+                        )
+                        BalanceHelper.saveTokenBalance(context!!, token, updatedBalance)
+                    }
+
+                    while (!result.isDone) {}
                 }
             }
+
+            badTokenList.forEach {
+                wallet.tokens?.remove(it)
+            }
+            WalletManager(context!!).saveWallet(wallet)
 
             view?.context?.runOnUiThread {
                 totalBalance = 0f

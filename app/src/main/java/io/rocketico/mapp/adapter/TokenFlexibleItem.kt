@@ -28,7 +28,7 @@ data class TokenFlexibleItem(val tokenType: TokenType,
 
     private lateinit var mHolder: ViewHolder
 
-    override fun onViewAttached(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int) {
+    init {
         EventBus.getDefault().register(this)
     }
 
@@ -72,6 +72,10 @@ data class TokenFlexibleItem(val tokenType: TokenType,
                     currentCurrency.currencySymbol, Utils.scaleFloat(tokenBalance * tokenRate))
             holder.tokenFiatBalance.text = tokenBalance.toString()
         }
+    }
+
+    override fun unbindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int) {
+        super.unbindViewHolder(adapter, holder, position)
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {
