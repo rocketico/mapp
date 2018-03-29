@@ -88,7 +88,7 @@ class ImportWalletActivity : AppCompatActivity() {
                 private_key.setText(it.text)
                 qr.visibility = View.GONE
             } else {
-                toast("Invalid private key")
+                toast(getString(R.string.invalid_address))
                 setupQR()
             }
         }

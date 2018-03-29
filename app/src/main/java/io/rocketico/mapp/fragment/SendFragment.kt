@@ -114,7 +114,7 @@ class SendFragment : Fragment() {
 
                 startAnim(true)
             } else {
-                context?.toast("Invalid address")
+                context?.toast(getString(R.string.invalid_address))
                 setQRHandler()
                 qr.startCamera()
 

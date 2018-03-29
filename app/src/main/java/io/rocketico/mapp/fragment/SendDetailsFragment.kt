@@ -195,7 +195,7 @@ class SendDetailsFragment : Fragment() {
             return false
         }
         if (!WalletManager.isValidAddress(addressEditText.text.toString())){
-            context?.toast("Invalid address")
+            context?.toast(getString(R.string.invalid_address))
             return false
         }
         if (ethQuantity == 0f) {

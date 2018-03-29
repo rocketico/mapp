@@ -100,6 +100,8 @@
     <string name="payment_error">Payment can not be null</string>
     <string name="balance_error">You don\'t have much money</string>
 
+    <string name="invalid_address">Invalid address</string>
+
     <string name="log_out">LogOut</string>
 
     <item name="visible" type="id" />
