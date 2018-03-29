@@ -8,16 +8,16 @@ import io.rocketico.mapp.R
 class SettingsFragment : PreferenceFragmentCompat() {
 
     //todo implement logout
-    private lateinit var fragmemtListener: OnSettingsItemClickListener
+    private lateinit var fragmentListener: OnSettingsItemClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fragmemtListener = activity as OnSettingsItemClickListener
+        fragmentListener = activity as OnSettingsItemClickListener
 
         val preference = findPreference("export_private_key")
         preference.setOnPreferenceClickListener({
-            fragmemtListener.onExportClick()
+            fragmentListener.onExportClick()
             true
         })
     }

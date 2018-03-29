@@ -79,7 +79,6 @@ class StatisticsFragment : Fragment() {
 
         val subColumnsData = mutableListOf<SubcolumnValue>()
 
-        //todo add loading animation
         progressBar.visibility = View.VISIBLE
         doAsync({
             context?.runOnUiThread {

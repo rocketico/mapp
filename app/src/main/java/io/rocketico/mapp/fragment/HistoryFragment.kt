@@ -94,7 +94,6 @@ class HistoryFragment : Fragment() {
         recyclerViewHistory.layoutManager = LinearLayoutManager(context)
         recyclerViewHistory.adapter = historyListAdapter
 
-        //todo implement loading animation
         progressBar.visibility = View.VISIBLE
         doAsync({
             context?.runOnUiThread {
