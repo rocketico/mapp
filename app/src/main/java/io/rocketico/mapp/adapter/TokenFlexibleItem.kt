@@ -74,10 +74,6 @@ data class TokenFlexibleItem(val tokenType: TokenType,
         }
     }
 
-    override fun unbindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int) {
-        super.unbindViewHolder(adapter, holder, position)
-    }
-
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {
         val tokenImage: CircleImageView? = view.tokenImage
         val tokenName: TextView = view.tokenName

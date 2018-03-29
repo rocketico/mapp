@@ -95,6 +95,7 @@ class HistoryFragment : Fragment() {
         recyclerViewHistory.adapter = historyListAdapter
 
         //todo implement loading animation
+        progressBar.visibility = View.VISIBLE
         doAsync({
             context?.runOnUiThread {
                 toast(getString(R.string.update_info_error) + ": " + it.message)
@@ -115,6 +116,8 @@ class HistoryFragment : Fragment() {
             val rates = RateHelper.getTokenRateByDate()
 
             view?.context?.runOnUiThread {
+                progressBar.visibility = View.GONE
+
                 history?.forEach { historyItem ->
                     if (currentDirection != TokenDirection.ALL) {
                         if (currentDirection == TokenDirection.IN) {

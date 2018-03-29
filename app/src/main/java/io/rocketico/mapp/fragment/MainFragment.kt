@@ -95,7 +95,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         showTokens()
     }
 
-    //todo implement getting info async in separated threads
+    //todo change it it future
     @SuppressLint("StringFormatMatches")
     private fun showTokens() {
         doAsync({

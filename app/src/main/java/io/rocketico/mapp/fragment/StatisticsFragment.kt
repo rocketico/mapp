@@ -80,6 +80,7 @@ class StatisticsFragment : Fragment() {
         val subColumnsData = mutableListOf<SubcolumnValue>()
 
         //todo add loading animation
+        progressBar.visibility = View.VISIBLE
         doAsync({
             context?.runOnUiThread {
                 toast(getString(R.string.update_info_error) + ": " + it.message)
@@ -143,6 +144,7 @@ class StatisticsFragment : Fragment() {
             }
 
             view?.context?.runOnUiThread {
+                progressBar.visibility = View.GONE
                 topValue.text = Utils.round(ethTopValue, 5).toString()
                 bottomValue.text = Utils.round(ethBottomValue, 5).toString()
 
