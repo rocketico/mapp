@@ -24,6 +24,7 @@ import android.support.v4.view.ViewCompat.setAlpha
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
+import org.jetbrains.anko.toast
 
 
 class SendFragment : Fragment() {
@@ -107,10 +108,18 @@ class SendFragment : Fragment() {
 
     private fun setQRHandler() {
         qr.setResultHandler {
-            address = it.text
-            addressTextView.text = address
+            if (WalletManager.isValidAddress(it.text)) {
+                address = it.text
+                addressTextView.text = address
 
-            startAnim(true)
+                startAnim(true)
+            } else {
+                context?.toast("Invalid address")
+                setQRHandler()
+                qr.startCamera()
+
+            }
+
         }
         qr.stopCamera()
     }

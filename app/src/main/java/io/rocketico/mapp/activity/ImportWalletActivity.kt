@@ -79,10 +79,18 @@ class ImportWalletActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        setupQR()
+    }
 
+    private fun setupQR() {
         qr.setResultHandler {
-            private_key.setText(it.text)
-            qr.visibility = View.GONE
+            if (WalletManager.isPrivateKeyValid(it.text)) {
+                private_key.setText(it.text)
+                qr.visibility = View.GONE
+            } else {
+                toast("Invalid private key")
+                setupQR()
+            }
         }
         qr.startCamera()
     }

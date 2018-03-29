@@ -14,6 +14,7 @@ import android.widget.SeekBar
 import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
+import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
@@ -191,6 +192,10 @@ class SendDetailsFragment : Fragment() {
     private fun checkForErrors(): Boolean {
         if (addressEditText.text.isBlank()) {
             context?.toast(context?.getString(R.string.address_error)!!)
+            return false
+        }
+        if (!WalletManager.isValidAddress(addressEditText.text.toString())){
+            context?.toast("Invalid address")
             return false
         }
         if (ethQuantity == 0f) {

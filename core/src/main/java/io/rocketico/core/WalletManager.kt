@@ -5,6 +5,7 @@ import io.paperdb.Paper
 import io.rocketico.core.model.Wallet
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
+import org.web3j.crypto.WalletUtils
 import java.math.BigInteger
 
 class WalletManager(val context: Context) {
@@ -50,5 +51,15 @@ class WalletManager(val context: Context) {
     fun existsWallet(): Boolean {
         Paper.init(context)
         return Paper.book(WALLETS_DATABASE).contains(WALLET_KEY)
+    }
+
+    companion object {
+        fun isValidAddress(address: String): Boolean {
+            return WalletUtils.isValidAddress(address)
+        }
+
+        fun isPrivateKeyValid(privateKey: String): Boolean {
+            return WalletUtils.isValidPrivateKey(privateKey)
+        }
     }
 }
