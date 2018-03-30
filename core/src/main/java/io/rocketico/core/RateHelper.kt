@@ -69,8 +69,8 @@ object RateHelper {
 
     fun getTokenRate(context: Context, tokenType: TokenType, currency: Currency): RatesEntity.Rate? {
         Paper.init(context)
-        val tmp: List<RatesEntity.Rate>? = Paper.book(RATES_DB_KEY).read<RatesEntity>(currency.codeName).rates
-        return tmp?.find { it.tokenType.codeName == tokenType.codeName }
+        val tmp: RatesEntity? = Paper.book(RATES_DB_KEY).read<RatesEntity>(currency.codeName)
+        return tmp?.rates?.find { it.tokenType.codeName == tokenType.codeName }
     }
 
     class RatesEntity(val currency: Currency,
