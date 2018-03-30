@@ -10,16 +10,13 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
-import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import kotlinx.android.synthetic.main.activity_create_wallet.*
-import org.jetbrains.anko.activityUiThread
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 
 class CreateWalletActivity : AppCompatActivity() {
 
@@ -77,7 +74,7 @@ class CreateWalletActivity : AppCompatActivity() {
                 wm.saveWallet(wallet)
                 runOnUiThread {
                     dialog.dismiss()
-                    startActivity(Intent(this@CreateWalletActivity, MainActivity::class.java))
+                    startActivity(MainActivity.newIntent(this@CreateWalletActivity))
                     finish()
                 }
             }
@@ -87,8 +84,7 @@ class CreateWalletActivity : AppCompatActivity() {
 
     companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context, CreateWalletActivity::class.java)
-            return intent
+            return Intent(context, CreateWalletActivity::class.java)
         }
     }
 }

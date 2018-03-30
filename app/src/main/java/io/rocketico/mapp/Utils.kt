@@ -11,9 +11,8 @@ import android.view.WindowManager
 import java.util.*
 import android.support.v4.content.ContextCompat.startActivity
 import android.content.Intent.ACTION_SEND
-
-
-
+import android.net.NetworkInfo
+import android.net.ConnectivityManager
 
 object Utils {
     @SuppressLint("ObsoleteSdkInt")
@@ -49,5 +48,11 @@ object Utils {
         sendIntent.putExtra(Intent.EXTRA_TEXT, text)
         sendIntent.type = "anim_test/plain"
         return sendIntent
+    }
+
+    fun isOnline(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = cm.activeNetworkInfo
+        return netInfo != null && netInfo.isConnectedOrConnecting
     }
 }

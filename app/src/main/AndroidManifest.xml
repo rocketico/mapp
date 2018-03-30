@@ -3,6 +3,7 @@
     package="io.rocketico.mapp">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="false"
@@ -18,20 +19,34 @@
             android:value="3571844db4c892ce6439982d4ad2f57badae9e91" />
 
         <activity android:name=".activity.MainActivity"
-            android:theme="@style/MainActivityTheme">
+            android:theme="@style/MainActivityTheme"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CreateWalletActivity" />
+        <activity
+            android:name=".activity.CreateWalletActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MenuActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.LogInActivity" />
-        <activity android:name=".activity.ImportWalletActivity" />
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.LogInActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ImportWalletActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -19,6 +19,7 @@ import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.adapter.HistoryFlexibleItem
+import io.rocketico.mapp.loadData
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.include_date_panel.*
 import org.jetbrains.anko.doAsync
@@ -111,8 +112,8 @@ class HistoryFragment : Fragment() {
                 typeList = mutableListOf(tokenType?.codeName!!)
             }
 
-            val history = ethereumHelper.getTokensHistory(typeList, Utils.nDaysAgo(currentDayRange))
-            val rates = RateHelper.getTokenRateByDate()
+            val history = loadData { ethereumHelper.getTokensHistory(typeList, Utils.nDaysAgo(currentDayRange)) }
+            val rates = loadData { RateHelper.getTokenRateByDate() }
 
             view?.context?.runOnUiThread {
                 progressBar.visibility = View.GONE

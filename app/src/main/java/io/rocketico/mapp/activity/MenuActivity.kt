@@ -31,7 +31,6 @@ class MenuActivity : AppCompatActivity(),
         setContentView(R.layout.activity_menu)
 
         wallet = WalletManager(this).getWallet()!!
-
         init()
     }
 

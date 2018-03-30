@@ -32,6 +32,11 @@ object BalanceHelper {
         return differenceTime > Cc.HTTP_TIMEOUT
     }
 
+    fun deleteAllBalances(context: Context) {
+        Paper.init(context)
+        Paper.book(BALANCE_DB_KEY).destroy()
+    }
+
     //force make token balance outdated
     fun outDateBalance(context: Context, tokenType: TokenType) {
         Paper.init(context)

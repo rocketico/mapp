@@ -14,10 +14,7 @@ import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_bill.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.longToast
-import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import java.math.BigInteger
 
 class SendBillFragment : Fragment() {
@@ -82,48 +79,51 @@ class SendBillFragment : Fragment() {
             val ethBigInteger = Utils.floatToBigInteger(eth, tokenType.decimals)
             val ethHelper = EthereumHelper(Cc.ETH_NODE)
 
-            val dialog = MaterialDialog.Builder(context!!)
-                    .title(getString(R.string.please_wait))
-                    .content(getString(R.string.sending))
-                    .progress(true, 0)
-                    .cancelable(false)
-                    .show();
+            if (io.rocketico.mapp.Utils.isOnline(context!!)) {
+                val dialog = MaterialDialog.Builder(context!!)
+                        .title(getString(R.string.please_wait))
+                        .content(getString(R.string.sending))
+                        .progress(true, 0)
+                        .cancelable(false)
+                        .show();
 
-
-            doAsync({
-                context?.runOnUiThread {
-                    dialog.dismiss()
-                    longToast(it.message!!)
-                    it.printStackTrace()
-                }
-            }) {
-                val response: String
-                if (tokenType == TokenType.ETH) {
-                    response = ethHelper.sendEth(wallet.privateKey,
-                            address,
-                            ethBigInteger,
-                            BigInteger.valueOf(gasPrice.toLong()))!!
-
-                    if (!response.isBlank()) {
-                        BalanceHelper.outDateBalance(context!!, TokenType.ETH)
+                doAsync({
+                    context?.runOnUiThread {
+                        dialog.dismiss()
+                        longToast(it.message!!)
+                        it.printStackTrace()
                     }
-                } else {
-                    response = ethHelper.sendErc20(wallet.privateKey,
-                            tokenType.contractAddress,
-                            address,
-                            ethBigInteger,
-                            BigInteger.valueOf(gasPrice.toLong()))!!.transactionHash
+                }) {
+                    val response: String
+                    if (tokenType == TokenType.ETH) {
+                        response = ethHelper.sendEth(wallet.privateKey,
+                                address,
+                                ethBigInteger,
+                                BigInteger.valueOf(gasPrice.toLong()))!!
 
-                    if (!response.isBlank()) {
-                        BalanceHelper.outDateBalance(context!!, tokenType)
+                        if (!response.isBlank()) {
+                            BalanceHelper.outDateBalance(context!!, TokenType.ETH)
+                        }
+                    } else {
+                        response = ethHelper.sendErc20(wallet.privateKey,
+                                tokenType.contractAddress,
+                                address,
+                                ethBigInteger,
+                                BigInteger.valueOf(gasPrice.toLong()))!!.transactionHash
+
+                        if (!response.isBlank()) {
+                            BalanceHelper.outDateBalance(context!!, tokenType)
+                        }
+                    }
+
+                    view?.context?.runOnUiThread {
+                        dialog.dismiss()
+                        listener.onCloseClick()
+                        context?.longToast(context?.getString(R.string.success_transaction, response)!!)
                     }
                 }
-
-                view?.context?.runOnUiThread {
-                    dialog.dismiss()
-                    listener.onCloseClick()
-                    context?.longToast(context?.getString(R.string.success_transaction, response)!!)
-                }
+            } else {
+                context?.toast("No internet connection")
             }
         }
     }

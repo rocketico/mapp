@@ -1,5 +1,6 @@
 package io.rocketico.mapp.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(),
         wm = WalletManager(this)
         val walletList = wm.getWallet()
         if (walletList == null) {
-            startActivity(Intent(this, CreateWalletActivity::class.java))
+            startActivity(CreateWalletActivity.newIntent(this))
             finish()
             return
         }
@@ -81,4 +82,9 @@ class MainActivity : AppCompatActivity(),
         onBackPressed()
     }
 
+    companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
+    }
 }

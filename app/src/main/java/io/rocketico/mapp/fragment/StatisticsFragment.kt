@@ -14,6 +14,7 @@ import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
+import io.rocketico.mapp.loadData
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import kotlinx.android.synthetic.main.include_date_panel.*
 import lecho.lib.hellocharts.model.*
@@ -86,14 +87,16 @@ class StatisticsFragment : Fragment() {
                 it.printStackTrace()
             }
         }) {
-            val rates = RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date())?.rates
+            val rates = loadData { RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date()) }?.rates
 
             token?.let {
                 val token = it
 
-                for (i in 0 until rates?.size!!) {
-                    rates[i]?.values = rates[i]?.values?.filter {
-                        it?.tokenSymbol?.toLowerCase() ==  token.codeName.toLowerCase()
+                if (rates != null) {
+                    for (i in 0 until rates.size) {
+                        rates[i]?.values = rates[i]?.values?.filter {
+                            it?.tokenSymbol?.toLowerCase() == token.codeName.toLowerCase()
+                        }
                     }
                 }
             }

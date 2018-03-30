@@ -30,7 +30,7 @@ object RateHelper {
         Paper.book(RATES_DB_KEY).write(ratesEntity.currency.codeName, ratesEntity)
     }
 
-    fun loadRates(context: Context, currency: Currency): RatesEntity {
+    fun loadRates(context: Context, currency: Currency): RatesEntity? {
         Paper.init(context)
         return Paper.book(RATES_DB_KEY).read<RatesEntity>(currency.codeName)
     }
@@ -38,6 +38,11 @@ object RateHelper {
     fun deleteRates(context: Context, currency: Currency) {
         Paper.init(context)
         Paper.book(RATES_DB_KEY).delete(currency.codeName)
+    }
+
+    fun deleteAllRates(context: Context) {
+        Paper.init(context)
+        Paper.book(RATES_DB_KEY).destroy()
     }
 
     fun existsRates(context: Context, currency: Currency): Boolean {
@@ -64,8 +69,8 @@ object RateHelper {
 
     fun getTokenRate(context: Context, tokenType: TokenType, currency: Currency): RatesEntity.Rate? {
         Paper.init(context)
-        val tmp = Paper.book(RATES_DB_KEY).read<RatesEntity>(currency.codeName).rates
-        return tmp.find { it.tokenType.codeName == tokenType.codeName }
+        val tmp: List<RatesEntity.Rate>? = Paper.book(RATES_DB_KEY).read<RatesEntity>(currency.codeName).rates
+        return tmp?.find { it.tokenType.codeName == tokenType.codeName }
     }
 
     class RatesEntity(val currency: Currency,

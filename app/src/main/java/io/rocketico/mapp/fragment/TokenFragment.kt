@@ -23,6 +23,7 @@ import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.ExpandableListAdapter
 import io.rocketico.mapp.adapter.FiatCurrencySpinnerAdapter
+import io.rocketico.mapp.loadData
 import io.rocketico.mapp.test.MainCurrencyEvent
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
@@ -32,6 +33,7 @@ import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
+import java.math.BigInteger
 
 class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -41,7 +43,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var currentCurrency: Currency
     private lateinit var wallet: Wallet
 
-    private var balance: Float = 0f
+    private var balance: Float? = 0f
     private var rate: Float? = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,12 +71,13 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         refresher.isRefreshing = true
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
-        rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
-        balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
+        rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate ?: 0f
+        val balanceBI = BalanceHelper.loadTokenBalance(context!!, tokenType) ?: BigInteger.ZERO
+        balance = Utils.bigIntegerToFloat(balanceBI)
 
         if (tokenType != TokenType.ETH) {
-            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
-            balance = RateHelper.convertCurrency(rate!!, ethRate!!, balance)
+            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate ?: 0f
+            balance = RateHelper.convertCurrency(rate ?: 0f, ethRate, balance ?: 0f)
         }
 
         setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
@@ -112,7 +115,8 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 it.printStackTrace()
             }
         }) {
-            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)?.marketsInfo!!
+            val marketsInfo = loadData { MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName) }
+            list = marketsInfo?.marketsInfo ?: listOf(TokenInfoResponse.TokenInfoFromMarket())
 
             view?.context?.runOnUiThread {
                 markets.setOnChildClickListener { _, v, _, _, _ ->
@@ -155,7 +159,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         highestRate.text = getString(R.string.balance_template,
                 currentCurrency.currencySymbol, info.highestRate24h)
         tradingVolume.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, info.tradingVolume24h)
+                currentCurrency.currencySymbol, info.traidingVolume24h)
     }
 
     private fun setupListeners() {
@@ -209,25 +213,30 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     @SuppressLint("StringFormatMatches")
     override fun onRefresh() {
         doAsync {
-            val newRates = RateHelper.getTokenRateByDate()
-            RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(newRates!!))
+            val newRates = loadData { RateHelper.getTokenRateByDate() }
+            newRates?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it)) }
 
             val wallet = WalletManager(context!!).getWallet()!!
             val ethHelper = EthereumHelper(Cc.ETH_NODE)
+
             if (tokenType == TokenType.ETH) {
-                BalanceHelper.saveTokenBalance(context!!, tokenType, ethHelper.getBalance(wallet.address))
+                val balance = loadData { ethHelper.getBalance(wallet.address) }
+                balance?.let { BalanceHelper.saveTokenBalance(context!!, tokenType, it) }
             } else {
-                BalanceHelper.saveTokenBalance(context!!, tokenType, ethHelper.getBalanceErc20(
+                val balance = loadData { ethHelper.getBalanceErc20(
                         tokenType.contractAddress,
                         wallet.address,
-                        wallet.privateKey))
+                        wallet.privateKey) }
+                balance?.let { BalanceHelper.saveTokenBalance(context!!, tokenType, it) }
             }
 
-            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)?.marketsInfo!!
+            val marketsInfo = loadData { MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName) }
+            list = marketsInfo?.marketsInfo ?: listOf(TokenInfoResponse.TokenInfoFromMarket())
 
             view?.context?.runOnUiThread {
-                rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
-                balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
+                rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate ?: 0f
+                val balanceBI = BalanceHelper.loadTokenBalance(context!!, tokenType) ?: BigInteger.ZERO
+                balance = Utils.bigIntegerToFloat(balanceBI)
 
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
@@ -248,10 +257,10 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         if (flag) {
             tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), balance)
             fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
-                    Utils.scaleFloat(balance * rate!!))
+                    Utils.scaleFloat(balance!! * rate!!))
         } else {
             tokensTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
-                    Utils.scaleFloat(balance * rate!!))
+                    Utils.scaleFloat(balance!! * rate!!))
             fiatTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), balance)
         }
     }
