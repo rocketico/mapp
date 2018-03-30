@@ -1,23 +1,30 @@
 package io.rocketico.mapp.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import io.rocketico.core.RateHelper
+import io.rocketico.core.model.Currency
+import io.rocketico.core.model.response.TokenInfoResponse
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.item_markets.view.*
 
-class ExpandableListAdapter(context: Context, marketList: List<String>) : BaseExpandableListAdapter() {
+class ExpandableListAdapter(val context: Context, marketList: List<TokenInfoResponse.TokenInfoFromMarket>) : BaseExpandableListAdapter() {
 
     private var mainMarket = marketList[0]
-    private var secondaryMarkets = mutableListOf<String>()
+    private var secondaryMarkets = mutableListOf<TokenInfoResponse.TokenInfoFromMarket>()
     private val inflater = LayoutInflater.from(context)
+    private val currentCurrency: Currency
 
     init {
         for (i in 1 until marketList.size) {
             secondaryMarkets.add(marketList[i])
         }
+
+        currentCurrency = RateHelper.getCurrentCurrency(context)
     }
 
     override fun getGroup(groupPosition: Int): Any = mainMarket
@@ -26,9 +33,11 @@ class ExpandableListAdapter(context: Context, marketList: List<String>) : BaseEx
 
     override fun hasStableIds(): Boolean = false
 
+    @SuppressLint("StringFormatMatches")
     override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
         val view = inflater.inflate(R.layout.item_markets, null)
-        view.marketName.text = mainMarket
+        view.marketName.text = mainMarket.marketName
+        view.exchange.text = context.getString(R.string.balance_template, currentCurrency.currencySymbol, mainMarket.exchange)
         view.arrow.visibility = View.VISIBLE
 
         if (isExpanded) {
@@ -46,9 +55,11 @@ class ExpandableListAdapter(context: Context, marketList: List<String>) : BaseEx
 
     override fun getGroupId(groupPosition: Int): Long = 0L
 
+    @SuppressLint("StringFormatMatches")
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
         val view = inflater.inflate(R.layout.item_markets, null)
-        view.marketName.text = secondaryMarkets[childPosition]
+        view.marketName.text = secondaryMarkets[childPosition].marketName
+        view.exchange.text = context.getString(R.string.balance_template, currentCurrency.currencySymbol, secondaryMarkets[childPosition].exchange)
         return view
     }
 

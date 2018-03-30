@@ -18,7 +18,7 @@ import io.rocketico.core.*
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
-import io.rocketico.core.model.response.TokenInfoFromMarket
+import io.rocketico.core.model.response.TokenInfoResponse
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.ExpandableListAdapter
@@ -28,19 +28,16 @@ import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
 import kotlinx.android.synthetic.main.header_main.*
-import kotlinx.android.synthetic.main.item_markets.view.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 
 class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var listener: TokenFragmentListener
     private lateinit var tokenType: TokenType
-    private lateinit var list: List<TokenInfoFromMarket>
-    private lateinit var listItemData: MutableList<String>
+    private lateinit var list: List<TokenInfoResponse.TokenInfoFromMarket>
     private lateinit var currentCurrency: Currency
     private lateinit var wallet: Wallet
 
@@ -109,29 +106,26 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun setupExchangesList() {
-        val listItemData = mutableListOf<String>()
-
         doAsync({
             context?.runOnUiThread {
                 toast(getString(R.string.update_info_error) + ": " + it.message)
                 it.printStackTrace()
             }
         }) {
-            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)!!
-            list.forEach { listItemData.add(it.marketName) }
+            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)?.marketsInfo!!
 
             view?.context?.runOnUiThread {
                 markets.setOnChildClickListener { _, v, _, _, _ ->
                     val clickedView = v.findViewById<TextView>(R.id.marketName)
-                    val clickedPosition = listItemData.indexOf(listItemData.find { it == clickedView.text }!!)
+                    val clickedPosition = list.indexOf(list.find { it.marketName == clickedView.text }!!)
 
-                    val newState = mutableListOf<String>()
-                    newState.add(listItemData.find { it == clickedView.text }!!)
+                    val newState = mutableListOf<TokenInfoResponse.TokenInfoFromMarket>()
+                    newState.add(list.find { it.marketName == clickedView.text }!!)
 
-                    for (i in 0 until listItemData.size) {
-                        if (listItemData[i] == clickedView.text) continue
+                    for (i in 0 until list.size) {
+                        if (list[i].marketName == clickedView.text) continue
 
-                        newState.add(listItemData[i])
+                        newState.add(list[i])
                     }
 
                     fillInfo(clickedPosition)
@@ -141,7 +135,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 }
 
                 fillInfo(0)
-                markets.setAdapter(ExpandableListAdapter(context!!, listItemData))
+                markets.setAdapter(ExpandableListAdapter(context!!, list))
 
                 refresher.isRefreshing = false
                 tokenContent.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadein))
@@ -229,9 +223,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         wallet.privateKey))
             }
 
-            listItemData = mutableListOf()
-            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)!!
-            list.forEach { listItemData.add(it.marketName) }
+            list = MarketsInfoHelper.getTokenInfoFromMarkets(tokenType.codeName, currentCurrency.codeName)?.marketsInfo!!
 
             view?.context?.runOnUiThread {
                 rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate

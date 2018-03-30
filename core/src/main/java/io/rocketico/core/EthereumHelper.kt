@@ -34,7 +34,7 @@ class EthereumHelper(networkUrl: String) {
     }
 
     fun getTokensHistory(tokenTypeList: List<String>, dateFrom: Date, dateTo: Date = Date()): List<TokenHistoryResponse>? {
-        return Utils.api.getTokensHistory(dateFrom, dateTo, tokenTypeList).execute().body()
+        return Utils.api.getTokensHistory(tokenTypeList, dateFrom, dateTo).execute().body()
     }
 
     fun sendEth(privateKey: String, address: String, value: BigInteger, gasPrice: BigInteger = GAS_PRICE, gasLimit: BigInteger = GAS_LIMIT): String? {
