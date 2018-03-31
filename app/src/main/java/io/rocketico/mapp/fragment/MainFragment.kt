@@ -1,6 +1,5 @@
 package io.rocketico.mapp.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -21,18 +20,20 @@ import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
-import io.rocketico.core.model.response.TokensRatesResponse
 import io.rocketico.mapp.*
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
-import io.rocketico.mapp.test.MainCurrencyEvent
+import io.rocketico.mapp.event.MainCurrencyEvent
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.header_main.*
 import org.greenrobot.eventbus.EventBus
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.toast
 import java.math.BigInteger
 
 class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {

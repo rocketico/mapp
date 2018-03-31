@@ -23,8 +23,8 @@ import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.ExpandableListAdapter
 import io.rocketico.mapp.adapter.FiatCurrencySpinnerAdapter
+import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.loadData
-import io.rocketico.mapp.test.MainCurrencyEvent
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
