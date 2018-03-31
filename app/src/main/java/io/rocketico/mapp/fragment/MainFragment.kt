@@ -251,6 +251,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
+        //todo [priority: high] add EventBus event for updating statistics and history
         doAsync {
             updateBalancesAndRates(true)
 
@@ -296,6 +297,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun setHeaderBalances(flag: Boolean) {
+        //todo [priority: high] add check for divide by zero/null
         if (flag) {
             tokensTotal.text = context!!.setEthBalance(totalBalance)
             fiatTotal.text = context!!.setBalanceWithCurrency(totalFiatBalance)
