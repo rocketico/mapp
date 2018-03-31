@@ -152,7 +152,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             if (RateHelper.isOutdated(context!!, currentCurrency)) {
                 val ratesResponse = loadData { RateHelper.getTokenRateByDate() }
                 if (ratesResponse == null) {
-                    context?.runOnUiThread { longToast("Server is not available") }
+                    context?.runOnUiThread { longToast(getString(R.string.server_is_not_available)) }
                 }
                 ratesResponse?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it))}
             }
@@ -182,7 +182,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
             WalletManager(context!!).saveWallet(wallet)
         } else {
-            context?.runOnUiThread { toast("No internet connection") }
+            context?.runOnUiThread { toast(getString(R.string.no_internet_connection)) }
         }
     }
 
