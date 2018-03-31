@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/from_label"
+            android:text="@string/to_label"
             android:textColor="@color/detailsTextColor"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"

@@ -54,7 +54,7 @@
     <string name="_6m">6M</string>
     <string name="_1y">1Y</string>
     <string name="_2y">2Y</string>
-    <string name="from_label">From:</string>
+    <string name="to_label">To:</string>
     <string name="enter_address_hint">Enter address</string>
     <string name="txfee_label">TxFee</string>
     <string name="total_label">Total:</string>
@@ -88,7 +88,7 @@
     <string name="balance_template">%s %s</string>
 
     <string name="token_list">Token list</string>
-    <string name="search_token">Search token...</string>
+    <string name="search_token">Search token…</string>
     <string name="sending">Sending</string>
     <string name="available_support_template">%s / %s</string>
     <string name="bill_template">%s Bill</string>
@@ -102,7 +102,7 @@
 
     <string name="invalid_address">Invalid address</string>
 
-    <string name="log_out">LogOut</string>
+    <string name="log_out">Logout</string>
     <string name="server_is_not_available">Server is not available</string>
     <string name="no_internet_connection">No internet connection</string>
 
