@@ -12,6 +12,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--todo add "No history" label-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="0dp"

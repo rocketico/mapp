@@ -103,6 +103,8 @@
     <string name="invalid_address">Invalid address</string>
 
     <string name="log_out">LogOut</string>
+    <string name="server_is_not_available">Server is not available</string>
+    <string name="no_internet_connection">No internet connection</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

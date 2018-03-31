@@ -14,7 +14,7 @@ import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
-import io.rocketico.mapp.test.MainCurrencyEvent
+import io.rocketico.mapp.event.MainCurrencyEvent
 import kotlinx.android.synthetic.main.item_token.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

@@ -7,14 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.afollestad.materialdialogs.MaterialDialog
-import io.rocketico.core.*
+import io.rocketico.core.BalanceHelper
+import io.rocketico.core.EthereumHelper
+import io.rocketico.core.RateHelper
+import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_send_bill.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.toast
 import java.math.BigInteger
 
 class SendBillFragment : Fragment() {
@@ -123,7 +129,7 @@ class SendBillFragment : Fragment() {
                     }
                 }
             } else {
-                context?.toast("No internet connection")
+                context?.toast(getString(R.string.no_internet_connection))
             }
         }
     }
