@@ -69,7 +69,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         refresher.isRefreshing = true
 
         ethHelper = EthereumHelper(Cc.ETH_NODE)
-        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
+//        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet //todo debug
+        wallet = WalletManager(context!!).getWallet()!!
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
