@@ -89,6 +89,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun setupRecyclerViews() {
+        //todo [priority: high] implement showing "..." if token info getting error
         val tokens = mutableListOf<IFlexible<*>>()
         listAdapter = FlexibleAdapter(tokens)
         tokenList.layoutManager = LinearLayoutManager(context)

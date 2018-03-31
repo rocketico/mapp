@@ -1,7 +1,6 @@
 package io.rocketico.mapp.fragment
 
 import android.animation.Animator
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,21 +8,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import io.rocketico.core.*
+import io.rocketico.core.BalanceHelper
+import io.rocketico.core.RateHelper
+import io.rocketico.core.Utils
+import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.SendTokenFlexibleItem
 import kotlinx.android.synthetic.main.fragment_send.*
-import io.rocketico.mapp.R.id.view
-import android.support.v4.view.ViewCompat.setAlpha
-import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationSet
-import android.view.animation.AnimationUtils
 import org.jetbrains.anko.toast
 
 
@@ -71,11 +67,13 @@ class SendFragment : Fragment() {
     private fun setupTokens() {
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
 
+        ////todo [priority: high] add check for null
         val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)!!
         val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate!!
         listAdapter.addItem(SendTokenFlexibleItem(TokenType.ETH, currentCurrency,
                 Utils.bigIntegerToFloat(ethBalance), ethRate))
 
+        ////todo [priority: high] add check for null
         wallet.tokens?.forEach {
             if (it.isEther()) return@forEach
 
