@@ -8,16 +8,19 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import io.rocketico.core.BalanceHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
+import io.rocketico.mapp.setBalance
+import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.item_send_token.view.*
 
 data class SendTokenFlexibleItem(val tokenType: TokenType,
                                  private val currentCurrency: Currency,
-                                 private val tokenBalance: Float,
-                                 private val tokenRate: Float) :
+                                 val tokenBalance: Float?,
+                                 private val tokenRate: Float?) :
         AbstractFlexibleItem<SendTokenFlexibleItem.ViewHolder>() {
 
     override fun getLayoutRes() = R.layout.item_send_token
@@ -28,12 +31,24 @@ data class SendTokenFlexibleItem(val tokenType: TokenType,
 
     @SuppressLint("StringFormatMatches")
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        val context = holder.itemView.context
-
         holder.tokenName.text = tokenType.codeName
-        holder.tokenBalance.text = tokenBalance.toString()
-        holder.tokenFiatBalance.text = context.getString(R.string.balance_template,
-                currentCurrency.currencySymbol, Utils.scaleFloat(tokenBalance * tokenRate))
+
+        onBindBalance(holder)
+    }
+
+    private fun onBindBalance(holder: ViewHolder) {
+        val context = holder.itemView.context
+        val flag = BalanceHelper.getMainCurrency(context)
+        val fiatBalance = if (tokenBalance != null && tokenRate != null)
+            tokenBalance * tokenRate else null
+
+        if (flag) {
+            holder.tokenBalance.text = context.setBalance(tokenBalance)
+            holder.tokenFiatBalance.text = context.setBalanceWithCurrency(fiatBalance)
+        } else {
+            holder.tokenBalance.text = context.setBalanceWithCurrency(fiatBalance)
+            holder.tokenFiatBalance.text = context.setBalance(tokenBalance)
+        }
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {

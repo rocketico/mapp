@@ -33,6 +33,12 @@ class SendFragment : Fragment() {
 
     private var address: String? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        fragmentListener = activity as SendFragmentListener
+    }
+
     override fun onResume() {
         super.onResume()
         setQRHandler()
@@ -49,7 +55,6 @@ class SendFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragmentListener = activity as SendFragmentListener
         address = null
 
         val tokens = mutableListOf<IFlexible<*>>()
@@ -67,20 +72,18 @@ class SendFragment : Fragment() {
     private fun setupTokens() {
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
 
-        ////todo [priority: high] add check for null
-        val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)!!
-        val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate!!
-        listAdapter.addItem(SendTokenFlexibleItem(TokenType.ETH, currentCurrency,
-                Utils.bigIntegerToFloat(ethBalance), ethRate))
+        val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)
+        val ethFloatBalance = ethBalance?.let { Utils.bigIntegerToFloat(it) }
+        val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
 
-        ////todo [priority: high] add check for null
+        listAdapter.addItem(SendTokenFlexibleItem(TokenType.ETH, currentCurrency, ethFloatBalance, ethRate))
+
         wallet.tokens?.forEach {
-            if (it.isEther()) return@forEach
+            val tokenBalance = BalanceHelper.loadTokenBalance(context!!, it)
+            val tokenFiatBalance = tokenBalance?.let { Utils.bigIntegerToFloat(it) }
+            val tokenRate = RateHelper.getTokenRate(context!!, it, currentCurrency)?.rate
 
-            val tokenBalance = BalanceHelper.loadTokenBalance(context!!, it)!!
-            val tokenRate = RateHelper.getTokenRate(context!!, it, currentCurrency)?.rate!!
-            listAdapter.addItem(SendTokenFlexibleItem(it, currentCurrency,
-                    Utils.bigIntegerToFloat(tokenBalance), tokenRate))
+            listAdapter.addItem(SendTokenFlexibleItem(it, currentCurrency, tokenFiatBalance, tokenRate))
         }
     }
 
@@ -99,7 +102,11 @@ class SendFragment : Fragment() {
 
         listAdapter.addListener(FlexibleAdapter.OnItemClickListener { _, position ->
             val listItem = listAdapter.getItem(position) as SendTokenFlexibleItem
-            fragmentListener.onSendTokenListItemClick(listItem.tokenType, address)
+            if (listItem.tokenBalance == null) {
+                context!!.toast(getString(R.string.no_balance_info))
+            } else {
+                fragmentListener.onSendTokenListItemClick(listItem.tokenType, address)
+            }
             true
         })
     }
