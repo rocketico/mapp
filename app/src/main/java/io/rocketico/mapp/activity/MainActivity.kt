@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(),
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance(wm.getWallet()!!))
+                .replace(R.id.container, MainFragment.newInstance())
                 .commit()
     }
 

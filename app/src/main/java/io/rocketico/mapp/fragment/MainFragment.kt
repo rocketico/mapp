@@ -43,11 +43,12 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var ethHelper: EthereumHelper
 
+    private lateinit var wm: WalletManager
     private lateinit var wallet: Wallet
     private lateinit var currentCurrency: Currency
 
-    private var totalBalance = 0f
-    private var totalFiatBalance = 0f
+    private var totalBalance: Float? = 0f
+    private var totalFiatBalance: Float? = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +70,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         refresher.isRefreshing = true
 
         ethHelper = EthereumHelper(Cc.ETH_NODE)
-//        wallet = arguments?.getSerializable(WALLET_KEY) as Wallet //todo debug
-        wallet = WalletManager(context!!).getWallet()!!
+        wm = WalletManager(context!!)
+        wallet = wm.getWallet()!!
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
@@ -89,7 +90,6 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun setupRecyclerViews() {
-        //todo [priority: high] implement showing "..." if token info getting error
         val tokens = mutableListOf<IFlexible<*>>()
         listAdapter = FlexibleAdapter(tokens)
         tokenList.layoutManager = LinearLayoutManager(context)
@@ -108,34 +108,25 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             updateBalancesAndRates(false)
 
             view?.context?.runOnUiThread {
-                totalBalance = 0f
-                totalFiatBalance = 0f
-
                 val rates = RateHelper.loadRates(context!!, currentCurrency)?.rates
 
                 //fill ether token
-                val ethRate = rates?.find { it.tokenType == TokenType.ETH }?.rate ?: 0f
-                val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH) ?: BigInteger.ZERO
-                val floatEthBalance = ethBalance?.let { Utils.bigIntegerToFloat(it) } ?: 0f
-
-                totalBalance += floatEthBalance
-                totalFiatBalance += floatEthBalance * ethRate
+                val ethRate = rates?.find { it.tokenType == TokenType.ETH }?.rate
+                val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)
+                val floatEthBalance = ethBalance?.let { Utils.bigIntegerToFloat(it) }
 
                 listAdapter.addItem(TokenFlexibleItem(TokenType.ETH, currentCurrency, floatEthBalance, ethRate))
 
                 //fill other tokens
                 wallet.tokens?.forEach {token ->
-                    val tokenBalance = BalanceHelper.loadTokenBalance(context!!, token) ?: BigInteger.ZERO
-                    val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, token.decimals)
-                    val tokenRate = rates?.find { it.tokenType ==  token}?.rate ?: 0f
-                    val floatTokenFiatBalance = RateHelper.convertCurrency(tokenRate, ethRate, floatTokenBalance)
-
-                    totalBalance += floatTokenFiatBalance
-                    totalFiatBalance += floatTokenBalance * tokenRate
+                    val tokenBalance = BalanceHelper.loadTokenBalance(context!!, token)
+                    val floatTokenBalance = tokenBalance?.let { Utils.bigIntegerToFloat(it, token.decimals) }
+                    val tokenRate = rates?.find { it.tokenType ==  token}?.rate
 
                     listAdapter.addItem(TokenFlexibleItem(token, currentCurrency, floatTokenBalance, tokenRate))
                 }
 
+                countBalances()
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
                 refresher.isRefreshing = false
@@ -164,7 +155,6 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 ethBalance?.let { BalanceHelper.saveTokenBalance(context!!, TokenType.ETH, it) }
             }
 
-            val badTokenList = mutableListOf<TokenType>()
             wallet.tokens?.forEach {token ->
                 if (BalanceHelper.isTokenBalanceOutdated(context!!, token)) {
                     val tokenRate = loadData { ethHelper.getBalanceErc20(
@@ -172,17 +162,9 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                             wallet.address,
                             wallet.privateKey
                     ) }
-                    tokenRate?.let {
-                        BalanceHelper.saveTokenBalance(context!!, token, it)
-                    } ?: badTokenList.add(token)
+                    tokenRate?.let { BalanceHelper.saveTokenBalance(context!!, token, it) }
                 }
             }
-
-            badTokenList.forEach {
-                wallet.tokens?.remove(it)
-            }
-
-            WalletManager(context!!).saveWallet(wallet)
         } else {
             context?.runOnUiThread { toast(getString(R.string.no_internet_connection)) }
         }
@@ -257,31 +239,23 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             updateBalancesAndRates(true)
 
             view?.context?.runOnUiThread {
-                totalBalance = 0f
-                totalFiatBalance = 0f
-
                 val rates = RateHelper.loadRates(context!!, currentCurrency)?.rates
-                val ethRate = rates?.find { it.tokenType == TokenType.ETH }?.rate ?: 0f
 
                 val newItems = listAdapter.currentItems
                 newItems.forEach { token ->
                     if (token is TokenFlexibleItem) {
-                        val tokenRate = rates?.find { it.tokenType ==  token.tokenType }?.rate ?: 0f
-                        val tokenBalance = BalanceHelper.loadTokenBalance(context!!, token.tokenType) ?: BigInteger.ZERO
-                        val floatTokenBalance = Utils.bigIntegerToFloat(tokenBalance, token.tokenType.decimals)
+                        val tokenRate = rates?.find { it.tokenType ==  token.tokenType }?.rate
+                        val tokenBalance = BalanceHelper.loadTokenBalance(context!!, token.tokenType)
+                        val floatTokenBalance = tokenBalance?.let {
+                            Utils.bigIntegerToFloat(it, token.tokenType.decimals)
+                        }
 
                         token.tokenRate = tokenRate
                         token.tokenBalance = floatTokenBalance
-
-                        totalBalance += if (token.tokenType == TokenType.ETH) {
-                            floatTokenBalance
-                        } else {
-                            RateHelper.convertCurrency(tokenRate, ethRate, floatTokenBalance)
-                        }
-                        totalFiatBalance += floatTokenBalance * tokenRate
                     }
                 }
 
+                countBalances()
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
                 listAdapter.updateDataSet(newItems)
@@ -297,8 +271,33 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         EventBus.getDefault().post(MainCurrencyEvent)
     }
 
+    private fun countBalances() {
+        val tokens = listAdapter.currentItems as List<TokenFlexibleItem>
+        val ethRate = tokens.find { it.tokenType == TokenType.ETH }?.tokenRate
+        run loop@{
+            tokens.forEach { token ->
+                val balance = token.tokenBalance
+                val rate = token.tokenRate
+
+                if (balance == null || rate == null || ethRate == null) {
+                    totalBalance = null
+                    totalFiatBalance = null
+                    return@loop
+                } else {
+                    totalBalance = totalBalance?.let {
+                        it + if (token.tokenType == TokenType.ETH) {
+                            balance
+                        } else {
+                            RateHelper.convertCurrency(rate, ethRate, balance)
+                        }
+                    }
+                    totalFiatBalance = totalFiatBalance?.let { it + balance * rate }
+                }
+            }
+        }
+    }
+
     private fun setHeaderBalances(flag: Boolean) {
-        //todo [priority: high] add check for divide by zero/null
         if (flag) {
             tokensTotal.text = context!!.setEthBalance(totalBalance)
             fiatTotal.text = context!!.setBalanceWithCurrency(totalFiatBalance)
@@ -315,15 +314,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     companion object {
-        private const val WALLET_KEY = "wallet_key"
-
-        fun newInstance(wallet: Wallet): MainFragment {
+        fun newInstance(): MainFragment {
             val fragment = MainFragment()
-            val args = Bundle()
-
-            args.putSerializable(WALLET_KEY, wallet)
-            fragment.arguments = args
-
             return fragment
         }
     }
