@@ -297,6 +297,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         EventBus.getDefault().post(MainCurrencyEvent)
     }
 
+    //todo [priority: low] rename flag
     private fun setHeaderBalances(flag: Boolean) {
         //todo [priority: high] add check for divide by zero/null
         if (flag) {
