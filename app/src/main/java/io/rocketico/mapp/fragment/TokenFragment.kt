@@ -15,16 +15,17 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.rocketico.core.*
+import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.core.model.response.TokenInfoResponse
+import io.rocketico.mapp.*
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.ExpandableListAdapter
 import io.rocketico.mapp.adapter.FiatCurrencySpinnerAdapter
 import io.rocketico.mapp.event.MainCurrencyEvent
-import io.rocketico.mapp.loadData
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
@@ -71,13 +72,15 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         refresher.isRefreshing = true
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
-        rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate ?: 0f
-        val balanceBI = BalanceHelper.loadTokenBalance(context!!, tokenType) ?: BigInteger.ZERO
-        balance = Utils.bigIntegerToFloat(balanceBI)
+        rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
+        val balanceBI = BalanceHelper.loadTokenBalance(context!!, tokenType)
+        balance = balanceBI?.let { Utils.bigIntegerToFloat(it) }
 
         if (tokenType != TokenType.ETH) {
-            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate ?: 0f
-            balance = RateHelper.convertCurrency(rate ?: 0f, ethRate, balance ?: 0f)
+            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
+            balance = if (rate != null && ethRate != null && balance != null) {
+                RateHelper.convertCurrency(rate!! , ethRate, balance!!)
+            } else null
         }
 
         setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
@@ -254,14 +257,16 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressLint("StringFormatMatches")
     private fun setHeaderBalances(flag: Boolean) {
+        val fiatBalance =
+                if (balance != null && rate != null) balance!! * rate!!
+                else null
+
         if (flag) {
-            tokensTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), balance)
-            fiatTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
-                    Utils.scaleFloat(balance!! * rate!!))
+            tokensTotal.text = context!!.setEthBalance(balance)
+            fiatTotal.text = context!!.setBalanceWithCurrency(fiatBalance)
         } else {
-            tokensTotal.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
-                    Utils.scaleFloat(balance!! * rate!!))
-            fiatTotal.text = getString(R.string.balance_template, getString(R.string.ether_label), balance)
+            tokensTotal.text = context!!.setBalanceWithCurrency(fiatBalance)
+            fiatTotal.text = context!!.setEthBalance(balance)
         }
     }
 
