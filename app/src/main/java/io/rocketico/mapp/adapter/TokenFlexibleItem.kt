@@ -15,6 +15,9 @@ import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.event.MainCurrencyEvent
+import io.rocketico.mapp.setBalance
+import io.rocketico.mapp.setBalanceWithCurrency
+import io.rocketico.mapp.setEthBalance
 import kotlinx.android.synthetic.main.item_token.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -22,8 +25,8 @@ import org.greenrobot.eventbus.ThreadMode
 
 data class TokenFlexibleItem(val tokenType: TokenType,
                              var currentCurrency: Currency,
-                             var tokenBalance: Float,
-                             var tokenRate: Float) :
+                             var tokenBalance: Float?,
+                             var tokenRate: Float?) :
         AbstractFlexibleItem<TokenFlexibleItem.ViewHolder>() {
 
     private lateinit var mHolder: ViewHolder
@@ -53,8 +56,7 @@ data class TokenFlexibleItem(val tokenType: TokenType,
         mHolder = holder
         
         holder.tokenName.text = tokenType.toString()
-        holder.tokenRate.text = context.getString(R.string.balance_template,
-                currentCurrency.currencySymbol, tokenRate)
+        holder.tokenRate.text = context.setBalanceWithCurrency(tokenRate)
         holder.tokenRateDiff.text = "0" //todo add rates difference
         onBindBalance(holder)
     }
@@ -62,15 +64,15 @@ data class TokenFlexibleItem(val tokenType: TokenType,
     private fun onBindBalance(holder: ViewHolder) {
         val context = holder.itemView.context
         val flag = BalanceHelper.getMainCurrency(context)
+        val fiatBalance = if (tokenBalance != null && tokenRate != null)
+            tokenBalance!! * tokenRate!! else null
 
         if (flag) {
-            holder.tokenBalance.text = tokenBalance.toString()
-            holder.tokenFiatBalance.text = context.getString(R.string.balance_template,
-                    currentCurrency.currencySymbol, Utils.scaleFloat(tokenBalance * tokenRate))
+            holder.tokenBalance.text = context.setBalance(tokenBalance)
+            holder.tokenFiatBalance.text = context.setBalanceWithCurrency(fiatBalance)
         } else {
-            holder.tokenBalance.text = context.getString(R.string.balance_template,
-                    currentCurrency.currencySymbol, Utils.scaleFloat(tokenBalance * tokenRate))
-            holder.tokenFiatBalance.text = tokenBalance.toString()
+            holder.tokenBalance.text = context.setBalanceWithCurrency(fiatBalance)
+            holder.tokenFiatBalance.text = context.setBalance(tokenBalance)
         }
     }
 
