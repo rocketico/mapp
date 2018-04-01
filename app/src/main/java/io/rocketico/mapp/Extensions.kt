@@ -7,14 +7,20 @@ import io.rocketico.core.RateHelper
 import org.jetbrains.anko.doAsyncResult
 
 @SuppressLint("StringFormatMatches")
-fun Context.setBalanceWithCurrency(value: Float): String {
+fun Context.setBalanceWithCurrency(value: Float?): String {
     val currentCurrency = RateHelper.getCurrentCurrency(this)
-    return getString(R.string.balance_template, currentCurrency.currencySymbol, value)
+    return getString(R.string.balance_template, currentCurrency.currencySymbol,
+            value ?: getString(R.string.null_value))
 }
 
 @SuppressLint("StringFormatMatches")
-fun Context.setEthBalance(value: Float): String {
-    return getString(R.string.balance_template, getString(R.string.ether_label), value)
+fun Context.setEthBalance(value: Float?): String {
+    return getString(R.string.balance_template, getString(R.string.ether_label), value ?: getString(R.string.null_value))
+}
+
+@SuppressLint("StringFormatMatches")
+fun Context.setBalance(value: Float?): String {
+    return value?.let { it.toString() } ?: getString(R.string.null_value)
 }
 
 fun <T, R> T.loadData(task: () -> R): R? =
