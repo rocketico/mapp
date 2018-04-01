@@ -10,7 +10,7 @@ import java.math.BigInteger
 import java.math.RoundingMode
 
 object Utils {
-    private const val BASE_URL = "http://134.17.25.175:8080/"
+    private const val BASE_URL = "http://134.17.25.175:8080/" //todo move path ".../api/" here
     private val retrofit: Retrofit
     val api: Api
 

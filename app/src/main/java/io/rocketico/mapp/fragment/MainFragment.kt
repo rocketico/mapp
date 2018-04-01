@@ -297,6 +297,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
+    //todo [priority: low] rename flag
     private fun setHeaderBalances(flag: Boolean) {
         if (flag) {
             tokensTotal.text = context!!.setEthBalance(totalBalance)
