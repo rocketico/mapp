@@ -75,14 +75,15 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
         rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
         val balanceBI = BalanceHelper.loadTokenBalance(context!!, tokenType)
-        balance = balanceBI?.let { Utils.bigIntegerToFloat(it) }
-
-        if (tokenType != TokenType.ETH) {
-            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
-            balance = if (rate != null && ethRate != null && balance != null) {
-                RateHelper.convertCurrency(rate!! , ethRate, balance!!)
-            } else null
-        }
+        balance =
+                if (tokenType == TokenType.ETH) {
+                    balanceBI?.let { Utils.bigIntegerToFloat(it) }
+                } else {
+                    val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
+                    if (rate != null && ethRate != null && balanceBI != null) {
+                        RateHelper.convertCurrency(rate!! , ethRate, Utils.bigIntegerToFloat(balanceBI))
+                    } else null
+                }
 
         setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
@@ -241,7 +242,15 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             view?.context?.runOnUiThread {
                 rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
                 val balanceBI = BalanceHelper.loadTokenBalance(context!!, tokenType)
-                balance = balanceBI?.let { Utils.bigIntegerToFloat(it) }
+                balance =
+                        if (tokenType == TokenType.ETH) {
+                            balanceBI?.let { Utils.bigIntegerToFloat(it) }
+                        } else {
+                            val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
+                            if (rate != null && ethRate != null && balanceBI != null) {
+                                RateHelper.convertCurrency(rate!! , ethRate, Utils.bigIntegerToFloat(balanceBI))
+                            } else null
+                        }
 
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
