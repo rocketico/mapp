@@ -19,6 +19,7 @@ import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.setBalanceWithCurrency
+import io.rocketico.mapp.setTokenBalance
 import kotlinx.android.synthetic.main.fragment_send_details.*
 import org.jetbrains.anko.toast
 
@@ -153,7 +154,7 @@ class SendDetailsFragment : Fragment() {
                 if (prefix == tokenType.codeName + " ") {
                     quantityFiatTextView.text = context!!.setBalanceWithCurrency(fiatQuantity)
                 } else {
-                    quantityFiatTextView.text = context!!.setBalanceWithCurrency(ethQuantity)
+                    quantityFiatTextView.text = context!!.setTokenBalance(tokenType.codeName, ethQuantity)
                 }
 
                 val total = if (txFee != null && fiatQuantity != null) {
