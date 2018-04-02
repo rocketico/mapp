@@ -106,6 +106,7 @@ class StatisticsFragment : Fragment() {
                     for (i in 0 until rates.size) {
                         rates[i]?.values = rates[i]?.values?.filter {
                             it?.tokenSymbol?.toLowerCase() == token.codeName.toLowerCase()
+                                    || it?.tokenSymbol?.toLowerCase() == TokenType.ETH.codeName.toLowerCase()
                         }
                     }
                 }
