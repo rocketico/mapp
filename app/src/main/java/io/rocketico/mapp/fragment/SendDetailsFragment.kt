@@ -18,6 +18,7 @@ import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
+import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.fragment_send_details.*
 import org.jetbrains.anko.toast
 
@@ -29,13 +30,13 @@ class SendDetailsFragment : Fragment() {
     private var address: String? = null
 
     private var balance: Float = 0f
-    private var rate: Float = 0f
-    private var ethRate: Float = 0f
-    private var fiatBalance: Float = 0f
+    private var rate: Float? = 0f
+    private var ethRate: Float? = 0f
+    private var fiatBalance: Float? = 0f
 
     private var ethQuantity: Float = 0f
-    private var fiatQuantity: Float = 0f
-    private var txFee: Float = 0.5f
+    private var fiatQuantity: Float? = 0f
+    private var txFee: Float? = 0f
 
     private lateinit var prefix: String
 
@@ -59,15 +60,14 @@ class SendDetailsFragment : Fragment() {
         prefix = getString(R.string.prefix_template, tokenType.codeName)
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
-        rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate!!
-        ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate!!
+        rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate
+        ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
         balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
-        fiatBalance = balance * rate
+        fiatBalance = rate?.let { balance * it }
 
         tokenName.text = tokenType.codeName
         tokenBalance.text = balance.toString()
-        tokenFiatBalance.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, Utils.scaleFloat(fiatBalance))
+        tokenFiatBalance.text = context!!.setBalanceWithCurrency(fiatBalance)
 
         if (address != null) {
             addressEditText.setText(address)
@@ -75,10 +75,18 @@ class SendDetailsFragment : Fragment() {
 
         quantityEditText.setText(prefix)
 
-        quantityFiatTextView.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, Utils.scaleFloat(fiatQuantity))
-        txFeeTextView.text = getString(R.string.balance_template, currentCurrency.currencySymbol,
-                Utils.scaleFloat(txFee))
+        if (rate == null) {
+            seekBar.isEnabled = false
+            changeButton.isEnabled = false
+
+            fiatQuantity = null
+            txFee = null
+
+            txFeeTextView.text = context!!.setBalanceWithCurrency(txFee)
+            totalTextView.text == context!!.setBalanceWithCurrency(fiatQuantity)
+        }
+
+        quantityFiatTextView.text = context!!.setBalanceWithCurrency(fiatQuantity)
 
         setupListeners()
         setupSeekBar()
@@ -127,15 +135,15 @@ class SendDetailsFragment : Fragment() {
                             return
                         }
                         ethQuantity = value.toFloat()
-                        fiatQuantity = ethQuantity * rate
+                        fiatQuantity = rate?.let { ethQuantity * it }
                     } else {
-                        if (value.toFloat() > fiatBalance) {
+                        if (value.toFloat() > fiatBalance!!) {
                             quantityEditText.setText(getString(R.string.quantity_template, prefix, fiatBalance))
                             Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                             return
                         }
                         fiatQuantity = value.toFloat()
-                        ethQuantity = fiatQuantity / rate
+                        ethQuantity = fiatQuantity!! / rate!!
                     }
                 } else {
                     ethQuantity = 0f
@@ -143,14 +151,15 @@ class SendDetailsFragment : Fragment() {
                 }
 
                 if (prefix == tokenType.codeName + " ") {
-                    quantityFiatTextView.text = getString(R.string.balance_template,
-                            currentCurrency.currencySymbol, Utils.scaleFloat(fiatQuantity))
+                    quantityFiatTextView.text = context!!.setBalanceWithCurrency(fiatQuantity)
                 } else {
-                    quantityFiatTextView.text = getString(R.string.balance_template,
-                            tokenType.codeName, Utils.scaleFloat(ethQuantity))
+                    quantityFiatTextView.text = context!!.setBalanceWithCurrency(ethQuantity)
                 }
-                totalTextView.text = getString(R.string.balance_template,
-                        currentCurrency.currencySymbol, Utils.scaleFloat(txFee + fiatQuantity))
+
+                val total = if (txFee != null && fiatQuantity != null) {
+                    txFee!! + fiatQuantity!!
+                } else null
+                totalTextView.text = context?.setBalanceWithCurrency(total)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -169,11 +178,13 @@ class SendDetailsFragment : Fragment() {
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                txFee = Utils.txFeeFromGwei(progress + 1, ethRate, tokenType)
-                txFeeTextView.text = getString(R.string.balance_template,
-                        currentCurrency.currencySymbol, Utils.scaleFloat(txFee))
-                totalTextView.text = getString(R.string.balance_template,
-                        currentCurrency.currencySymbol, Utils.scaleFloat(txFee + fiatQuantity))
+                if (rate != null && ethRate != null) {
+                    txFee = Utils.txFeeFromGwei(progress + 1, ethRate!!, tokenType)
+                    txFeeTextView.text = getString(R.string.balance_template,
+                            currentCurrency.currencySymbol, Utils.scaleFloat(txFee!!))
+                    totalTextView.text = getString(R.string.balance_template,
+                            currentCurrency.currencySymbol, Utils.scaleFloat(txFee!! + fiatQuantity!!))
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -202,9 +213,11 @@ class SendDetailsFragment : Fragment() {
             context?.toast(context?.getString(R.string.payment_error)!!)
             return false
         }
-        if (fiatQuantity + txFee > fiatBalance) {
-            context?.toast(context?.getString(R.string.balance_error)!!)
-            return false
+        if (rate != null) {
+            if (fiatQuantity!! + txFee!! > fiatBalance!!) {
+                context?.toast(context?.getString(R.string.balance_error)!!)
+                return false
+            }
         }
 
         return true

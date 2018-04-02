@@ -18,9 +18,9 @@ import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.item_send_token.view.*
 
 data class SendTokenFlexibleItem(val tokenType: TokenType,
-                                 private val currentCurrency: Currency,
+                                 val currentCurrency: Currency,
                                  val tokenBalance: Float?,
-                                 private val tokenRate: Float?) :
+                                 val tokenRate: Float?) :
         AbstractFlexibleItem<SendTokenFlexibleItem.ViewHolder>() {
 
     override fun getLayoutRes() = R.layout.item_send_token

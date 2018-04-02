@@ -16,6 +16,7 @@ import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
+import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.fragment_send_bill.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.longToast
@@ -55,19 +56,22 @@ class SendBillFragment : Fragment() {
     @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
-        val rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate!!
-        val ethRate = RateHelper.getTokenRate(context!!,TokenType.ETH, currentCurrency)?.rate!!
-        val txFee = Utils.txFeeFromGwei(gasPrice, ethRate, tokenType)
+        val rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate
+        val ethRate = RateHelper.getTokenRate(context!!,TokenType.ETH, currentCurrency)?.rate
+        val txFee = ethRate?.let { Utils.txFeeFromGwei(gasPrice, it, tokenType) }
+        val fiatQuantity = rate?.let { eth * it }
+        val total = if (fiatQuantity != null && txFee != null) {
+            fiatQuantity + txFee
+        } else {
+            null
+        }
 
         billName.text = getString(R.string.bill_template, tokenType.codeName)
         billAddress.text = address
         billQuantity.text = getString(R.string.balance_template, tokenType.codeName, Utils.scaleFloat(eth))
-        billFiatQuantity.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, Utils.scaleFloat(eth * rate))
-        billTxFeeQuantity.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, Utils.scaleFloat(txFee))
-        billTotal.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, Utils.scaleFloat((eth * rate) + txFee))
+        billFiatQuantity.text = context!!.setBalanceWithCurrency(fiatQuantity)
+        billTxFeeQuantity.text = context!!.setBalanceWithCurrency(txFee)
+        billTotal.text = context!!.setBalanceWithCurrency(total)
 
         setupListeners()
     }
