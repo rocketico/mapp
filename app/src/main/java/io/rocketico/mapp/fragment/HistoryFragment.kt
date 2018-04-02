@@ -54,7 +54,6 @@ class HistoryFragment : Fragment() {
 
         ethereumHelper = EthereumHelper(Cc.ETH_NODE)
 
-        setupRecyclerView()
         showHistory()
         setupButtons()
     }
@@ -99,14 +98,12 @@ class HistoryFragment : Fragment() {
         button.typeface = Typeface.DEFAULT_BOLD
     }
 
-    private fun setupRecyclerView() {
+    private fun showHistory() {
         historyItems = mutableListOf()
         historyListAdapter = FlexibleAdapter(historyItems as List<IFlexible<*>>)
         recyclerViewHistory.layoutManager = LinearLayoutManager(context)
         recyclerViewHistory.adapter = historyListAdapter
-    }
 
-    private fun showHistory() {
         progressBar.visibility = View.VISIBLE
         doAsync({
             context?.runOnUiThread {
@@ -139,35 +136,26 @@ class HistoryFragment : Fragment() {
                 history?.forEach { historyItem ->
                     if (currentDirection != TokenDirection.ALL) {
                         if (currentDirection == TokenDirection.IN) {
-                            if (!historyItem.isReceived) return@forEach
+                            if (!historyItem.received) return@forEach
                         } else if (currentDirection == TokenDirection.OUT) {
-                            if (historyItem.isReceived) return@forEach
+                            if (historyItem.received) return@forEach
                         }
                     }
                     val tmpItem = HistoryFlexibleItem.HistoryItem()
-                    tmpItem.isReceived = historyItem.isReceived
-                    tmpItem.address = historyItem.address
+                    tmpItem.isReceived = historyItem.received
+                    tmpItem.address = historyItem.addressFrom
                     tmpItem.date = historyItem.date
                     tmpItem.confirmations = historyItem.confirmations
                     tmpItem.tokenName = historyItem.tokenType!!
 
                     val currentTokenType = TokenType.values().find { tt -> tt.codeName.toLowerCase() == historyItem.tokenType!!.toLowerCase() }
                     if (currentTokenType != null) {
-                        tmpItem.value = io.rocketico.core.Utils.bigIntegerToFloat(
-                                BigInteger(historyItem.value, 16),
-                                currentTokenType.decimals
-                        )
+                        tmpItem.value = historyItem.value
                     } else {
-                        tmpItem.value = io.rocketico.core.Utils.bigIntegerToFloat(
-                                BigInteger(historyItem.value, 16),
-                                18 // todo
-                        )
+                        tmpItem.value = historyItem.value
                     }
 
-                    tmpItem.fee = io.rocketico.core.Utils.bigIntegerToFloat(
-                            BigInteger(historyItem.fee, 16),
-                            18
-                    )
+                    tmpItem.fee = historyItem.fee
 
 
                     val fiatRate = rates?.rates?.find { rate -> rate.tokenSymbol == historyItem.tokenType }?.rate
