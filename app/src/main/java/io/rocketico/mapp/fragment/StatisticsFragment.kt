@@ -14,10 +14,14 @@ import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
+import io.rocketico.mapp.event.RefreshEvent
 import io.rocketico.mapp.loadData
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import kotlinx.android.synthetic.main.include_date_panel.*
 import lecho.lib.hellocharts.model.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
@@ -37,6 +41,7 @@ class StatisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        EventBus.getDefault().register(this)
 
         arguments?.getSerializable(TOKEN_KEY)?.let { token = it as TokenType }
 
@@ -44,6 +49,11 @@ class StatisticsFragment : Fragment() {
 
         showCharts()
         setupButtons()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        EventBus.getDefault().unregister(this)
     }
 
     private fun setupButtons() {
@@ -179,6 +189,11 @@ class StatisticsFragment : Fragment() {
                 bottomChart.columnChartData = columnChartData
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: RefreshEvent) {
+        showCharts()
     }
 
     companion object {

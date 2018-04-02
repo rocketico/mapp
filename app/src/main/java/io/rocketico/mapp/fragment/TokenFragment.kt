@@ -26,6 +26,7 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.ExpandableListAdapter
 import io.rocketico.mapp.adapter.FiatCurrencySpinnerAdapter
 import io.rocketico.mapp.event.MainCurrencyEvent
+import io.rocketico.mapp.event.RefreshEvent
 import kotlinx.android.synthetic.main.bottom_main.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
@@ -215,6 +216,8 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressLint("StringFormatMatches")
     override fun onRefresh() {
+        EventBus.getDefault().post(RefreshEvent)
+
         doAsync {
             val newRates = loadData { RateHelper.getTokenRateByDate() }
             newRates?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it)) }

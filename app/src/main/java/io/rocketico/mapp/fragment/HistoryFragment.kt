@@ -19,9 +19,13 @@ import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.adapter.HistoryFlexibleItem
+import io.rocketico.mapp.event.RefreshEvent
 import io.rocketico.mapp.loadData
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.include_date_panel.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
@@ -45,14 +49,22 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        EventBus.getDefault().register(this)
 
         arguments?.getSerializable(TOKEN_TYPE)?.let { tokenType = it as TokenType }
         wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
 
         ethereumHelper = EthereumHelper(Cc.ETH_NODE)
 
+        setupRecyclerView()
         showHistory()
         setupButtons()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        EventBus.getDefault().unregister(this)
     }
 
     private fun setupButtons() {
@@ -89,12 +101,14 @@ class HistoryFragment : Fragment() {
         button.typeface = Typeface.DEFAULT_BOLD
     }
 
-    private fun showHistory() {
+    private fun setupRecyclerView() {
         historyItems = mutableListOf()
         historyListAdapter = FlexibleAdapter(historyItems as List<IFlexible<*>>)
         recyclerViewHistory.layoutManager = LinearLayoutManager(context)
         recyclerViewHistory.adapter = historyListAdapter
+    }
 
+    private fun showHistory() {
         progressBar.visibility = View.VISIBLE
         doAsync({
             context?.runOnUiThread {
@@ -163,6 +177,11 @@ class HistoryFragment : Fragment() {
                 }
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: RefreshEvent) {
+        showHistory()
     }
 
     companion object {
