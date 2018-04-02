@@ -125,15 +125,16 @@ class HistoryFragment : Fragment() {
             }
 
             val history = loadData { ethereumHelper.getTokensHistory(wallet.address, typeList, Utils.nDaysAgo(currentDayRange)) }
-            if (history == null) {
-                noHistoryLabel.visibility = View.VISIBLE
-            } else {
-                noHistoryLabel.visibility = View.GONE
-            }
             val rates = loadData { RateHelper.getTokenRateByDate() }
 
             view?.context?.runOnUiThread {
                 progressBar.visibility = View.GONE
+
+                if (history == null) {
+                    noHistoryLabel.visibility = View.VISIBLE
+                } else {
+                    noHistoryLabel.visibility = View.GONE
+                }
 
                 history?.forEach { historyItem ->
                     if (currentDirection != TokenDirection.ALL) {
