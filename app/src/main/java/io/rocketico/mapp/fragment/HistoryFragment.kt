@@ -12,7 +12,6 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.EthereumHelper
 import io.rocketico.core.RateHelper
-import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
@@ -29,7 +28,6 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 import java.math.BigInteger
 
 class HistoryFragment : Fragment() {
@@ -127,6 +125,11 @@ class HistoryFragment : Fragment() {
             }
 
             val history = loadData { ethereumHelper.getTokensHistory(typeList, Utils.nDaysAgo(currentDayRange)) }
+            if (history == null) {
+                noHistoryLabel.visibility = View.VISIBLE
+            } else {
+                noHistoryLabel.visibility = View.GONE
+            }
             val rates = loadData { RateHelper.getTokenRateByDate() }
 
             view?.context?.runOnUiThread {
