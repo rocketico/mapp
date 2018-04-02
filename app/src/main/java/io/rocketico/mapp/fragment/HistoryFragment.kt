@@ -124,7 +124,7 @@ class HistoryFragment : Fragment() {
                 typeList = mutableListOf(tokenType?.codeName!!)
             }
 
-            val history = loadData { ethereumHelper.getTokensHistory(typeList, Utils.nDaysAgo(currentDayRange)) }
+            val history = loadData { ethereumHelper.getTokensHistory(wallet.address, typeList, Utils.nDaysAgo(currentDayRange)) }
             if (history == null) {
                 noHistoryLabel.visibility = View.VISIBLE
             } else {

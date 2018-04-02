@@ -28,6 +28,7 @@ interface Api {
 
     @GET("api/transactions")
     fun getTokensHistory(
+            @Query("address") walletAddress: String,
             @Query("tokenTypeList") tokenTypeList: List<String>,
             @Query("dateFrom") dateFrom: Date,
             @Query("dateTo") dateTo: Date

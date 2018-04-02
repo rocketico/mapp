@@ -33,8 +33,8 @@ class EthereumHelper(networkUrl: String) {
         return token.balanceOf(address).sendAsync().get()
     }
 
-    fun getTokensHistory(tokenTypeList: List<String>, dateFrom: Date, dateTo: Date = Date()): List<TokenHistoryResponse>? {
-        return Utils.api.getTokensHistory(tokenTypeList, dateFrom, dateTo).execute().body()
+    fun getTokensHistory(walletAddress: String, tokenTypeList: List<String>, dateFrom: Date, dateTo: Date = Date()): List<TokenHistoryResponse>? {
+        return Utils.api.getTokensHistory(walletAddress, tokenTypeList, dateFrom, dateTo).execute().body()
     }
 
     fun sendEth(privateKey: String, address: String, value: BigInteger, gasPrice: BigInteger = GAS_PRICE, gasLimit: BigInteger = GAS_LIMIT): String? {
