@@ -172,7 +172,14 @@ class SendDetailsFragment : Fragment() {
             }
 
         })
+
+        quantityEditText.setOnTouchListener{ _, event ->
+            quantityEditText.onTouchEvent(event)
+            quantityEditText.setSelection(quantityEditText.text.length)
+            true
+        }
     }
+
     @SuppressLint("StringFormatMatches")
     private fun setupSeekBar() {
         seekBar.max = gasPriceMax
