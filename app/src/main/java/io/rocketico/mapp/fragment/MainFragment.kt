@@ -274,6 +274,9 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun countBalances() {
+        totalBalance = 0f
+        totalFiatBalance = 0f
+
         val tokens = listAdapter.currentItems as List<TokenFlexibleItem>
         val ethRate = tokens.find { it.tokenType == TokenType.ETH }?.tokenRate
         run loop@{

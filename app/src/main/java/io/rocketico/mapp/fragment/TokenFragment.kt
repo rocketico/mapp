@@ -222,7 +222,6 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             val newRates = loadData { RateHelper.getTokenRateByDate() }
             newRates?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it)) }
 
-            val wallet = WalletManager(context!!).getWallet()!!
             val ethHelper = EthereumHelper(Cc.ETH_NODE)
 
             if (tokenType == TokenType.ETH) {
@@ -240,9 +239,9 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             list = marketsInfo?.marketsInfo ?: listOf(TokenInfoResponse.TokenInfoFromMarket())
 
             view?.context?.runOnUiThread {
-                rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate ?: 0f
-                val balanceBI = BalanceHelper.loadTokenBalance(context!!, tokenType) ?: BigInteger.ZERO
-                balance = Utils.bigIntegerToFloat(balanceBI)
+                rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
+                val balanceBI = BalanceHelper.loadTokenBalance(context!!, tokenType)
+                balance = balanceBI?.let { Utils.bigIntegerToFloat(it) }
 
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
