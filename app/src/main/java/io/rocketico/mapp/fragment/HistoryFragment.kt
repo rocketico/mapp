@@ -148,13 +148,7 @@ class HistoryFragment : Fragment() {
                     tmpItem.confirmations = historyItem.confirmations
                     tmpItem.tokenName = historyItem.tokenType!!
 
-                    val currentTokenType = TokenType.values().find { tt -> tt.codeName.toLowerCase() == historyItem.tokenType!!.toLowerCase() }
-                    if (currentTokenType != null) {
-                        tmpItem.value = historyItem.value
-                    } else {
-                        tmpItem.value = historyItem.value
-                    }
-
+                    tmpItem.value = historyItem.value
                     tmpItem.fee = historyItem.fee
 
 
@@ -162,7 +156,7 @@ class HistoryFragment : Fragment() {
 
                     fiatRate?.let {
                         tmpItem.valueFiat = tmpItem.value!! * fiatRate
-                        tmpItem.feeFiat = tmpItem.fee!! * fiatRate
+                        tmpItem.feeFiat = tmpItem.fee!! / fiatRate
                     }
 
                     historyListAdapter.addItem(HistoryFlexibleItem(tmpItem))

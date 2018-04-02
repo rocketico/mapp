@@ -9,8 +9,11 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import io.rocketico.core.Utils
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
+import io.rocketico.mapp.setBalanceWithCurrency
+import io.rocketico.mapp.setEthBalance
 import kotlinx.android.synthetic.main.item_history.view.*
 import java.util.*
 
@@ -29,11 +32,13 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
         } else {
             holder.direction.setImageDrawable(holder.itemView.resources.getDrawable(R.drawable.ic_direction_up))
         }
+        val context = holder.itemView.context
+
         holder.address.text = item.address!!.substring(0..15) + "..."
-        holder.valueFiat.text = item.value?.toString()
-        holder.value.text = item.value.toString()
-        holder.fee.text = item.fee.toString() + " " + item.tokenName
-        holder.feeFiat.text = item.feeFiat?.toString()
+        holder.valueFiat.text = context.setBalanceWithCurrency(item.valueFiat)
+        holder.value.text = item.tokenName + " " + item.value.toString()
+        holder.fee.text = Utils.scaleFloat(item.feeFiat!!) + " " + item.tokenName
+        holder.feeFiat.text = context.setBalanceWithCurrency(item.fee)
         holder.confirmations.text = item.confirmations.toString()
     }
 
