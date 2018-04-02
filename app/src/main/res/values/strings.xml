@@ -108,6 +108,7 @@
 
     <string name="null_value">...</string>
     <string name="no_balance_info">No balance info</string> <!--todo rename it -->
+    <string name="no_history">No history</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
