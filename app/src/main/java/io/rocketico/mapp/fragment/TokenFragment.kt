@@ -1,6 +1,7 @@
 package io.rocketico.mapp.fragment
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -87,6 +88,18 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
+
+        val icon = try {
+            context!!.assets.open("tokens_icons/${tokenType.codeName}.png")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+
+        if (icon != null) {
+            val draw = Drawable.createFromStream(icon, null)
+            tokenImage.setImageDrawable(draw)
+        }
         tokenName.text = tokenType.codeName
         launchDate.text = tokenType.launchDate
         hashingAlgorithm.text = tokenType.hashAlgorithm
