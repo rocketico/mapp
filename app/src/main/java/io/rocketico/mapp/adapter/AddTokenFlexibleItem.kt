@@ -1,6 +1,7 @@
 package io.rocketico.mapp.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
@@ -37,13 +38,25 @@ data class AddTokenFlexibleItem(val tokenType: TokenType,
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>, holder: AddTokenViewHolder, position: Int, payloads: MutableList<Any>) {
         val context = holder.itemView.context
 
+        val icon = try {
+            context.assets.open("tokens_icons/${tokenType.codeName}.png")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+
+        if (icon != null) {
+            val draw = Drawable.createFromStream(icon, null)
+            holder.tokenImage.setImageDrawable(draw)
+        }
+
         holder.tokenName.text = tokenType.codeName
         holder.tokenCoast.text = context.getString(R.string.balance_template, currentCurrency,tokenRate)
         holder.tokenMarket.text = tokenMarket
     }
 
     class AddTokenViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
-        val tokenImage: CircleImageView? = view.tokenImage
+        val tokenImage: CircleImageView = view.tokenImage
         val tokenName: TextView = view.tokenName
         val tokenCoast: TextView = view.tokenCoast
         val tokenMarket: TextView = view.tokenMarket

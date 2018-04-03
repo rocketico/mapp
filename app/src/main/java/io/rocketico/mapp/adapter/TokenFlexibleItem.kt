@@ -1,6 +1,7 @@
 package io.rocketico.mapp.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
@@ -54,7 +55,19 @@ data class TokenFlexibleItem(val tokenType: TokenType,
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         val context = holder.itemView.context
         mHolder = holder
-        
+
+        val icon = try {
+            context.assets.open("tokens_icons/${tokenType.codeName}.png")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+
+        if (icon != null) {
+            val draw = Drawable.createFromStream(icon, null)
+            holder.tokenImage.setImageDrawable(draw)
+        }
+
         holder.tokenName.text = tokenType.toString()
         holder.tokenRate.text = context.setBalanceWithCurrency(tokenRate)
         holder.tokenRateDiff.text = "0" //todo add rates difference
@@ -77,7 +90,7 @@ data class TokenFlexibleItem(val tokenType: TokenType,
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {
-        val tokenImage: CircleImageView? = view.tokenImage
+        val tokenImage: CircleImageView = view.tokenImage
         val tokenName: TextView = view.tokenName
         val tokenRate: TextView = view.tokenRate
         val tokenRateDiff: TextView = view.tokenRateDiff

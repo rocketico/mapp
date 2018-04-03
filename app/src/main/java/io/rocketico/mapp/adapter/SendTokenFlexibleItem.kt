@@ -1,6 +1,7 @@
 package io.rocketico.mapp.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.TextView
 import de.hdodenhof.circleimageview.CircleImageView
@@ -31,6 +32,20 @@ data class SendTokenFlexibleItem(val tokenType: TokenType,
 
     @SuppressLint("StringFormatMatches")
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        val context = holder.itemView.context
+
+        val icon = try {
+            context.assets.open("tokens_icons/${tokenType.codeName}.png")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+
+        if (icon != null) {
+            val draw = Drawable.createFromStream(icon, null)
+            holder.tokenImage.setImageDrawable(draw)
+        }
+
         holder.tokenName.text = tokenType.codeName
 
         onBindBalance(holder)
@@ -52,7 +67,7 @@ data class SendTokenFlexibleItem(val tokenType: TokenType,
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {
-        val tokenImage: CircleImageView? = view.tokenSendImage
+        val tokenImage: CircleImageView = view.tokenSendImage
         val tokenName: TextView = view.tokenSendName
         val tokenBalance: TextView = view.tokenSendBalance
         val tokenFiatBalance: TextView = view.tokenSendFiatBalance
