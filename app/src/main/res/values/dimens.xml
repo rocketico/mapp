@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Header dimens -->
+    <dimen name="header_margin">15dp</dimen>
+    <dimen name="header_margin_start">25dp</dimen>
+    <dimen name="back_button_size">48dp</dimen>
+    <dimen name="menu_button_size">54dp</dimen>
+
+    <dimen name="header_large_text_size">29sp</dimen>
+    <dimen name="header_medium_text_size">15sp</dimen>
+    <dimen name="header_small_text_size">13sp</dimen>
+
+    <!-- old -->
     <dimen name="button_min_height">42dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="header_other_padding">15dp</dimen>
     <dimen name="header_start_padding">26dp</dimen>
     <dimen name="header_height">106dp</dimen>
-    <dimen name="menu_button_size">24dp</dimen>
+    <!--<dimen name="menu_button_size">24dp</dimen>-->
     <dimen name="menu_button_margin">15dp</dimen>
 
     <dimen name="view_pager_margin">9dp</dimen>

@@ -28,15 +28,14 @@ import io.rocketico.mapp.adapter.ExpandableListAdapter
 import io.rocketico.mapp.adapter.FiatCurrencySpinnerAdapter
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
-import kotlinx.android.synthetic.main.bottom_main.*
+import kotlinx.android.synthetic.main.include_bottom.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
-import kotlinx.android.synthetic.main.header_main.*
+import kotlinx.android.synthetic.main.include_header.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
-import java.math.BigInteger
 
 class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -70,7 +69,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         backButton.visibility = View.VISIBLE
-        helpingView.visibility = View.VISIBLE
+        helpingView.visibility = View.INVISIBLE
         refresher.isRefreshing = true
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
@@ -224,8 +223,8 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         refresher.setOnRefreshListener(this)
 
-        tokensTotal.setOnClickListener(onBalanceClickListener)
-        fiatTotal.setOnClickListener(onBalanceClickListener)
+        headerMainCurrency.setOnClickListener(onBalanceClickListener)
+        headerSecondaryCurrency.setOnClickListener(onBalanceClickListener)
     }
 
     @SuppressLint("StringFormatMatches")
@@ -286,11 +285,11 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 else null
 
         if (flag) {
-            tokensTotal.text = context!!.setEthBalance(balance)
-            fiatTotal.text = context!!.setBalanceWithCurrency(fiatBalance)
+            headerMainCurrency.text = context!!.setEthBalance(balance)
+            headerSecondaryCurrency.text = context!!.setBalanceWithCurrency(fiatBalance)
         } else {
-            tokensTotal.text = context!!.setBalanceWithCurrency(fiatBalance)
-            fiatTotal.text = context!!.setEthBalance(balance)
+            headerMainCurrency.text = context!!.setBalanceWithCurrency(fiatBalance)
+            headerSecondaryCurrency.text = context!!.setEthBalance(balance)
         }
     }
 

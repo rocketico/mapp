@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/header"
-        layout="@layout/header_main"
+        layout="@layout/include_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/header_height"
         app:layout_constraintEnd_toEndOf="parent"
@@ -344,7 +344,7 @@
 
         <include
             android:id="@+id/bottom"
-            layout="@layout/bottom_main"
+            layout="@layout/include_bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -26,10 +26,10 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
-import kotlinx.android.synthetic.main.bottom_main.*
+import kotlinx.android.synthetic.main.include_bottom.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.header_main.*
+import kotlinx.android.synthetic.main.include_header.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.longToast
@@ -229,8 +229,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         refresher.setOnRefreshListener(this)
 
-        tokensTotal.setOnClickListener(onBalanceClickListener)
-        fiatTotal.setOnClickListener(onBalanceClickListener)
+        headerMainCurrency.setOnClickListener(onBalanceClickListener)
+        headerSecondaryCurrency.setOnClickListener(onBalanceClickListener)
     }
 
     override fun onRefresh() {
@@ -305,11 +305,11 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     //todo [priority: low] rename flag
     private fun setHeaderBalances(flag: Boolean) {
         if (flag) {
-            tokensTotal.text = context!!.setEthBalance(totalBalance)
-            fiatTotal.text = context!!.setBalanceWithCurrency(totalFiatBalance)
+            headerMainCurrency.text = context!!.setEthBalance(totalBalance)
+            headerSecondaryCurrency.text = context!!.setBalanceWithCurrency(totalFiatBalance)
         } else {
-            tokensTotal.text = context!!.setBalanceWithCurrency(totalFiatBalance)
-            fiatTotal.text = context!!.setEthBalance(totalBalance)
+            headerMainCurrency.text = context!!.setBalanceWithCurrency(totalFiatBalance)
+            headerSecondaryCurrency.text = context!!.setEthBalance(totalBalance)
         }
     }
 

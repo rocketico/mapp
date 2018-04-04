@@ -10,6 +10,15 @@
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
     </style>
 
+    <style name="AppTheme.Button" parent="@android:style/Widget.Button">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:minHeight">@dimen/button_min_height</item>
+    </style>
+
+
+
     <style name="MainActivityTheme" parent="AppTheme">
         <item name="colorAccent">@color/white</item>
     </style>
@@ -24,28 +33,39 @@
         <item name="android:focusable">true</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
-    <style name="HeaderTextStyle" parent="AppTheme">
-        <item name="android:textColor">@color/white</item>
+
+    <style name="HeaderTheme">
+        <item name="android:background">@drawable/background_header</item>
+        <item name="android:elevation">3dp</item>
+        <item name="android:textViewStyle">@style/HeaderTheme.TextView</item>
     </style>
 
-    <style name="HeaderTextStyle.Small" parent="HeaderTextStyle">
-        <item name="android:textSize">13sp</item>
+    <style name="HeaderTheme.TextView" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="HeaderTextStyle.Medium" parent="HeaderTextStyle">
-        <item name="android:textSize">15sp</item>
+    <style name="HeaderTheme.ImageButton" parent="@android:style/Widget.ImageButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:tint">@android:color/white</item>
     </style>
 
-    <style name="HeaderTextStyle.Large" parent="HeaderTextStyle">
-        <item name="android:textSize">29sp</item>
-    </style>
+    <!-- old -->
+    <!--<style name="HeaderTextStyle" parent="AppTheme">-->
+        <!--<item name="android:textColor">@color/white</item>-->
+    <!--</style>-->
 
-    <style name="AppTheme.Button" parent="@android:style/Widget.Button">
-        <item name="android:background">@color/colorPrimaryDark</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="android:minHeight">@dimen/button_min_height</item>
-    </style>
+    <!--<style name="HeaderTextStyle.Small" parent="HeaderTextStyle">-->
+        <!--<item name="android:textSize">13sp</item>-->
+    <!--</style>-->
+
+    <!--<style name="HeaderTextStyle.Medium" parent="HeaderTextStyle">-->
+        <!--<item name="android:textSize">15sp</item>-->
+    <!--</style>-->
+
+    <!--<style name="HeaderTextStyle.Large" parent="HeaderTextStyle">-->
+        <!--<item name="android:textSize">29sp</item>-->
+    <!--</style>-->
 
     <style name="WalletItemTextStyle">
         <item name="android:textColor">@color/grey</item>

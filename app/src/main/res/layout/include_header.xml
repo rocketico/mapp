@@ -3,20 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/HeaderTextStyle"
-    android:elevation="3dp"
-    android:background="@drawable/background_header"
+    android:theme="@style/HeaderTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    tools:context=".activity.MainActivity">
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/transparentColor"
-        android:tint="@color/white"
+        style="@style/HeaderTheme.ImageButton"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,57 +32,54 @@
         android:id="@+id/totalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="@dimen/header_margin_start"
+        android:layout_marginTop="@dimen/header_margin"
         android:text="@string/wallet_total"
-        android:theme="@style/HeaderTextStyle.Medium"
+        android:textSize="@dimen/header_medium_text_size"
         app:layout_constraintStart_toStartOf="@+id/helpingView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/menuImageButton"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:tint="@color/white"
+        style="@style/HeaderTheme.ImageButton"
+        android:layout_width="@dimen/menu_button_size"
+        android:layout_height="@dimen/menu_button_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_dehaze_black_24dp" />
 
     <TextView
-        android:id="@+id/tokensTotal"
+        android:id="@+id/headerMainCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:theme="@style/HeaderTextStyle.Large"
+        android:layout_marginStart="@dimen/header_margin_start"
+        android:textSize="@dimen/header_large_text_size"
         app:layout_constraintStart_toStartOf="@+id/helpingView"
         app:layout_constraintTop_toBottomOf="@+id/totalTextView"
-        tools:text="10000.20202" />
+        tools:text="ETH 10000.202" />
 
     <TextView
-        android:id="@+id/fiatTotal"
+        android:id="@+id/headerSecondaryCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="25dp"
-        android:theme="@style/HeaderTextStyle.Small"
+        android:layout_marginBottom="@dimen/header_margin"
+        android:layout_marginStart="@dimen/header_margin_start"
+        android:textSize="@dimen/header_small_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/helpingView"
-        app:layout_constraintTop_toBottomOf="@+id/tokensTotal"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="1230210" />
+        app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
+        tools:text="$ 1230210" />
 
     <TextView
         android:id="@+id/changes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
-        android:theme="@style/HeaderTextStyle.Small"
+        android:layout_marginBottom="@dimen/header_margin"
+        android:layout_marginEnd="@dimen/header_margin"
+        android:textSize="@dimen/header_small_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tokensTotal"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
         tools:text="24h -1.6% -307$" />
 
 </android.support.constraint.ConstraintLayout>
