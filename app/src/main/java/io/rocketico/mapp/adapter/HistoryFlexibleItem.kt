@@ -13,7 +13,6 @@ import io.rocketico.core.Utils
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.setBalanceWithCurrency
-import io.rocketico.mapp.setEthBalance
 import kotlinx.android.synthetic.main.item_history.view.*
 import java.util.*
 

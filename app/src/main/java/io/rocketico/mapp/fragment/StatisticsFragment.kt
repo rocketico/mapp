@@ -135,7 +135,7 @@ class StatisticsFragment : Fragment() {
                                 context!!,
                                 walletToken
                         ) ?: return@forEach)
-                        averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, balance)
+                        averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, balance)!! //todo change it
 
                         averageVolume += rateItem.volume!!
                         foundTokensCount++

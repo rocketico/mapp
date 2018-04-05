@@ -18,7 +18,6 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.setBalance
 import io.rocketico.mapp.setBalanceWithCurrency
-import io.rocketico.mapp.setEthBalance
 import kotlinx.android.synthetic.main.item_token.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
