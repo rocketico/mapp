@@ -8,25 +8,31 @@ import io.rocketico.core.model.TokenType
 import org.jetbrains.anko.doAsyncResult
 
 @SuppressLint("StringFormatMatches")
+fun Context.setBalance(value: Float?): String {
+    return value?.toString() ?: getString(R.string.null_value)
+}
+
+@SuppressLint("StringFormatMatches")
 fun Context.setBalanceWithCurrency(value: Float?): String {
     val currentCurrency = RateHelper.getCurrentCurrency(this)
     return getString(R.string.balance_template, currentCurrency.currencySymbol,
             value ?: getString(R.string.null_value))
 }
 
+//todo remove me
 @SuppressLint("StringFormatMatches")
 fun Context.setEthBalance(value: Float?): String {
     return getString(R.string.balance_template, getString(R.string.ether_label), value ?: getString(R.string.null_value))
 }
 
 @SuppressLint("StringFormatMatches")
-fun Context.setBalance(value: Float?): String {
-    return value?.let { it.toString() } ?: getString(R.string.null_value)
+fun Context.setTokenBalance(tokenType: String, value: Float?): String {
+    return getString(R.string.balance_template, tokenType, value ?: getString(R.string.null_value))
 }
 
 @SuppressLint("StringFormatMatches")
-fun Context.setTokenBalance(tokenType: String, value: Float?): String {
-    return getString(R.string.balance_template, tokenType, value ?: getString(R.string.null_value))
+fun Context.setQuantity(prefix: String, value: Float?): String {
+    return getString(R.string.quantity_template, prefix, value ?: getString(R.string.null_value))
 }
 
 fun <T, R> T.loadData(task: () -> R): R? =
