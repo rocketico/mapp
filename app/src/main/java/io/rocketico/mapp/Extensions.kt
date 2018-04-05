@@ -1,15 +1,18 @@
 package io.rocketico.mapp
 
 import android.annotation.SuppressLint
-import android.app.Fragment
 import android.content.Context
+import android.support.v4.app.Fragment
 import io.rocketico.core.RateHelper
-import io.rocketico.core.model.TokenType
 import org.jetbrains.anko.doAsyncResult
 
 @SuppressLint("StringFormatMatches")
 fun Context.setBalance(value: Float?): String {
     return value?.toString() ?: getString(R.string.null_value)
+}
+
+fun Context.setNullBalance(): String {
+    return setBalance(null)
 }
 
 @SuppressLint("StringFormatMatches")
