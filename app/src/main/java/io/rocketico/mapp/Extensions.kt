@@ -19,12 +19,6 @@ fun Context.setBalanceWithCurrency(value: Float?): String {
             value ?: getString(R.string.null_value))
 }
 
-//todo remove me
-@SuppressLint("StringFormatMatches")
-fun Context.setEthBalance(value: Float?): String {
-    return getString(R.string.balance_template, getString(R.string.ether_label), value ?: getString(R.string.null_value))
-}
-
 @SuppressLint("StringFormatMatches")
 fun Context.setTokenBalance(tokenType: String, value: Float?): String {
     return getString(R.string.balance_template, tokenType, value ?: getString(R.string.null_value))
