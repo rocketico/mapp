@@ -34,14 +34,20 @@ object Utils {
         return tmp.toBigInteger()
     }
 
-    fun txFeeFromGwei(gwei: Int, ethRate: Float?, tokenType: TokenType): Float {
-        val gasLimit = if (tokenType == TokenType.ETH) EthereumHelper.GAS_LIMIT
-                        else EthereumHelper.ERC_20_GAS_LIMIT
+    fun txFeeFromGwei(gwei: Int, ethRate: Float?, tokenType: TokenType): Float? {
+        return if (ethRate == null) {
+            null
+        } else {
+            val gasLimit =
+                    if (tokenType == TokenType.ETH)
+                        EthereumHelper.GAS_LIMIT
+                    else
+                        EthereumHelper.ERC_20_GAS_LIMIT
 
-        val tmp1 = BigInteger.valueOf(gwei.toLong()) * gasLimit
-        val tmp2 = tmp1.toBigDecimal() * BigDecimal(ethRate.toString())
-        val tmp3 = tmp2.divide(BigDecimal.TEN.pow(9), 5, RoundingMode.DOWN)
-        return tmp3.toFloat()
+            val txFeeBI = BigInteger.valueOf(gwei.toLong()) * gasLimit
+            val txFee = txFeeBI.toBigDecimal() * BigDecimal(ethRate.toString())
+            txFee.divide(BigDecimal.TEN.pow(9), 5, RoundingMode.DOWN).toFloat()
+        }
     }
 
     fun scaleFloat(fiatValue: Float, scale: Int = 5): String {
