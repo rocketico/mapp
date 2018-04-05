@@ -285,11 +285,11 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 else null
 
         if (flag) {
-            headerMainCurrency.text = context!!.setEthBalance(balance)
+            headerMainCurrency.text = context!!.setTokenBalance(TokenType.ETH.codeName, balance)
             headerSecondaryCurrency.text = context!!.setBalanceWithCurrency(fiatBalance)
         } else {
             headerMainCurrency.text = context!!.setBalanceWithCurrency(fiatBalance)
-            headerSecondaryCurrency.text = context!!.setEthBalance(balance)
+            headerSecondaryCurrency.text = context!!.setTokenBalance(TokenType.ETH.codeName, balance)
         }
     }
 

@@ -293,7 +293,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         it + if (token.tokenType == TokenType.ETH) {
                             balance
                         } else {
-                            RateHelper.convertCurrency(rate, ethRate, balance)
+                            RateHelper.convertCurrency(rate, ethRate, balance)!! //todo change it
                         }
                     }
                     totalFiatBalance = totalFiatBalance?.let { it + balance * rate }
@@ -305,11 +305,11 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     //todo [priority: low] rename flag
     private fun setHeaderBalances(flag: Boolean) {
         if (flag) {
-            headerMainCurrency.text = context!!.setEthBalance(totalBalance)
+            headerMainCurrency.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalBalance)
             headerSecondaryCurrency.text = context!!.setBalanceWithCurrency(totalFiatBalance)
         } else {
             headerMainCurrency.text = context!!.setBalanceWithCurrency(totalFiatBalance)
-            headerSecondaryCurrency.text = context!!.setEthBalance(totalBalance)
+            headerSecondaryCurrency.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalBalance)
         }
     }
 
