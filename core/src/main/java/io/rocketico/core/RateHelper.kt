@@ -21,8 +21,12 @@ object RateHelper {
         return Utils.api.getRatesByDateRange(from, to).execute().body()
     }
 
-    fun convertCurrency(rateFrom: Float, rateTo: Float, amount: Float): Float {
-        return (rateFrom / rateTo) * amount
+    fun convertCurrency(rateFrom: Float?, rateTo: Float?, amount: Float?): Float? {
+        return if (rateFrom == null || rateTo == null || amount == null) {
+            null
+        } else {
+            (rateFrom / rateTo) * amount
+        }
     }
 
     fun saveRates(context: Context, ratesEntity: RatesEntity) {
