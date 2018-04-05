@@ -21,6 +21,7 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.SendTokenFlexibleItem
 import kotlinx.android.synthetic.main.fragment_send.*
 import org.jetbrains.anko.toast
+import java.math.BigInteger
 
 
 class SendFragment : Fragment() {
@@ -30,6 +31,7 @@ class SendFragment : Fragment() {
 
     private lateinit var wallet: Wallet
     private lateinit var currentCurrency: Currency
+    private var ethBalance: BigInteger? = null
 
     private var address: String? = null
 
@@ -72,7 +74,7 @@ class SendFragment : Fragment() {
     private fun setupTokens() {
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
 
-        val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)
+        ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)
         val ethFloatBalance = ethBalance?.let { Utils.bigIntegerToFloat(it) }
         val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
 
@@ -102,7 +104,7 @@ class SendFragment : Fragment() {
 
         listAdapter.addListener(FlexibleAdapter.OnItemClickListener { _, position ->
             val listItem = listAdapter.getItem(position) as SendTokenFlexibleItem
-            if (listItem.tokenBalance == null) {
+            if (listItem.tokenBalance == null || ethBalance == null) {
                 context!!.toast(getString(R.string.no_balance_info))
             } else {
                 fragmentListener.onSendTokenListItemClick(listItem.tokenType, address)
