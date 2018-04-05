@@ -234,7 +234,6 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
-        //todo [priority: high] add EventBus event for updating statistics and history
         EventBus.getDefault().post(RefreshEvent)
 
         doAsync {
