@@ -58,7 +58,7 @@ class SendBillFragment : Fragment() {
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
         val rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate
         val ethRate = RateHelper.getTokenRate(context!!,TokenType.ETH, currentCurrency)?.rate
-        val txFee = ethRate?.let { Utils.txFeeFromGwei(gasPrice, it, tokenType) }
+        val txFee = Utils.txFeeFromGwei(gasPrice, ethRate, tokenType)
         val fiatQuantity = rate?.let { eth * it }
         val total = if (fiatQuantity != null && txFee != null) {
             fiatQuantity + txFee
