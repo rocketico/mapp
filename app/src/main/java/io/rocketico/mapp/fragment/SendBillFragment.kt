@@ -18,11 +18,9 @@ import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.fragment_send_bill.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.longToast
-import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import java.math.BigInteger
+import java.util.*
 
 class SendBillFragment : Fragment() {
 
@@ -31,10 +29,13 @@ class SendBillFragment : Fragment() {
     private lateinit var tokenType: TokenType
     private lateinit var currentCurrency: Currency
     private lateinit var wallet: Wallet
+    private val timer = Timer(true)
 
     private var eth: Float = 0f
     private var gasPrice: Int = 0
     private var address: String = ""
+
+    private var countdown = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,11 @@ class SendBillFragment : Fragment() {
 
     @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        sendPayment.isEnabled = false
+        sendPayment.setBackgroundColor(resources.getColor(R.color.grey))
+        sendPayment.text = String.format(getString(R.string.sending_wait), countdown)
+        timer.scheduleAtFixedRate(PaymentTask(), 0, 1000)
+
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
         val rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate
         val ethRate = RateHelper.getTokenRate(context!!,TokenType.ETH, currentCurrency)?.rate
@@ -138,9 +144,31 @@ class SendBillFragment : Fragment() {
         }
     }
 
+    private fun updateTimer() {
+        countdown--
+        doAsync {
+            uiThread {
+                sendPayment.text = String.format(getString(R.string.sending_wait), countdown)
+                if (countdown == 0) {
+                    timer.cancel()
+                    sendPayment.text = getString(R.string.send_payment_button_text)
+                    sendPayment.setBackgroundColor(resources.getColor(R.color.colorAccent))
+                    sendPayment.isEnabled = true
+                }
+            }
+        }
+
+    }
+
     interface SendBillFragmentListener {
         fun onBackClick()
         fun onCloseClick()
+    }
+
+    inner class PaymentTask: TimerTask() {
+        override fun run() {
+            updateTimer()
+        }
     }
 
     companion object {

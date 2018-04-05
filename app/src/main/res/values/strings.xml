@@ -111,6 +111,7 @@
     <string name="no_history">No history</string>
 
     <string name="icon_path">tokens_icons/%s.png</string>
+    <string name="sending_wait">Sending will be available in %d</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
