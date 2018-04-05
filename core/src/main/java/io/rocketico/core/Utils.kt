@@ -34,7 +34,7 @@ object Utils {
         return tmp.toBigInteger()
     }
 
-    fun txFeeFromGwei(gwei: Int, ethRate: Float, tokenType: TokenType): Float {
+    fun txFeeFromGwei(gwei: Int, ethRate: Float?, tokenType: TokenType): Float {
         val gasLimit = if (tokenType == TokenType.ETH) EthereumHelper.GAS_LIMIT
                         else EthereumHelper.ERC_20_GAS_LIMIT
 
@@ -47,10 +47,6 @@ object Utils {
     fun scaleFloat(fiatValue: Float, scale: Int = 5): String {
         val formatString = "%.${scale}f"
         return String.format(formatString, fiatValue).replace(',', '.')
-    }
-
-    fun isPrivateKeyValid(privateKey: String): Boolean {
-        return WalletUtils.isValidPrivateKey(privateKey)
     }
 
     fun round(value: Float, scale: Int): Float {

@@ -26,7 +26,7 @@ class ImportWalletActivity : AppCompatActivity() {
             finish()
         }
         importButton.setOnClickListener {
-            if (io.rocketico.core.Utils.isPrivateKeyValid(private_key.text.toString())) {
+            if (WalletManager.isPrivateKeyValid(private_key.text.toString())) {
                 importPrivateKey()
             } else {
                 toast(getString(R.string.wrong_private_key))
