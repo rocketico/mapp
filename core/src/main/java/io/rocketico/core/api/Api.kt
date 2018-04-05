@@ -10,23 +10,23 @@ import retrofit2.http.Query
 import java.util.*
 
 interface Api {
-    @GET("api/rates-by-date")
+    @GET("rates-by-date")
     fun getRatesByDate(
             @Query("date") date: Date
     ): Call<TokensRatesResponse>
 
-    @GET("api/rates-by-range")
+    @GET("rates-by-range")
     fun getRatesByDateRange(
             @Query("fromDate") fromDate: Date,
             @Query("toDate") toDate: Date
     ): Call<TokenRatesRangeResponse>
 
-    @GET("api/token/info")
+    @GET("token/info")
     fun getTokenInfo(@Query("tokenType") tokenType: String,
                      @Query("currency") currency: String
     ): Call<TokenInfoResponse>
 
-    @GET("api/transactions")
+    @GET("transactions")
     fun getTokensHistory(
             @Query("address") walletAddress: String,
             @Query("tokenTypeList") tokenTypeList: List<String>,
