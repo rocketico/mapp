@@ -26,6 +26,7 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
+import io.rocketico.mapp.event.UpdateEvent
 import kotlinx.android.synthetic.main.include_bottom.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -95,6 +96,12 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         tokenList.layoutManager = LinearLayoutManager(context)
         tokenList.adapter = listAdapter
 
+        listAdapter.addItem(TokenFlexibleItem(context!!, TokenType.ETH))
+
+        wallet.tokens?.forEach {token ->
+            listAdapter.addItem(TokenFlexibleItem(context!!, token))
+        }
+
         showTokens()
     }
 
@@ -108,27 +115,12 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             updateBalancesAndRates(false)
 
             view?.context?.runOnUiThread {
-                val rates = RateHelper.loadRates(context!!, currentCurrency)?.rates
-
-                //fill ether token
-                val ethRate = rates?.find { it.tokenType == TokenType.ETH }?.rate
-                val ethBalance = BalanceHelper.loadTokenBalance(context!!, TokenType.ETH)
-                val floatEthBalance = ethBalance?.let { Utils.bigIntegerToFloat(it) }
-
-                listAdapter.addItem(TokenFlexibleItem(TokenType.ETH, currentCurrency, floatEthBalance, ethRate))
-
-                //fill other tokens
-                wallet.tokens?.forEach {token ->
-                    val tokenBalance = BalanceHelper.loadTokenBalance(context!!, token)
-                    val floatTokenBalance = tokenBalance?.let { Utils.bigIntegerToFloat(it, token.decimals) }
-                    val tokenRate = rates?.find { it.tokenType ==  token}?.rate
-
-                    listAdapter.addItem(TokenFlexibleItem(token, currentCurrency, floatTokenBalance, tokenRate))
-                }
+                EventBus.getDefault().post(UpdateEvent)
 
                 countBalances()
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
+                listAdapter.updateDataSet(listAdapter.currentItems)
                 refresher.isRefreshing = false
             }
         }
@@ -240,26 +232,12 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             updateBalancesAndRates(true)
 
             view?.context?.runOnUiThread {
-                val rates = RateHelper.loadRates(context!!, currentCurrency)?.rates
-
-                val newItems = listAdapter.currentItems
-                newItems.forEach { token ->
-                    if (token is TokenFlexibleItem) {
-                        val tokenRate = rates?.find { it.tokenType ==  token.tokenType }?.rate
-                        val tokenBalance = BalanceHelper.loadTokenBalance(context!!, token.tokenType)
-                        val floatTokenBalance = tokenBalance?.let {
-                            Utils.bigIntegerToFloat(it, token.tokenType.decimals)
-                        }
-
-                        token.tokenRate = tokenRate
-                        token.tokenBalance = floatTokenBalance
-                    }
-                }
+                EventBus.getDefault().post(UpdateEvent)
 
                 countBalances()
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
-                listAdapter.updateDataSet(newItems)
+                listAdapter.updateDataSet(listAdapter.currentItems)
                 refresher.isRefreshing = false
             }
         }

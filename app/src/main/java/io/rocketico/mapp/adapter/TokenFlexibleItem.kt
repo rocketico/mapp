@@ -1,6 +1,7 @@
 package io.rocketico.mapp.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -11,11 +12,12 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.rocketico.core.BalanceHelper
+import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
-import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.event.MainCurrencyEvent
+import io.rocketico.mapp.event.UpdateEvent
 import io.rocketico.mapp.setBalance
 import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.item_token.view.*
@@ -23,11 +25,12 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-data class TokenFlexibleItem(val tokenType: TokenType,
-                             var currentCurrency: Currency,
-                             var tokenBalance: Float?,
-                             var tokenRate: Float?) :
+data class TokenFlexibleItem(private val context: Context,
+                             val tokenType: TokenType) :
         AbstractFlexibleItem<TokenFlexibleItem.ViewHolder>() {
+
+    var tokenBalance: Float? = null
+    var tokenRate: Float? = null
 
     private lateinit var mHolder: ViewHolder
 
@@ -44,6 +47,14 @@ data class TokenFlexibleItem(val tokenType: TokenType,
         onBindBalance(mHolder)
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onUpdateEvent(event: UpdateEvent) {
+        val balance = BalanceHelper.loadTokenBalance(context, tokenType)
+        val rate = RateHelper.getTokenRate(context, tokenType, RateHelper.getCurrentCurrency(context))?.rate
+        tokenBalance = balance?.let { Utils.bigIntegerToFloat(it, tokenType.decimals) }
+        tokenRate = rate
+    }
+
     override fun getLayoutRes() = R.layout.item_token
 
     override fun createViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>): ViewHolder {
@@ -52,7 +63,6 @@ data class TokenFlexibleItem(val tokenType: TokenType,
 
     @SuppressLint("StringFormatMatches")
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        val context = holder.itemView.context
         mHolder = holder
 
         val icon = try {
@@ -74,7 +84,6 @@ data class TokenFlexibleItem(val tokenType: TokenType,
     }
 
     private fun onBindBalance(holder: ViewHolder) {
-        val context = holder.itemView.context
         val flag = BalanceHelper.getMainCurrency(context)
         val fiatBalance = if (tokenBalance != null && tokenRate != null)
             tokenBalance!! * tokenRate!! else null
