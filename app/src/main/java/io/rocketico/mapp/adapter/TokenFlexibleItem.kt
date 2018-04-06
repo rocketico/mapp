@@ -66,7 +66,7 @@ data class TokenFlexibleItem(private val context: Context,
         mHolder = holder
 
         val icon = try {
-            context.assets.open("tokens_icons/${tokenType.codeName}.png")
+            context.assets.open("tokens_icons/${tokenType.codeName}.webp")
         } catch (e: Exception) {
             e.printStackTrace()
             null
