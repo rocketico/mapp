@@ -119,8 +119,8 @@ class StatisticsFragment : Fragment() {
                 var averageYInEther = 0f
                 var averageVolume = 0f
                 var foundTokensCount = 0
-                val ethRate = ratesItem?.values?.find { it?.tokenSymbol == TokenType.ETH.codeName }!!.rate
-                ratesItem.values?.forEach { rateItem ->
+                val ethRate = ratesItem?.values?.find { it?.tokenSymbol == TokenType.ETH.codeName }?.rate
+                ratesItem?.values?.forEach { rateItem ->
                     if (rateItem?.tokenSymbol == TokenType.ETH.codeName) {
                         averageYInEther += rateItem.rate!!
                         averageVolume += rateItem.volume!!
@@ -135,7 +135,9 @@ class StatisticsFragment : Fragment() {
                                 context!!,
                                 walletToken
                         ) ?: return@forEach)
-                        averageYInEther += RateHelper.convertCurrency(rateItem!!.rate!!, ethRate!!, balance)!! //todo change it
+
+                        val tokenBalance = RateHelper.convertCurrency(rateItem!!.rate, ethRate, balance)
+                        tokenBalance?.let { averageYInEther += it }
 
                         averageVolume += rateItem.volume!!
                         foundTokensCount++
