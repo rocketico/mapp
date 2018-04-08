@@ -48,8 +48,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var wallet: Wallet
     private lateinit var currentCurrency: Currency
 
-    private var totalBalance: Float? = 0f
-    private var totalFiatBalance: Float? = 0f
+    private var totalBalance: Float = 0f
+    private var totalFiatBalance: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -261,20 +261,15 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 val balance = token.tokenBalance
                 val rate = token.tokenRate
 
-                if (balance == null || rate == null || ethRate == null) {
-                    totalBalance = null
-                    totalFiatBalance = null
-                    return@loop
+                if (token.tokenType == TokenType.ETH) {
+                    balance?.let { totalBalance += it }
                 } else {
-                    totalBalance = totalBalance?.let {
-                        it + if (token.tokenType == TokenType.ETH) {
-                            balance
-                        } else {
-                            RateHelper.convertCurrency(rate, ethRate, balance)!! //todo change it
-                        }
-                    }
-                    totalFiatBalance = totalFiatBalance?.let { it + balance * rate }
+                    val tokenBalance = RateHelper.convertCurrency(rate, ethRate, balance)
+                    tokenBalance?.let { totalBalance += it }
                 }
+
+                val fiatBalance = balance?.let { rate?.let { balance * rate } }
+                fiatBalance?.let { totalFiatBalance += it }
             }
         }
     }
