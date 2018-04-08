@@ -62,7 +62,7 @@ class MenuActivity : AppCompatActivity(),
 
                 } else {
 
-                    toast("Permission denied")
+                    toast(getString(R.string.permission_denied))
 
                 }
                 return
