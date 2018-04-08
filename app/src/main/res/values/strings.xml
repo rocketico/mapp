@@ -113,6 +113,8 @@
     <string name="icon_path">tokens_icons/%s.png</string>
     <string name="sending_wait">Sending will be available in %d</string>
 
+    <string name="permission_denied">Permission denied</string>
+
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 </resources>
