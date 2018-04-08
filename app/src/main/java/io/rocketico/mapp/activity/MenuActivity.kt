@@ -13,6 +13,7 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.*
 import io.rocketico.mapp.fragment.MenuFragment.OnMenuButtonsClickListener
+import org.jetbrains.anko.toast
 
 class MenuActivity : AppCompatActivity(),
         OnMenuButtonsClickListener,
@@ -41,14 +42,39 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onSendClick() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0);
+        if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_REQUEST)
+
         } else {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SendFragment.newInstance(wallet))
-                    .commit()
+            startSendFragment()
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            CAMERA_PERMISSION_REQUEST -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                    startSendFragment()
+
+                } else {
+
+                    toast("Permission denied")
+
+                }
+                return
+            }
+            else -> {}
+        }
+    }
+
+    private fun startSendFragment() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, SendFragment.newInstance(wallet))
+                .commit()
     }
 
     override fun onReceiveClick() {
@@ -94,5 +120,9 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onJoinClick() {
         startActivity(LogInActivity.newIntent(this, LogInActivity.JOIN_FRAGMENT))
+    }
+
+    companion object {
+        private const val CAMERA_PERMISSION_REQUEST = 0
     }
 }
