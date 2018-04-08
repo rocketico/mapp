@@ -98,7 +98,6 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onBackClick() {
         Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
-        toast(supportFragmentManager.backStackEntryCount.toString())
         onBackPressed()
     }
 
