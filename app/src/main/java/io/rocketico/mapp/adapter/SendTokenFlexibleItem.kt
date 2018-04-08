@@ -10,7 +10,6 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.rocketico.core.BalanceHelper
-import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
@@ -35,7 +34,7 @@ data class SendTokenFlexibleItem(val tokenType: TokenType,
         val context = holder.itemView.context
 
         val icon = try {
-            context.assets.open("tokens_icons/${tokenType.codeName}.png")
+            context.assets.open("tokens_icons/${tokenType.codeName}.webp") //todo move to separated function
         } catch (e: Exception) {
             e.printStackTrace()
             null
