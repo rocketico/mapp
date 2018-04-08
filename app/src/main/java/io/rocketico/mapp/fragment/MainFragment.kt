@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -14,6 +17,7 @@ import android.view.animation.AnimationUtils
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.helpers.ItemTouchHelperCallback
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
 import io.rocketico.core.Utils
@@ -23,6 +27,7 @@ import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.*
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
+import io.rocketico.mapp.activity.MenuActivity
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
@@ -62,6 +67,11 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         sliding.panelState = PanelState.COLLAPSED
     }
 
+    override fun onStop() {
+        super.onStop()
+        listAdapter.updateDataSet(listAdapter.currentItems)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
@@ -95,6 +105,9 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         listAdapter = FlexibleAdapter(tokens)
         tokenList.layoutManager = LinearLayoutManager(context)
         tokenList.adapter = listAdapter
+        listAdapter.isSwipeEnabled = true
+        listAdapter.itemTouchHelperCallback.setSwipeThreshold(0.3f)
+        listAdapter.itemTouchHelperCallback.setSwipeAnimationDuration(200L)
 
         listAdapter.addItem(TokenFlexibleItem(context!!, TokenType.ETH))
 
@@ -219,6 +232,17 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             true
         })
 
+        listAdapter.addListener(object : FlexibleAdapter.OnItemSwipeListener {
+            override fun onActionStateChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                Log.i("SWIPE_LISTENER", actionState.toString())
+            }
+
+            override fun onItemSwipe(position: Int, direction: Int) {
+                val item = listAdapter.getItem(position) as TokenFlexibleItem
+                fragmentListener.onTokenListItemSwipe(item.tokenType, position, direction)
+            }
+        })
+
         refresher.setOnRefreshListener(this)
 
         headerMainCurrency.setOnClickListener(onBalanceClickListener)
@@ -289,6 +313,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         fun onMenuButtonClick()
         fun onFabClick()
         fun onTokenListItemClick(tokenType: TokenType)
+        fun onTokenListItemSwipe(tokenType: TokenType, position: Int, direction: Int)
     }
 
     companion object {

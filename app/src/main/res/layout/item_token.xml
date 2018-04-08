@@ -8,83 +8,145 @@
     android:clickable="true"
     android:focusable="true">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/tokenImage"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginBottom="18dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="18dp"
-        android:src="@mipmap/ic_launcher_round"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tokenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="10dp"
-        android:theme="@style/WalletItemTextStyle.Large"
-        app:layout_constraintStart_toEndOf="@+id/tokenImage"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="ETH" />
-
-    <TextView
-        android:id="@+id/tokenRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="22dp"
-        android:theme="@style/WalletItemTextStyle.Small"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tokenImage"
-        app:layout_constraintTop_toBottomOf="@+id/tokenName"
-        tools:text="$ 1230" />
-
-    <TextView
-        android:id="@+id/tokenRateDiff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="11dp"
-        android:theme="@style/WalletItemTextStyle.Small"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tokenRate"
-        app:layout_constraintTop_toBottomOf="@+id/tokenName"
-        tools:text="6%" />
-
-    <TextView
-        android:id="@+id/tokenBalance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="10dp"
-        android:theme="@style/WalletItemTextStyle.Large"
-        app:layout_constraintBottom_toTopOf="@+id/tokenFiatBalance"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="9596.65" />
-
-    <TextView
-        android:id="@+id/tokenFiatBalance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="12dp"
-        android:theme="@style/WalletItemTextStyle.Small"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tokenBalance"
-        tools:text="$ 20504030" />
-
-    <View
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/rearReceiveRightView"
         android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:background="@color/recycler_view_divider_light"
+        android:layout_height="0dp"
+        android:background="@color/colorReceive"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/frontView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frontView" >
+
+        <TextView
+            android:id="@+id/receiveTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/receive"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.92"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/rearSentLiftView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorAccent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/frontView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frontView" >
+
+        <TextView
+            android:id="@+id/sentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sent"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/frontView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/listBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/tokenImage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tokenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="10dp"
+            android:theme="@style/WalletItemTextStyle.Large"
+            app:layout_constraintStart_toEndOf="@+id/tokenImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ETH" />
+
+        <TextView
+            android:id="@+id/tokenRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="22dp"
+            android:theme="@style/WalletItemTextStyle.Small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tokenImage"
+            app:layout_constraintTop_toBottomOf="@+id/tokenName"
+            tools:text="$ 1230" />
+
+        <TextView
+            android:id="@+id/tokenRateDiff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="11dp"
+            android:theme="@style/WalletItemTextStyle.Small"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tokenRate"
+            app:layout_constraintTop_toBottomOf="@+id/tokenName"
+            tools:text="6%" />
+
+        <TextView
+            android:id="@+id/tokenBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="10dp"
+            android:theme="@style/WalletItemTextStyle.Large"
+            app:layout_constraintBottom_toTopOf="@+id/tokenFiatBalance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="9596.65" />
+
+        <TextView
+            android:id="@+id/tokenFiatBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="12dp"
+            android:theme="@style/WalletItemTextStyle.Small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tokenBalance"
+            tools:text="$ 20504030" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/recycler_view_divider_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>

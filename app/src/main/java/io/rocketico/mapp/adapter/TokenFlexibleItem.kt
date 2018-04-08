@@ -55,6 +55,8 @@ data class TokenFlexibleItem(private val context: Context,
         tokenRate = rate
     }
 
+    override fun isSwipeable(): Boolean = true
+
     override fun getLayoutRes() = R.layout.item_token
 
     override fun createViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>): ViewHolder {
@@ -97,12 +99,24 @@ data class TokenFlexibleItem(private val context: Context,
         }
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {
+    class ViewHolder(val view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {
         val tokenImage: CircleImageView = view.tokenImage
         val tokenName: TextView = view.tokenName
         val tokenRate: TextView = view.tokenRate
         val tokenRateDiff: TextView = view.tokenRateDiff
         val tokenBalance: TextView = view.tokenBalance
         val tokenFiatBalance: TextView = view.tokenFiatBalance
+
+        override fun getFrontView(): View {
+            return view.findViewById(R.id.frontView)
+        }
+
+        override fun getRearLeftView(): View {
+            return view.findViewById(R.id.rearSentLiftView)
+        }
+
+        override fun getRearRightView(): View {
+            return view.findViewById(R.id.rearReceiveRightView)
+        }
     }
 }

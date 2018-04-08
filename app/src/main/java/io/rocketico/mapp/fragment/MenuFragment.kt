@@ -29,7 +29,7 @@ class MenuFragment : Fragment() {
 
     private fun setupListeners() {
         closeButton.setOnClickListener {
-            onMenuButtonsClickListener.onBackClick()
+            onMenuButtonsClickListener.onCloseClick()
         }
 
         sendButton.setOnClickListener {
@@ -56,7 +56,7 @@ class MenuFragment : Fragment() {
     interface OnMenuButtonsClickListener {
         fun onSendClick()
         fun onReceiveClick()
-        fun onBackClick()
+        fun onCloseClick()
         fun onSettingsClick()
         fun onLogInClick()
         fun onJoinClick()

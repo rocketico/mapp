@@ -1,6 +1,8 @@
 package io.rocketico.mapp.activity
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -22,6 +24,7 @@ class MenuActivity : AppCompatActivity(),
         SendBillFragment.SendBillFragmentListener {
 
     private lateinit var wallet: Wallet
+    private var action: Int = NO_ACTION
 
     override fun onSettingsClick() {
         startActivity(SettingsActivity.getIntent(this))
@@ -32,7 +35,16 @@ class MenuActivity : AppCompatActivity(),
         setContentView(R.layout.activity_menu)
 
         wallet = WalletManager(this).getWallet()!!
-        init()
+
+        action = intent.getIntExtra(ACTION, NO_ACTION)
+        when(action) {
+            ACTION_SENT -> {
+                val tokenType = intent.getSerializableExtra(TOKEN_TYPE) as TokenType
+                onSendTokenListItemClick(tokenType, null)
+            }
+            ACTION_RECEIVE -> { onReceiveClick() }
+            NO_ACTION -> { init() }
+        }
     }
 
     private fun init() {
@@ -78,27 +90,28 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onReceiveClick() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ReceiveFragment.newInstance(wallet))
-                .addToBackStack(null)
-                .commit()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, ReceiveFragment.newInstance(wallet))
+        if (action == NO_ACTION) transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onBackClick() {
         Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
+        toast(supportFragmentManager.backStackEntryCount.toString())
         onBackPressed()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
+        if (action == NO_ACTION) overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
     }
 
     override fun onSendTokenListItemClick(tokenType: TokenType, address: String?) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendDetailsFragment.newInstance(tokenType, address))
-                .addToBackStack(null)
-                .commit()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, SendDetailsFragment.newInstance(tokenType, address))
+        if (action == NO_ACTION) transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onCreateClick(tokenType: TokenType, eth: Float, gasPrice: Int, address: String) {
@@ -124,5 +137,17 @@ class MenuActivity : AppCompatActivity(),
 
     companion object {
         private const val CAMERA_PERMISSION_REQUEST = 0
+        private const val ACTION = "action"
+        private const val TOKEN_TYPE = "token_type"
+        const val NO_ACTION = -1
+        const val ACTION_SENT = 1
+        const val ACTION_RECEIVE = 2
+
+        fun newIntent(context: Context, action: Int? = null, tokenType: TokenType? = null): Intent {
+            val intent = Intent(context, MenuActivity::class.java)
+            action?.let { intent.putExtra(ACTION, it) }
+            tokenType?.let { intent.putExtra(TOKEN_TYPE, tokenType) }
+            return intent
+        }
     }
 }
