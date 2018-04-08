@@ -31,12 +31,14 @@ class CreateWalletActivity : AppCompatActivity() {
         Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
 
         importWallet.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0);
+            if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
+                        CAMERA_PERMISSION_REQUEST)
+
             } else {
-                startActivity(ImportWalletActivity.newIntent(this))
-                finish()
+                startImportWalletActivity()
             }
         }
         createNewWallet.setOnClickListener {
@@ -82,7 +84,32 @@ class CreateWalletActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            CAMERA_PERMISSION_REQUEST -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                    startImportWalletActivity()
+
+                } else {
+
+                    toast(getString(R.string.permission_denied))
+
+                }
+                return
+            }
+            else -> {}
+        }
+    }
+
+    private fun startImportWalletActivity() {
+        startActivity(ImportWalletActivity.newIntent(this))
+        finish()
+    }
+
     companion object {
+        private const val CAMERA_PERMISSION_REQUEST = 0
+
         fun newIntent(context: Context): Intent {
             return Intent(context, CreateWalletActivity::class.java)
         }
