@@ -22,7 +22,8 @@ class MenuActivity : AppCompatActivity(),
         OnMenuButtonsClickListener,
         SendFragment.SendFragmentListener,
         SendDetailsFragment.SendDetailsFragmentListener,
-        SendBillFragment.SendBillFragmentListener {
+        SendBillFragment.SendBillFragmentListener,
+        WebViewFragment.WebViewFragmentListener{
 
     private lateinit var wallet: Wallet
     private var action: Int = NO_ACTION
@@ -137,13 +138,13 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onFaqClick() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, WebViewFragment.newInstance(Cc.FAQ_URL))
+                .replace(R.id.container, WebViewFragment.newInstance(WebViewFragment.FAQ_CODE))
                 .commit()
     }
 
     override fun onSupportClick() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, WebViewFragment.newInstance(Cc.SUPPORT_URL))
+                .replace(R.id.container, WebViewFragment.newInstance(WebViewFragment.SUPPORT_CODE))
                 .commit()
     }
 
