@@ -55,4 +55,9 @@ object Utils {
         val netInfo = cm.activeNetworkInfo
         return netInfo != null && netInfo.isConnectedOrConnecting
     }
+
+    fun countDifference(values: Pair<Float, Float>): Float {
+        val (new, old) = values
+        return ((new * 100) / old) - 100
+    }
 }

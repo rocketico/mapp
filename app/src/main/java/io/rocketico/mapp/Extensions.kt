@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import io.rocketico.core.RateHelper
 import org.jetbrains.anko.doAsyncResult
 import java.io.InputStream
+import kotlin.math.absoluteValue
 
 @SuppressLint("StringFormatMatches")
 fun Context.setBalance(value: Float?): String {
@@ -40,6 +41,11 @@ fun Context.loadIcon(tokenCodeName: String): InputStream? {
         e.printStackTrace()
         null
     }
+}
+
+fun Context.setRateDifference(diff: Float?): String {
+    val strDiff = diff?.let { String.format("%.2f", it.absoluteValue).replace(",", ".") } ?: getString(R.string.null_value)
+    return getString(R.string.diff_template, strDiff) + "%"
 }
 
 fun <T, R> T.loadData(task: () -> R): R? =

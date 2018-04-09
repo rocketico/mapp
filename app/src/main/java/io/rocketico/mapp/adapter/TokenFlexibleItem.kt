@@ -16,12 +16,9 @@ import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.model.TokenType
-import io.rocketico.mapp.R
+import io.rocketico.mapp.*
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.UpdateEvent
-import io.rocketico.mapp.loadIcon
-import io.rocketico.mapp.setBalance
-import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.item_token.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -33,6 +30,7 @@ data class TokenFlexibleItem(private val context: Context,
 
     var tokenBalance: Float? = null
     var tokenRate: Float? = null
+    var tokenRateDiff: Float? = null
 
     private lateinit var mHolder: ViewHolder
 
@@ -53,8 +51,10 @@ data class TokenFlexibleItem(private val context: Context,
     fun onUpdateEvent(event: UpdateEvent) {
         val balance = BalanceHelper.loadTokenBalance(context, tokenType)
         val rate = RateHelper.getTokenRate(context, tokenType, RateHelper.getCurrentCurrency(context))?.rate
+        val rateDiff = RateHelper.loadRatesRange(context, RateHelper.getCurrentCurrency(context))?.get(tokenType)
         tokenBalance = balance?.let { Utils.bigIntegerToFloat(it, tokenType.decimals) }
         tokenRate = rate
+        tokenRateDiff = rateDiff?.let { io.rocketico.mapp.Utils.countDifference(it) }
     }
 
     override fun isSwipeable(): Boolean = true
@@ -77,7 +77,16 @@ data class TokenFlexibleItem(private val context: Context,
 
         holder.tokenName.text = tokenType.toString()
         holder.tokenRate.text = context.setBalanceWithCurrency(tokenRate)
-        holder.tokenRateDiff.text = "0" //todo add rates difference
+        holder.tokenRateDiff.text = context.setRateDifference(tokenRateDiff)
+        tokenRateDiff?.let {
+            holder.tokenRateDiff.setTextColor(context.resources
+                    .getColor(if (it < 0) R.color.colorAccent else R.color.colorReceive))
+            holder.rateDirection.setImageDrawable(context.resources
+                    .getDrawable(if (it < 0) R.drawable.ic_direction_down else R.drawable.ic_direction_up))
+            holder.rateDirection.setColorFilter(context.resources
+                    .getColor(if (it < 0) R.color.colorAccent else R.color.colorReceive))
+        }
+
         onBindBalance(holder)
     }
 

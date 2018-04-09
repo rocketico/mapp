@@ -24,6 +24,7 @@ import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
+import io.rocketico.core.model.response.TokenRatesRangeResponse
 import io.rocketico.mapp.*
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
@@ -41,6 +42,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
+import java.util.*
 
 class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -143,6 +145,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         if (io.rocketico.mapp.Utils.isOnline(context!!)){
             if (forceUpdate) {
                 RateHelper.deleteAllRates(context!!)
+                RateHelper.deleteRatesRange(context!!)
                 BalanceHelper.deleteAllBalances(context!!)
             }
 
@@ -153,6 +156,31 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     context?.runOnUiThread { longToast(getString(R.string.server_is_not_available)) }
                 }
                 ratesResponse?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it))}
+
+                val ratesRangeResponse = loadData {
+                    RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(1), Date())
+                }
+                if (ratesRangeResponse == null) {
+                    context?.runOnUiThread { longToast(getString(R.string.server_is_not_available)) }
+                } else {
+
+                    //todo [priority: high] test functionality
+                    val tmp = ratesRangeResponse.rates?.sortedByDescending { it?.date }
+                    val rateRange = tmp?.subList(0, 2)
+                    val walletTokens = TokenType.values().map { it.codeName.toLowerCase() }
+                    rateRange?.forEach { it?.values = it?.values?.filter {
+                        walletTokens.contains(it?.tokenSymbol?.toLowerCase())
+                    } }
+
+                    val map = mutableMapOf<TokenType, Pair<Float, Float>>()
+                    val tokens = TokenType.values()
+                    tokens.forEach {tokenType ->
+                        val new = rateRange?.get(0)?.values?.find { it?.tokenSymbol?.toLowerCase() ==  tokenType.codeName.toLowerCase() }?.rate
+                        val old = rateRange?.get(1)?.values?.find { it?.tokenSymbol?.toLowerCase() ==  tokenType.codeName.toLowerCase() }?.rate
+                        new?.let { old?.let { map.put(tokenType, Pair(new, old)) } }
+                    }
+                    RateHelper.saveRatesRange(context!!, currentCurrency, map)
+                }
             }
 
             if (BalanceHelper.isTokenBalanceOutdated(context!!, TokenType.ETH)) {
