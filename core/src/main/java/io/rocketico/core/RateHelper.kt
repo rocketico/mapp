@@ -11,6 +11,7 @@ import java.util.*
 
 object RateHelper {
     private const val RATES_DB_KEY = "rates_db_key"
+    private const val RATE_RANGE_DB_KEY = "rate_range_db_key"
     private const val CURRENT_CURRENCY_KEY = "current_currency_key"
 
     fun getTokenRateByDate(date: Date = Date()): TokensRatesResponse? {
@@ -27,6 +28,21 @@ object RateHelper {
         } else {
             (rateFrom / rateTo) * amount
         }
+    }
+
+    fun saveRatesRange(context: Context, currency: Currency, rates: Map<TokenType, Pair<Float, Float>>) {
+        Paper.init(context)
+        Paper.book(RATE_RANGE_DB_KEY).write(currency.codeName, rates)
+    }
+
+    fun loadRatesRange(context: Context, currency: Currency): Map<TokenType, Pair<Float, Float>>? {
+        Paper.init(context)
+        return Paper.book(RATE_RANGE_DB_KEY).read<Map<TokenType, Pair<Float, Float>>>(currency.codeName)
+    }
+
+    fun deleteRatesRange(context: Context) {
+        Paper.init(context)
+        Paper.book(RATE_RANGE_DB_KEY).destroy()
     }
 
     fun saveRates(context: Context, ratesEntity: RatesEntity) {
