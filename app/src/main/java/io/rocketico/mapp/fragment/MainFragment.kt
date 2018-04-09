@@ -145,42 +145,18 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         if (io.rocketico.mapp.Utils.isOnline(context!!)){
             if (forceUpdate) {
                 RateHelper.deleteAllRates(context!!)
-                RateHelper.deleteRatesRange(context!!)
                 BalanceHelper.deleteAllBalances(context!!)
             }
 
             //updating balances and rates
             if (RateHelper.isOutdated(context!!, currentCurrency)) {
                 val ratesResponse = loadData { RateHelper.getTokenRateByDate() }
-                if (ratesResponse == null) {
+                val yesterdayRatesResponse = loadData { RateHelper.getTokenRateByDate(io.rocketico.mapp.Utils.nDaysAgo(1)) }
+                if (ratesResponse == null || yesterdayRatesResponse == null) {
                     context?.runOnUiThread { longToast(getString(R.string.server_is_not_available)) }
                 }
                 ratesResponse?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it))}
-
-                val ratesRangeResponse = loadData {
-                    RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(1), Date())
-                }
-                if (ratesRangeResponse == null) {
-                    context?.runOnUiThread { longToast(getString(R.string.server_is_not_available)) }
-                } else {
-
-                    //todo [priority: high] test functionality
-                    val tmp = ratesRangeResponse.rates?.sortedByDescending { it?.date }
-                    val rateRange = tmp?.subList(0, 2)
-                    val walletTokens = TokenType.values().map { it.codeName.toLowerCase() }
-                    rateRange?.forEach { it?.values = it?.values?.filter {
-                        walletTokens.contains(it?.tokenSymbol?.toLowerCase())
-                    } }
-
-                    val map = mutableMapOf<TokenType, Pair<Float, Float>>()
-                    val tokens = TokenType.values()
-                    tokens.forEach {tokenType ->
-                        val new = rateRange?.get(0)?.values?.find { it?.tokenSymbol?.toLowerCase() ==  tokenType.codeName.toLowerCase() }?.rate
-                        val old = rateRange?.get(1)?.values?.find { it?.tokenSymbol?.toLowerCase() ==  tokenType.codeName.toLowerCase() }?.rate
-                        new?.let { old?.let { map.put(tokenType, Pair(new, old)) } }
-                    }
-                    RateHelper.saveRatesRange(context!!, currentCurrency, map)
-                }
+                yesterdayRatesResponse?.let { RateHelper.saveYesterdayRates(context!!, RateHelper.RatesEntity.parse(it)) }
             }
 
             if (BalanceHelper.isTokenBalanceOutdated(context!!, TokenType.ETH)) {

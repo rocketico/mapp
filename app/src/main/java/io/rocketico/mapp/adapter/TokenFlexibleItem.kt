@@ -51,10 +51,10 @@ data class TokenFlexibleItem(private val context: Context,
     fun onUpdateEvent(event: UpdateEvent) {
         val balance = BalanceHelper.loadTokenBalance(context, tokenType)
         val rate = RateHelper.getTokenRate(context, tokenType, RateHelper.getCurrentCurrency(context))?.rate
-        val rateDiff = RateHelper.loadRatesRange(context, RateHelper.getCurrentCurrency(context))?.get(tokenType)
+        val yesterdayRate = RateHelper.getYesterdayTokenRate(context, tokenType, RateHelper.getCurrentCurrency(context))?.rate
         tokenBalance = balance?.let { Utils.bigIntegerToFloat(it, tokenType.decimals) }
         tokenRate = rate
-        tokenRateDiff = rateDiff?.let { io.rocketico.mapp.Utils.countDifference(it) }
+        tokenRateDiff = io.rocketico.mapp.Utils.countDifference(rate, yesterdayRate)
     }
 
     override fun isSwipeable(): Boolean = true
