@@ -71,7 +71,42 @@
         tools:text="$ 1230210" />
 
     <TextView
-        android:id="@+id/changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/header_margin"
+        android:layout_marginEnd="4dp"
+        android:text="@string/one_day"
+        android:textSize="@dimen/header_small_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/directionHeader"
+        app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/directionHeader"
+        android:layout_width="8dp"
+        android:layout_height="14dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_direction_down"
+        app:layout_constraintBottom_toBottomOf="@+id/percentDiff"
+        app:layout_constraintEnd_toStartOf="@+id/percentDiff"
+        app:layout_constraintTop_toTopOf="@+id/percentDiff" />
+
+    <TextView
+        android:id="@+id/percentDiff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/header_margin"
+        android:layout_marginEnd="4dp"
+        android:textSize="@dimen/header_small_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fiatDiff"
+        app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="-444" />
+
+    <TextView
+        android:id="@+id/fiatDiff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/header_margin"
@@ -80,6 +115,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
-        tools:text="24h -1.6% -307$" />
+        tools:text="-444$"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -120,6 +120,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <string name="one_day">24h</string>
+
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 </resources>
