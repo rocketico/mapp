@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -64,7 +65,6 @@ data class TokenFlexibleItem(private val context: Context,
         return ViewHolder(view, adapter)
     }
 
-    @SuppressLint("StringFormatMatches")
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         mHolder = holder
 
@@ -99,6 +99,7 @@ data class TokenFlexibleItem(private val context: Context,
         val tokenImage: CircleImageView = view.tokenImage
         val tokenName: TextView = view.tokenName
         val tokenRate: TextView = view.tokenRate
+        val rateDirection: ImageView = view.direction
         val tokenRateDiff: TextView = view.tokenRateDiff
         val tokenBalance: TextView = view.tokenBalance
         val tokenFiatBalance: TextView = view.tokenFiatBalance
