@@ -18,6 +18,7 @@ import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.UpdateEvent
+import io.rocketico.mapp.loadIcon
 import io.rocketico.mapp.setBalance
 import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.item_token.view.*
@@ -67,12 +68,7 @@ data class TokenFlexibleItem(private val context: Context,
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         mHolder = holder
 
-        val icon = try {
-            context.assets.open("tokens_icons/${tokenType.codeName}.webp") //todo move to separated function
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+        val icon = context.loadIcon(tokenType.codeName)
 
         if (icon != null) {
             val draw = Drawable.createFromStream(icon, null)
