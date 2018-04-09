@@ -51,6 +51,14 @@ class MenuFragment : Fragment() {
         settingsButton.setOnClickListener {
             onMenuButtonsClickListener.onSettingsClick()
         }
+
+        faqButton.setOnClickListener {
+            onMenuButtonsClickListener.onFaqClick()
+        }
+
+        onlineSuppButton.setOnClickListener {
+            onMenuButtonsClickListener.onSupportClick()
+        }
     }
 
     interface OnMenuButtonsClickListener {
@@ -60,6 +68,8 @@ class MenuFragment : Fragment() {
         fun onSettingsClick()
         fun onLogInClick()
         fun onJoinClick()
+        fun onSupportClick()
+        fun onFaqClick()
     }
 
     companion object {

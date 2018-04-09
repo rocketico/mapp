@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
+import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.*
@@ -132,6 +133,18 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onJoinClick() {
         startActivity(LogInActivity.newIntent(this, LogInActivity.JOIN_FRAGMENT))
+    }
+
+    override fun onFaqClick() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, WebViewFragment.newInstance(Cc.FAQ_URL))
+                .commit()
+    }
+
+    override fun onSupportClick() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, WebViewFragment.newInstance(Cc.SUPPORT_URL))
+                .commit()
     }
 
     companion object {
