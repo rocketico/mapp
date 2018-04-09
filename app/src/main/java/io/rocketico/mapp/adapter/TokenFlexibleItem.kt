@@ -1,6 +1,5 @@
 package io.rocketico.mapp.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
@@ -54,7 +53,7 @@ data class TokenFlexibleItem(private val context: Context,
         val yesterdayRate = RateHelper.getYesterdayTokenRate(context, tokenType, RateHelper.getCurrentCurrency(context))?.rate
         tokenBalance = balance?.let { Utils.bigIntegerToFloat(it, tokenType.decimals) }
         tokenRate = rate
-        tokenRateDiff = io.rocketico.mapp.Utils.countDifference(rate, yesterdayRate)
+        tokenRateDiff = io.rocketico.mapp.Utils.calculateDifference(rate, yesterdayRate)
     }
 
     override fun isSwipeable(): Boolean = true

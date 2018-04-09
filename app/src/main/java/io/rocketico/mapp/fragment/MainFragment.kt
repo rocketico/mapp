@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -17,18 +16,14 @@ import android.view.animation.AnimationUtils
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.helpers.ItemTouchHelperCallback
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
-import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
-import io.rocketico.core.model.response.TokenRatesRangeResponse
 import io.rocketico.mapp.*
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
-import io.rocketico.mapp.activity.MenuActivity
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
@@ -42,7 +37,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
-import java.util.*
 
 class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -281,6 +275,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun countBalances() {
         totalBalance = 0f
         totalFiatBalance = 0f
+        var totalYesterdayFiatBalance = 0f
 
         val tokens = listAdapter.currentItems as List<TokenFlexibleItem>
         val ethRate = tokens.find { it.tokenType == TokenType.ETH }?.tokenRate
@@ -288,6 +283,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             tokens.forEach { token ->
                 val balance = token.tokenBalance
                 val rate = token.tokenRate
+                val yesterdayRate = RateHelper.getYesterdayTokenRate(context!!, token.tokenType, currentCurrency)?.rate
 
                 if (token.tokenType == TokenType.ETH) {
                     balance?.let { totalBalance += it }
@@ -298,8 +294,35 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
                 val fiatBalance = balance?.let { rate?.let { balance * rate } }
                 fiatBalance?.let { totalFiatBalance += it }
+
+                val yesterdayFiatBalance = balance?.let { yesterdayRate?.let { balance * yesterdayRate } }
+                yesterdayFiatBalance?.let { totalYesterdayFiatBalance += it }
             }
         }
+
+        val percentDiff = io.rocketico.mapp.Utils.calculateDifference(totalFiatBalance, totalYesterdayFiatBalance)
+        val fiatDiff = totalFiatBalance - totalYesterdayFiatBalance
+
+        percentDiff?.let {
+            directionHeader.setImageDrawable(resources.getDrawable(
+                    if (it < 0)
+                        R.drawable.ic_direction_down
+                    else
+                        R.drawable.ic_direction_up))
+            directionHeader.setColorFilter(resources.getColor(
+                    if (it < 0)
+                        R.color.colorAccent
+                    else
+                        R.color.colorReceive))
+            percentDiffTextView.text = context!!.setRateDifference(percentDiff)
+            percentDiffTextView.setTextColor(resources.getColor(
+                    if (it < 0)
+                        R.color.colorAccent
+                    else
+                        R.color.colorReceive))
+        }
+
+        fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff)
     }
 
     //todo [priority: low] rename flag

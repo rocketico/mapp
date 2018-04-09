@@ -88,25 +88,25 @@
         android:layout_height="14dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_direction_down"
-        app:layout_constraintBottom_toBottomOf="@+id/percentDiff"
-        app:layout_constraintEnd_toStartOf="@+id/percentDiff"
-        app:layout_constraintTop_toTopOf="@+id/percentDiff" />
+        app:layout_constraintBottom_toBottomOf="@+id/percentDiffTextView"
+        app:layout_constraintEnd_toStartOf="@+id/percentDiffTextView"
+        app:layout_constraintTop_toTopOf="@+id/percentDiffTextView" />
 
     <TextView
-        android:id="@+id/percentDiff"
+        android:id="@+id/percentDiffTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/header_margin"
         android:layout_marginEnd="4dp"
         android:textSize="@dimen/header_small_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fiatDiff"
+        app:layout_constraintEnd_toStartOf="@+id/fiatDiffTextView"
         app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
         app:layout_constraintVertical_bias="1.0"
         tools:text="-444" />
 
     <TextView
-        android:id="@+id/fiatDiff"
+        android:id="@+id/fiatDiffTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/header_margin"

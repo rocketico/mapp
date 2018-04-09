@@ -56,7 +56,8 @@ object Utils {
         return netInfo != null && netInfo.isConnectedOrConnecting
     }
 
-    fun countDifference(new: Float?, old: Float?): Float? {
-        return new?.let { old?.let { ((new * 100) / old) - 100 } }
+    fun calculateDifference(new: Float?, old: Float?): Float? {
+        val result = new?.let { old?.let { ((new * 100) / old) - 100 } }
+        return result?.let { if (result.isNaN()) 0f else result }
     }
 }
