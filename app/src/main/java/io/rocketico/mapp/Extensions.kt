@@ -5,6 +5,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import io.rocketico.core.RateHelper
 import org.jetbrains.anko.doAsyncResult
+import java.io.InputStream
 
 @SuppressLint("StringFormatMatches")
 fun Context.setBalance(value: Float?): String {
@@ -30,6 +31,15 @@ fun Context.setTokenBalance(tokenType: String, value: Float?): String {
 @SuppressLint("StringFormatMatches")
 fun Context.setQuantity(prefix: String, value: Float?): String {
     return getString(R.string.quantity_template, prefix, value ?: getString(R.string.null_value))
+}
+
+fun Context.loadIcon(tokenCodeName: String): InputStream? {
+    return try {
+        assets.open("tokens_icons/${tokenCodeName}.webp")
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
 }
 
 fun <T, R> T.loadData(task: () -> R): R? =
