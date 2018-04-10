@@ -16,7 +16,14 @@ import org.jetbrains.anko.toast
 
 
 class ReceiveFragment : Fragment() {
+
+    private lateinit var fragmentListener: ReceiveFragmentListener
     lateinit var wallet: Wallet
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fragmentListener = activity as ReceiveFragmentListener
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_receive, container, false)
@@ -44,7 +51,7 @@ class ReceiveFragment : Fragment() {
         }
 
         buttonBack.setOnClickListener {
-            fragmentManager?.popBackStack()
+            fragmentListener.onBackClick()
         }
 
         buttonShare.setOnClickListener {
@@ -52,6 +59,9 @@ class ReceiveFragment : Fragment() {
         }
     }
 
+    interface ReceiveFragmentListener {
+        fun onBackClick()
+    }
 
     companion object {
         private const val WALLET_KEY = "wallet_key"

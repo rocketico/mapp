@@ -23,7 +23,8 @@ class MenuActivity : AppCompatActivity(),
         SendFragment.SendFragmentListener,
         SendDetailsFragment.SendDetailsFragmentListener,
         SendBillFragment.SendBillFragmentListener,
-        WebViewFragment.WebViewFragmentListener{
+        WebViewFragment.WebViewFragmentListener,
+        ReceiveFragment.ReceiveFragmentListener{
 
     private lateinit var wallet: Wallet
     private var action: Int = NO_ACTION
