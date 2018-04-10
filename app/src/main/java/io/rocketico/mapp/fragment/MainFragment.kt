@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -232,12 +233,17 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         listAdapter.addListener(object : FlexibleAdapter.OnItemSwipeListener {
             override fun onActionStateChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-                Log.i("SWIPE_LISTENER", actionState.toString())
+
             }
 
             override fun onItemSwipe(position: Int, direction: Int) {
                 val item = listAdapter.getItem(position) as TokenFlexibleItem
-                fragmentListener.onTokenListItemSwipe(item.tokenType, position, direction)
+                if (item.tokenBalance == null && direction == ItemTouchHelper.RIGHT) {
+                    context!!.toast(getString(R.string.no_balance_info))
+                    listAdapter.updateItem(item)
+                } else {
+                    fragmentListener.onTokenListItemSwipe(item.tokenType, position, direction)
+                }
             }
         })
 
