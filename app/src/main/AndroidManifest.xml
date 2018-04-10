@@ -53,6 +53,9 @@
         <activity android:name=".activity.FingerPrintActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.QrScanActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
