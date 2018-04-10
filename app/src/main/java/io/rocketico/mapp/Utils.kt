@@ -55,4 +55,9 @@ object Utils {
         val netInfo = cm.activeNetworkInfo
         return netInfo != null && netInfo.isConnectedOrConnecting
     }
+
+    fun calculateDifference(new: Float?, old: Float?): Float? {
+        val result = new?.let { old?.let { ((new * 100) / old) - 100 } }
+        return result?.let { if (result.isNaN()) 0f else result }
+    }
 }

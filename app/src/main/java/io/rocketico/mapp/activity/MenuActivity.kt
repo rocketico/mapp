@@ -1,6 +1,8 @@
 package io.rocketico.mapp.activity
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -9,18 +11,22 @@ import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
+import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.*
 import io.rocketico.mapp.fragment.MenuFragment.OnMenuButtonsClickListener
+import org.jetbrains.anko.toast
 
 class MenuActivity : AppCompatActivity(),
         OnMenuButtonsClickListener,
         SendFragment.SendFragmentListener,
         SendDetailsFragment.SendDetailsFragmentListener,
-        SendBillFragment.SendBillFragmentListener {
+        SendBillFragment.SendBillFragmentListener,
+        WebViewFragment.WebViewFragmentListener{
 
     private lateinit var wallet: Wallet
+    private var action: Int = NO_ACTION
 
     override fun onSettingsClick() {
         startActivity(SettingsActivity.getIntent(this))
@@ -31,7 +37,16 @@ class MenuActivity : AppCompatActivity(),
         setContentView(R.layout.activity_menu)
 
         wallet = WalletManager(this).getWallet()!!
-        init()
+
+        action = intent.getIntExtra(ACTION, NO_ACTION)
+        when(action) {
+            ACTION_SENT -> {
+                val tokenType = intent.getSerializableExtra(TOKEN_TYPE) as TokenType
+                onSendTokenListItemClick(tokenType, null)
+            }
+            ACTION_RECEIVE -> { onReceiveClick() }
+            NO_ACTION -> { init() }
+        }
     }
 
     private fun init() {
@@ -41,21 +56,46 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onSendClick() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0);
+        if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_REQUEST)
+
         } else {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SendFragment.newInstance(wallet))
-                    .commit()
+            startSendFragment()
         }
     }
 
-    override fun onReceiveClick() {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            CAMERA_PERMISSION_REQUEST -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                    startSendFragment()
+
+                } else {
+
+                    toast(getString(R.string.permission_denied))
+
+                }
+                return
+            }
+            else -> {}
+        }
+    }
+
+    private fun startSendFragment() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ReceiveFragment.newInstance(wallet))
-                .addToBackStack(null)
+                .replace(R.id.container, SendFragment.newInstance(wallet))
                 .commit()
+    }
+
+    override fun onReceiveClick() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, ReceiveFragment.newInstance(wallet))
+        if (action == NO_ACTION) transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onBackClick() {
@@ -65,14 +105,14 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
+        if (action == NO_ACTION) overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
     }
 
     override fun onSendTokenListItemClick(tokenType: TokenType, address: String?) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SendDetailsFragment.newInstance(tokenType, address))
-                .addToBackStack(null)
-                .commit()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, SendDetailsFragment.newInstance(tokenType, address))
+        if (action == NO_ACTION) transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onCreateClick(tokenType: TokenType, eth: Float, gasPrice: Int, address: String) {
@@ -94,5 +134,33 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onJoinClick() {
         startActivity(LogInActivity.newIntent(this, LogInActivity.JOIN_FRAGMENT))
+    }
+
+    override fun onFaqClick() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, WebViewFragment.newInstance(WebViewFragment.FAQ_CODE))
+                .commit()
+    }
+
+    override fun onSupportClick() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, WebViewFragment.newInstance(WebViewFragment.SUPPORT_CODE))
+                .commit()
+    }
+
+    companion object {
+        private const val CAMERA_PERMISSION_REQUEST = 0
+        private const val ACTION = "action"
+        private const val TOKEN_TYPE = "token_type"
+        const val NO_ACTION = -1
+        const val ACTION_SENT = 1
+        const val ACTION_RECEIVE = 2
+
+        fun newIntent(context: Context, action: Int? = null, tokenType: TokenType? = null): Intent {
+            val intent = Intent(context, MenuActivity::class.java)
+            action?.let { intent.putExtra(ACTION, it) }
+            tokenType?.let { intent.putExtra(TOKEN_TYPE, tokenType) }
+            return intent
+        }
     }
 }

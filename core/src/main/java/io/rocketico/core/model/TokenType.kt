@@ -634,4 +634,9 @@ enum class TokenType(val codeName: String,
         return codeName
     }
 
+    fun fromString(tokenType: String): TokenType? {
+        val allTokens = TokenType.values()
+        return allTokens.find { it.codeName.toLowerCase() == tokenType.toLowerCase() }
+    }
+
 }

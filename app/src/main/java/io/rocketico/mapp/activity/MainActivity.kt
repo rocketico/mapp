@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.helper.ItemTouchHelper
 import com.crashlytics.android.Crashlytics
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onMenuButtonClick() {
-        startActivity(Intent(this, MenuActivity::class.java))
+        startActivity(MenuActivity.newIntent(this))
         overridePendingTransition(R.anim.anim_slide_up, R.anim.anim_slide_down)
     }
 
@@ -68,6 +69,17 @@ class MainActivity : AppCompatActivity(),
                 .replace(R.id.container, TokenFragment.newInstance(wm.getWallet()!!, tokenType))
                 .addToBackStack(null)
                 .commit()
+    }
+
+    override fun onTokenListItemSwipe(tokenType: TokenType, position: Int, direction: Int) {
+        when(direction) {
+            ItemTouchHelper.RIGHT -> {
+                startActivity(MenuActivity.newIntent(this, MenuActivity.ACTION_SENT, tokenType))
+            }
+            ItemTouchHelper.LEFT -> {
+                startActivity(MenuActivity.newIntent(this, MenuActivity.ACTION_RECEIVE))
+            }
+        }
     }
 
     override fun onAddTokenListItemClick(tokenType: TokenType) {

@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -16,7 +18,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.*
-import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
@@ -48,8 +49,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var wallet: Wallet
     private lateinit var currentCurrency: Currency
 
-    private var totalBalance: Float? = 0f
-    private var totalFiatBalance: Float? = 0f
+    private var totalBalance: Float = 0f
+    private var totalFiatBalance: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +61,11 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onResume() {
         super.onResume()
         sliding.panelState = PanelState.COLLAPSED
+    }
+
+    override fun onStop() {
+        super.onStop()
+        listAdapter.updateDataSet(listAdapter.currentItems)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -95,6 +101,9 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         listAdapter = FlexibleAdapter(tokens)
         tokenList.layoutManager = LinearLayoutManager(context)
         tokenList.adapter = listAdapter
+        listAdapter.isSwipeEnabled = true
+        listAdapter.itemTouchHelperCallback.setSwipeThreshold(0.3f)
+        listAdapter.itemTouchHelperCallback.setSwipeAnimationDuration(200L)
 
         listAdapter.addItem(TokenFlexibleItem(context!!, TokenType.ETH))
 
@@ -136,10 +145,12 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             //updating balances and rates
             if (RateHelper.isOutdated(context!!, currentCurrency)) {
                 val ratesResponse = loadData { RateHelper.getTokenRateByDate() }
-                if (ratesResponse == null) {
+                val yesterdayRatesResponse = loadData { RateHelper.getTokenRateByDate(io.rocketico.mapp.Utils.nDaysAgo(1)) }
+                if (ratesResponse == null || yesterdayRatesResponse == null) {
                     context?.runOnUiThread { longToast(getString(R.string.server_is_not_available)) }
                 }
                 ratesResponse?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it))}
+                yesterdayRatesResponse?.let { RateHelper.saveYesterdayRates(context!!, RateHelper.RatesEntity.parse(it)) }
             }
 
             if (BalanceHelper.isTokenBalanceOutdated(context!!, TokenType.ETH)) {
@@ -219,6 +230,17 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             true
         })
 
+        listAdapter.addListener(object : FlexibleAdapter.OnItemSwipeListener {
+            override fun onActionStateChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                Log.i("SWIPE_LISTENER", actionState.toString())
+            }
+
+            override fun onItemSwipe(position: Int, direction: Int) {
+                val item = listAdapter.getItem(position) as TokenFlexibleItem
+                fragmentListener.onTokenListItemSwipe(item.tokenType, position, direction)
+            }
+        })
+
         refresher.setOnRefreshListener(this)
 
         headerMainCurrency.setOnClickListener(onBalanceClickListener)
@@ -253,6 +275,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun countBalances() {
         totalBalance = 0f
         totalFiatBalance = 0f
+        var totalYesterdayFiatBalance = 0f
 
         val tokens = listAdapter.currentItems as List<TokenFlexibleItem>
         val ethRate = tokens.find { it.tokenType == TokenType.ETH }?.tokenRate
@@ -260,23 +283,46 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             tokens.forEach { token ->
                 val balance = token.tokenBalance
                 val rate = token.tokenRate
+                val yesterdayRate = RateHelper.getYesterdayTokenRate(context!!, token.tokenType, currentCurrency)?.rate
 
-                if (balance == null || rate == null || ethRate == null) {
-                    totalBalance = null
-                    totalFiatBalance = null
-                    return@loop
+                if (token.tokenType == TokenType.ETH) {
+                    balance?.let { totalBalance += it }
                 } else {
-                    totalBalance = totalBalance?.let {
-                        it + if (token.tokenType == TokenType.ETH) {
-                            balance
-                        } else {
-                            RateHelper.convertCurrency(rate, ethRate, balance)!! //todo change it
-                        }
-                    }
-                    totalFiatBalance = totalFiatBalance?.let { it + balance * rate }
+                    val tokenBalance = RateHelper.convertCurrency(rate, ethRate, balance)
+                    tokenBalance?.let { totalBalance += it }
                 }
+
+                val fiatBalance = balance?.let { rate?.let { balance * rate } }
+                fiatBalance?.let { totalFiatBalance += it }
+
+                val yesterdayFiatBalance = balance?.let { yesterdayRate?.let { balance * yesterdayRate } }
+                yesterdayFiatBalance?.let { totalYesterdayFiatBalance += it }
             }
         }
+
+        val percentDiff = io.rocketico.mapp.Utils.calculateDifference(totalFiatBalance, totalYesterdayFiatBalance)
+        val fiatDiff = totalFiatBalance - totalYesterdayFiatBalance
+
+        percentDiff?.let {
+            directionHeader.setImageDrawable(resources.getDrawable(
+                    if (it < 0)
+                        R.drawable.ic_direction_down
+                    else
+                        R.drawable.ic_direction_up))
+            directionHeader.setColorFilter(resources.getColor(
+                    if (it < 0)
+                        R.color.colorAccent
+                    else
+                        R.color.colorReceive))
+            percentDiffTextView.text = context!!.setRateDifference(percentDiff)
+            percentDiffTextView.setTextColor(resources.getColor(
+                    if (it < 0)
+                        R.color.colorAccent
+                    else
+                        R.color.colorReceive))
+        }
+
+        fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff)
     }
 
     //todo [priority: low] rename flag
@@ -294,6 +340,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         fun onMenuButtonClick()
         fun onFabClick()
         fun onTokenListItemClick(tokenType: TokenType)
+        fun onTokenListItemSwipe(tokenType: TokenType, position: Int, direction: Int)
     }
 
     companion object {

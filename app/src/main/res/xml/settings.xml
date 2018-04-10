@@ -14,9 +14,9 @@
         android:key="export_private_key"
         android:title="@string/export_private_key" />
 
-    <PreferenceCategory android:title="@string/log_out"/>
+    <PreferenceCategory android:title="@string/logout"/>
 
     <Preference
-        android:key="log_out"
-        android:title="@string/log_out"/>
+        android:key="logout"
+        android:title="@string/logout"/>
 </PreferenceScreen>

@@ -15,11 +15,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         fragmentListener = activity as OnSettingsItemClickListener
 
-        val preference = findPreference("export_private_key")
-        preference.setOnPreferenceClickListener({
+        val exportPrivateKey = findPreference("export_private_key")
+        exportPrivateKey.setOnPreferenceClickListener({
             fragmentListener.onExportClick()
             true
         })
+
+        val logout = findPreference("logout")
+        logout.setOnPreferenceClickListener {
+            fragmentListener.onLogoutClick()
+            true
+        }
     }
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
@@ -28,6 +34,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     interface OnSettingsItemClickListener {
         fun onExportClick()
+        fun onLogoutClick()
     }
 
     companion object {

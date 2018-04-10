@@ -14,6 +14,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
+import io.rocketico.mapp.loadIcon
 import kotlinx.android.synthetic.main.item_add_token.view.*
 
 data class AddTokenFlexibleItem(val tokenType: TokenType,
@@ -38,12 +39,7 @@ data class AddTokenFlexibleItem(val tokenType: TokenType,
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>, holder: AddTokenViewHolder, position: Int, payloads: MutableList<Any>) {
         val context = holder.itemView.context
 
-        val icon = try {
-            context.assets.open("tokens_icons/${tokenType.codeName}.webp") //todo move to separated function
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+        val icon = context.loadIcon(tokenType.codeName)
 
         if (icon != null) {
             val draw = Drawable.createFromStream(icon, null)

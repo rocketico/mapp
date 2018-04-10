@@ -86,7 +86,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 }
 
         setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
-
+        setDifference()
 
         val icon = try {
             context!!.assets.open("tokens_icons/${tokenType.codeName}.png")
@@ -265,10 +265,41 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         }
 
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
+                setDifference()
 
                 refresher.isRefreshing = false
             }
         }
+    }
+
+    private fun setDifference() {
+        val yesterdayRate = RateHelper.getYesterdayTokenRate(context!!, tokenType, currentCurrency)?.rate
+        val fiatBalance = balance?.let { rate?.let { balance!! * rate!! } }
+        val yesterdayFiatBalance = balance?.let { yesterdayRate?.let { balance!! * yesterdayRate } }
+
+        val percentDiff = io.rocketico.mapp.Utils.calculateDifference(rate, yesterdayRate)
+        val fiatDiff = yesterdayFiatBalance?.let { fiatBalance?.let { fiatBalance - yesterdayFiatBalance } }
+
+        percentDiff?.let {
+            directionHeader.setImageDrawable(resources.getDrawable(
+                    if (it < 0)
+                        R.drawable.ic_direction_down
+                    else
+                        R.drawable.ic_direction_up))
+            directionHeader.setColorFilter(resources.getColor(
+                    if (it < 0)
+                        R.color.colorAccent
+                    else
+                        R.color.colorReceive))
+            percentDiffTextView.text = context!!.setRateDifference(percentDiff)
+            percentDiffTextView.setTextColor(resources.getColor(
+                    if (it < 0)
+                        R.color.colorAccent
+                    else
+                        R.color.colorReceive))
+        }
+
+        fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff)
     }
 
     private val onBalanceClickListener = View.OnClickListener {
