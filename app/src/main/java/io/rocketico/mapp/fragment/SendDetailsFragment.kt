@@ -1,5 +1,7 @@
 package io.rocketico.mapp.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
@@ -17,6 +19,7 @@ import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
+import io.rocketico.mapp.activity.QrScanActivity
 import io.rocketico.mapp.setBalance
 import io.rocketico.mapp.setBalanceWithCurrency
 import io.rocketico.mapp.setQuantity
@@ -26,7 +29,7 @@ import java.math.BigInteger
 
 class SendDetailsFragment : Fragment() {
 
-    private lateinit var listener: SendDetailsFragmentListener
+    private lateinit var fragmentListener: SendDetailsFragmentListener
     private lateinit var tokenType: TokenType
     private lateinit var currentCurrency: Currency
 
@@ -49,7 +52,7 @@ class SendDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        listener = activity as SendDetailsFragmentListener
+        fragmentListener = activity as SendDetailsFragmentListener
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -92,12 +95,12 @@ class SendDetailsFragment : Fragment() {
 
     private fun setupListeners() {
         backButton.setOnClickListener {
-            listener.onBackClick()
+            fragmentListener.onBackClick()
         }
 
         createButton.setOnClickListener {
             if (checkForErrors()) {
-                listener.onCreateClick(tokenType, quantity, gasPriceGwei, address)
+                fragmentListener.onCreateClick(tokenType, quantity, gasPriceGwei, address)
             }
         }
 
@@ -134,6 +137,10 @@ class SendDetailsFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        qrScan.setOnClickListener {
+            startActivityForResult(QrScanActivity.newIntent(context!!), ADDRESS_REQUEST)
+        }
     }
 
     private fun setupSeekBar() {
@@ -275,6 +282,18 @@ class SendDetailsFragment : Fragment() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode) {
+            ADDRESS_REQUEST -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    address = data!!.getStringExtra(Intent.EXTRA_RETURN_RESULT)
+                    addressEditText.setText(address)
+                }
+            }
+            else -> {}
+        }
+    }
+
     interface SendDetailsFragmentListener {
         fun onBackClick()
         fun onCreateClick(tokenType: TokenType, eth: Float, gasPrice: Int, address: String)
@@ -287,6 +306,8 @@ class SendDetailsFragment : Fragment() {
         private const val GAS_PRICE_MAX = 98
         private const val DEFAULT_ETHER_TX_FEE = 40
         private const val DEFAULT_TOKEN_TX_FEE = 21
+
+        private const val ADDRESS_REQUEST = 1
 
         fun newInstance(tokenType: TokenType, address: String?): SendDetailsFragment{
             val fragment = SendDetailsFragment()

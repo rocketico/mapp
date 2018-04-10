@@ -96,10 +96,22 @@
             android:hint="@string/enter_address_hint"
             android:inputType="textPersonName"
             android:textSize="16sp"
+            android:drawableEnd="@drawable/ic_camera_24dp"
             android:textColor="@color/detailsTextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
+
+        <Button
+            android:id="@+id/qrScan"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="4dp"
+            android:foreground="@null"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="@+id/addressEditText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/addressEditText" />
 
         <EditText
             android:id="@+id/quantityEditText"
