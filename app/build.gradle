@@ -28,18 +28,18 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
     implementation 'eu.davidea:flexible-adapter:5.0.3'
-    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:design:27.1.1'
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'org.web3j:core:3.3.1-android'
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
-    implementation 'com.takisoft.fix:preference-v7:27.1.0.0'
+    implementation 'com.takisoft.fix:preference-v7:27.1.1.0'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
         transitive = true;
     }
@@ -53,5 +53,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':core')
-    implementation 'com.android.support:cardview-v7:27.1.0'
+    implementation 'com.android.support:cardview-v7:27.1.1'
 }
