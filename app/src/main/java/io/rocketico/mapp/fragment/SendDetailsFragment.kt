@@ -18,11 +18,8 @@ import io.rocketico.core.Utils
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
-import io.rocketico.mapp.R
+import io.rocketico.mapp.*
 import io.rocketico.mapp.activity.QrScanActivity
-import io.rocketico.mapp.setBalance
-import io.rocketico.mapp.setBalanceWithCurrency
-import io.rocketico.mapp.setQuantity
 import kotlinx.android.synthetic.main.fragment_send_details.*
 import org.jetbrains.anko.toast
 import java.math.BigInteger
@@ -118,6 +115,8 @@ class SendDetailsFragment : Fragment() {
             }
             isTokenMain = !isTokenMain
 
+            seekBar.progress = seekBar.progress
+
             quantityEditText.setText(quantityFiatTextView.text)
             Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
         }
@@ -149,13 +148,24 @@ class SendDetailsFragment : Fragment() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 gasPriceGwei = progress + 1
-                val txFee = Utils.txFeeFromGwei(gasPriceGwei, ethRate, tokenType)
+                val txFee: Float?
+                val totalQuantity: Float?
                 val fiatQuantity = rate?.let { quantity * it }
-                val totalQuantity = if (txFee != null && fiatQuantity != null)
-                    fiatQuantity + txFee else null
 
-                txFeeTextView.text = context!!.setBalanceWithCurrency(txFee)
-                totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity)
+                if (isTokenMain) {
+                    txFee = Utils.ethFromGwei(gasPriceGwei)
+                    totalQuantity = txFee + quantity
+
+                    txFeeTextView.text = context!!.setTokenBalance(tokenType.codeName, txFee)
+                    totalTextView.text = context!!.setTokenBalance(tokenType.codeName, totalQuantity)
+                } else {
+                    txFee = Utils.txFeeFromGwei(gasPriceGwei, ethRate, tokenType)
+                    totalQuantity = if (txFee != null && fiatQuantity != null)
+                        fiatQuantity + txFee else null
+
+                    txFeeTextView.text = context!!.setBalanceWithCurrency(txFee)
+                    totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity)
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -228,12 +238,12 @@ class SendDetailsFragment : Fragment() {
             }
 
             val fiatQuantity = rate?.let { quantity * it }
-            val txFee = Utils.txFeeFromGwei(gasPriceGwei, ethRate, tokenType)
-            val totalQuantity = if (txFee != null && fiatQuantity != null)
-                fiatQuantity + txFee else null
+            val txFee = Utils.ethFromGwei(gasPriceGwei)
+            val totalQuantity = quantity + txFee
 
             quantityFiatTextView.text = context!!.setQuantity(fiatPrefix, fiatQuantity)
-            totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity)
+            txFeeTextView.text = context!!.setTokenBalance(tokenType.codeName, txFee)
+            totalTextView.text = context!!.setTokenBalance(tokenType.codeName, totalQuantity)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -274,6 +284,7 @@ class SendDetailsFragment : Fragment() {
                 fiatQuantity + txFee else null
 
             quantityFiatTextView.text = context!!.setQuantity(tokenPrefix, quantity)
+            txFeeTextView.text = context!!.setBalanceWithCurrency(txFee)
             totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity)
         }
 

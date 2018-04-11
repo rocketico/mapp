@@ -50,6 +50,21 @@ object Utils {
         }
     }
 
+    fun ethFromGwei(gwei: Int): Float {
+        val tmpBI = BigDecimal.valueOf(gwei.toLong()).divide(BigDecimal.TEN.pow(9))
+        return tmpBI.toFloat()
+
+//        val gasLimit =
+//                if (tokenType == TokenType.ETH)
+//                    EthereumHelper.GAS_LIMIT
+//                else
+//                    EthereumHelper.ERC_20_GAS_LIMIT
+//
+//        val txFeeBI = BigInteger.valueOf(gwei.toLong()) * gasLimit
+//        val txFee = txFeeBI.toBigDecimal() * BigDecimal(ethRate.toString())
+//        txFee.divide(BigDecimal.TEN.pow(9), 5, RoundingMode.DOWN).toFloat()
+    }
+
     fun scaleFloat(fiatValue: Float, scale: Int = 5): String {
         val formatString = "%.${scale}f"
         return String.format(formatString, fiatValue).replace(',', '.')
