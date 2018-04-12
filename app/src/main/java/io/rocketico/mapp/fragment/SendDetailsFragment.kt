@@ -203,7 +203,7 @@ class SendDetailsFragment : Fragment() {
     }
 
     private fun checkBalance(): Boolean {
-        var paymentCoast = BigInteger.valueOf(gasPriceGwei.toLong()).pow(9)
+        var paymentCoast = BigInteger.valueOf(gasPriceGwei.toLong()).multiply(BigInteger.TEN.pow(9))
         if (tokenType == TokenType.ETH) paymentCoast += Utils.floatToBigInteger(quantity)
 
         return ethBalance - paymentCoast <= BigInteger.ZERO
