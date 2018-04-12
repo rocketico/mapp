@@ -78,16 +78,14 @@ class SendDetailsFragment : Fragment() {
         tokenBalance.text = context!!.setBalance(balance)
         tokenFiatBalance.text = context!!.setBalanceWithCurrency(fiatBalance)
 
-        quantityEditText.setText(context!!.setQuantity(tokenPrefix, 0f))
-        quantityFiatTextView.text = context!!.setQuantity(fiatPrefix, 0f)
-
         if (rate == null) {
             changeButton.isEnabled = false
-            quantityFiatTextView.text = context!!.setQuantity(fiatPrefix, null)
         }
 
         setupListeners()
         setupSeekBar()
+
+        quantityEditText.setText(context!!.setQuantity(tokenPrefix, 0f))
     }
 
     private fun setupListeners() {
@@ -154,10 +152,11 @@ class SendDetailsFragment : Fragment() {
 
                 if (isTokenMain) {
                     txFee = Utils.ethFromGwei(gasPriceGwei)
-                    totalQuantity = txFee + quantity
+                    val tmpQuantity = if (tokenType == TokenType.ETH) quantity else RateHelper.convertCurrency(rate, ethRate, quantity)
+                    totalQuantity = tmpQuantity?.let { it + txFee }
 
-                    txFeeTextView.text = context!!.setTokenBalance(tokenType.codeName, txFee)
-                    totalTextView.text = context!!.setTokenBalance(tokenType.codeName, totalQuantity)
+                    txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee)
+                    totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity)
                 } else {
                     txFee = Utils.txFeeFromGwei(gasPriceGwei, ethRate, tokenType)
                     totalQuantity = if (txFee != null && fiatQuantity != null)
@@ -227,23 +226,27 @@ class SendDetailsFragment : Fragment() {
                     Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                     return
                 }
-                if (value.toFloat() > balance) {
+
+                val result = value.toFloat()
+
+                if (result > balance) {
                     quantityEditText.setText(context!!.setQuantity(tokenPrefix, balance))
                     Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                     return
                 }
-                value.toFloat()
+                result
             } else {
                 0f
             }
 
             val fiatQuantity = rate?.let { quantity * it }
             val txFee = Utils.ethFromGwei(gasPriceGwei)
-            val totalQuantity = quantity + txFee
+            val tmpQuantity = if (tokenType == TokenType.ETH) quantity else RateHelper.convertCurrency(rate, ethRate, quantity)
+            val totalQuantity = tmpQuantity?.let { it + txFee }
 
             quantityFiatTextView.text = context!!.setQuantity(fiatPrefix, fiatQuantity)
-            txFeeTextView.text = context!!.setTokenBalance(tokenType.codeName, txFee)
-            totalTextView.text = context!!.setTokenBalance(tokenType.codeName, totalQuantity)
+            txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee)
+            totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -268,12 +271,15 @@ class SendDetailsFragment : Fragment() {
                     Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                     return
                 }
-                if (value.toFloat() > fiatBalance!!) {
+
+                val result = value.toFloat()
+
+                if (result > fiatBalance!!) {
                     quantityEditText.setText(context!!.setQuantity(fiatPrefix, fiatBalance!!))
                     Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                     return
                 }
-                value.toFloat() / rate!!
+                result / rate!!
             } else {
                 0f
             }
