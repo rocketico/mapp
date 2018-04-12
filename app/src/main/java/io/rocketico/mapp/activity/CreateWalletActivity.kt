@@ -1,6 +1,7 @@
 package io.rocketico.mapp.activity
 
 import android.Manifest
+import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
@@ -107,13 +108,22 @@ class CreateWalletActivity : AppCompatActivity() {
         val to = if (direction == -1) imageWidth * (-2) else screenWidth + imageWidth
 
         val animation = ObjectAnimator.ofFloat(view, View.X,  from, to)
+        animation.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {}
+
+            override fun onAnimationEnd(animation: Animator?) {}
+
+            override fun onAnimationCancel(animation: Animator?) {}
+
+            override fun onAnimationStart(animation: Animator?) {
+                view.visibility = View.VISIBLE
+            }
+        })
         animation.interpolator = LinearInterpolator()
         animation.repeatCount = ObjectAnimator.INFINITE
         animation.duration = duration
         delay?.let { animation.startDelay = it }
         animation.start()
-
-        view.visibility = View.VISIBLE
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
