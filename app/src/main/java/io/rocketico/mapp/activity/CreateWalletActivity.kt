@@ -1,6 +1,7 @@
 package io.rocketico.mapp.activity
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Wallet
@@ -17,6 +19,9 @@ import io.rocketico.mapp.Utils
 import kotlinx.android.synthetic.main.activity_create_wallet.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import android.util.DisplayMetrics
+import android.view.animation.LinearInterpolator
+import android.widget.ImageView
 
 class CreateWalletActivity : AppCompatActivity() {
 
@@ -25,6 +30,7 @@ class CreateWalletActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_wallet)
 
         init()
+        makeBalloonsFly()
     }
 
     private fun init() {
@@ -82,6 +88,32 @@ class CreateWalletActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun makeBalloonsFly() {
+        setupAnimation(balloon1, 100000, 1)
+        setupAnimation(balloon2, 80000, -1, 10000)
+        setupAnimation(balloon3, 70000, 1, 7000)
+        setupAnimation(balloon4, 60000, -1, 9000)
+    }
+
+    private fun setupAnimation(view: ImageView, duration: Long, direction: Int, delay: Long? = null) {
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val screenWidth = displayMetrics.widthPixels.toFloat()
+        val imageWidth = view.drawable.intrinsicWidth.toFloat()
+
+        val from = if (direction == 1) imageWidth * (-2) else screenWidth + imageWidth
+        val to = if (direction == -1) imageWidth * (-2) else screenWidth + imageWidth
+
+        val animation = ObjectAnimator.ofFloat(view, View.X,  from, to)
+        animation.interpolator = LinearInterpolator()
+        animation.repeatCount = ObjectAnimator.INFINITE
+        animation.duration = duration
+        delay?.let { animation.startDelay = it }
+        animation.start()
+
+        view.visibility = View.VISIBLE
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
