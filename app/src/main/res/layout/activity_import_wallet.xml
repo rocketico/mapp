@@ -8,7 +8,7 @@
         android:id="@+id/view3"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/joinColor"
+        android:background="@color/colorPrimaryDark"
         android:elevation="3dp" />
 
     <ImageButton
@@ -17,7 +17,7 @@
         android:layout_height="48dp"
         android:background="@color/transparentColor"
         android:elevation="4dp"
-        android:tint="@color/black"
+        android:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_left_black_32dp" />
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:elevation="4dp"
         android:text="@string/import_wallet"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="@+id/backButton"
         app:layout_constraintStart_toEndOf="@+id/backButton"
@@ -50,6 +50,9 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="19dp"
+            app:borderColor="@color/colorPrimaryDark"
+            app:maskColor="@android:color/transparent"
+            app:laserEnabled="false"
             app:squaredFinder="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,9 +89,8 @@
             android:layout_marginEnd="13dp"
             android:layout_marginStart="13dp"
             android:layout_marginTop="8dp"
-            android:background="@color/joinColor"
             android:text="@string/label_import"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -19,7 +19,6 @@ class ImportWalletActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Utils.setStatusBarColor(this, resources.getColor(R.color.joinColor))
         setContentView(R.layout.activity_import_wallet)
         backButton.setOnClickListener {
             startActivity(CreateWalletActivity.newIntent(this))
