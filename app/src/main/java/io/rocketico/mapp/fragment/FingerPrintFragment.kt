@@ -8,13 +8,11 @@ import android.view.ViewGroup
 import com.pro100svitlo.fingerprintAuthHelper.FahListener
 import com.pro100svitlo.fingerprintAuthHelper.FingerprintAuthHelper
 import io.rocketico.mapp.R
-import kotlinx.android.synthetic.main.fragment_fingerprint.*
 import com.pro100svitlo.fingerprintAuthHelper.FahErrorType
-
+import kotlinx.android.synthetic.main.fragment_fingerprint.*
 
 
 class FingerPrintFragment: Fragment(), FahListener {
-
 
     private lateinit var fragmentListener: FingerprintFragmentListener
     private lateinit var mFAH: FingerprintAuthHelper
@@ -45,7 +43,13 @@ class FingerPrintFragment: Fragment(), FahListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        buttonBack.setOnClickListener {
+            fragmentListener.onBackClick()
+        }
 
+        passwordButton.setOnClickListener {
+            fragmentListener.onEnterPasswordClick()
+        }
     }
 
     override fun onFingerprintListening(listening: Boolean, milliseconds: Long) {
@@ -54,7 +58,7 @@ class FingerPrintFragment: Fragment(), FahListener {
 
     override fun onFingerprintStatus(authSuccessful: Boolean, errorType: Int, errorMess: CharSequence?) {
         if (authSuccessful) {
-            fragmentListener.onFingerprintOK()
+            fragmentListener.isFingerprintOK()
         } else {
             when (errorType) {
                 FahErrorType.General.LOCK_SCREEN_DISABLED, FahErrorType.General.NO_FINGERPRINTS -> mFAH.showSecuritySettingsDialog()
@@ -67,12 +71,12 @@ class FingerPrintFragment: Fragment(), FahListener {
     }
 
     interface FingerprintFragmentListener {
-        fun onFingerprintOK()
+        fun onBackClick()
+        fun onEnterPasswordClick()
+        fun isFingerprintOK()
     }
 
     companion object {
-        private const val FINGERPRINT_FRAGMENT = "fingerprint_fragment"
-
         fun newInstance(): FingerPrintFragment {
             return FingerPrintFragment()
         }

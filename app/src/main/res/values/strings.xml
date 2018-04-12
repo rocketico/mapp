@@ -121,6 +121,11 @@
     <string name="no">No</string>
 
     <string name="one_day">24h</string>
+    <string name="fingerprint_label">Fingerprint</string>
+    <string name="confirm_label">Confirm fingerprint to continue</string>
+    <string name="enter_password_label">Enter password</string>
+    <string name="enter_password">Please, enter your password</string>
+    <string name="create_password">Create new password</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

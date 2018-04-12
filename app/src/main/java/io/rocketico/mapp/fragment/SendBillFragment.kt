@@ -1,6 +1,10 @@
 package io.rocketico.mapp.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.hardware.fingerprint.FingerprintManager
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +20,7 @@ import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
+import io.rocketico.mapp.activity.FingerPrintActivity
 import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.fragment_send_bill.*
 import org.jetbrains.anko.*
@@ -92,54 +97,13 @@ class SendBillFragment : Fragment() {
         }
 
         sendPayment.setOnClickListener {
-            val ethBigInteger = Utils.floatToBigInteger(eth, tokenType.decimals)
-            val ethHelper = EthereumHelper(Cc.ETH_NODE)
-
-            if (io.rocketico.mapp.Utils.isOnline(context!!)) {
-                val dialog = MaterialDialog.Builder(context!!)
-                        .title(getString(R.string.please_wait))
-                        .content(getString(R.string.sending))
-                        .progress(true, 0)
-                        .cancelable(false)
-                        .show();
-
-                doAsync({
-                    context?.runOnUiThread {
-                        dialog.dismiss()
-                        longToast(it.message!!)
-                        it.printStackTrace()
-                    }
-                }) {
-                    val response: String
-                    if (tokenType == TokenType.ETH) {
-                        response = ethHelper.sendEth(wallet.privateKey,
-                                address,
-                                ethBigInteger,
-                                BigInteger.valueOf(gasPrice.toLong()))!!
-
-                        if (!response.isBlank()) {
-                            BalanceHelper.outDateBalance(context!!, TokenType.ETH)
-                        }
-                    } else {
-                        response = ethHelper.sendErc20(wallet.privateKey,
-                                tokenType.contractAddress,
-                                address,
-                                ethBigInteger,
-                                BigInteger.valueOf(gasPrice.toLong()))!!.transactionHash
-
-                        if (!response.isBlank()) {
-                            BalanceHelper.outDateBalance(context!!, tokenType)
-                        }
-                    }
-
-                    view?.context?.runOnUiThread {
-                        dialog.dismiss()
-                        listener.onCloseClick()
-                        context?.longToast(context?.getString(R.string.success_transaction, response)!!)
-                    }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val fpm = context!!.getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
+                if (!fpm.isHardwareDetected || !fpm.hasEnrolledFingerprints()) {
+                    startActivityForResult(FingerPrintActivity.newIntent(context!!, FingerPrintActivity.PASSWORD_CODE), Cc.FINGERPRINT_REQUEST)
+                } else {
+                    startActivityForResult(FingerPrintActivity.newIntent(context!!, FingerPrintActivity.FINGERPRINT_CODE), Cc.FINGERPRINT_REQUEST)
                 }
-            } else {
-                context?.toast(getString(R.string.no_internet_connection))
             }
         }
     }
@@ -168,6 +132,64 @@ class SendBillFragment : Fragment() {
     inner class PaymentTask: TimerTask() {
         override fun run() {
             updateTimer()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode) {
+            Cc.FINGERPRINT_REQUEST -> {
+                if (resultCode == Cc.FINGERPRINT_RESULT_OK) {
+                    val ethBigInteger = Utils.floatToBigInteger(eth, tokenType.decimals)
+                    val ethHelper = EthereumHelper(Cc.ETH_NODE)
+
+                    if (io.rocketico.mapp.Utils.isOnline(context!!)) {
+                        val dialog = MaterialDialog.Builder(context!!)
+                                .title(getString(R.string.please_wait))
+                                .content(getString(R.string.sending))
+                                .progress(true, 0)
+                                .cancelable(false)
+                                .show();
+
+                        doAsync({
+                            context?.runOnUiThread {
+                                dialog.dismiss()
+                                longToast(it.message!!)
+                                it.printStackTrace()
+                            }
+                        }) {
+                            val response: String
+                            if (tokenType == TokenType.ETH) {
+                                response = ethHelper.sendEth(wallet.privateKey,
+                                        address,
+                                        ethBigInteger,
+                                        BigInteger.valueOf(gasPrice.toLong()))!!
+
+                                if (!response.isBlank()) {
+                                    BalanceHelper.outDateBalance(context!!, TokenType.ETH)
+                                }
+                            } else {
+                                response = ethHelper.sendErc20(wallet.privateKey,
+                                        tokenType.contractAddress,
+                                        address,
+                                        ethBigInteger,
+                                        BigInteger.valueOf(gasPrice.toLong()))!!.transactionHash
+
+                                if (!response.isBlank()) {
+                                    BalanceHelper.outDateBalance(context!!, tokenType)
+                                }
+                            }
+
+                            view?.context?.runOnUiThread {
+                                dialog.dismiss()
+                                listener.onCloseClick()
+                                context?.longToast(context?.getString(R.string.success_transaction, response)!!)
+                            }
+                        }
+                    } else {
+                        context?.toast(getString(R.string.no_internet_connection))
+                    }
+                }
+            }
         }
     }
 

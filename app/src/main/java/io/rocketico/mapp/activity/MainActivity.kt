@@ -2,6 +2,8 @@ package io.rocketico.mapp.activity
 
 import android.content.Context
 import android.content.Intent
+import android.hardware.fingerprint.FingerprintManager
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -10,7 +12,9 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import io.fabric.sdk.android.Fabric
 import io.rocketico.core.WalletManager
+import io.rocketico.core.WalletsPasswordManager
 import io.rocketico.core.model.TokenType
+import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.AddTokenFragment
@@ -36,6 +40,21 @@ class MainActivity : AppCompatActivity(),
             startActivity(CreateWalletActivity.newIntent(this))
             finish()
             return
+        }
+
+        if (WalletsPasswordManager.getWalletPassword(walletList.uuid) == null) {
+            startActivity(FingerPrintActivity.newIntent(this, FingerPrintActivity.ADD_PASSWORD_CODE))
+            finish()
+            return
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val fpm = getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
+                if (!fpm.isHardwareDetected || !fpm.hasEnrolledFingerprints()) {
+                    startActivityForResult(FingerPrintActivity.newIntent(this, FingerPrintActivity.PASSWORD_CODE), Cc.FINGERPRINT_REQUEST)
+                } else {
+                    startActivityForResult(FingerPrintActivity.newIntent(this, FingerPrintActivity.FINGERPRINT_CODE), Cc.FINGERPRINT_REQUEST)
+                }
+            }
         }
 
         setContentView(R.layout.activity_main)
@@ -92,6 +111,16 @@ class MainActivity : AppCompatActivity(),
 
     override fun onBackClick() {
         onBackPressed()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode) {
+            Cc.FINGERPRINT_REQUEST -> {
+                if (resultCode != Cc.FINGERPRINT_RESULT_OK) {
+                    finish()
+                }
+            }
+        }
     }
 
     companion object {

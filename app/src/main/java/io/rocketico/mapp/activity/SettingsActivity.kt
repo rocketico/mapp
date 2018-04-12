@@ -11,6 +11,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.WalletManager
+import io.rocketico.core.WalletsPasswordManager
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
@@ -40,9 +41,9 @@ class SettingsActivity : AppCompatActivity(),
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val fpm = getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
             if (!fpm.isHardwareDetected || !fpm.hasEnrolledFingerprints()) {
-                //do something
+                startActivityForResult(FingerPrintActivity.newIntent(this, FingerPrintActivity.PASSWORD_CODE), Cc.FINGERPRINT_REQUEST)
             } else {
-                startActivityForResult(FingerPrintActivity.newIntent(this), Cc.FINGERPRINT_REQUEST)
+                startActivityForResult(FingerPrintActivity.newIntent(this, FingerPrintActivity.FINGERPRINT_CODE), Cc.FINGERPRINT_REQUEST)
             }
         }
     }
@@ -53,7 +54,7 @@ class SettingsActivity : AppCompatActivity(),
                 .content(getString(R.string.logout_content))
                 .positiveText(getString(R.string.yes))
                 .negativeText(getString(R.string.no))
-                .onPositive { dialog, which ->
+                .onPositive { _, _ ->
                     RateHelper.deleteAllRates(this)
                     BalanceHelper.deleteAllBalances(this)
                     WalletManager(this).deleteWallet()
