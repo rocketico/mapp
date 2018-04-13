@@ -29,53 +29,50 @@
 
     <ImageView
         android:id="@+id/balloon1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="10dp"
+        android:layout_height="13dp"
         android:src="@drawable/shar_0_min"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.78" />
 
     <ImageView
         android:id="@+id/balloon2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/shar_1_min"
-        android:visibility="invisible"
+        android:layout_width="20dp"
+        android:layout_height="25dp"
+        android:src="@drawable/shar_2_min"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.76"
+        app:layout_constraintHorizontal_bias="0.14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.83" />
 
     <ImageView
         android:id="@+id/balloon3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/shar_2_min"
-        android:visibility="invisible"
+        android:layout_width="21dp"
+        android:layout_height="26dp"
+        android:src="@drawable/shar_1_min"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <ImageView
         android:id="@+id/balloon4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="30dp"
         android:src="@drawable/shar_3_min"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.79" />
+        app:layout_constraintVertical_bias="0.95" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"

@@ -92,37 +92,37 @@ class CreateWalletActivity : AppCompatActivity() {
     }
 
     private fun makeBalloonsFly() {
-        setupAnimation(balloon1, 100000, 1)
-        setupAnimation(balloon2, 80000, -1, 10000)
-        setupAnimation(balloon3, 70000, 1, 7000)
-        setupAnimation(balloon4, 60000, -1, 9000)
+        setupAnimation(balloon1, 100000, 1, 1f)
+        setupAnimation(balloon2, 80000, -1, 3f)
+        setupAnimation(balloon3, 70000, 1, 4f)
+        setupAnimation(balloon4, 60000, -1, 1f)
     }
 
-    private fun setupAnimation(view: ImageView, duration: Long, direction: Int, delay: Long? = null) {
+    private fun setupAnimation(view: ImageView, duration: Long, direction: Int, startPosition: Float? = null) {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         val screenWidth = displayMetrics.widthPixels.toFloat()
         val imageWidth = view.drawable.intrinsicWidth.toFloat()
 
-        val from = if (direction == 1) imageWidth * (-2) else screenWidth + imageWidth
-        val to = if (direction == -1) imageWidth * (-2) else screenWidth + imageWidth
+        val from = startPosition?.let { startPosition / 5f * screenWidth } ?: if (direction == 1) imageWidth * (-1) else screenWidth
+        val to = if (direction == -1) imageWidth * (-1) else screenWidth
 
         val animation = ObjectAnimator.ofFloat(view, View.X,  from, to)
         animation.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {}
 
-            override fun onAnimationEnd(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
+                setupAnimation(view, duration, direction)
+            }
 
             override fun onAnimationCancel(animation: Animator?) {}
 
-            override fun onAnimationStart(animation: Animator?) {
-                view.visibility = View.VISIBLE
-            }
+            override fun onAnimationStart(animation: Animator?) {}
         })
         animation.interpolator = LinearInterpolator()
-        animation.repeatCount = ObjectAnimator.INFINITE
-        animation.duration = duration
-        delay?.let { animation.startDelay = it }
+        if (startPosition == null) animation.repeatCount = ObjectAnimator.INFINITE
+        val tmp = startPosition?.let { if (direction == 1) it else 5 - it} ?: 0f
+        animation.duration = duration - (duration * tmp / 5).toLong()
         animation.start()
     }
 
