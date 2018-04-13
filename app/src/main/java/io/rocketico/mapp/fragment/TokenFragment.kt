@@ -100,13 +100,14 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             tokenImage.setImageDrawable(draw)
         }
         tokenName.text = tokenType.codeName
-        launchDate.text = tokenType.launchDate
-        hashingAlgorithm.text = tokenType.hashAlgorithm
-        networkPower.text = tokenType.networkPower
-        officialWebsite.text = tokenType.officialSite
-        availableSupport.text = getString(R.string.available_support_template,
-                tokenType.available, tokenType.support)
-        blockchain.text = tokenType.blockChain
+
+        if (tokenType.launchDate != null) launchDate.text = tokenType.launchDate else launchTextView.visibility = View.INVISIBLE
+        if (tokenType.hashAlgorithm != null) hashingAlgorithm.text = tokenType.hashAlgorithm else hashingTextView.visibility = View.INVISIBLE
+        if (tokenType.networkPower != null) networkPower.text = tokenType.networkPower else netPowerTextView.visibility = View.INVISIBLE
+        if (tokenType.officialSite != null) officialWebsite.text = tokenType.officialSite else webSiteTextView.visibility = View.INVISIBLE
+        if (tokenType.available != null && tokenType.support != null) availableSupport.text = getString(R.string.available_support_template,
+                tokenType.available, tokenType.support) else avSuppTextView.visibility = View.INVISIBLE
+        if (tokenType.blockChain != null) blockchain.text = tokenType.blockChain else blchainTextView.visibility = View.INVISIBLE
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when(position) {
