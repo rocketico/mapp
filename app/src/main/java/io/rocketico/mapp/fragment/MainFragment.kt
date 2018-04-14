@@ -319,13 +319,13 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     if (it < 0)
                         R.color.colorAccent
                     else
-                        R.color.colorReceive))
+                        R.color.joinColor))
             percentDiffTextView.text = context!!.setRateDifference(percentDiff)
             percentDiffTextView.setTextColor(resources.getColor(
                     if (it < 0)
                         R.color.colorAccent
                     else
-                        R.color.colorReceive))
+                        R.color.joinColor))
         }
 
         fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff)
