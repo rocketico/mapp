@@ -72,6 +72,8 @@ data class TokenFlexibleItem(private val context: Context,
         if (icon != null) {
             val draw = Drawable.createFromStream(icon, null)
             holder.tokenImage.setImageDrawable(draw)
+        } else {
+            holder.tokenImage.setImageDrawable(context.resources.getDrawable(R.mipmap.ic_launcher_round))
         }
 
         holder.tokenName.text = tokenType.toString()
