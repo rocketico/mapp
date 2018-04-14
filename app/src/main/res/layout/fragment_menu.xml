@@ -79,6 +79,7 @@
         <Button
             android:id="@+id/releaseButton"
             style="@style/MenuButtonDark"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -87,11 +88,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/white_menu_item_div_height"
+            android:visibility="invisible"
             android:background="@color/white" />
 
         <Button
             android:id="@+id/backersToken"
             style="@style/MenuButtonDark"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -100,6 +103,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/white_menu_item_div_height"
+            android:visibility="invisible"
             android:background="@color/white" />
 
     </LinearLayout>

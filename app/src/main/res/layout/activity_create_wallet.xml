@@ -86,6 +86,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/import_wallet"
+        android:background="@drawable/background_main_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
@@ -96,6 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/create_new_wallet"
+        android:background="@drawable/background_main_button"
         app:layout_constraintBottom_toTopOf="@+id/importWallet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

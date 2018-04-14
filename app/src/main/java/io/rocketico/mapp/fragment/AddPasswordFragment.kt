@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_add_password.*
+import org.jetbrains.anko.toast
 
 class AddPasswordFragment : Fragment() {
     private lateinit var fragmentListener: AddPasswordFragmentListener
@@ -29,6 +30,8 @@ class AddPasswordFragment : Fragment() {
        createPasswordButton.setOnClickListener {
            if (passwordEditText.text.toString() == confirmPasswordEditText.text.toString()){
                fragmentListener.onCreateClick(passwordEditText.text.toString())
+           } else {
+               context!!.toast(getString(R.string.no_match))
            }
        }
     }
