@@ -50,7 +50,7 @@
         <activity android:name=".activity.ImportWalletActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.FingerPrintActivity"
+        <activity android:name=".activity.SecurityActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.QrScanActivity"

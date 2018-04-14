@@ -1,5 +1,6 @@
 package io.rocketico.mapp.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +13,7 @@ import io.rocketico.mapp.fragment.AddPasswordFragment
 import io.rocketico.mapp.fragment.FingerPrintFragment
 import io.rocketico.mapp.fragment.PasswordFragment
 
-class FingerPrintActivity: AppCompatActivity(),
+class SecurityActivity: AppCompatActivity(),
         FingerPrintFragment.FingerprintFragmentListener,
         PasswordFragment.PasswordFragmentListener,
         AddPasswordFragment.AddPasswordFragmentListener {
@@ -43,7 +44,7 @@ class FingerPrintActivity: AppCompatActivity(),
     }
 
     override fun isFingerprintOK() {
-        setResult(Cc.FINGERPRINT_RESULT_OK)
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
@@ -60,7 +61,7 @@ class FingerPrintActivity: AppCompatActivity(),
 
     override fun onCreateClick(password: String) {
         WalletsPasswordManager.saveWalletPassword(WalletManager(this).getWallet()?.uuid!!, password)
-        startActivity(MainActivity.newIntent(this))
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
@@ -71,7 +72,7 @@ class FingerPrintActivity: AppCompatActivity(),
         const val ADD_PASSWORD_CODE = 3
 
         fun newIntent(context: Context, fragmentCode: Int): Intent {
-            val intent = Intent(context, FingerPrintActivity::class.java)
+            val intent = Intent(context, SecurityActivity::class.java)
             intent.putExtra(FRAGMENT_CODE, fragmentCode)
             return intent
         }

@@ -1,5 +1,6 @@
 package io.rocketico.mapp.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
@@ -42,17 +43,14 @@ class MainActivity : AppCompatActivity(),
             return
         }
 
-        if (WalletsPasswordManager.getWalletPassword(walletList.uuid) == null) {
-            startActivity(FingerPrintActivity.newIntent(this, FingerPrintActivity.ADD_PASSWORD_CODE))
-            finish()
-            return
-        } else {
+        val password = WalletsPasswordManager.getWalletPassword(walletList.uuid)
+        if (password != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val fpm = getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
                 if (!fpm.isHardwareDetected || !fpm.hasEnrolledFingerprints()) {
-                    startActivityForResult(FingerPrintActivity.newIntent(this, FingerPrintActivity.PASSWORD_CODE), Cc.FINGERPRINT_REQUEST)
+                    startActivityForResult(SecurityActivity.newIntent(this, SecurityActivity.PASSWORD_CODE), Cc.FINGERPRINT_REQUEST)
                 } else {
-                    startActivityForResult(FingerPrintActivity.newIntent(this, FingerPrintActivity.FINGERPRINT_CODE), Cc.FINGERPRINT_REQUEST)
+                    startActivityForResult(SecurityActivity.newIntent(this, SecurityActivity.FINGERPRINT_CODE), Cc.FINGERPRINT_REQUEST)
                 }
             }
         }
@@ -116,7 +114,7 @@ class MainActivity : AppCompatActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(requestCode) {
             Cc.FINGERPRINT_REQUEST -> {
-                if (resultCode != Cc.FINGERPRINT_RESULT_OK) {
+                if (resultCode != Activity.RESULT_OK) {
                     finish()
                 }
             }

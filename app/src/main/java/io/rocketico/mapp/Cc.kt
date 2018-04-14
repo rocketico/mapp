@@ -8,6 +8,7 @@ object Cc {
 
     const val FINGERPRINT_REQUEST = 0
     const val FINGERPRINT_RESULT_OK = 1
+    const val ADD_PASSWORD_REQUEST = 2
     const val FAQ_URL = "https://rocketico.io/"
     const val SUPPORT_URL = "https://rocketico.io/"
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.support.v7.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.BalanceHelper
@@ -17,7 +16,6 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.SettingsFragment
 import kotlinx.android.synthetic.main.activity_settings.*
-import org.jetbrains.anko.toast
 
 class SettingsActivity : AppCompatActivity(),
         SettingsFragment.OnSettingsItemClickListener {
@@ -38,13 +36,18 @@ class SettingsActivity : AppCompatActivity(),
     }
 
     override fun onExportClick() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val fpm = getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
-            if (!fpm.isHardwareDetected || !fpm.hasEnrolledFingerprints()) {
-                startActivityForResult(FingerPrintActivity.newIntent(this, FingerPrintActivity.PASSWORD_CODE), Cc.FINGERPRINT_REQUEST)
-            } else {
-                startActivityForResult(FingerPrintActivity.newIntent(this, FingerPrintActivity.FINGERPRINT_CODE), Cc.FINGERPRINT_REQUEST)
+        val password = WalletsPasswordManager.getWalletPassword(WalletManager(this).getWallet()?.uuid!!)
+        if (password != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val fpm = getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
+                if (!fpm.isHardwareDetected || !fpm.hasEnrolledFingerprints()) {
+                    startActivityForResult(SecurityActivity.newIntent(this, SecurityActivity.PASSWORD_CODE), Cc.FINGERPRINT_REQUEST)
+                } else {
+                    startActivityForResult(SecurityActivity.newIntent(this, SecurityActivity.FINGERPRINT_CODE), Cc.FINGERPRINT_REQUEST)
+                }
             }
+        } else {
+            exportPrivateKey()
         }
     }
 
@@ -67,14 +70,17 @@ class SettingsActivity : AppCompatActivity(),
                 .show()
     }
 
+    private fun exportPrivateKey() {
+        val wallet = WalletManager(this).getWallet()!!
+        startActivity(Utils.shareTextIntent(wallet.privateKey))
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {
             Cc.FINGERPRINT_REQUEST -> {
                 if (resultCode == Cc.FINGERPRINT_RESULT_OK) {
-                    val wallet = WalletManager(this).getWallet()!!
-                    startActivity(Utils.shareTextIntent(wallet.privateKey))
-                } else {
-                    toast("Not OK!") //todo debug. remove me
+                    exportPrivateKey()
                 }
             }
         }

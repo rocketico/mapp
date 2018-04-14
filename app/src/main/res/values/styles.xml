@@ -116,6 +116,21 @@
         <item name="colorAccent">@color/detailsTextColor</item>
     </style>
 
+    <style name="PasswordEditText" parent="DetailEditTextStyle">
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/transp_white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+    </style>
+
     <style name="SearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
         <item name="searchIcon">@drawable/ic_action_search</item>
         <item name="queryBackground">@color/transparentColor</item>

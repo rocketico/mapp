@@ -1,11 +1,14 @@
 package io.rocketico.core
 
+import android.content.Context
 import de.adorsys.android.securestoragelibrary.SecurePreferences
+import io.paperdb.Paper
 import java.util.*
 
 object WalletsPasswordManager {
     private const val WALLETS_PASSWORDS_STORAGE_KEY_PREFIX = "wallet_n_"
     private const val WALLET_PASSWORD = "wallet_password_"
+    private const val PASSWORD_KEY = "password_key"
 
     fun saveWalletPrivateKey(walletUUID: UUID, privateKey: String) {
         SecurePreferences.setValue(WALLETS_PASSWORDS_STORAGE_KEY_PREFIX + walletUUID.toString(), privateKey)
