@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
-import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.*
@@ -27,6 +26,7 @@ class MenuActivity : AppCompatActivity(),
         ReceiveFragment.ReceiveFragmentListener{
 
     private lateinit var wallet: Wallet
+    private var startSend: Boolean = false
     private var action: Int = NO_ACTION
 
     override fun onSettingsClick() {
@@ -47,6 +47,14 @@ class MenuActivity : AppCompatActivity(),
             }
             ACTION_RECEIVE -> { onReceiveClick() }
             NO_ACTION -> { init() }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (startSend) {
+            startSendFragment()
         }
     }
 
@@ -73,7 +81,7 @@ class MenuActivity : AppCompatActivity(),
             CAMERA_PERMISSION_REQUEST -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
 
-                    startSendFragment()
+                    startSend = true
 
                 } else {
 
