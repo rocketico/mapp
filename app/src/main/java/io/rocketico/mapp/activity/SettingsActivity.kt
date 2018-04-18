@@ -1,5 +1,6 @@
 package io.rocketico.mapp.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
@@ -79,7 +80,7 @@ class SettingsActivity : AppCompatActivity(),
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {
             Cc.FINGERPRINT_REQUEST -> {
-                if (resultCode == Cc.FINGERPRINT_RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                     exportPrivateKey()
                 }
             }
