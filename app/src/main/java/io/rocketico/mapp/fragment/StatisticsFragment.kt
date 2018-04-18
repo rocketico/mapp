@@ -99,13 +99,11 @@ class StatisticsFragment : Fragment() {
         }) {
             val rates = loadData { RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date()) }?.rates
 
-            token?.let {
-                val token = it
-
+             if (token != null) {
                 if (rates != null) {
                     for (i in 0 until rates.size) {
                         rates[i]?.values = rates[i]?.values?.filter {
-                            it?.tokenSymbol?.toLowerCase() == token.codeName.toLowerCase()
+                            it?.tokenSymbol?.toLowerCase() == token!!.codeName.toLowerCase()
                                     || it?.tokenSymbol?.toLowerCase() == TokenType.ETH.codeName.toLowerCase()
                         }
                     }
@@ -122,25 +120,23 @@ class StatisticsFragment : Fragment() {
                 val ethRate = ratesItem?.values?.find { it?.tokenSymbol == TokenType.ETH.codeName }?.rate
                 ratesItem?.values?.forEach { rateItem ->
                     if (rateItem?.tokenSymbol == TokenType.ETH.codeName) {
-                        averageYInEther += rateItem.rate!!
-                        averageVolume += rateItem.volume!!
-                        foundTokensCount++
+                        if (token == null || token == TokenType.ETH) {
+                            averageYInEther += rateItem.rate!!
+                            averageVolume += rateItem.volume!!
+                            foundTokensCount++
+                        }
                     } else {
-                        val walletToken = wallet.tokens!!.find { walletToken ->
-                            (rateItem?.tokenSymbol == walletToken.codeName)
-                        } ?: return@forEach
+                        if (token != null) {
+                            val walletToken = wallet.tokens!!.find { walletToken ->
+                                (rateItem?.tokenSymbol?.toLowerCase() == walletToken.codeName.toLowerCase())
+                            } ?: return@forEach
 
-                        //todo debug
-                        val balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(
-                                context!!,
-                                walletToken
-                        ) ?: return@forEach)
+                            val tokenRate = token?.let { rateItem?.rate!! } ?: rateItem?.rate!! / ethRate!!
 
-                        val tokenBalance = RateHelper.convertCurrency(rateItem!!.rate, ethRate, balance)
-                        tokenBalance?.let { averageYInEther += it }
-
-                        averageVolume += rateItem.volume!!
-                        foundTokensCount++
+                            averageYInEther += tokenRate
+                            averageVolume += rateItem?.volume!!
+                            foundTokensCount++
+                        }
                     }
                 }
                 averageYInEther /= foundTokensCount
