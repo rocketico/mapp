@@ -1,5 +1,7 @@
 package io.rocketico.mapp.fragment
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +14,7 @@ import com.pro100svitlo.fingerprintAuthHelper.FahErrorType
 import kotlinx.android.synthetic.main.fragment_fingerprint.*
 
 
-class FingerPrintFragment: Fragment(), FahListener {
+class FingerprintFragment: Fragment(), FahListener {
 
     private lateinit var fragmentListener: FingerprintFragmentListener
     private lateinit var mFAH: FingerprintAuthHelper
@@ -63,11 +65,19 @@ class FingerPrintFragment: Fragment(), FahListener {
             when (errorType) {
                 FahErrorType.General.LOCK_SCREEN_DISABLED, FahErrorType.General.NO_FINGERPRINTS -> mFAH.showSecuritySettingsDialog()
                 FahErrorType.Auth.AUTH_NOT_RECOGNIZED -> {
+                    anim()
                 }
                 FahErrorType.Auth.AUTH_TOO_MANY_TRIES -> {
+                    fragmentListener.onEnterPasswordClick()
                 }
             }
         }
+    }
+
+    private fun anim() {
+        val anim = ObjectAnimator.ofFloat(fingerprintImage, View.TRANSLATION_X, -10f, 10f, -10f, 0f)
+        anim.duration = 100
+        anim.start()
     }
 
     interface FingerprintFragmentListener {
@@ -77,8 +87,8 @@ class FingerPrintFragment: Fragment(), FahListener {
     }
 
     companion object {
-        fun newInstance(): FingerPrintFragment {
-            return FingerPrintFragment()
+        fun newInstance(): FingerprintFragment {
+            return FingerprintFragment()
         }
     }
 }

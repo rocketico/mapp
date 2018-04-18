@@ -7,14 +7,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.core.WalletsPasswordManager
-import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.fragment.AddPasswordFragment
-import io.rocketico.mapp.fragment.FingerPrintFragment
+import io.rocketico.mapp.fragment.FingerprintFragment
 import io.rocketico.mapp.fragment.PasswordFragment
 
 class SecurityActivity: AppCompatActivity(),
-        FingerPrintFragment.FingerprintFragmentListener,
+        FingerprintFragment.FingerprintFragmentListener,
         PasswordFragment.PasswordFragmentListener,
         AddPasswordFragment.AddPasswordFragmentListener {
 
@@ -26,7 +25,7 @@ class SecurityActivity: AppCompatActivity(),
         when(fragmentCode) {
             FINGERPRINT_CODE -> {
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.fingerprintContainer, FingerPrintFragment.newInstance())
+                        .replace(R.id.fingerprintContainer, FingerprintFragment.newInstance())
                         .commit()
             }
             PASSWORD_CODE -> {
