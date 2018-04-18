@@ -1,5 +1,6 @@
 package io.rocketico.mapp.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
@@ -11,6 +12,10 @@ import io.rocketico.core.WalletManager
 import io.rocketico.core.WalletsPasswordManager
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_password.*
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
+
 
 class PasswordFragment: Fragment() {
 
@@ -28,6 +33,10 @@ class PasswordFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val password = WalletsPasswordManager.getWalletPassword(WalletManager(context!!).getWallet()?.uuid!!)
+
+        passwordEditText.requestFocus()
+        val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(passwordEditText, InputMethodManager.SHOW_IMPLICIT)
 
         passwordEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
