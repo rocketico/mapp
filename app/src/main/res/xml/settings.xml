@@ -14,7 +14,7 @@
         android:key="export_private_key"
         android:title="@string/export_private_key" />
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:key="password_key"
         android:defaultValue="false"
         android:title="@string/password_label" />

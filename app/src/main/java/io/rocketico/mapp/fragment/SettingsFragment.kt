@@ -4,7 +4,7 @@ package io.rocketico.mapp.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v14.preference.SwitchPreference
+import android.support.v7.preference.SwitchPreferenceCompat
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
 import io.rocketico.core.WalletManager
 import io.rocketico.core.WalletsPasswordManager
@@ -17,7 +17,7 @@ import org.jetbrains.anko.toast
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var fragmentListener: OnSettingsItemClickListener
-    private lateinit var isPasswordEnabledPreference: SwitchPreference
+    private lateinit var isPasswordEnabledPreference: SwitchPreferenceCompat
     private lateinit var wallet: Wallet
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         })
 
-        isPasswordEnabledPreference = findPreference("password_key") as SwitchPreference
+        isPasswordEnabledPreference = findPreference("password_key") as SwitchPreferenceCompat
         isPasswordEnabledPreference.isChecked = password != null
 
         isPasswordEnabledPreference.setOnPreferenceChangeListener { _, newValue ->
