@@ -1,9 +1,13 @@
 package io.rocketico.mapp.fragment
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.Selection
 import android.text.TextWatcher
@@ -136,7 +140,15 @@ class SendDetailsFragment : Fragment() {
         })
 
         qrScan.setOnClickListener {
-            startActivityForResult(QrScanActivity.newIntent(context!!), ADDRESS_REQUEST)
+            if (ContextCompat.checkSelfPermission(context!!,
+                            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(arrayOf(Manifest.permission.CAMERA),
+                        CAMERA_PERMISSION_REQUEST)
+
+            } else {
+                startActivityForResult(QrScanActivity.newIntent(context!!), ADDRESS_REQUEST)
+            }
         }
     }
 
@@ -311,6 +323,22 @@ class SendDetailsFragment : Fragment() {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            CAMERA_PERMISSION_REQUEST -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    startActivityForResult(QrScanActivity.newIntent(context!!), ADDRESS_REQUEST)
+                } else {
+
+                    context!!.toast(getString(R.string.permission_denied))
+
+                }
+                return
+            }
+            else -> {}
+        }
+    }
+
     interface SendDetailsFragmentListener {
         fun onBackClick()
         fun onCreateClick(tokenType: TokenType, eth: Float, gasPrice: Int, address: String)
@@ -325,6 +353,7 @@ class SendDetailsFragment : Fragment() {
         private const val DEFAULT_TOKEN_TX_FEE = 21
 
         private const val ADDRESS_REQUEST = 1
+        private const val CAMERA_PERMISSION_REQUEST = 0
 
         fun newInstance(tokenType: TokenType, address: String?): SendDetailsFragment{
             val fragment = SendDetailsFragment()
