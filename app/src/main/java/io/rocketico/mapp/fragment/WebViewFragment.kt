@@ -25,9 +25,9 @@ class WebViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val code = arguments?.getInt(CODE)
-        val url: String = when(code) {
-            FAQ_CODE -> Cc.FAQ_URL
-            SUPPORT_CODE -> Cc.SUPPORT_URL
+        val url: String = Cc.ROCKETICO_URL + when(code) {
+            FAQ_CODE -> FAQ_URL
+            SUPPORT_CODE -> SUPPORT_URL
             else -> throw IllegalArgumentException()
         }
 
@@ -54,6 +54,9 @@ class WebViewFragment : Fragment() {
         private const val CODE = "code"
         const val FAQ_CODE = 0
         const val SUPPORT_CODE = 1
+
+        private const val FAQ_URL = "faq"
+        private const val SUPPORT_URL = "support"
 
         fun newInstance(code: Int): WebViewFragment {
             val fragment = WebViewFragment()
