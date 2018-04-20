@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
+import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
+import io.rocketico.mapp.loadData
 import kotlinx.android.synthetic.main.activity_import_wallet.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -61,6 +63,21 @@ class ImportWalletActivity : AppCompatActivity() {
             )
             wallet.privateKey = keyPair.privateKey.toString(16)
             wallet.tokens = mutableListOf()
+
+            val walletTokens = loadData { WalletManager.getWalletTokens("0xFc3DeeF6af46eE6A74ca22B94865260c91bD25f6") }
+            if (walletTokens != null) {
+                val tokenTypes = TokenType.values()
+                val tokens = mutableSetOf<TokenType>()
+                walletTokens.forEach { responseToken ->
+                    tokenTypes.forEach {
+                        if (it.codeName.toLowerCase() == responseToken.symbol.toLowerCase()) {
+                            tokens.add(it)
+                        }
+                    }
+                }
+
+                wallet.tokens?.addAll(tokens)
+            }
 
             if (wm.existsWallet()) {
                 wm.deleteWallet()

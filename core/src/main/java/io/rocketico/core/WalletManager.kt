@@ -3,6 +3,7 @@ package io.rocketico.core
 import android.content.Context
 import io.paperdb.Paper
 import io.rocketico.core.model.Wallet
+import io.rocketico.core.model.response.WalletTokensResponse
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
 import org.web3j.crypto.WalletUtils
@@ -61,6 +62,10 @@ class WalletManager(val context: Context) {
 
         fun isPrivateKeyValid(privateKey: String): Boolean {
             return WalletUtils.isValidPrivateKey(privateKey)
+        }
+
+        fun getWalletTokens(address: String): List<WalletTokensResponse>? {
+            return Utils.api.getWalletTokens(address).execute().body()
         }
     }
 }

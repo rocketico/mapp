@@ -1,11 +1,11 @@
 package io.rocketico.core.api
 
-import io.rocketico.core.model.response.TokenHistoryResponse
-import io.rocketico.core.model.response.TokenInfoResponse
-import io.rocketico.core.model.response.TokenRatesRangeResponse
-import io.rocketico.core.model.response.TokensRatesResponse
+import android.content.Context
+import io.rocketico.core.WalletManager
+import io.rocketico.core.model.response.*
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.*
 
@@ -33,4 +33,7 @@ interface Api {
             @Query("dateFrom") dateFrom: Date,
             @Query("dateTo") dateTo: Date
     ): Call<List<TokenHistoryResponse>>
+
+    @GET("tokens/{address}")
+    fun getWalletTokens(@Path(value = "address", encoded = true) address: String): Call<List<WalletTokensResponse>>
 }
