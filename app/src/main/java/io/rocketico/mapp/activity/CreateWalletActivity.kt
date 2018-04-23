@@ -92,10 +92,10 @@ class CreateWalletActivity : AppCompatActivity() {
     }
 
     private fun makeBalloonsFly() {
-        setupAnimation(balloon1, 100000, 1, 1f)
-        setupAnimation(balloon2, 80000, -1, 3f)
-        setupAnimation(balloon3, 70000, 1, 4f)
-        setupAnimation(balloon4, 60000, -1, 1f)
+        setupAnimation(balloon1, 150000, 1, 1f)
+        setupAnimation(balloon2, 120000, 1, 3f)
+        setupAnimation(balloon3, 90000, 1, 4f)
+        setupAnimation(balloon4, 60000, 1, 1f)
     }
 
     private fun setupAnimation(view: ImageView, duration: Long, direction: Int, startPosition: Float? = null) {
