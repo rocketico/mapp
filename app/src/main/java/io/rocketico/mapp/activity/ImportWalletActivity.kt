@@ -64,7 +64,7 @@ class ImportWalletActivity : AppCompatActivity() {
             wallet.privateKey = keyPair.privateKey.toString(16)
             wallet.tokens = mutableListOf()
 
-            val walletTokens = loadData { WalletManager.getWalletTokens("0xFc3DeeF6af46eE6A74ca22B94865260c91bD25f6") }
+            val walletTokens = loadData { WalletManager.getWalletTokens(wallet.address) }
             if (walletTokens != null) {
                 val tokenTypes = TokenType.values()
                 val tokens = mutableSetOf<TokenType>()
