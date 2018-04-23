@@ -58,6 +58,6 @@ object Utils {
 
     fun calculateDifference(new: Float?, old: Float?): Float? {
         val result = new?.let { old?.let { ((new * 100) / old) - 100 } }
-        return result?.let { if (result.isNaN()) 0f else result }
+        return result?.let { if (result.isNaN() || result.isInfinite()) 0f else result }
     }
 }

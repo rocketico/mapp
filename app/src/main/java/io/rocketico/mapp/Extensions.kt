@@ -34,6 +34,11 @@ fun Context.setQuantity(prefix: String, value: Float?): String {
     return getString(R.string.quantity_template, prefix, value ?: getString(R.string.null_value))
 }
 
+@SuppressLint("StringFormatMatches")
+fun Context.setFee(prefix: String, value: Float?): String {
+    return getString(R.string.balance_template, value ?: getString(R.string.null_value), prefix)
+}
+
 fun Context.loadIcon(tokenCodeName: String): InputStream? {
     return try {
         assets.open("tokens_icons/${tokenCodeName}.webp")

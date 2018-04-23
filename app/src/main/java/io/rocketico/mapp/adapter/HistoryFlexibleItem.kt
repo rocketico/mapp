@@ -13,6 +13,7 @@ import io.rocketico.core.Utils
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.setBalanceWithCurrency
+import io.rocketico.mapp.setFee
 import kotlinx.android.synthetic.main.item_history.view.*
 import java.util.*
 
@@ -36,7 +37,7 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
         holder.address.text = item.address!!.substring(0..15) + "..."
         holder.valueFiat.text = context.setBalanceWithCurrency(item.valueFiat)
         holder.value.text = item.tokenName + " " + item.value.toString()
-        holder.fee.text = Utils.scaleFloat(item.feeFiat!!) + " " + item.tokenName
+        holder.fee.text = context!!.setFee(item.tokenName!!, item.fee)
         holder.feeFiat.text = context.setBalanceWithCurrency(item.fee)
         holder.confirmations.text = item.confirmations.toString()
     }
