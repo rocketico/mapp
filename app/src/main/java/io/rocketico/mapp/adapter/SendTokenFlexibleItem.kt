@@ -56,9 +56,9 @@ data class SendTokenFlexibleItem(val tokenType: TokenType,
 
         if (flag) {
             holder.tokenBalance.text = context.setBalance(tokenBalance)
-            holder.tokenFiatBalance.text = context.setBalanceWithCurrency(fiatBalance)
+            holder.tokenFiatBalance.text = context.setBalanceWithCurrency(fiatBalance, 2)
         } else {
-            holder.tokenBalance.text = context.setBalanceWithCurrency(fiatBalance)
+            holder.tokenBalance.text = context.setBalanceWithCurrency(fiatBalance, 2)
             holder.tokenFiatBalance.text = context.setBalance(tokenBalance)
         }
     }
