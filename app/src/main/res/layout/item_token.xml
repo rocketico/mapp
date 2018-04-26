@@ -115,12 +115,10 @@
             android:id="@+id/tokenRateDiff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:theme="@style/WalletItemTextStyle.Small"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tokenRate"
             app:layout_constraintStart_toEndOf="@+id/direction"
-            app:layout_constraintTop_toBottomOf="@+id/tokenName"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toTopOf="@+id/tokenRate"
             tools:text="6%" />
 
         <TextView
