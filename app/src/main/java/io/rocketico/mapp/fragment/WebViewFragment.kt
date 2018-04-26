@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.webkit.WebViewClient
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
+import io.rocketico.mapp.Utils
 import kotlinx.android.synthetic.main.fragment_webview.*
 
 class WebViewFragment : Fragment() {
@@ -17,6 +18,7 @@ class WebViewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentListener = activity as WebViewFragmentListener
+        Utils.setStatusBarColor(activity!!, resources.getColor(R.color.colorPrimary))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
