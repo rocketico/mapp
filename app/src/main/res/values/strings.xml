@@ -129,6 +129,7 @@
     <string name="create_password">Create new password</string>
     
     <string name="no_match">Passwords do not match</string>
+    <string name="noStatisticsLabel">No statistics</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
