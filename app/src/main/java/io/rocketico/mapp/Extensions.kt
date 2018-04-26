@@ -9,8 +9,12 @@ import java.io.InputStream
 import kotlin.math.absoluteValue
 
 @SuppressLint("StringFormatMatches")
-fun Context.setBalance(value: Float?): String {
-    return value?.toString() ?: getString(R.string.null_value)
+fun Context.setBalance(value: Float?, scale: Int? = null): String {
+    var result: String = value?.toString() ?: getString(R.string.null_value)
+    scale?.let { value?.let {
+        result = String.format("%.${scale}f", value.toFloat()).replace(',', '.')
+    } }
+    return result
 }
 
 fun Context.setNullBalance(): String {
@@ -18,20 +22,31 @@ fun Context.setNullBalance(): String {
 }
 
 @SuppressLint("StringFormatMatches")
-fun Context.setBalanceWithCurrency(value: Float?): String {
+fun Context.setBalanceWithCurrency(value: Float?, scale: Int? = null): String {
     val currentCurrency = RateHelper.getCurrentCurrency(this)
-    return getString(R.string.balance_template, currentCurrency.currencySymbol,
-            value ?: getString(R.string.null_value))
+    var result: String = value?.toString() ?: getString(R.string.null_value)
+    scale?.let { value?.let {
+        result = String.format("%.${scale}f", value.toFloat()).replace(',', '.')
+    } }
+    return getString(R.string.balance_template, currentCurrency.currencySymbol, result)
 }
 
 @SuppressLint("StringFormatMatches")
-fun Context.setTokenBalance(tokenType: String, value: Float?): String {
-    return getString(R.string.balance_template, tokenType, value ?: getString(R.string.null_value))
+fun Context.setTokenBalance(tokenType: String, value: Float?, scale: Int? = null): String {
+    var result: String = value?.toString() ?: getString(R.string.null_value)
+    scale?.let { value?.let {
+        result = String.format("%.${scale}f", value.toFloat()).replace(',', '.')
+    } }
+    return getString(R.string.balance_template, tokenType, result)
 }
 
 @SuppressLint("StringFormatMatches")
-fun Context.setQuantity(prefix: String, value: Float?): String {
-    return getString(R.string.quantity_template, prefix, value ?: getString(R.string.null_value))
+fun Context.setQuantity(prefix: String, value: Float?, scale: Int? = null): String {
+    var result: String = value?.toString() ?: getString(R.string.null_value)
+    scale?.let { value?.let {
+        result = String.format("%.${scale}f", value.toFloat()).replace(',', '.')
+    } }
+    return getString(R.string.quantity_template, prefix, result)
 }
 
 @SuppressLint("StringFormatMatches")
