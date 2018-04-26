@@ -77,15 +77,39 @@ data class TokenFlexibleItem(private val context: Context,
         }
 
         holder.tokenName.text = tokenType.toString()
-        holder.tokenRate.text = context.setBalanceWithCurrency(tokenRate)
+        holder.tokenRate.text = context.setBalanceWithCurrency(tokenRate, 2)
         holder.tokenRateDiff.text = context.setRateDifference(tokenRateDiff)
-        tokenRateDiff?.let {
+
+        if (tokenRateDiff != null) {
+            holder.rateDirection.visibility = View.VISIBLE
+
+            when {
+                tokenRateDiff!! < 0f -> {
+                    holder.tokenRateDiff.setTextColor(context.resources
+                            .getColor(R.color.colorAccent))
+                    holder.rateDirection.setImageDrawable(context.resources
+                            .getDrawable(R.drawable.ic_direction_down))
+                    holder.rateDirection.setColorFilter(context.resources
+                            .getColor(R.color.colorAccent))
+                }
+                tokenRateDiff!! >= 0.01f -> {
+                    holder.tokenRateDiff.setTextColor(context.resources
+                            .getColor(R.color.colorReceive))
+                    holder.rateDirection.setImageDrawable(context.resources
+                            .getDrawable(R.drawable.ic_direction_up))
+                    holder.rateDirection.setColorFilter(context.resources
+                            .getColor(R.color.colorReceive))
+                }
+                else -> {
+                    holder.rateDirection.visibility = View.INVISIBLE
+                    holder.tokenRateDiff.setTextColor(context.resources
+                            .getColor(android.R.color.darker_gray))
+                }
+            }
+        } else {
+            holder.rateDirection.visibility = View.INVISIBLE
             holder.tokenRateDiff.setTextColor(context.resources
-                    .getColor(if (it < 0) R.color.colorAccent else R.color.colorReceive))
-            holder.rateDirection.setImageDrawable(context.resources
-                    .getDrawable(if (it < 0) R.drawable.ic_direction_down else R.drawable.ic_direction_up))
-            holder.rateDirection.setColorFilter(context.resources
-                    .getColor(if (it < 0) R.color.colorAccent else R.color.colorReceive))
+                    .getColor(android.R.color.darker_gray))
         }
 
         onBindBalance(holder)
@@ -98,9 +122,9 @@ data class TokenFlexibleItem(private val context: Context,
 
         if (flag) {
             holder.tokenBalance.text = context.setBalance(tokenBalance)
-            holder.tokenFiatBalance.text = context.setBalanceWithCurrency(fiatBalance)
+            holder.tokenFiatBalance.text = context.setBalanceWithCurrency(fiatBalance,2)
         } else {
-            holder.tokenBalance.text = context.setBalanceWithCurrency(fiatBalance)
+            holder.tokenBalance.text = context.setBalanceWithCurrency(fiatBalance, 2)
             holder.tokenFiatBalance.text = context.setBalance(tokenBalance)
         }
     }
