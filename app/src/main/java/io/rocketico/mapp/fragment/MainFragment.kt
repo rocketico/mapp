@@ -311,15 +311,13 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         val fiatDiff = totalFiatBalance - totalYesterdayFiatBalance
 
         if (percentDiff != null) {
-            percentDiffTextView.text = context!!.setRateDifference(percentDiff)
-
             when {
                 percentDiff < 0f -> {
                     directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_down))
                     directionHeader.setColorFilter(resources.getColor(R.color.colorAccent))
                     percentDiffTextView.setTextColor(resources.getColor(R.color.colorAccent))
                 }
-                percentDiff > 0.001f -> {
+                percentDiff >= 0.01f -> {
                     directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_up))
                     directionHeader.setColorFilter(resources.getColor(R.color.joinColor))
                     percentDiffTextView.setTextColor(resources.getColor(R.color.joinColor))
@@ -334,6 +332,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             percentDiffTextView.setTextColor(resources.getColor(android.R.color.white))
         }
 
+        percentDiffTextView.text = context!!.setRateDifference(percentDiff)
         fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff, 2)
     }
 
