@@ -80,7 +80,7 @@ class SendDetailsFragment : Fragment() {
 
         tokenName.text = tokenType.codeName
         tokenBalance.text = context!!.setBalance(balance)
-        tokenFiatBalance.text = context!!.setBalanceWithCurrency(fiatBalance)
+        tokenFiatBalance.text = context!!.setBalanceWithCurrency(fiatBalance, 2)
 
         if (rate == null) {
             changeButton.isEnabled = false
@@ -167,15 +167,15 @@ class SendDetailsFragment : Fragment() {
                     val tmpQuantity = if (tokenType == TokenType.ETH) quantity else RateHelper.convertCurrency(rate, ethRate, quantity)
                     totalQuantity = tmpQuantity?.let { it + txFee }
 
-                    txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee)
-                    totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity)
+                    txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee, 9)
+                    totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity, 9)
                 } else {
                     txFee = Utils.txFeeFromGwei(gasPriceGwei, ethRate, tokenType)
                     totalQuantity = if (txFee != null && fiatQuantity != null)
                         fiatQuantity + txFee else null
 
-                    txFeeTextView.text = context!!.setBalanceWithCurrency(txFee)
-                    totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity)
+                    txFeeTextView.text = context!!.setBalanceWithCurrency(txFee, 2)
+                    totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity, 2)
                 }
             }
 
@@ -256,9 +256,9 @@ class SendDetailsFragment : Fragment() {
             val tmpQuantity = if (tokenType == TokenType.ETH) quantity else RateHelper.convertCurrency(rate, ethRate, quantity)
             val totalQuantity = tmpQuantity?.let { it + txFee }
 
-            quantityFiatTextView.text = context!!.setQuantity(fiatPrefix, fiatQuantity)
-            txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee)
-            totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity)
+            quantityFiatTextView.text = context!!.setQuantity(fiatPrefix, fiatQuantity, 2)
+            txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee, 9)
+            totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity, 9)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -301,9 +301,9 @@ class SendDetailsFragment : Fragment() {
             val totalQuantity = if (txFee != null)
                 fiatQuantity + txFee else null
 
-            quantityFiatTextView.text = context!!.setQuantity(tokenPrefix, quantity)
-            txFeeTextView.text = context!!.setBalanceWithCurrency(txFee)
-            totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity)
+            quantityFiatTextView.text = context!!.setQuantity(tokenPrefix, quantity, 6)
+            txFeeTextView.text = context!!.setBalanceWithCurrency(txFee, 2)
+            totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity, 2)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
