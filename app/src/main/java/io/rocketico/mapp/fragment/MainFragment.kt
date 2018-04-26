@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -92,6 +91,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
+        headerChanges.visibility = View.GONE
 
         setupRecyclerViews()
         setupListeners()
@@ -131,6 +131,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
                 listAdapter.updateDataSet(listAdapter.currentItems)
+                headerChanges.visibility = View.VISIBLE
                 refresher.isRefreshing = false
             }
         }
@@ -309,35 +310,40 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         val percentDiff = io.rocketico.mapp.Utils.calculateDifference(totalFiatBalance, totalYesterdayFiatBalance)
         val fiatDiff = totalFiatBalance - totalYesterdayFiatBalance
 
-        percentDiff?.let {
-            directionHeader.setImageDrawable(resources.getDrawable(
-                    if (it < 0)
-                        R.drawable.ic_direction_down
-                    else
-                        R.drawable.ic_direction_up))
-            directionHeader.setColorFilter(resources.getColor(
-                    if (it < 0)
-                        R.color.colorAccent
-                    else
-                        R.color.joinColor))
+        if (percentDiff != null) {
             percentDiffTextView.text = context!!.setRateDifference(percentDiff)
-            percentDiffTextView.setTextColor(resources.getColor(
-                    if (it < 0)
-                        R.color.colorAccent
-                    else
-                        R.color.joinColor))
+
+            when {
+                percentDiff < 0f -> {
+                    directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_down))
+                    directionHeader.setColorFilter(resources.getColor(R.color.colorAccent))
+                    percentDiffTextView.setTextColor(resources.getColor(R.color.colorAccent))
+                }
+                percentDiff > 0.001f -> {
+                    directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_up))
+                    directionHeader.setColorFilter(resources.getColor(R.color.joinColor))
+                    percentDiffTextView.setTextColor(resources.getColor(R.color.joinColor))
+                }
+                else -> {
+                    directionHeader.visibility = View.GONE
+                    percentDiffTextView.setTextColor(resources.getColor(android.R.color.white))
+                }
+            }
+        } else {
+            directionHeader.visibility = View.GONE
+            percentDiffTextView.setTextColor(resources.getColor(android.R.color.white))
         }
 
-        fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff)
+        fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff, 2)
     }
 
     //todo [priority: low] rename flag
     private fun setHeaderBalances(flag: Boolean) {
         if (flag) {
             headerMainCurrency.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalBalance)
-            headerSecondaryCurrency.text = context!!.setBalanceWithCurrency(totalFiatBalance)
+            headerSecondaryCurrency.text = context!!.setBalanceWithCurrency(totalFiatBalance, 2)
         } else {
-            headerMainCurrency.text = context!!.setBalanceWithCurrency(totalFiatBalance)
+            headerMainCurrency.text = context!!.setBalanceWithCurrency(totalFiatBalance, 2)
             headerSecondaryCurrency.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalBalance)
         }
     }
