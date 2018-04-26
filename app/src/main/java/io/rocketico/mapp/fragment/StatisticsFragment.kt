@@ -85,6 +85,8 @@ class StatisticsFragment : Fragment() {
     private fun showCharts(nDaysAgo: Int = 1) {
         chart.lineChartData = null
         bottomChart.columnChartData = null
+        bodyStatistics.visibility = View.GONE
+        noStatistics.visibility = View.GONE
 
         val values = ArrayList<PointValue>()
 
@@ -156,6 +158,11 @@ class StatisticsFragment : Fragment() {
 
             view?.context?.runOnUiThread {
                 progressBar.visibility = View.GONE
+                if (rates != null && rates.isEmpty()) {
+                    bodyStatistics.visibility = View.VISIBLE
+                } else {
+                    noStatistics.visibility = View.VISIBLE
+                }
                 topValue.text = Utils.round(ethTopValue, 5).toString()
                 bottomValue.text = Utils.round(ethBottomValue, 5).toString()
 
