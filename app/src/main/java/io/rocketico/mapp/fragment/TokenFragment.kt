@@ -170,14 +170,10 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun fillInfo(position: Int) {
         val info = list[position]
 
-        marketCapitalization.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, info.marketCapitalization)
-        lowestRate.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, info.lowestRate24h)
-        highestRate.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, info.highestRate24h)
-        tradingVolume.text = getString(R.string.balance_template,
-                currentCurrency.currencySymbol, info.traidingVolume24h)
+        marketCapitalization.text = context!!.setBalanceWithCurrency(info.marketCapitalization)
+        lowestRate.text = context!!.setBalanceWithCurrency(info.lowestRate24h)
+        highestRate.text = context!!.setBalanceWithCurrency(info.highestRate24h)
+        tradingVolume.text = context!!.setBalanceWithCurrency(info.traidingVolume24h)
     }
 
     private fun setupListeners() {
@@ -281,25 +277,29 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         val percentDiff = io.rocketico.mapp.Utils.calculateDifference(rate, yesterdayRate)
         val fiatDiff = yesterdayFiatBalance?.let { fiatBalance?.let { fiatBalance - yesterdayFiatBalance } }
 
-        percentDiff?.let {
-            directionHeader.setImageDrawable(resources.getDrawable(
-                    if (it < 0)
-                        R.drawable.ic_direction_down
-                    else
-                        R.drawable.ic_direction_up))
-            directionHeader.setColorFilter(resources.getColor(
-                    if (it < 0)
-                        R.color.colorAccent
-                    else
-                        R.color.joinColor))
-            percentDiffTextView.text = context!!.setRateDifference(percentDiff)
-            percentDiffTextView.setTextColor(resources.getColor(
-                    if (it < 0)
-                        R.color.colorAccent
-                    else
-                        R.color.joinColor))
+        if (percentDiff != null) {
+            when {
+                percentDiff < 0f -> {
+                    directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_down))
+                    directionHeader.setColorFilter(resources.getColor(R.color.colorAccent))
+                    percentDiffTextView.setTextColor(resources.getColor(R.color.colorAccent))
+                }
+                percentDiff >= 0.01f -> {
+                    directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_up))
+                    directionHeader.setColorFilter(resources.getColor(R.color.joinColor))
+                    percentDiffTextView.setTextColor(resources.getColor(R.color.joinColor))
+                }
+                else -> {
+                    directionHeader.visibility = View.GONE
+                    percentDiffTextView.setTextColor(resources.getColor(android.R.color.white))
+                }
+            }
+        } else {
+            directionHeader.visibility = View.GONE
+            percentDiffTextView.setTextColor(resources.getColor(android.R.color.white))
         }
 
+        percentDiffTextView.text = context!!.setRateDifference(percentDiff)
         fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff)
     }
 

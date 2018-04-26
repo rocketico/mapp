@@ -4,9 +4,9 @@ class TokenInfoResponse(val currency: String,
                         val marketsInfo: List<TokenInfoFromMarket>) {
 
     class TokenInfoFromMarket(val marketName: String = "Not available",
-                              val exchange: Float = 0f,
-                              val marketCapitalization : Float = 0f,
-                              val lowestRate24h: Float = 0f,
-                              val highestRate24h: Float = 0f,
-                              val traidingVolume24h: Float = 0f)
+                              val exchange: Float? = null,
+                              val marketCapitalization: Float? = null,
+                              val lowestRate24h: Float? = null,
+                              val highestRate24h: Float? = null,
+                              val traidingVolume24h: Float? = null)
 }
