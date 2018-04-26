@@ -109,13 +109,15 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onBackClick() {
-        Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
         onBackPressed()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         if (action == NO_ACTION) overridePendingTransition(R.anim.anim_slide_down, R.anim.anim_stand)
+        if (supportFragmentManager.backStackEntryCount != 0) {
+            Utils.setStatusBarColor(this, resources.getColor(R.color.colorPrimaryDark))
+        }
     }
 
     override fun onSendTokenListItemClick(tokenType: TokenType, address: String?) {
