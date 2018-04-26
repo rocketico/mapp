@@ -70,51 +70,57 @@
         app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
         tools:text="$ 1230210" />
 
-    <TextView
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/headerChanges"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/header_margin"
-        android:layout_marginEnd="4dp"
-        android:text="@string/one_day"
-        android:textSize="@dimen/header_small_text_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/directionHeader"
-        app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageView
-        android:id="@+id/directionHeader"
-        android:layout_width="8dp"
-        android:layout_height="14dp"
+        android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_direction_down"
-        app:layout_constraintBottom_toBottomOf="@+id/percentDiffTextView"
-        app:layout_constraintEnd_toStartOf="@+id/percentDiffTextView"
-        app:layout_constraintTop_toTopOf="@+id/percentDiffTextView" />
-
-    <TextView
-        android:id="@+id/percentDiffTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/header_margin"
-        android:layout_marginEnd="4dp"
-        android:textSize="@dimen/header_small_text_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fiatDiffTextView"
-        app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
-        app:layout_constraintVertical_bias="1.0"
-        tools:text="-444" />
-
-    <TextView
-        android:id="@+id/fiatDiffTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/header_margin"
-        android:layout_marginEnd="@dimen/header_margin"
-        android:textSize="@dimen/header_small_text_size"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/headerSecondaryCurrency"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerMainCurrency"
-        tools:text="-444$"/>
+        app:layout_constraintTop_toTopOf="@+id/headerSecondaryCurrency">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@string/one_day"
+            android:textSize="@dimen/header_small_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/directionHeader"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/directionHeader"
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/percentDiffTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_direction_down" />
+
+        <TextView
+            android:id="@+id/percentDiffTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:textSize="@dimen/header_small_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fiatDiffTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="-444" />
+
+        <TextView
+            android:id="@+id/fiatDiffTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/header_small_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="-444$" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
