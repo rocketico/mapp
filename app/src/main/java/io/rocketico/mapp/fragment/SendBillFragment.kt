@@ -56,6 +56,12 @@ class SendBillFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_send_bill, container, false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        timer.cancel()
+    }
+
     @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         sendPayment.isEnabled = false
@@ -77,9 +83,9 @@ class SendBillFragment : Fragment() {
         billName.text = getString(R.string.bill_template, tokenType.codeName)
         billAddress.text = address
         billQuantity.text = getString(R.string.balance_template, tokenType.codeName, Utils.scaleFloat(eth))
-        billFiatQuantity.text = context!!.setBalanceWithCurrency(fiatQuantity)
-        billTxFeeQuantity.text = context!!.setBalanceWithCurrency(txFee)
-        billTotal.text = context!!.setBalanceWithCurrency(total)
+        billFiatQuantity.text = context!!.setBalanceWithCurrency(fiatQuantity, 2)
+        billTxFeeQuantity.text = context!!.setBalanceWithCurrency(txFee, 2)
+        billTotal.text = context!!.setBalanceWithCurrency(total, 2)
 
         setupListeners()
     }
