@@ -127,12 +127,6 @@ class HistoryFragment : Fragment() {
             view?.context?.runOnUiThread {
                 progressBar.visibility = View.GONE
 
-                if (history == null) {
-                    noHistoryLabel.visibility = View.VISIBLE
-                } else {
-                    noHistoryLabel.visibility = View.GONE
-                }
-
                 history?.forEach { historyItem ->
                     if (currentDirection != TokenDirection.ALL) {
                         if (currentDirection == TokenDirection.IN) {
@@ -160,6 +154,12 @@ class HistoryFragment : Fragment() {
                     }
 
                     historyListAdapter.addItem(HistoryFlexibleItem(tmpItem))
+                }
+
+                if (historyListAdapter.itemCount == 0) {
+                    noHistoryLabel.visibility = View.VISIBLE
+                } else {
+                    noHistoryLabel.visibility = View.GONE
                 }
             }
         }
