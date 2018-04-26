@@ -243,7 +243,19 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     context!!.toast(getString(R.string.no_balance_info))
                     listAdapter.updateItem(item)
                 } else {
-                    fragmentListener.onTokenListItemSwipe(item.tokenType, position, direction)
+                    if (direction == ItemTouchHelper.RIGHT) {
+                        fragmentListener.onTokenListItemSwipe(item.tokenType)
+                    } else {
+                        if (item.tokenType == TokenType.ETH) {
+                            listAdapter.updateItem(item)
+                            context!!.longToast(getString(R.string.remove_err))
+                            return
+                        }
+
+                        wallet.tokens?.remove(item.tokenType)
+                        WalletManager(context!!).saveWallet(wallet)
+                        listAdapter.removeItem(position)
+                    }
                 }
             }
         })
@@ -351,7 +363,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         fun onMenuButtonClick()
         fun onFabClick()
         fun onTokenListItemClick(tokenType: TokenType)
-        fun onTokenListItemSwipe(tokenType: TokenType, position: Int, direction: Int)
+        fun onTokenListItemSwipe(tokenType: TokenType)
     }
 
     companion object {

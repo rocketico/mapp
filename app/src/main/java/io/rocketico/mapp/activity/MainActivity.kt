@@ -88,15 +88,8 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onTokenListItemSwipe(tokenType: TokenType, position: Int, direction: Int) {
-        when(direction) {
-            ItemTouchHelper.RIGHT -> {
-                startActivity(MenuActivity.newIntent(this, MenuActivity.ACTION_SENT, tokenType))
-            }
-            ItemTouchHelper.LEFT -> {
-                startActivity(MenuActivity.newIntent(this, MenuActivity.ACTION_RECEIVE))
-            }
-        }
+    override fun onTokenListItemSwipe(tokenType: TokenType) {
+        startActivity(MenuActivity.newIntent(this, MenuActivity.ACTION_SENT, tokenType))
     }
 
     override fun onAddTokenListItemClick(tokenType: TokenType) {
