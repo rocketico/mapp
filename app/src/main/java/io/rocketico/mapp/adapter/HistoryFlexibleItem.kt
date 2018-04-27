@@ -1,7 +1,6 @@
 package io.rocketico.mapp.adapter
 
 import android.annotation.SuppressLint
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,8 +8,6 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
-import io.rocketico.core.Utils
-import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.setBalanceWithCurrency
 import io.rocketico.mapp.setFee
@@ -39,7 +36,15 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
         holder.value.text = item.tokenName + " " + item.value.toString()
         holder.fee.text = context!!.setFee(item.tokenName!!, item.fee)
         holder.feeFiat.text = context.setBalanceWithCurrency(item.fee)
-        holder.confirmations.text = item.confirmations.toString()
+
+        val confirmations: Int
+        if (item.confirmations!! > 12L) {
+            confirmations = 12
+        } else {
+            confirmations = item.confirmations!!.toInt()
+        }
+
+        holder.confirmations.text = "${context.getString(R.string.status)} $confirmations/12";
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {

@@ -132,6 +132,7 @@
     <string name="noStatisticsLabel">No statistics</string>
     <string name="removeToken">Remove token</string>
     <string name="remove_err">You can\'t remove ETH from list</string>
+    <string name="status">Status</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
