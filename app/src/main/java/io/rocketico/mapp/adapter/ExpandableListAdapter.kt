@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import io.rocketico.core.RateHelper
-import io.rocketico.core.model.Currency
 import io.rocketico.core.model.response.TokenInfoResponse
 import io.rocketico.mapp.R
 import io.rocketico.mapp.setBalanceWithCurrency

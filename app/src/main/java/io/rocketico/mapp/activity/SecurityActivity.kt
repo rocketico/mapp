@@ -12,7 +12,7 @@ import io.rocketico.mapp.fragment.AddPasswordFragment
 import io.rocketico.mapp.fragment.FingerprintFragment
 import io.rocketico.mapp.fragment.PasswordFragment
 
-class SecurityActivity: AppCompatActivity(),
+class SecurityActivity : AppCompatActivity(),
         FingerprintFragment.FingerprintFragmentListener,
         PasswordFragment.PasswordFragmentListener,
         AddPasswordFragment.AddPasswordFragmentListener {
@@ -22,7 +22,7 @@ class SecurityActivity: AppCompatActivity(),
         setContentView(R.layout.activity_fingerprint)
 
         val fragmentCode = intent.getIntExtra(FRAGMENT_CODE, -1)
-        when(fragmentCode) {
+        when (fragmentCode) {
             FINGERPRINT_CODE -> {
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.fingerprintContainer, FingerprintFragment.newInstance())

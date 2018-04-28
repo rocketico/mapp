@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class LogInFragment : Fragment() {
 
-    private lateinit var listener : LogInFragmentListener
+    private lateinit var listener: LogInFragmentListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

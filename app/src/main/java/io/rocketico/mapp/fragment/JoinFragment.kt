@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_join.*
 
 class JoinFragment : Fragment() {
 
-    private lateinit var listener : JoinFragmentListener
+    private lateinit var listener: JoinFragmentListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

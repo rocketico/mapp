@@ -28,7 +28,6 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
-import java.math.BigInteger
 
 class HistoryFragment : Fragment() {
 

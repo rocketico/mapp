@@ -22,7 +22,7 @@ data class AddTokenFlexibleItem(val tokenType: TokenType,
                                 private val tokenRate: Float = 0.02f,
                                 private val tokenMarket: String = "Bitrix") :
         AbstractFlexibleItem<AddTokenFlexibleItem.AddTokenViewHolder>(),
-        IFilterable<String>{
+        IFilterable<String> {
 
     override fun filter(constraint: String): Boolean {
         if (tokenType.codeName.startsWith(constraint, true)) return true
@@ -49,7 +49,7 @@ data class AddTokenFlexibleItem(val tokenType: TokenType,
         }
 
         holder.tokenName.text = tokenType.codeName
-        holder.tokenCoast.text = context.getString(R.string.balance_template, currentCurrency,tokenRate)
+        holder.tokenCoast.text = context.getString(R.string.balance_template, currentCurrency, tokenRate)
         holder.tokenMarket.text = tokenMarket
     }
 

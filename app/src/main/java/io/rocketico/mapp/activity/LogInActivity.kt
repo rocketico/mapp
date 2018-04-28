@@ -2,8 +2,8 @@ package io.rocketico.mapp.activity
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.JoinFragment
@@ -11,7 +11,7 @@ import io.rocketico.mapp.fragment.LogInFragment
 
 class LogInActivity : AppCompatActivity(),
         LogInFragment.LogInFragmentListener,
-        JoinFragment.JoinFragmentListener{
+        JoinFragment.JoinFragmentListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class LogInActivity : AppCompatActivity(),
         const val LOG_IN_FRAGMENT = 0
         const val JOIN_FRAGMENT = 1
 
-        fun newIntent(context: Context, fragmentId: Int) : Intent {
+        fun newIntent(context: Context, fragmentId: Int): Intent {
             val intent = Intent(context, LogInActivity::class.java)
             intent.putExtra(FRAGMENT_ID, fragmentId)
             return intent

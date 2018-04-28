@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.text.Editable
@@ -70,7 +69,7 @@ class SendDetailsFragment : Fragment() {
         ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
 
         balance = Utils.bigIntegerToFloat(BalanceHelper.loadTokenBalance(context!!, tokenType)!!)
-        rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate
+        rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
         fiatBalance = rate?.let { balance * it }
 
         tokenPrefix = getString(R.string.prefix_template, tokenType.codeName)
@@ -125,14 +124,16 @@ class SendDetailsFragment : Fragment() {
 
         quantityEditText.addTextChangedListener(tokenCurrencyListener)
 
-        quantityEditText.setOnTouchListener{ _, event ->
+        quantityEditText.setOnTouchListener { _, event ->
             quantityEditText.onTouchEvent(event)
             quantityEditText.setSelection(quantityEditText.text.length)
             true
         }
 
-        addressEditText.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(s: Editable?) { address = s.toString() }
+        addressEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                address = s.toString()
+            }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -198,7 +199,7 @@ class SendDetailsFragment : Fragment() {
             context!!.toast(getString(R.string.address_error))
             return false
         }
-        if (!WalletManager.isValidAddress(address)){
+        if (!WalletManager.isValidAddress(address)) {
             context!!.toast(getString(R.string.invalid_address))
             return false
         }
@@ -224,7 +225,7 @@ class SendDetailsFragment : Fragment() {
     private val tokenCurrencyListener = object : TextWatcher {
 
         override fun afterTextChanged(s: Editable?) {
-            if(!s.toString().startsWith(tokenPrefix)){
+            if (!s.toString().startsWith(tokenPrefix)) {
                 quantityEditText.setText(tokenPrefix)
                 Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                 return
@@ -269,7 +270,7 @@ class SendDetailsFragment : Fragment() {
     private val fiatCurrencyListener = object : TextWatcher {
 
         override fun afterTextChanged(s: Editable?) {
-            if(!s.toString().startsWith(fiatPrefix)){
+            if (!s.toString().startsWith(fiatPrefix)) {
                 quantityEditText.setText(fiatPrefix)
                 Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                 return
@@ -312,14 +313,15 @@ class SendDetailsFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when(requestCode) {
+        when (requestCode) {
             ADDRESS_REQUEST -> {
                 if (resultCode == Activity.RESULT_OK) {
                     address = data!!.getStringExtra(Intent.EXTRA_RETURN_RESULT)
                     addressEditText.setText(address)
                 }
             }
-            else -> {}
+            else -> {
+            }
         }
     }
 
@@ -335,7 +337,8 @@ class SendDetailsFragment : Fragment() {
                 }
                 return
             }
-            else -> {}
+            else -> {
+            }
         }
     }
 
@@ -355,7 +358,7 @@ class SendDetailsFragment : Fragment() {
         private const val ADDRESS_REQUEST = 1
         private const val CAMERA_PERMISSION_REQUEST = 0
 
-        fun newInstance(tokenType: TokenType, address: String?): SendDetailsFragment{
+        fun newInstance(tokenType: TokenType, address: String?): SendDetailsFragment {
             val fragment = SendDetailsFragment()
             val bundle = Bundle()
             bundle.putSerializable(TOKEN_TYPE, tokenType)

@@ -7,7 +7,6 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.helper.ItemTouchHelper
 import com.crashlytics.android.Crashlytics
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onTokenListItemClick(tokenType: TokenType) {
-                supportFragmentManager.beginTransaction()
+        supportFragmentManager.beginTransaction()
                 .replace(R.id.container, TokenFragment.newInstance(wm.getWallet()!!, tokenType))
                 .addToBackStack(null)
                 .commit()
@@ -105,7 +104,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when(requestCode) {
+        when (requestCode) {
             Cc.FINGERPRINT_REQUEST -> {
                 if (resultCode != Activity.RESULT_OK) {
                     finish()

@@ -105,7 +105,7 @@ object RateHelper {
                 tokensRatesResponse.rates.forEach {
                     val tokenType = it.tokenSymbol
                     val tmpType = TokenType.values().find {
-                        it.codeName.toLowerCase() ==  tokenType.toLowerCase()
+                        it.codeName.toLowerCase() == tokenType.toLowerCase()
                     }
                     val tmpRate = it.rate
 

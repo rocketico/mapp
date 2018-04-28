@@ -17,20 +17,21 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import io.rocketico.core.*
+import io.rocketico.core.BalanceHelper
+import io.rocketico.core.EthereumHelper
+import io.rocketico.core.RateHelper
+import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.*
-import io.rocketico.mapp.Cc
-import io.rocketico.mapp.R
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
 import io.rocketico.mapp.event.UpdateEvent
-import kotlinx.android.synthetic.main.include_bottom.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.include_bottom.*
 import kotlinx.android.synthetic.main.include_header.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
@@ -81,7 +82,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         wallet = wm.getWallet()!!
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
-            override fun getItem(position: Int): Fragment = when(position) {
+            override fun getItem(position: Int): Fragment = when (position) {
                 0 -> StatisticsFragment.newInstance(wallet)
                 1 -> HistoryFragment.newInstance(wallet)
                 else -> throw IllegalArgumentException()
@@ -107,7 +108,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         listAdapter.addItem(TokenFlexibleItem(context!!, TokenType.ETH))
 
-        wallet.tokens?.forEach {token ->
+        wallet.tokens?.forEach { token ->
             listAdapter.addItem(TokenFlexibleItem(context!!, token))
         }
 
@@ -138,7 +139,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun updateBalancesAndRates(forceUpdate: Boolean) {
-        if (io.rocketico.mapp.Utils.isOnline(context!!)){
+        if (io.rocketico.mapp.Utils.isOnline(context!!)) {
             if (forceUpdate) {
                 RateHelper.deleteAllRates(context!!)
                 BalanceHelper.deleteAllBalances(context!!)
@@ -151,7 +152,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 if (ratesResponse == null || yesterdayRatesResponse == null) {
                     context?.runOnUiThread { longToast(getString(R.string.server_is_not_available)) }
                 }
-                ratesResponse?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it))}
+                ratesResponse?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it)) }
                 yesterdayRatesResponse?.let { RateHelper.saveYesterdayRates(context!!, RateHelper.RatesEntity.parse(it)) }
             }
 
@@ -160,12 +161,14 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 ethBalance?.let { BalanceHelper.saveTokenBalance(context!!, TokenType.ETH, it) }
             }
 
-            wallet.tokens?.forEach {token ->
+            wallet.tokens?.forEach { token ->
                 if (BalanceHelper.isTokenBalanceOutdated(context!!, token)) {
-                    val tokenBalance = loadData { ethHelper.getBalanceErc20(
-                            token.contractAddress,
-                            wallet.address
-                    ) }
+                    val tokenBalance = loadData {
+                        ethHelper.getBalanceErc20(
+                                token.contractAddress,
+                                wallet.address
+                        )
+                    }
                     tokenBalance?.let { BalanceHelper.saveTokenBalance(context!!, token, it) }
                 }
             }
@@ -204,7 +207,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         })
 
         fab.setOnClickListener {
-                fragmentListener.onFabClick()
+            fragmentListener.onFabClick()
         }
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))

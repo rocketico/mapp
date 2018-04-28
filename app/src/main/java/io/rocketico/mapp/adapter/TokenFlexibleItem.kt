@@ -122,7 +122,7 @@ data class TokenFlexibleItem(private val context: Context,
 
         if (flag) {
             holder.tokenBalance.text = context.setBalance(tokenBalance)
-            holder.tokenFiatBalance.text = context.setBalanceWithCurrency(fiatBalance,2)
+            holder.tokenFiatBalance.text = context.setBalanceWithCurrency(fiatBalance, 2)
         } else {
             holder.tokenBalance.text = context.setBalanceWithCurrency(fiatBalance, 2)
             holder.tokenFiatBalance.text = context.setBalance(tokenBalance)

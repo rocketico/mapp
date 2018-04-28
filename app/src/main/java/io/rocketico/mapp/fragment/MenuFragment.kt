@@ -73,7 +73,7 @@ class MenuFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): MenuFragment{
+        fun newInstance(): MenuFragment {
             return MenuFragment()
         }
     }

@@ -191,7 +191,7 @@ class SendFragment : Fragment() {
     companion object {
         private const val WALLET_KEY = "wallet_key"
 
-        fun newInstance(wallet: Wallet): SendFragment{
+        fun newInstance(wallet: Wallet): SendFragment {
             val fragment = SendFragment()
             val args = Bundle()
 

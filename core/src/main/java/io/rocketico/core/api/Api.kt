@@ -1,7 +1,5 @@
 package io.rocketico.core.api
 
-import android.content.Context
-import io.rocketico.core.WalletManager
 import io.rocketico.core.model.response.*
 import retrofit2.Call
 import retrofit2.http.GET

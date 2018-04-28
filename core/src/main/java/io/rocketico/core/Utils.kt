@@ -2,7 +2,6 @@ package io.rocketico.core
 
 import io.rocketico.core.api.Api
 import io.rocketico.core.model.TokenType
-import org.web3j.crypto.WalletUtils
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.math.BigDecimal

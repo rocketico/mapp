@@ -51,6 +51,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         listener = activity as TokenFragmentListener
         tokenType = arguments?.getSerializable(TOKEN_TYPE) as TokenType
         wallet = arguments?.getSerializable(WALLET_KEY) as Wallet

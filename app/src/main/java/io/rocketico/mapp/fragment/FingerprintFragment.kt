@@ -1,20 +1,19 @@
 package io.rocketico.mapp.fragment
 
-import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.pro100svitlo.fingerprintAuthHelper.FahErrorType
 import com.pro100svitlo.fingerprintAuthHelper.FahListener
 import com.pro100svitlo.fingerprintAuthHelper.FingerprintAuthHelper
 import io.rocketico.mapp.R
-import com.pro100svitlo.fingerprintAuthHelper.FahErrorType
 import kotlinx.android.synthetic.main.fragment_fingerprint.*
 
 
-class FingerprintFragment: Fragment(), FahListener {
+class FingerprintFragment : Fragment(), FahListener {
 
     private lateinit var fragmentListener: FingerprintFragmentListener
     private lateinit var mFAH: FingerprintAuthHelper

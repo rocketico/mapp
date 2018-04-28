@@ -11,7 +11,6 @@ import eu.davidea.viewholders.FlexibleViewHolder
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
 import io.rocketico.mapp.setBalanceWithCurrency
-import io.rocketico.mapp.setFee
 import io.rocketico.mapp.setTokenBalance
 import kotlinx.android.synthetic.main.item_history.view.*
 import java.util.*
@@ -34,7 +33,7 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
         val context = holder.itemView.context
 
         holder.address.text = item.address!!.substring(0..15) + "..."
-        holder.valueFiat.text = context.setBalanceWithCurrency(item.valueFiat,2)
+        holder.valueFiat.text = context.setBalanceWithCurrency(item.valueFiat, 2)
         holder.value.text = context!!.setTokenBalance(item.tokenName!!, item.value, 5)
         holder.fee.text = context!!.setTokenBalance(TokenType.ETH.codeName, item.fee, 5)
         holder.feeFiat.text = context.setBalanceWithCurrency(item.fee, 2)

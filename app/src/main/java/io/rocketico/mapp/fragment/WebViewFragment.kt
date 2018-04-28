@@ -27,13 +27,13 @@ class WebViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val code = arguments?.getInt(CODE)
-        val url: String = Cc.ROCKETICO_URL + when(code) {
+        val url: String = Cc.ROCKETICO_URL + when (code) {
             FAQ_CODE -> FAQ_URL
             SUPPORT_CODE -> SUPPORT_URL
             else -> throw IllegalArgumentException()
         }
 
-        settingsLabel.text = when(code) {
+        settingsLabel.text = when (code) {
             FAQ_CODE -> getString(R.string.faq_button)
             SUPPORT_CODE -> getString(R.string.online_support_button)
             else -> throw IllegalArgumentException()

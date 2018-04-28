@@ -4,19 +4,15 @@ import io.rocketico.core.model.response.TokenHistoryResponse
 import org.web3j.crypto.Credentials
 import org.web3j.crypto.RawTransaction
 import org.web3j.crypto.TransactionEncoder
-import org.web3j.protocol.Web3j
 import org.web3j.protocol.Web3jFactory
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount
 import org.web3j.protocol.core.methods.response.EthSendTransaction
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
-import org.web3j.tx.RawTransactionManager
-import org.web3j.tx.TransactionManager
 import org.web3j.utils.Numeric
 import java.math.BigInteger
 import java.util.*
-import java.util.concurrent.Future
 
 class EthereumHelper(networkUrl: String) {
     private val web3 = Web3jFactory.build(HttpService(networkUrl))

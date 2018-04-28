@@ -6,13 +6,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Build
 import android.view.WindowManager
 import java.util.*
-import android.support.v4.content.ContextCompat.startActivity
-import android.content.Intent.ACTION_SEND
-import android.net.NetworkInfo
-import android.net.ConnectivityManager
 
 object Utils {
     @SuppressLint("ObsoleteSdkInt")

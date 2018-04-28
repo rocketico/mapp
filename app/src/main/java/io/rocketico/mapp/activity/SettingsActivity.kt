@@ -78,7 +78,7 @@ class SettingsActivity : AppCompatActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode) {
+        when (requestCode) {
             Cc.FINGERPRINT_REQUEST -> {
                 if (resultCode == Activity.RESULT_OK) {
                     exportPrivateKey()

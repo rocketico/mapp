@@ -23,7 +23,7 @@ class MenuActivity : AppCompatActivity(),
         SendDetailsFragment.SendDetailsFragmentListener,
         SendBillFragment.SendBillFragmentListener,
         WebViewFragment.WebViewFragmentListener,
-        ReceiveFragment.ReceiveFragmentListener{
+        ReceiveFragment.ReceiveFragmentListener {
 
     private lateinit var wallet: Wallet
     private var startSend: Boolean = false
@@ -40,13 +40,17 @@ class MenuActivity : AppCompatActivity(),
         wallet = WalletManager(this).getWallet()!!
 
         action = intent.getIntExtra(ACTION, NO_ACTION)
-        when(action) {
+        when (action) {
             ACTION_SENT -> {
                 val tokenType = intent.getSerializableExtra(TOKEN_TYPE) as TokenType
                 onSendTokenListItemClick(tokenType, null)
             }
-            ACTION_RECEIVE -> { onReceiveClick() }
-            NO_ACTION -> { init() }
+            ACTION_RECEIVE -> {
+                onReceiveClick()
+            }
+            NO_ACTION -> {
+                init()
+            }
         }
     }
 
@@ -91,7 +95,8 @@ class MenuActivity : AppCompatActivity(),
                 }
                 return
             }
-            else -> {}
+            else -> {
+            }
         }
     }
 

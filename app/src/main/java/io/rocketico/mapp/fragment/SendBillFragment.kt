@@ -70,8 +70,8 @@ class SendBillFragment : Fragment() {
         timer.scheduleAtFixedRate(PaymentTask(), 0, 1000)
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
-        val rate = RateHelper.getTokenRate(context!!,tokenType, currentCurrency)?.rate
-        val ethRate = RateHelper.getTokenRate(context!!,TokenType.ETH, currentCurrency)?.rate
+        val rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
+        val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
         val txFee = Utils.txFeeFromGwei(gasPrice, ethRate, tokenType)
         val fiatQuantity = rate?.let { eth * it }
         val total = if (fiatQuantity != null && txFee != null) {
@@ -137,7 +137,7 @@ class SendBillFragment : Fragment() {
         fun onCloseClick()
     }
 
-    inner class PaymentTask: TimerTask() {
+    inner class PaymentTask : TimerTask() {
         override fun run() {
             updateTimer()
         }
@@ -196,7 +196,7 @@ class SendBillFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when(requestCode) {
+        when (requestCode) {
             Cc.FINGERPRINT_REQUEST -> {
                 if (resultCode == Cc.FINGERPRINT_RESULT_OK) {
                     sendPayment()
@@ -212,7 +212,7 @@ class SendBillFragment : Fragment() {
         private const val ADDRESS = "address"
         private const val GAS_PRICE = "gas_price"
 
-        fun newInstance(wallet: Wallet, tokenType: TokenType, eth: Float, gasPrice: Int, address: String): SendBillFragment{
+        fun newInstance(wallet: Wallet, tokenType: TokenType, eth: Float, gasPrice: Int, address: String): SendBillFragment {
             val fragment = SendBillFragment()
             val bundle = Bundle()
             bundle.putSerializable(TOKEN_TYPE, tokenType)

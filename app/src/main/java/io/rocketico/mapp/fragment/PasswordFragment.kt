@@ -8,16 +8,14 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import io.rocketico.core.WalletManager
 import io.rocketico.core.WalletsPasswordManager
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.fragment_password.*
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.inputmethod.InputMethodManager
 
 
-class PasswordFragment: Fragment() {
+class PasswordFragment : Fragment() {
 
     private lateinit var fragmentListener: PasswordFragmentListener
 

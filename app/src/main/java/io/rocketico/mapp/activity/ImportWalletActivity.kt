@@ -11,7 +11,6 @@ import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
-import io.rocketico.mapp.Utils
 import io.rocketico.mapp.loadData
 import kotlinx.android.synthetic.main.activity_import_wallet.*
 import org.jetbrains.anko.doAsync

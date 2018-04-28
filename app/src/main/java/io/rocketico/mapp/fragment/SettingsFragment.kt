@@ -12,7 +12,6 @@ import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.activity.SecurityActivity
-import org.jetbrains.anko.toast
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -59,7 +58,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when(requestCode) {
+        when (requestCode) {
             Cc.ADD_PASSWORD_REQUEST -> {
                 if (resultCode != Activity.RESULT_OK) {
                     isPasswordEnabledPreference.isChecked = false

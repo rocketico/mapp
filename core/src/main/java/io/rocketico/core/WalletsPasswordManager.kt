@@ -1,8 +1,6 @@
 package io.rocketico.core
 
-import android.content.Context
 import de.adorsys.android.securestoragelibrary.SecurePreferences
-import io.paperdb.Paper
 import java.util.*
 
 object WalletsPasswordManager {

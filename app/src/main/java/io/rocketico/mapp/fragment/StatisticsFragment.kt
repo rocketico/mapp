@@ -7,10 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
-import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.R
@@ -25,7 +23,6 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 import java.util.*
 
 
@@ -101,7 +98,7 @@ class StatisticsFragment : Fragment() {
         }) {
             val rates = loadData { RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date()) }?.rates
 
-             if (token != null) {
+            if (token != null) {
                 if (rates != null) {
                     for (i in 0 until rates.size) {
                         rates[i]?.values = rates[i]?.values?.filter {
@@ -133,7 +130,8 @@ class StatisticsFragment : Fragment() {
                                 (rateItem?.tokenSymbol?.toLowerCase() == walletToken.codeName.toLowerCase())
                             } ?: return@forEach
 
-                            val tokenRate = token?.let { rateItem?.rate!! } ?: rateItem?.rate!! / ethRate!!
+                            val tokenRate = token?.let { rateItem?.rate!! } ?: rateItem?.rate!!
+                            / ethRate!!
 
                             averageYInEther += tokenRate
                             averageVolume += rateItem?.volume!!

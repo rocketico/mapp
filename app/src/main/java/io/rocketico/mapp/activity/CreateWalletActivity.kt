@@ -10,7 +10,10 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.DisplayMetrics
 import android.view.View
+import android.view.animation.LinearInterpolator
+import android.widget.ImageView
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.Wallet
@@ -20,9 +23,6 @@ import io.rocketico.mapp.Utils
 import kotlinx.android.synthetic.main.activity_create_wallet.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
-import android.util.DisplayMetrics
-import android.view.animation.LinearInterpolator
-import android.widget.ImageView
 
 class CreateWalletActivity : AppCompatActivity() {
 
@@ -104,10 +104,11 @@ class CreateWalletActivity : AppCompatActivity() {
         val screenWidth = displayMetrics.widthPixels.toFloat()
         val imageWidth = view.drawable.intrinsicWidth.toFloat()
 
-        val from = startPosition?.let { startPosition / 5f * screenWidth } ?: if (direction == 1) imageWidth * (-1) else screenWidth
+        val from = startPosition?.let { startPosition / 5f * screenWidth }
+                ?: if (direction == 1) imageWidth * (-1) else screenWidth
         val to = if (direction == -1) imageWidth * (-1) else screenWidth
 
-        val animation = ObjectAnimator.ofFloat(view, View.X,  from, to)
+        val animation = ObjectAnimator.ofFloat(view, View.X, from, to)
         animation.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {}
 
@@ -121,7 +122,7 @@ class CreateWalletActivity : AppCompatActivity() {
         })
         animation.interpolator = LinearInterpolator()
         if (startPosition == null) animation.repeatCount = ObjectAnimator.INFINITE
-        val tmp = startPosition?.let { if (direction == 1) it else 5 - it} ?: 0f
+        val tmp = startPosition?.let { if (direction == 1) it else 5 - it } ?: 0f
         animation.duration = duration - (duration * tmp / 5).toLong()
         animation.start()
     }
@@ -140,7 +141,8 @@ class CreateWalletActivity : AppCompatActivity() {
                 }
                 return
             }
-            else -> {}
+            else -> {
+            }
         }
     }
 
