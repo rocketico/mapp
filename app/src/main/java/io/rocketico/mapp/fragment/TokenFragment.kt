@@ -184,7 +184,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             }
 
             override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-                Log.i("SLIDING", sliding.panelState.toString())
+//                Log.i("SLIDING", sliding.panelState.toString())
                 sliding.setScrollableView(recyclerViewHistory)
             }
         })
