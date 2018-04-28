@@ -4,12 +4,15 @@ import io.rocketico.core.model.response.TokenHistoryResponse
 import org.web3j.crypto.Credentials
 import org.web3j.crypto.RawTransaction
 import org.web3j.crypto.TransactionEncoder
+import org.web3j.protocol.Web3j
 import org.web3j.protocol.Web3jFactory
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount
 import org.web3j.protocol.core.methods.response.EthSendTransaction
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
+import org.web3j.tx.RawTransactionManager
+import org.web3j.tx.TransactionManager
 import org.web3j.utils.Numeric
 import java.math.BigInteger
 import java.util.*
@@ -22,11 +25,12 @@ class EthereumHelper(networkUrl: String) {
         return web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get().balance
     }
 
-    fun getBalanceErc20(contractAddress: String, address: String, privateKey: String): BigInteger {
+    fun getBalanceErc20(contractAddress: String, address: String): BigInteger {
+        val txManager = ReadonlyTransactionManager(web3, contractAddress)
         val token = DetailedERC20.load(
                 contractAddress,
                 web3,
-                Credentials.create(privateKey),
+                txManager,
                 BigInteger.ZERO,
                 BigInteger.ZERO
         )

@@ -28,9 +28,9 @@ import io.rocketico.mapp.adapter.ExpandableListAdapter
 import io.rocketico.mapp.adapter.FiatCurrencySpinnerAdapter
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
-import kotlinx.android.synthetic.main.include_bottom.*
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_token.*
+import kotlinx.android.synthetic.main.include_bottom.*
 import kotlinx.android.synthetic.main.include_header.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
@@ -81,7 +81,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 } else {
                     val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
                     if (rate != null && ethRate != null && balanceBI != null) {
-                        RateHelper.convertCurrency(rate!! , ethRate, Utils.bigIntegerToFloat(balanceBI))
+                        RateHelper.convertCurrency(rate!!, ethRate, Utils.bigIntegerToFloat(balanceBI))
                     } else null
                 }
 
@@ -110,7 +110,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         if (tokenType.blockChain != null) blockchain.text = tokenType.blockChain else blchainTextView.visibility = View.INVISIBLE
 
         viewPager.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
-            override fun getItem(position: Int): Fragment = when(position) {
+            override fun getItem(position: Int): Fragment = when (position) {
                 0 -> StatisticsFragment.newInstance(wallet, tokenType)
                 1 -> HistoryFragment.newInstance(wallet, tokenType)
                 else -> throw IllegalArgumentException()
@@ -238,10 +238,11 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 val balance = loadData { ethHelper.getBalance(wallet.address) }
                 balance?.let { BalanceHelper.saveTokenBalance(context!!, tokenType, it) }
             } else {
-                val balance = loadData { ethHelper.getBalanceErc20(
-                        tokenType.contractAddress,
-                        wallet.address,
-                        wallet.privateKey) }
+                val balance = loadData {
+                    ethHelper.getBalanceErc20(
+                            tokenType.contractAddress,
+                            wallet.address)
+                }
                 balance?.let { BalanceHelper.saveTokenBalance(context!!, tokenType, it) }
             }
 
@@ -257,7 +258,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         } else {
                             val ethRate = RateHelper.getTokenRate(context!!, TokenType.ETH, currentCurrency)?.rate
                             if (rate != null && ethRate != null && balanceBI != null) {
-                                RateHelper.convertCurrency(rate!! , ethRate, Utils.bigIntegerToFloat(balanceBI))
+                                RateHelper.convertCurrency(rate!!, ethRate, Utils.bigIntegerToFloat(balanceBI))
                             } else null
                         }
 
@@ -341,7 +342,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         private const val TOKEN_TYPE = "token_type"
         private const val WALLET_KEY = "wallet_key"
 
-        fun newInstance(wallet: Wallet, tokenType: TokenType) : TokenFragment {
+        fun newInstance(wallet: Wallet, tokenType: TokenType): TokenFragment {
             val fragment = TokenFragment()
             val args = Bundle()
 

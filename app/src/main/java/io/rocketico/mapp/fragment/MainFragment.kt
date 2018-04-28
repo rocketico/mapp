@@ -164,8 +164,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 if (BalanceHelper.isTokenBalanceOutdated(context!!, token)) {
                     val tokenBalance = loadData { ethHelper.getBalanceErc20(
                             token.contractAddress,
-                            wallet.address,
-                            wallet.privateKey
+                            wallet.address
                     ) }
                     tokenBalance?.let { BalanceHelper.saveTokenBalance(context!!, token, it) }
                 }
