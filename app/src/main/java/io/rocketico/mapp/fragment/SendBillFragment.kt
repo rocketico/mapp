@@ -37,7 +37,7 @@ class SendBillFragment : Fragment() {
     private var gasPrice: Int = 0
     private var address: String = ""
 
-    private var countdown = 4
+    private var countdown = 6
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
