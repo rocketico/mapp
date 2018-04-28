@@ -38,7 +38,7 @@ class ImportWalletActivity : AppCompatActivity() {
     private fun importPrivateKey() {
         val dialog = MaterialDialog.Builder(this)
                 .title(getString(R.string.please_wait))
-                .content(getString(R.string.generating_new_wallet))
+                .content(getString(R.string.importing_wallet))
                 .progress(true, 0)
                 .cancelable(false)
                 .show();
