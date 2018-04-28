@@ -96,7 +96,7 @@
     <string name="bill_template">%s Bill</string>
 
     <string name="added_string">Added</string>
-    <string name="success_transaction">"Success (TX hash %s)"</string>
+    <string name="success_transaction">"Sent successfully"</string>
 
     <string name="address_error">Address is empty</string>
     <string name="payment_error">Payment can not be null</string>
