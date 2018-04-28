@@ -102,7 +102,6 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         listAdapter = FlexibleAdapter(tokens)
         tokenList.layoutManager = LinearLayoutManager(context)
         tokenList.adapter = listAdapter
-        listAdapter.isSwipeEnabled = true
         listAdapter.itemTouchHelperCallback.setSwipeThreshold(0.3f)
         listAdapter.itemTouchHelperCallback.setSwipeAnimationDuration(200L)
 
@@ -132,6 +131,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
                 listAdapter.updateDataSet(listAdapter.currentItems)
                 headerChanges.visibility = View.VISIBLE
+                listAdapter.isSwipeEnabled = true
                 refresher.isRefreshing = false
             }
         }
@@ -267,6 +267,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         EventBus.getDefault().post(RefreshEvent)
+        listAdapter.isSwipeEnabled = false
 
         doAsync {
             updateBalancesAndRates(true)
@@ -278,6 +279,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
                 listAdapter.updateDataSet(listAdapter.currentItems)
+                listAdapter.isSwipeEnabled = true
                 refresher.isRefreshing = false
             }
         }
@@ -327,11 +329,13 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_down))
                     directionHeader.setColorFilter(resources.getColor(R.color.colorAccent))
                     percentDiffTextView.setTextColor(resources.getColor(R.color.colorAccent))
+                    directionHeader.visibility = View.VISIBLE
                 }
                 percentDiff >= 0.01f -> {
                     directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_up))
                     directionHeader.setColorFilter(resources.getColor(R.color.joinColor))
                     percentDiffTextView.setTextColor(resources.getColor(R.color.joinColor))
+                    directionHeader.visibility = View.VISIBLE
                 }
                 else -> {
                     directionHeader.visibility = View.GONE

@@ -77,6 +77,7 @@
     <string name="wallet_generation_error">Wallet generation error</string>
     <string name="update_info_error">Update info error</string>
     <string name="generating_new_wallet">Generating new wallet…</string>
+    <string name="importing_wallet">Importing wallet…</string>
     <string name="please_wait">Please wait</string>
     <string name="private_key">Private key</string>
     <string name="label_import">Import</string>
@@ -95,7 +96,7 @@
     <string name="bill_template">%s Bill</string>
 
     <string name="added_string">Added</string>
-    <string name="success_transaction">"Success (TX hash %s)"</string>
+    <string name="success_transaction">"Sent successfully"</string>
 
     <string name="address_error">Address is empty</string>
     <string name="payment_error">Payment can not be null</string>
@@ -133,6 +134,7 @@
     <string name="removeToken">Remove token</string>
     <string name="remove_err">You can\'t remove ETH from list</string>
     <string name="status">Status</string>
+    <string name="unknown">Unknown</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

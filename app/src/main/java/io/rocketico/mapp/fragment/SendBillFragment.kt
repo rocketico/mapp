@@ -37,7 +37,7 @@ class SendBillFragment : Fragment() {
     private var gasPrice: Int = 0
     private var address: String = ""
 
-    private var countdown = 4
+    private var countdown = 6
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -187,7 +187,7 @@ class SendBillFragment : Fragment() {
                 view?.context?.runOnUiThread {
                     dialog.dismiss()
                     listener.onCloseClick()
-                    context?.longToast(context?.getString(R.string.success_transaction, response)!!)
+                    context?.longToast(context?.getString(R.string.success_transaction)!!)
                 }
             }
         } else {
