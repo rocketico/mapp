@@ -328,11 +328,13 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_down))
                     directionHeader.setColorFilter(resources.getColor(R.color.colorAccent))
                     percentDiffTextView.setTextColor(resources.getColor(R.color.colorAccent))
+                    directionHeader.visibility = View.VISIBLE
                 }
                 percentDiff >= 0.01f -> {
                     directionHeader.setImageDrawable(resources.getDrawable(R.drawable.ic_direction_up))
                     directionHeader.setColorFilter(resources.getColor(R.color.joinColor))
                     percentDiffTextView.setTextColor(resources.getColor(R.color.joinColor))
+                    directionHeader.visibility = View.VISIBLE
                 }
                 else -> {
                     directionHeader.visibility = View.GONE
