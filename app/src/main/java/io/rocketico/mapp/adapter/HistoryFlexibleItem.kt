@@ -36,6 +36,7 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
         holder.value.text = item.tokenName + " " + item.value.toString()
         holder.fee.text = context!!.setFee(item.tokenName!!, item.fee)
         holder.feeFiat.text = context.setBalanceWithCurrency(item.fee)
+        holder.date.text = item.date?.time?.toString() ?: context.getString(R.string.unknown)
 
         val confirmations: Int
         if (item.confirmations!! > 12L) {
