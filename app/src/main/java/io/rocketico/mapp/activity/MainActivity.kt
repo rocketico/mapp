@@ -6,7 +6,6 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -22,7 +21,8 @@ import io.rocketico.mapp.fragment.MainFragment
 import io.rocketico.mapp.fragment.TokenFragment
 import org.jetbrains.anko.toast
 
-class MainActivity : AppCompatActivity(),
+
+class MainActivity : BaseSecureActivity(),
         MainFragment.MainFragmentListener,
         TokenFragment.TokenFragmentListener,
         AddTokenFragment.AddTokenFragmentListener {

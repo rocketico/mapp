@@ -24,6 +24,7 @@
         <activity android:name=".activity.MainActivity"
             android:theme="@style/MainActivityTheme"
             android:configChanges="orientation"
+            android:autoRemoveFromRecents="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,28 +33,35 @@
             </intent-filter>
         </activity>
         <activity
+            android:exported="false"
             android:name=".activity.CreateWalletActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="false"
             android:name=".activity.MenuActivity"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity
+            android:exported="false"
             android:name=".activity.SettingsActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.LogInActivity"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ImportWalletActivity"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.SecurityActivity"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.QrScanActivity"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
     </application>

@@ -4,13 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.mapp.R
 import kotlinx.android.synthetic.main.activity_qr_scan.*
 import org.jetbrains.anko.toast
 
-class QrScanActivity : AppCompatActivity() {
+class QrScanActivity : BaseSecureActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

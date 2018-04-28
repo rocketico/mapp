@@ -6,7 +6,6 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.BalanceHelper
 import io.rocketico.core.RateHelper
@@ -18,7 +17,7 @@ import io.rocketico.mapp.Utils
 import io.rocketico.mapp.fragment.SettingsFragment
 import kotlinx.android.synthetic.main.activity_settings.*
 
-class SettingsActivity : AppCompatActivity(),
+class SettingsActivity : BaseSecureActivity(),
         SettingsFragment.OnSettingsItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {

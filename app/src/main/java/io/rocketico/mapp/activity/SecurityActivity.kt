@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.core.WalletsPasswordManager
 import io.rocketico.mapp.R
@@ -12,7 +11,7 @@ import io.rocketico.mapp.fragment.AddPasswordFragment
 import io.rocketico.mapp.fragment.FingerprintFragment
 import io.rocketico.mapp.fragment.PasswordFragment
 
-class SecurityActivity : AppCompatActivity(),
+class SecurityActivity : BaseSecureActivity(),
         FingerprintFragment.FingerprintFragmentListener,
         PasswordFragment.PasswordFragmentListener,
         AddPasswordFragment.AddPasswordFragmentListener {

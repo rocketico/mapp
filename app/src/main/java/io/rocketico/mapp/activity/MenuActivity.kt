@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import io.rocketico.core.WalletManager
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
@@ -17,7 +16,7 @@ import io.rocketico.mapp.fragment.*
 import io.rocketico.mapp.fragment.MenuFragment.OnMenuButtonsClickListener
 import org.jetbrains.anko.toast
 
-class MenuActivity : AppCompatActivity(),
+class MenuActivity : BaseSecureActivity(),
         OnMenuButtonsClickListener,
         SendFragment.SendFragmentListener,
         SendDetailsFragment.SendDetailsFragmentListener,

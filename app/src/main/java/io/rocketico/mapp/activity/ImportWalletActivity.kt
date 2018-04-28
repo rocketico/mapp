@@ -3,7 +3,6 @@ package io.rocketico.mapp.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import io.rocketico.core.WalletManager
@@ -16,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_import_wallet.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 
-class ImportWalletActivity : AppCompatActivity() {
+class ImportWalletActivity : BaseSecureActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

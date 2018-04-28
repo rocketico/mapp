@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -24,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_create_wallet.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 
-class CreateWalletActivity : AppCompatActivity() {
+class CreateWalletActivity : BaseSecureActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
