@@ -102,7 +102,6 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         listAdapter = FlexibleAdapter(tokens)
         tokenList.layoutManager = LinearLayoutManager(context)
         tokenList.adapter = listAdapter
-        listAdapter.isSwipeEnabled = true
         listAdapter.itemTouchHelperCallback.setSwipeThreshold(0.3f)
         listAdapter.itemTouchHelperCallback.setSwipeAnimationDuration(200L)
 
@@ -132,6 +131,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
                 listAdapter.updateDataSet(listAdapter.currentItems)
                 headerChanges.visibility = View.VISIBLE
+                listAdapter.isSwipeEnabled = true
                 refresher.isRefreshing = false
             }
         }
@@ -268,6 +268,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         EventBus.getDefault().post(RefreshEvent)
+        listAdapter.isSwipeEnabled = false
 
         doAsync {
             updateBalancesAndRates(true)
@@ -279,6 +280,7 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 setHeaderBalances(BalanceHelper.getMainCurrency(context!!))
 
                 listAdapter.updateDataSet(listAdapter.currentItems)
+                listAdapter.isSwipeEnabled = true
                 refresher.isRefreshing = false
             }
         }
