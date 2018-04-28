@@ -130,8 +130,8 @@ class StatisticsFragment : Fragment() {
                                 (rateItem?.tokenSymbol?.toLowerCase() == walletToken.codeName.toLowerCase())
                             } ?: return@forEach
 
-                            val tokenRate = token?.let { rateItem?.rate!! } ?: rateItem?.rate!!
-                            / ethRate!!
+                            val tokenRate = token?.let { rateItem?.rate!! }
+                                    ?: (rateItem?.rate!! / ethRate!!)
 
                             averageYInEther += tokenRate
                             averageVolume += rateItem?.volume!!
