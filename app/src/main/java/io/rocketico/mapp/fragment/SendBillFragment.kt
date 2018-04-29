@@ -6,6 +6,7 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +21,11 @@ import io.rocketico.mapp.R
 import io.rocketico.mapp.activity.SecurityActivity
 import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.fragment_send_bill.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.toast
 import java.math.BigInteger
-import java.util.*
 
 class SendBillFragment : Fragment() {
 
@@ -31,13 +34,12 @@ class SendBillFragment : Fragment() {
     private lateinit var tokenType: TokenType
     private lateinit var currentCurrency: Currency
     private lateinit var wallet: Wallet
-    private val timer = Timer(true)
 
     private var eth: Float = 0f
     private var gasPrice: Int = 0
     private var address: String = ""
 
-    private var countdown = 6
+    var paymentTask = PaymentTask()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,16 +60,15 @@ class SendBillFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        timer.cancel()
+        paymentTask.cancel()
     }
 
     @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         sendPayment.isEnabled = false
         sendPayment.setBackgroundColor(resources.getColor(R.color.grey))
-        sendPayment.text = String.format(getString(R.string.sending_wait), countdown)
-        timer.scheduleAtFixedRate(PaymentTask(), 0, 1000)
+        sendPayment.text = String.format(getString(R.string.sending_wait), 5)
+        paymentTask.start();
 
         currentCurrency = RateHelper.getCurrentCurrency(context!!)
         val rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
@@ -116,31 +117,22 @@ class SendBillFragment : Fragment() {
         }
     }
 
-    private fun updateTimer() {
-        countdown--
-        doAsync {
-            uiThread {
-                sendPayment.text = String.format(getString(R.string.sending_wait), countdown)
-                if (countdown == 0) {
-                    timer.cancel()
-                    sendPayment.text = getString(R.string.send_payment_button_text)
-                    sendPayment.setBackgroundColor(resources.getColor(R.color.colorAccent))
-                    sendPayment.isEnabled = true
-                }
-            }
-        }
-
-    }
-
     interface SendBillFragmentListener {
         fun onBackClick()
         fun onCloseClick()
     }
 
-    inner class PaymentTask : TimerTask() {
-        override fun run() {
-            updateTimer()
+    inner class PaymentTask : CountDownTimer(6 * 1000, 1000) {
+        override fun onFinish() {
+            sendPayment.text = getString(R.string.send_payment_button_text)
+            sendPayment.setBackgroundColor(resources.getColor(R.color.colorAccent))
+            sendPayment.isEnabled = true
         }
+
+        override fun onTick(p0: Long) {
+            sendPayment.text = String.format(getString(R.string.sending_wait), p0 / 1000)
+        }
+
     }
 
     private fun sendPayment() {
