@@ -14,12 +14,12 @@ object RateHelper {
     private const val YESTERDAY_RATES_DB_KEY = "yesterday_rates_db_key"
     private const val CURRENT_CURRENCY_KEY = "current_currency_key"
 
-    fun getTokenRateByDate(date: Date = Date()): TokensRatesResponse? {
-        return Utils.api.getRatesByDate(date).execute().body()
+    fun getTokenRateByDate(tokenList: List<String>, date: Date = Date()): TokensRatesResponse? {
+        return Utils.api.getRatesByDate(tokenList, date).execute().body()
     }
 
-    fun getTokenRatesByRange(from: Date, to: Date = Date()): TokenRatesRangeResponse? {
-        return Utils.api.getRatesByDateRange(from, to).execute().body()
+    fun getTokenRatesByRange(tokenList: List<String>, from: Date, to: Date = Date()): TokenRatesRangeResponse? {
+        return Utils.api.getRatesByDateRange(tokenList, from, to).execute().body()
     }
 
     fun convertCurrency(rateFrom: Float?, rateTo: Float?, amount: Float?): Float? {

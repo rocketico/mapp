@@ -121,7 +121,7 @@ class HistoryFragment : Fragment() {
             }
 
             val history = loadData { ethereumHelper.getTokensHistory(wallet.address, typeList, Utils.nDaysAgo(currentDayRange)) }
-            val rates = loadData { RateHelper.getTokenRateByDate() }
+            val rates = loadData { RateHelper.getTokenRateByDate(wallet.tokens?.map { it.codeName }!!) }
 
             view?.context?.runOnUiThread {
                 progressBar.visibility = View.GONE

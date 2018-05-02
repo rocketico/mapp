@@ -147,8 +147,8 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
             //updating balances and rates
             if (RateHelper.isOutdated(context!!, currentCurrency)) {
-                val ratesResponse = loadData { RateHelper.getTokenRateByDate() }
-                val yesterdayRatesResponse = loadData { RateHelper.getTokenRateByDate(io.rocketico.mapp.Utils.nDaysAgo(1)) }
+                val ratesResponse = loadData { RateHelper.getTokenRateByDate(wallet.tokens?.map { it.codeName }!!) }
+                val yesterdayRatesResponse = loadData { RateHelper.getTokenRateByDate(wallet.tokens?.map { it.codeName }!!, io.rocketico.mapp.Utils.nDaysAgo(1)) }
                 if (ratesResponse == null || yesterdayRatesResponse == null) {
                     context?.runOnUiThread { longToast(getString(R.string.server_is_not_available)) }
                 }

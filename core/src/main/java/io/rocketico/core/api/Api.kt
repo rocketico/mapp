@@ -10,11 +10,13 @@ import java.util.*
 interface Api {
     @GET("rates-by-date")
     fun getRatesByDate(
+            @Query("tokenList") tokenTypeList: List<String>,
             @Query("date") date: Date
     ): Call<TokensRatesResponse>
 
     @GET("rates-by-range")
     fun getRatesByDateRange(
+            @Query("tokenList") tokenTypeList: List<String>,
             @Query("fromDate") fromDate: Date,
             @Query("toDate") toDate: Date
     ): Call<TokenRatesRangeResponse>
