@@ -23,12 +23,4 @@ class EthereumHelperTest {
     @Test
     fun getTokensHistory() {
     }
-
-    @Test
-    fun sendEth() {
-    }
-
-    @Test
-    fun sendErc20() {
-    }
 }
