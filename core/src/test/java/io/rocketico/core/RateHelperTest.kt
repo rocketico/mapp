@@ -14,10 +14,9 @@ class RateHelperTest {
     val TEST_WALLET = "0x89292cf683fc405680333f2c8e57ae8cd366a2da"
     val BASE_URL = "http://134.17.25.175:8080/api/"
 
-    lateinit var api: Api
+    private val api: Api
 
-    @Before
-    fun setUp() {
+    init {
         api = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
