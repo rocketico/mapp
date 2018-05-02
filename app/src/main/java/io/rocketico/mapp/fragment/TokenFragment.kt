@@ -230,7 +230,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         EventBus.getDefault().post(RefreshEvent)
 
         doAsync {
-            val newRates = loadData { RateHelper.getTokenRateByDate() }
+            val newRates = loadData { RateHelper.getTokenRateByDate(wallet.tokens?.map { it.codeName }!!) }
             newRates?.let { RateHelper.saveRates(context!!, RateHelper.RatesEntity.parse(it)) }
 
             val ethHelper = EthereumHelper(Cc.ETH_NODE)

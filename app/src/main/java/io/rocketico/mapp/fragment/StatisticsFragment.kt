@@ -96,7 +96,7 @@ class StatisticsFragment : Fragment() {
                 it.printStackTrace()
             }
         }) {
-            val rates = loadData { RateHelper.getTokenRatesByRange(io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date()) }?.rates
+            val rates = loadData { RateHelper.getTokenRatesByRange(wallet.tokens?.map { it.codeName }!!, io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date()) }?.rates
 
             if (token != null) {
                 if (rates != null) {
