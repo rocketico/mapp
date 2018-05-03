@@ -110,11 +110,74 @@ class RateHelperTest {
     }
 
     @Test
-    fun getTokenRatesByRange() {
+    fun getTokenRatesByRangeNormal() {
         val tmpRates = RateHelper.getTokenRatesByRange(
                 listOf(TokenType.ETH.codeName),
                 Date(1525255200000) // May 2, 2018 10:00:00 AM GMT
         )
         assertTrue(tmpRates?.rates?.size!! >= 1)
+    }
+
+    @Test
+    fun getTokenRatesByRangeWithEmptyTokenTypeList() {
+        val tmpRates = RateHelper.getTokenRatesByRange(
+                listOf(),
+                Date(1525255200000) // May 2, 2018 10:00:00 AM GMT
+        )
+
+        assertTrue(tmpRates?.rates?.size!! >= 1)
+    }
+
+    @Test
+    fun getTokenRatesByRangeWithWaBi() {
+        val tmpRates = RateHelper.getTokenRatesByRange(
+                listOf(TokenType.WABI.codeName),
+                Date(1525255200000) // May 2, 2018 10:00:00 AM GMT
+        )
+
+        assertTrue(tmpRates?.rates?.size!! >= 1)
+    }
+
+    @Test
+    fun getTokenRatesByRangeWithFutureDate() {
+        val tmpRates = RateHelper.getTokenRatesByRange(
+                listOf(TokenType.WABI.codeName),
+                Date(1563184800000) //GMT: Mon, 15 Jul 2019 10:00:00 AM
+        )
+
+        assertTrue(tmpRates?.rates?.size!! >= 1)
+    }
+
+    @Test
+    fun getTokenRatesByRangeWithDateWhenEthDoesNotExist() {
+        val tmpRates = RateHelper.getTokenRatesByRange(
+                listOf(TokenType.WABI.codeName),
+                Date(1265277600000), //GMT: Thu, 04 Feb 2010 10:00:00 AM
+                Date(1351818000000)  //GMT: Fri, 02 Nov 2012 01:00:00 AM
+        )
+
+        assertTrue(tmpRates?.rates?.size!! == 0)
+    }
+
+    @Test
+    fun getTokenRatesByRangeWithDateWhenWaBiDoesNotExist() {
+        val tmpRates = RateHelper.getTokenRatesByRange(
+                listOf(TokenType.WABI.codeName),
+                Date(1265277600000), //GMT: Thu, 04 Feb 2010 10:00:00 AM
+                Date(1460541600000) //GMT: Wed, 13 Apr 2016 10:00:00 AM
+        )
+
+        assertTrue(tmpRates?.rates?.size!! > 0)
+    }
+
+    @Test
+    fun getTokenRatesByRangeWithReversedDates() {
+        val tmpRates = RateHelper.getTokenRatesByRange(
+                listOf(TokenType.WABI.codeName),
+                Date(),
+                Date(1460541600000) //GMT: Wed, 13 Apr 2016 10:00:00 AM
+        )
+
+        assertTrue(tmpRates?.rates?.size!! == 0)
     }
 }
