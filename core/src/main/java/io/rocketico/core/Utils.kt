@@ -9,13 +9,12 @@ import java.math.BigInteger
 import java.math.RoundingMode
 
 object Utils {
-    private const val BASE_URL = "http://134.17.25.175:8080/api/"
     private val retrofit: Retrofit
     val api: Api
 
     init {
         retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Cc.SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
