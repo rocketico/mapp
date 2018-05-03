@@ -5,7 +5,10 @@ import io.rocketico.core.model.response.TokenInfoResponse
 object MarketsInfoHelper {
 
     fun getTokenInfoFromMarkets(tokenType: String, currency: String): TokenInfoResponse? {
-        return Utils.api.getTokenInfo(tokenType, currency).execute().body()
+        //todo fix me
+        val call = Utils.api.getTokenInfo(tokenType, currency)
+        println(call.request().url())
+        return call.execute().body()
     }
 
 }
