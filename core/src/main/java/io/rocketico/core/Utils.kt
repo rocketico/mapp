@@ -1,5 +1,6 @@
 package io.rocketico.core
 
+import android.util.Log
 import io.rocketico.core.api.Api
 import io.rocketico.core.model.TokenType
 import retrofit2.Retrofit
@@ -70,5 +71,16 @@ object Utils {
 
     fun round(value: Float, scale: Int): Float {
         return Math.round(value * Math.pow(10.0, scale.toFloat().toDouble())) / Math.pow(10.0, scale.toDouble()).toFloat()
+    }
+
+    fun logDebug(message: String) {
+        if (BuildConfig.DEBUG) {
+            val TAG = "core.debug"
+            try {
+                Log.d(TAG, message)
+            } catch (e: Exception) {
+                println(message)
+            }
+        }
     }
 }

@@ -17,13 +17,13 @@ object RateHelper {
 
     fun getTokenRateByDate(tokenList: List<String>, date: Date = Date()): TokensRatesResponse? {
         val call = Utils.api.getRatesByDate(tokenList, TimestampDate(date))
-//        println(call.request().url())
+        Utils.logDebug(call.request().url().toString())
         return call.execute().body()
     }
 
     fun getTokenRatesByRange(tokenList: List<String>, from: Date, to: Date = Date()): TokenRatesRangeResponse? {
         val call = Utils.api.getRatesByDateRange(tokenList, TimestampDate(from), TimestampDate(to))
-//        println(call.request().url())
+        Utils.logDebug(call.request().url().toString())
         return call.execute().body()
     }
 
