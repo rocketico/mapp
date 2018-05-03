@@ -5,35 +5,37 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.util.*
 
 interface Api {
     @GET("rates-by-date")
     fun getRatesByDate(
-            @Query("tokenList") tokenTypeList: List<String>,
-            @Query("date") date: Date
+            @Query("tokenTypeList") tokenTypeList: List<String>,
+            @Query("date") date: TimestampDate
     ): Call<TokensRatesResponse>
 
     @GET("rates-by-range")
     fun getRatesByDateRange(
-            @Query("tokenList") tokenTypeList: List<String>,
-            @Query("fromDate") fromDate: Date,
-            @Query("toDate") toDate: Date
+            @Query("tokenTypeList") tokenTypeList: List<String>,
+            @Query("fromDate") fromDate: TimestampDate,
+            @Query("toDate") toDate: TimestampDate
     ): Call<TokenRatesRangeResponse>
 
     @GET("token/info")
-    fun getTokenInfo(@Query("tokenType") tokenType: String,
-                     @Query("currency") currency: String
+    fun getTokenInfo(
+            @Query("tokenType") tokenType: String,
+            @Query("currency") currency: String
     ): Call<TokenInfoResponse>
 
     @GET("transactions")
     fun getTokensHistory(
             @Query("address") walletAddress: String,
             @Query("tokenTypeList") tokenTypeList: List<String>,
-            @Query("dateFrom") dateFrom: Date,
-            @Query("dateTo") dateTo: Date
+            @Query("fromDate") dateFrom: TimestampDate,
+            @Query("toDate") dateTo: TimestampDate
     ): Call<List<TokenHistoryResponse>>
 
     @GET("tokens/{address}")
-    fun getWalletTokens(@Path(value = "address", encoded = true) address: String): Call<List<WalletTokensResponse>>
+    fun getWalletTokens(
+            @Path(value = "address", encoded = true) address: String
+    ): Call<List<WalletTokensResponse>>
 }

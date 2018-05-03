@@ -2,6 +2,7 @@ package io.rocketico.core
 
 import io.rocketico.core.model.TokenType
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.*
 
@@ -22,6 +23,6 @@ class RateHelperTest {
     @Test
     fun getTokenRatesByRange() {
         val tmpRates = RateHelper.getTokenRatesByRange(listOf(TokenType.ETH.codeName), Date(1525255200000L))
-        assertEquals(1, tmpRates?.rates?.size)
+        assertTrue(tmpRates?.rates?.size!! > 1)
     }
 }

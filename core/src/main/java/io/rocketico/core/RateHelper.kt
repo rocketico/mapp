@@ -2,6 +2,7 @@ package io.rocketico.core
 
 import android.content.Context
 import io.paperdb.Paper
+import io.rocketico.core.api.TimestampDate
 import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.response.TokenRatesRangeResponse
@@ -15,11 +16,15 @@ object RateHelper {
     private const val CURRENT_CURRENCY_KEY = "current_currency_key"
 
     fun getTokenRateByDate(tokenList: List<String>, date: Date = Date()): TokensRatesResponse? {
-        return Utils.api.getRatesByDate(tokenList, date).execute().body()
+        val r = Utils.api.getRatesByDate(tokenList, TimestampDate(date))
+        println(r.request().url())
+        return r.execute().body()
     }
 
     fun getTokenRatesByRange(tokenList: List<String>, from: Date, to: Date = Date()): TokenRatesRangeResponse? {
-        return Utils.api.getRatesByDateRange(tokenList, from, to).execute().body()
+        val r = Utils.api.getRatesByDateRange(tokenList, TimestampDate(from), TimestampDate(to))
+        println(r.request().url())
+        return r.execute().body()
     }
 
     fun convertCurrency(rateFrom: Float?, rateTo: Float?, amount: Float?): Float? {

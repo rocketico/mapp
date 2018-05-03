@@ -1,5 +1,6 @@
 package io.rocketico.core
 
+import io.rocketico.core.api.TimestampDate
 import io.rocketico.core.model.response.TokenHistoryResponse
 import org.web3j.crypto.Credentials
 import org.web3j.crypto.RawTransaction
@@ -34,7 +35,7 @@ class EthereumHelper(networkUrl: String) {
     }
 
     fun getTokensHistory(walletAddress: String, tokenTypeList: List<String>, dateFrom: Date, dateTo: Date = Date()): List<TokenHistoryResponse>? {
-        return Utils.api.getTokensHistory(walletAddress, tokenTypeList, dateFrom, dateTo).execute().body()
+        return Utils.api.getTokensHistory(walletAddress, tokenTypeList, TimestampDate(dateFrom), TimestampDate(dateTo)).execute().body()
     }
 
     fun sendEth(privateKey: String, address: String, value: BigInteger, gasPrice: BigInteger = GAS_PRICE, gasLimit: BigInteger = GAS_LIMIT): String? {
