@@ -16,9 +16,7 @@ class RateHelperTest {
 
     @Test
     fun getTokenRatesByRange() {
-    }
-
-    @Test
-    fun getYesterdayTokenRate() {
+        val tmpRates = RateHelper.getTokenRatesByRange(listOf(TokenType.ETH.codeName), Date(1525255200000L))
+        assertEquals(1, tmpRates?.rates?.size)
     }
 }
