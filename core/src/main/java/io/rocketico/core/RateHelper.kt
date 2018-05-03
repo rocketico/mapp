@@ -16,15 +16,15 @@ object RateHelper {
     private const val CURRENT_CURRENCY_KEY = "current_currency_key"
 
     fun getTokenRateByDate(tokenList: List<String>, date: Date = Date()): TokensRatesResponse? {
-        val r = Utils.api.getRatesByDate(tokenList, TimestampDate(date))
-        println(r.request().url())
-        return r.execute().body()
+        val call = Utils.api.getRatesByDate(tokenList, TimestampDate(date))
+//        println(call.request().url())
+        return call.execute().body()
     }
 
     fun getTokenRatesByRange(tokenList: List<String>, from: Date, to: Date = Date()): TokenRatesRangeResponse? {
-        val r = Utils.api.getRatesByDateRange(tokenList, TimestampDate(from), TimestampDate(to))
-        println(r.request().url())
-        return r.execute().body()
+        val call = Utils.api.getRatesByDateRange(tokenList, TimestampDate(from), TimestampDate(to))
+//        println(call.request().url())
+        return call.execute().body()
     }
 
     fun convertCurrency(rateFrom: Float?, rateTo: Float?, amount: Float?): Float? {
