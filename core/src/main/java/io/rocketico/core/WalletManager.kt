@@ -65,7 +65,9 @@ class WalletManager(val context: Context) {
         }
 
         fun getWalletTokens(address: String): List<WalletTokensResponse>? {
-            return Utils.api.getWalletTokens(address).execute().body()
+            val request = Utils.api.getWalletTokens(address)
+            Utils.logDebug(request.request().url())
+            return request.execute().body()
         }
     }
 }
