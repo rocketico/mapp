@@ -1,6 +1,7 @@
 package io.rocketico.mapp.adapter
 
 import android.annotation.SuppressLint
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -37,7 +38,16 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
         holder.value.text = context!!.setTokenBalance(item.tokenName!!, item.value, 5)
         holder.fee.text = context!!.setTokenBalance(TokenType.ETH.codeName, item.fee, 5)
         holder.feeFiat.text = context.setBalanceWithCurrency(item.fee, 2)
-        holder.date.text = item.date?.time?.toString() ?: context.getString(R.string.unknown)
+        if (item.date?.time == null) {
+            holder.date.text = context.getString(R.string.unknown)
+        } else {
+            holder.date.text =
+                    DateUtils.getRelativeTimeSpanString(
+                            item.date!!.time,
+                            System.currentTimeMillis(),
+                            DateUtils.MINUTE_IN_MILLIS
+                    )
+        }
 
         val confirmations: Int
         if (item.confirmations!! > 12L) {
