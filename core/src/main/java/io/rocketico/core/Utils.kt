@@ -1,6 +1,7 @@
 package io.rocketico.core
 
-import android.util.Log
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
 import io.rocketico.core.api.Api
 import io.rocketico.core.model.TokenType
 import retrofit2.Retrofit
@@ -8,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
+
 
 object Utils {
     private val retrofit: Retrofit
@@ -73,11 +75,11 @@ object Utils {
         return Math.round(value * Math.pow(10.0, scale.toFloat().toDouble())) / Math.pow(10.0, scale.toDouble()).toFloat()
     }
 
-    fun logDebug(message: String) {
+    fun logDebug(message: Any) {
         if (BuildConfig.DEBUG) {
-            val TAG = "core.debug"
+            Logger.addLogAdapter(AndroidLogAdapter())
             try {
-                Log.d(TAG, message)
+                Logger.d(message)
             } catch (e: Exception) {
                 println(message)
             }

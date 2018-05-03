@@ -40,4 +40,6 @@ dependencies {
 
     implementation 'io.paperdb:paperdb:2.6'
     implementation 'de.adorsys.android:securestoragelibrary:1.0.2'
+
+    implementation 'com.orhanobut:logger:2.1.1'
 }
