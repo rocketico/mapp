@@ -92,7 +92,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         val icon = try {
             context!!.assets.open("tokens_icons/${tokenType.codeName}.png")
         } catch (e: Exception) {
-            e.printStackTrace()
+//            e.printStackTrace()
             null
         }
 
