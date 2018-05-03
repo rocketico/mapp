@@ -22,6 +22,7 @@
     <color name="colorChartBackground">#2800e6f6</color>
     <color name="colorReceive">#FF00D268</color>
     <color name="green">#FF00D268</color>
+    <color name="greenDark">#009148</color>
     <color name="joinColor">#FF00F082</color>
     <color name="detailsTextColor">#FF5A6170</color>
     <color name="greyTextColor">#9C5A6170</color>
