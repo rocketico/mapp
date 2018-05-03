@@ -7,7 +7,7 @@ object MarketsInfoHelper {
     fun getTokenInfoFromMarkets(tokenType: String, currency: String): TokenInfoResponse? {
         //todo fix me
         val call = Utils.api.getTokenInfo(tokenType, currency)
-        println(call.request().url())
+        Utils.logDebug(call.request().url())
         return call.execute().body()
     }
 
