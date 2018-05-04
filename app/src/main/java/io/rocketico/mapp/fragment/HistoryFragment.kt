@@ -103,7 +103,9 @@ class HistoryFragment : Fragment() {
         recyclerViewHistory.layoutManager = LinearLayoutManager(context)
         recyclerViewHistory.adapter = historyListAdapter
 
+        noHistoryLabel.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
+
         doAsync({
             context?.runOnUiThread {
                 toast(getString(R.string.update_info_error) + ": " + it.message)
@@ -111,17 +113,21 @@ class HistoryFragment : Fragment() {
             }
         }) {
             //todo implement choosing days count
-            val typeList: MutableList<String>
+            val typeList = mutableListOf<String>()
 
             if (tokenType == null) {
-                typeList = wallet.tokens?.map { it.codeName }?.toMutableList()!!
                 typeList.add(TokenType.ETH.codeName)
+                typeList.addAll(wallet.tokens?.map { it.codeName }!!)
             } else {
-                typeList = mutableListOf(tokenType?.codeName!!)
+                typeList.add(tokenType?.codeName!!)
             }
 
             val history = loadData { ethereumHelper.getTokensHistory(wallet.address, typeList, Utils.nDaysAgo(currentDayRange)) }
-            val rates = loadData { RateHelper.getTokenRateByDate(wallet.tokens?.map { it.codeName }!!) }
+
+            val tokenList = mutableListOf(TokenType.ETH.codeName)
+            tokenList.addAll(wallet.tokens?.map { it.codeName }!!)
+
+            val rates = loadData { RateHelper.getTokenRateByDate(tokenList) }
 
             view?.context?.runOnUiThread {
                 progressBar.visibility = View.GONE
