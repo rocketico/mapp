@@ -11,6 +11,7 @@ import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
+import io.rocketico.core.model.response.TokenRatesRangeResponse
 import io.rocketico.mapp.R
 import io.rocketico.mapp.event.RefreshEvent
 import io.rocketico.mapp.loadData
@@ -96,18 +97,14 @@ class StatisticsFragment : Fragment() {
                 it.printStackTrace()
             }
         }) {
-            val rates = loadData { RateHelper.getTokenRatesByRange(wallet.tokens?.map { it.codeName }!!, io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo), Date()) }?.rates
+            val tokenList = mutableListOf(TokenType.ETH.codeName)
 
             if (token != null) {
-                if (rates != null) {
-                    for (i in 0 until rates.size) {
-                        rates[i]?.values = rates[i]?.values?.filter {
-                            it?.tokenSymbol?.toLowerCase() == token!!.codeName.toLowerCase()
-                                    || it?.tokenSymbol?.toLowerCase() == TokenType.ETH.codeName.toLowerCase()
-                        }
-                    }
-                }
+                tokenList.add(token?.codeName!!)
             }
+
+            val ratesResponse = loadData { RateHelper.getTokenRatesByRange(tokenList, io.rocketico.mapp.Utils.nDaysAgo(nDaysAgo)) }
+            val rates = ratesResponse?.rates
 
             var ethTopValue = Float.MIN_VALUE;
             var ethBottomValue = Float.MAX_VALUE;
@@ -156,10 +153,10 @@ class StatisticsFragment : Fragment() {
 
             view?.context?.runOnUiThread {
                 progressBar.visibility = View.GONE
-                if (rates != null && rates.isEmpty()) {
-                    bodyStatistics.visibility = View.VISIBLE
-                } else {
+                if (rates == null || rates.isEmpty()) {
                     noStatistics.visibility = View.VISIBLE
+                } else {
+                    bodyStatistics.visibility = View.VISIBLE
                 }
                 topValue.text = Utils.round(ethTopValue, 5).toString()
                 bottomValue.text = Utils.round(ethBottomValue, 5).toString()
