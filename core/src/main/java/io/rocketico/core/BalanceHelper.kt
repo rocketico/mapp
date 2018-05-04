@@ -45,12 +45,11 @@ object BalanceHelper {
 
     fun getMainCurrency(context: Context): Boolean {
         Paper.init(context)
-        return if (!Paper.book(BALANCE_DB_KEY).contains(MAIN_BALANCE)) true
-        else Paper.book(BALANCE_DB_KEY).read<Boolean>(MAIN_BALANCE)
+        return Paper.book(MAIN_BALANCE).read<Boolean>(MAIN_BALANCE) ?: true
     }
 
     fun setMainCurrency(context: Context, flag: Boolean) {
         Paper.init(context)
-        Paper.book(BALANCE_DB_KEY).write(MAIN_BALANCE, flag)
+        Paper.book(MAIN_BALANCE).write(MAIN_BALANCE, flag)
     }
 }
