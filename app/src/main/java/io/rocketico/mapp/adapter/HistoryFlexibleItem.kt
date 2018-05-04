@@ -1,6 +1,8 @@
 package io.rocketico.mapp.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.support.v7.widget.RecyclerView
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.ImageView
@@ -9,14 +11,30 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import io.rocketico.core.BalanceHelper
 import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.R
+import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.setBalanceWithCurrency
 import io.rocketico.mapp.setTokenBalance
 import kotlinx.android.synthetic.main.item_history.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
-data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<HistoryFlexibleItem.ViewHolder>() {
+data class HistoryFlexibleItem(private val context: Context,
+                               val item: HistoryItem) : AbstractFlexibleItem<HistoryFlexibleItem.ViewHolder>() {
+
+    private lateinit var mHolder: ViewHolder
+
+    init {
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onViewDetached(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int) {
+        EventBus.getDefault().unregister(this)
+    }
 
     override fun getLayoutRes() = R.layout.item_history
 
@@ -24,8 +42,15 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
         return ViewHolder(view, adapter)
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: MainCurrencyEvent) {
+        onBindBalance(mHolder)
+    }
+
     @SuppressLint("SetTextI18n")
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        mHolder = holder
+
         if (item.isReceived) {
             holder.direction.setImageDrawable(holder.itemView.resources.getDrawable(R.drawable.ic_direction_down))
         } else {
@@ -34,8 +59,6 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
         val context = holder.itemView.context
 
         holder.address.text = item.address!!.substring(0..15) + "..."
-        holder.valueFiat.text = context.setBalanceWithCurrency(item.valueFiat, 2)
-        holder.value.text = context!!.setTokenBalance(item.tokenName!!, item.value, 5)
         holder.fee.text = context!!.setTokenBalance(TokenType.ETH.codeName, item.fee, 5)
         holder.feeFiat.text = context.setBalanceWithCurrency(item.fee, 2)
         if (item.date?.time == null) {
@@ -56,7 +79,21 @@ data class HistoryFlexibleItem(val item: HistoryItem) : AbstractFlexibleItem<His
             confirmations = item.confirmations!!.toInt()
         }
 
-        holder.confirmations.text = "${context.getString(R.string.status)} $confirmations/12";
+        holder.confirmations.text = "${context.getString(R.string.status)} $confirmations/12"
+
+        onBindBalance(holder)
+    }
+
+    private fun onBindBalance(holder: ViewHolder) {
+        val flag = BalanceHelper.getMainCurrency(context)
+
+        if (flag) {
+            holder.valueFiat.text = context!!.setTokenBalance(item.tokenName!!, item.value, 5)
+            holder.value.text = context.setBalanceWithCurrency(item.valueFiat, 2)
+        } else {
+            holder.valueFiat.text = context.setBalanceWithCurrency(item.valueFiat, 2)
+            holder.value.text = context!!.setTokenBalance(item.tokenName!!, item.value, 5)
+        }
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter) {

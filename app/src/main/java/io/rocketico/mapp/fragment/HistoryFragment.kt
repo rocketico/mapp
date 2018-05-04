@@ -158,7 +158,7 @@ class HistoryFragment : Fragment() {
                         tmpItem.feeFiat = tmpItem.fee!! / fiatRate
                     }
 
-                    historyListAdapter.addItem(HistoryFlexibleItem(tmpItem))
+                    historyListAdapter.addItem(HistoryFlexibleItem(context!!, tmpItem))
                 }
 
                 if (historyListAdapter.itemCount == 0) {
