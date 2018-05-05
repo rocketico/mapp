@@ -68,7 +68,8 @@ class ImportWalletActivity : BaseSecureActivity() {
                 val tokens = mutableSetOf<TokenType>()
                 walletTokens.forEach { responseToken ->
                     tokenTypes.forEach {
-                        if (it.codeName.toLowerCase() == responseToken.symbol.toLowerCase()) {
+                        if (it.codeName.toLowerCase() == responseToken.symbol.toLowerCase() &&
+                                it.codeName.toLowerCase() != TokenType.ETH.codeName.toLowerCase()) {
                             tokens.add(it)
                         }
                     }
