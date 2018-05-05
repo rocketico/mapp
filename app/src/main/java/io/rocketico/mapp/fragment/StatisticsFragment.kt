@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
+import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.core.model.response.TokenRatesRangeResponse
@@ -30,8 +31,8 @@ import java.util.*
 class StatisticsFragment : Fragment() {
 
     lateinit var wallet: Wallet
-
     private var token: TokenType? = null
+    private lateinit var currentCurrency: Currency
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_statistics, container, false)
@@ -40,6 +41,8 @@ class StatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         EventBus.getDefault().register(this)
+
+        currentCurrency = RateHelper.getCurrentCurrency(context!!)
 
         arguments?.getSerializable(TOKEN_KEY)?.let { token = it as TokenType }
 
@@ -147,8 +150,9 @@ class StatisticsFragment : Fragment() {
                     }
                 }
 
-                values.add(PointValue(index.toFloat(), averageYInEther).setLabel(averageYInEther.toString() + " ETH"))
-                subColumnsData.add(SubcolumnValue(averageVolume));
+                values.add(PointValue(index.toFloat(), averageYInEther).setLabel(averageYInEther.toString() +
+                    " " + currentCurrency.currencySymbol))
+                subColumnsData.add(SubcolumnValue(averageVolume))
             }
 
             view?.context?.runOnUiThread {
