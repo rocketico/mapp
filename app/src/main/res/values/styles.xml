@@ -64,6 +64,21 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="TabLayoutAddStyle" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@android:color/transparent</item>
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabIndicatorHeight">@dimen/tab_indicator_height</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabTextAppearance">@style/TabAddTextAppearanceStyle</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+    </style>
+
+    <style name="TabAddTextAppearanceStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/tab_item_text_size</item>
+        <item name="android:textColor">@color/tabAddNotSelected</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
     <style name="WalletItemTextStyle">
         <item name="android:textColor">@color/grey</item>
     </style>

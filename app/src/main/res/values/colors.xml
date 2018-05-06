@@ -29,4 +29,5 @@
     <color name="greyTextColor">#9C5A6170</color>
     <color name="billGreyColor">#FF595959</color>
     <color name="fingerprintButtonColor">#47FFFFFF</color>
+    <color name="tabAddNotSelected">#B3FFFFFF</color>
 </resources>

@@ -136,6 +136,10 @@
     <string name="status">Status</string>
     <string name="unknown">Unknown</string>
 
+    <string name="tokens_tab_label">Tokens</string>
+    <string name="funds_tab_label">Funds</string>
+    <string name="end_date_label">End Date:</string>
+
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 </resources>
