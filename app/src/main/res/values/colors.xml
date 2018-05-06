@@ -3,6 +3,7 @@
     <color name="colorPrimary">#00E6F6</color>
     <color name="colorPrimaryDark">#00C8E9</color>
     <color name="colorAccent">#FFFA4600</color>
+    <color name="blue">#FF0028DC</color>
 
     <color name="tabLayoutBackground">#FBFBFB</color>
     <color name="tabNotSelected">#FF4CD9F0</color>
