@@ -16,6 +16,7 @@ import io.rocketico.core.model.TokenType
 import io.rocketico.mapp.Cc
 import io.rocketico.mapp.R
 import io.rocketico.mapp.Utils
+import io.rocketico.mapp.fragment.AddItemFragment
 import io.rocketico.mapp.fragment.AddTokenFragment
 import io.rocketico.mapp.fragment.MainFragment
 import io.rocketico.mapp.fragment.TokenFragment
@@ -25,7 +26,7 @@ import org.jetbrains.anko.toast
 class MainActivity : BaseSecureActivity(),
         MainFragment.MainFragmentListener,
         TokenFragment.TokenFragmentListener,
-        AddTokenFragment.AddTokenFragmentListener {
+        AddItemFragment.AddItemFragmentListener {
 
     private lateinit var wm: WalletManager
 
@@ -75,7 +76,7 @@ class MainActivity : BaseSecureActivity(),
 
     override fun onFabClick() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, AddTokenFragment.newInstance(wm.getWallet()!!))
+                .replace(R.id.container, AddItemFragment.newInstance(wm.getWallet()!!))
                 .addToBackStack(null)
                 .commit()
     }
