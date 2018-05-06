@@ -26,7 +26,7 @@ class AddTokenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragmentListener = activity as AddTokenFragmentListener
+        fragmentListener = parentFragment as AddTokenFragmentListener
 
         val tokens = mutableListOf<IFlexible<*>>()
         listAdapter = FlexibleAdapter(tokens)
@@ -45,64 +45,22 @@ class AddTokenFragment : Fragment() {
             listAdapter.addItem(AddTokenFlexibleItem(it, currentCurrency))
         }
 
-        setupSearchEditText()
+        fragmentListener.setupTokenListAdapter(listAdapter)
+
         setupListeners()
     }
 
-    private fun setupSearchEditText() {
-        val editText = searchToken.findViewById<EditText>(android.support.v7.appcompat.R.id.search_src_text)
-        editText.setHintTextColor(resources.getColor(R.color.transp_white))
-        editText.setTextColor(resources.getColor(R.color.white))
-        editText.setHintTextColor(resources.getColor(R.color.white))
-    }
-
-    private fun setupSearchViewWidth() {
-        searchToken.maxWidth = topPanel.width - backButton.width - menuImageButton.width
-    }
-
     private fun setupListeners() {
-        backButton.setOnClickListener {
-            fragmentListener.onBackClick()
-        }
-
-        menuImageButton.setOnClickListener {
-            fragmentListener.onMenuButtonClick()
-        }
-
-        searchToken.setOnCloseListener {
-            tokenListLabel.visibility = View.VISIBLE
-            false
-        }
-
-        searchToken.setOnSearchClickListener {
-            tokenListLabel.visibility = View.GONE
-            setupSearchViewWidth()
-        }
-
         listAdapter.addListener(FlexibleAdapter.OnItemClickListener { _, position ->
             val listItem = listAdapter.getItem(position) as AddTokenFlexibleItem
             fragmentListener.onAddTokenListItemClick(listItem.tokenType)
             true
         })
-
-        searchToken.setOnQueryTextListener(object : android.support.v7.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                listAdapter.setFilter(newText)
-                listAdapter.filterItems()
-                return false
-            }
-
-        })
     }
 
     interface AddTokenFragmentListener {
-        fun onBackClick()
         fun onAddTokenListItemClick(tokenType: TokenType)
-        fun onMenuButtonClick()
+        fun setupTokenListAdapter(adapter: FlexibleAdapter<IFlexible<*>>)
     }
 
     companion object {
