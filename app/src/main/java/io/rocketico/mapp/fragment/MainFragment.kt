@@ -25,6 +25,7 @@ import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.*
+import io.rocketico.mapp.adapter.FundFlexibleItem
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
@@ -111,6 +112,11 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         wallet.tokens?.forEach { token ->
             listAdapter.addItem(TokenFlexibleItem(context!!, token))
         }
+
+        listAdapter.addItem(FundFlexibleItem("Fund #1",
+                40,
+                250,
+                234))
 
         showTokens()
     }
@@ -232,8 +238,11 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         })
 
         listAdapter.addListener(FlexibleAdapter.OnItemClickListener { _, position ->
-            val listItem = listAdapter.getItem(position) as TokenFlexibleItem
-            fragmentListener.onTokenListItemClick(listItem.tokenType)
+            val listItem = listAdapter.getItem(position)
+
+            if (listItem is TokenFlexibleItem) {
+                fragmentListener.onTokenListItemClick(listItem.tokenType)
+            }
             true
         })
 
@@ -303,7 +312,12 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         totalFiatBalance = 0f
         var totalYesterdayFiatBalance = 0f
 
-        val tokens = listAdapter.currentItems as List<TokenFlexibleItem>
+        val tokens = mutableListOf<TokenFlexibleItem>()
+
+        listAdapter.currentItems.forEach {
+            if (it is TokenFlexibleItem) tokens.add(it)
+        }
+
         val ethRate = tokens.find { it.tokenType == TokenType.ETH }?.tokenRate
         run loop@{
             tokens.forEach { token ->
