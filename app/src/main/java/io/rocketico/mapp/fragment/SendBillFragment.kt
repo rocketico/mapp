@@ -1,6 +1,7 @@
 package io.rocketico.mapp.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
@@ -190,7 +191,7 @@ class SendBillFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             Cc.FINGERPRINT_REQUEST -> {
-                if (resultCode == Cc.FINGERPRINT_RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                     sendPayment()
                 }
             }
