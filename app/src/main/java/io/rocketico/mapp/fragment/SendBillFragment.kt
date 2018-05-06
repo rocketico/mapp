@@ -160,7 +160,7 @@ class SendBillFragment : Fragment() {
                     response = ethHelper.sendEth(wallet.privateKey,
                             address,
                             ethBigInteger,
-                            BigInteger.valueOf(gasPrice.toLong()))!!
+                            BigInteger.valueOf(gasPrice.toLong()).multiply(BigInteger.TEN.pow(9)))!!
 
                     if (!response.isBlank()) {
                         BalanceHelper.outDateBalance(context!!, TokenType.ETH)
@@ -170,7 +170,7 @@ class SendBillFragment : Fragment() {
                             tokenType.contractAddress,
                             address,
                             ethBigInteger,
-                            BigInteger.valueOf(gasPrice.toLong()))!!.transactionHash
+                            BigInteger.valueOf(gasPrice.toLong()).multiply(BigInteger.TEN.pow(9)))!!.transactionHash
 
                     if (!response.isBlank()) {
                         BalanceHelper.outDateBalance(context!!, tokenType)
