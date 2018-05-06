@@ -122,7 +122,9 @@ class HistoryFragment : Fragment() {
                 typeList.add(tokenType?.codeName!!)
             }
 
-            val history = loadData { ethereumHelper.getTokensHistory(wallet.address, typeList, Utils.nDaysAgo(currentDayRange)) }
+            val history = loadData {
+                ethereumHelper.getTokensHistory(wallet.address, typeList, Utils.nDaysAgo(currentDayRange))
+            }?.sortedByDescending { it.date }
 
             val tokenList = mutableListOf(TokenType.ETH.codeName)
             tokenList.addAll(wallet.tokens?.map { it.codeName }!!)
