@@ -7,7 +7,7 @@ import java.math.BigInteger
 class WalletSendTest {
 
     private val ETH_NODE = "https://kovan.infura.io/fd28b54b765d41c8d352d092576bb125"
-    private val walletAddress = "0x362129232498453931cd1a8dcb7c3cfef993633b"
+    private val walletAddress = "0x86738731A0cbFB07E103ae235403037346eA602e"
     private val tokenContractAddress = "0x8f6a033f38a41cf12c4fe28ae7475187ab9884cc"
     private val privateKey: String = System.getenv("PR_KEY")
     private val oneGwei = 1000000000L
