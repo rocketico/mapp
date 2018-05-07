@@ -21,7 +21,7 @@ class WalletSendTest {
         assertTrue(result != null)
     }
 
-    @Test
+//    @Test
     fun sendTokenTest() {
         val result = EthereumHelper(ETH_NODE).sendErc20(privateKey, tokenContractAddress,
                 walletAddress, BigInteger.valueOf(oneGwei))
