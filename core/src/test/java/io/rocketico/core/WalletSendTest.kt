@@ -26,7 +26,7 @@ class WalletSendTest {
         Thread.sleep(2000L)
 
         val result = EthereumHelper(ETH_NODE).sendErc20(privateKey, tokenContractAddress,
-                walletAddress, BigInteger.valueOf(oneGwei), EthereumHelper.GAS_PRICE)
+                walletAddress, BigInteger.valueOf(oneGwei), BigInteger.valueOf(99) * BigInteger.valueOf(oneGwei))
 
         println(result?.transactionHash)
 
