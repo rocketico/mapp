@@ -36,6 +36,6 @@ interface Api {
 
     @GET("tokens/{address}")
     fun getWalletTokens(
-            @Path(value = "address", encoded = true) address: String
+            @Path(value = "address") address: String
     ): Call<List<WalletTokensResponse>>
 }
