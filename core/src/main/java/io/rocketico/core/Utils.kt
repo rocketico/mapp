@@ -85,4 +85,10 @@ object Utils {
             }
         }
     }
+
+    fun getGasLimit(tokenType: TokenType): Int = if (tokenType == TokenType.ETH) {
+        EthereumHelper.GAS_LIMIT.toInt()
+    } else {
+        EthereumHelper.ERC_20_GAS_LIMIT.toInt()
+    }
 }
