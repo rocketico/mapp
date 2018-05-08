@@ -164,12 +164,12 @@ class SendDetailsFragment : Fragment() {
                 val fiatQuantity = rate?.let { quantity * it }
 
                 if (isTokenMain) {
-                    txFee = Utils.ethFromGwei(gasPriceGwei)
+                    txFee = Utils.ethFromGwei(gasPriceGwei * Utils.getGasLimit(tokenType))
                     val tmpQuantity = if (tokenType == TokenType.ETH) quantity else RateHelper.convertCurrency(rate, ethRate, quantity)
                     totalQuantity = tmpQuantity?.let { it + txFee }
 
-                    txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee, 9)
-                    totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity, 9)
+                    txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee, 6)
+                    totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity, 6)
                 } else {
                     txFee = Utils.txFeeFromGwei(gasPriceGwei, ethRate, tokenType)
                     totalQuantity = if (txFee != null && fiatQuantity != null)
@@ -216,7 +216,7 @@ class SendDetailsFragment : Fragment() {
     }
 
     private fun checkBalance(): Boolean {
-        var paymentCoast = BigInteger.valueOf(gasPriceGwei.toLong()).multiply(BigInteger.TEN.pow(9))
+        var paymentCoast = BigInteger.valueOf(gasPriceGwei.toLong() * Utils.getGasLimit(tokenType)).multiply(BigInteger.TEN.pow(9))
         if (tokenType == TokenType.ETH) paymentCoast += Utils.floatToBigInteger(quantity)
 
         return ethBalance - paymentCoast <= BigInteger.ZERO
@@ -253,13 +253,13 @@ class SendDetailsFragment : Fragment() {
             }
 
             val fiatQuantity = rate?.let { quantity * it }
-            val txFee = Utils.ethFromGwei(gasPriceGwei)
+            val txFee = Utils.ethFromGwei(gasPriceGwei * Utils.getGasLimit(tokenType))
             val tmpQuantity = if (tokenType == TokenType.ETH) quantity else RateHelper.convertCurrency(rate, ethRate, quantity)
             val totalQuantity = tmpQuantity?.let { it + txFee }
 
             quantityFiatTextView.text = context!!.setQuantity(fiatPrefix, fiatQuantity, 2)
-            txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee, 9)
-            totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity, 9)
+            txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee, 6)
+            totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity, 6)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
