@@ -11,6 +11,7 @@ import org.web3j.protocol.core.methods.response.EthGetTransactionCount
 import org.web3j.protocol.core.methods.response.EthSendTransaction
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
+import org.web3j.tx.RawTransactionManager
 import org.web3j.utils.Numeric
 import java.math.BigInteger
 import java.util.*
@@ -63,10 +64,11 @@ class EthereumHelper(networkUrl: String) {
 
     fun sendErc20(privateKey: String, contractAddress: String, to: String, value: BigInteger, gasPrice: BigInteger = ERC_20_GAS_PRICE, gasLimit: BigInteger = ERC_20_GAS_LIMIT): TransactionReceipt? {
         val credentials = Credentials.create(privateKey)
+        val rtm = RawTransactionManager(web3, credentials, 40, 1000)
         val token = DetailedERC20.load(
                 contractAddress,
                 web3,
-                credentials,
+                rtm,
                 gasPrice,
                 gasLimit
         )
