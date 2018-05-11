@@ -10,6 +10,7 @@ import com.crashlytics.android.Crashlytics
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import io.fabric.sdk.android.Fabric
+import io.rocketico.core.RateHelper
 import io.rocketico.core.WalletManager
 import io.rocketico.core.WalletsPasswordManager
 import io.rocketico.core.model.TokenType
@@ -97,6 +98,7 @@ class MainActivity : BaseSecureActivity(),
         wallet.tokens?.add(tokenType)
         wm.saveWallet(wallet)
         toast(getString(R.string.added_string))
+        RateHelper.deleteAllRates(this)
         onBackPressed()
     }
 
