@@ -113,20 +113,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/addressEditText" />
 
+        <TextView
+            android:id="@+id/quantityEditTextCur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/detailsTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/quantityEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/quantityEditText"
+            tools:text="ETH" />
+
         <EditText
             android:id="@+id/quantityEditText"
-            android:theme="@style/DetailEditTextStyle"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
-            android:ems="10"
-            android:textSize="18sp"
-            android:textColor="@color/detailsTextColor"
-            android:inputType="numberDecimal"
             android:background="@drawable/background_quantity_edit_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressEditText" />
+            android:ems="10"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="@color/detailsTextColor"
+            android:textSize="18sp"
+            android:theme="@style/DetailEditTextStyle"
+            app:layout_constraintEnd_toStartOf="@+id/changeButton"
+            app:layout_constraintStart_toEndOf="@+id/quantityEditTextCur"
+            app:layout_constraintTop_toBottomOf="@+id/addressEditText"
+            tools:text="0.0"/>
 
         <TextView
             android:id="@+id/txFeeLabel"
@@ -153,6 +170,18 @@
             tools:text="0.5$" />
 
         <TextView
+            android:id="@+id/quantityFiatTextViewCurr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:textColor="@color/detailsTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/quantityFiatTextView"
+            app:layout_constraintEnd_toStartOf="@+id/quantityFiatTextView"
+            app:layout_constraintTop_toTopOf="@+id/quantityFiatTextView"
+            tools:text="$" />
+
+        <TextView
             android:id="@+id/quantityFiatTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -166,7 +195,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/quantityEditText"
             app:layout_constraintTop_toTopOf="@+id/quantityEditText"
-            tools:text="$332.5" />
+            tools:text="332.5" />
 
         <SeekBar
             android:id="@+id/seekBar"

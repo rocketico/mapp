@@ -44,9 +44,6 @@ class SendDetailsFragment : Fragment() {
     private var quantity: Float = 0f
     private var gasPriceGwei: Int = 0
 
-    private lateinit var tokenPrefix: String
-    private lateinit var fiatPrefix: String
-
     private var isTokenMain = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,8 +69,8 @@ class SendDetailsFragment : Fragment() {
         rate = RateHelper.getTokenRate(context!!, tokenType, currentCurrency)?.rate
         fiatBalance = rate?.let { balance * it }
 
-        tokenPrefix = getString(R.string.prefix_template, tokenType.codeName)
-        fiatPrefix = getString(R.string.prefix_template, currentCurrency.currencySymbol)
+        quantityEditTextCur.text = tokenType.codeName
+        quantityFiatTextViewCurr.text = currentCurrency.currencySymbol
 
         addressEditText.setText(address)
 
@@ -88,7 +85,7 @@ class SendDetailsFragment : Fragment() {
         setupListeners()
         setupSeekBar()
 
-        quantityEditText.setText(context!!.setQuantity(tokenPrefix, 0f))
+        quantityEditText.setText("0.0")
     }
 
     private fun setupListeners() {
@@ -107,10 +104,16 @@ class SendDetailsFragment : Fragment() {
                 quantityEditText.removeTextChangedListener(tokenCurrencyListener)
                 quantityEditText.addTextChangedListener(fiatCurrencyListener)
 
+                quantityEditTextCur.text = currentCurrency.currencySymbol
+                quantityFiatTextViewCurr.text = tokenType.codeName
+
                 changeButton.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_right))
             } else {
                 quantityEditText.removeTextChangedListener(fiatCurrencyListener)
                 quantityEditText.addTextChangedListener(tokenCurrencyListener)
+
+                quantityEditTextCur.text = tokenType.codeName
+                quantityFiatTextViewCurr.text = currentCurrency.currencySymbol
 
                 changeButton.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_left))
             }
@@ -224,26 +227,19 @@ class SendDetailsFragment : Fragment() {
 
     private val tokenCurrencyListener = object : TextWatcher {
 
-        override fun afterTextChanged(s: Editable?) {
-            if (!s.toString().startsWith(tokenPrefix)) {
-                quantityEditText.setText(tokenPrefix)
-                Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
-                return
-            }
-
-            val value = s?.toString()!!.replace(tokenPrefix, "")
+        override fun afterTextChanged(s: Editable) {
+            val value = s.toString()
 
             quantity = if (!value.isBlank()) {
                 if (value == ".") {
-                    quantityEditText.setText(tokenPrefix)
-                    Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
+                    quantityEditText.setText("")
                     return
                 }
 
                 val result = value.toFloat()
 
                 if (result > balance) {
-                    quantityEditText.setText(context!!.setQuantity(tokenPrefix, balance))
+                    quantityEditText.setText(context!!.scaleFloat(balance))
                     Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                     return
                 }
@@ -257,7 +253,7 @@ class SendDetailsFragment : Fragment() {
             val tmpQuantity = if (tokenType == TokenType.ETH) quantity else RateHelper.convertCurrency(rate, ethRate, quantity)
             val totalQuantity = tmpQuantity?.let { it + txFee }
 
-            quantityFiatTextView.text = context!!.setQuantity(fiatPrefix, fiatQuantity, 2)
+            quantityFiatTextView.text = context!!.scaleFloat(fiatQuantity, 2)
             txFeeTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, txFee, 6)
             totalTextView.text = context!!.setTokenBalance(TokenType.ETH.codeName, totalQuantity, 6)
         }
@@ -269,26 +265,19 @@ class SendDetailsFragment : Fragment() {
 
     private val fiatCurrencyListener = object : TextWatcher {
 
-        override fun afterTextChanged(s: Editable?) {
-            if (!s.toString().startsWith(fiatPrefix)) {
-                quantityEditText.setText(fiatPrefix)
-                Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
-                return
-            }
-
-            val value = s?.toString()!!.replace(fiatPrefix, "")
+        override fun afterTextChanged(s: Editable) {
+            val value = s.toString()
 
             quantity = if (!value.isBlank()) {
                 if (value == ".") {
-                    quantityEditText.setText(fiatPrefix)
-                    Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
+                    quantityEditText.setText("")
                     return
                 }
 
                 val result = value.toFloat()
 
                 if (result > fiatBalance!!) {
-                    quantityEditText.setText(context!!.setQuantity(fiatPrefix, fiatBalance!!))
+                    quantityEditText.setText(fiatBalance?.toString())
                     Selection.setSelection(quantityEditText.text, quantityEditText.text.length)
                     return
                 }
@@ -302,7 +291,7 @@ class SendDetailsFragment : Fragment() {
             val totalQuantity = if (txFee != null)
                 fiatQuantity + txFee else null
 
-            quantityFiatTextView.text = context!!.setQuantity(tokenPrefix, quantity, 6)
+            quantityFiatTextView.text = context!!.scaleFloat(quantity, 6)
             txFeeTextView.text = context!!.setBalanceWithCurrency(txFee, 2)
             totalTextView.text = context!!.setBalanceWithCurrency(totalQuantity, 2)
         }
