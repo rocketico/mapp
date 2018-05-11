@@ -57,6 +57,17 @@ fun Context.setQuantity(prefix: String, value: Float?, scale: Int? = null): Stri
 }
 
 @SuppressLint("StringFormatMatches")
+fun Context.scaleFloat(value: Float?, scale: Int? = null): String {
+    var result: String = value?.toString() ?: getString(R.string.null_value)
+    scale?.let {
+        value?.let {
+            result = String.format("%.${scale}f", value.toFloat()).replace(',', '.')
+        }
+    }
+    return result
+}
+
+@SuppressLint("StringFormatMatches")
 fun Context.setFee(prefix: String, value: Float?): String {
     return getString(R.string.balance_template, value ?: getString(R.string.null_value), prefix)
 }
