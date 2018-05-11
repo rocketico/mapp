@@ -80,7 +80,7 @@
     </style>
 
     <style name="WalletItemTextStyle">
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">@color/detailsTextColor</item>
     </style>
 
     <style name="WalletItemTextStyle.Small" parent="WalletItemTextStyle">
