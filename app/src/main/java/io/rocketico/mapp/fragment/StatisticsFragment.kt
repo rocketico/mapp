@@ -1,5 +1,6 @@
 package io.rocketico.mapp.fragment
 
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,6 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.github.mikephil.charting.components.MarkerView
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.utils.MPPointF
 import io.rocketico.core.RateHelper
 import io.rocketico.core.Utils
 import io.rocketico.core.model.Currency
@@ -16,8 +23,10 @@ import io.rocketico.core.model.response.TokenRatesRangeResponse
 import io.rocketico.mapp.R
 import io.rocketico.mapp.event.RefreshEvent
 import io.rocketico.mapp.loadData
+import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import kotlinx.android.synthetic.main.include_date_panel.*
+import kotlinx.android.synthetic.main.view_marker.view.*
 import lecho.lib.hellocharts.model.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -26,7 +35,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
 import java.util.*
-
 
 class StatisticsFragment : Fragment() {
 
@@ -48,6 +56,7 @@ class StatisticsFragment : Fragment() {
 
         wallet = arguments?.getSerializable(WALLET_KEY) as Wallet
 
+        stylingTopChart()
         showCharts()
         setupButtons()
     }
@@ -83,14 +92,29 @@ class StatisticsFragment : Fragment() {
         button.typeface = Typeface.DEFAULT_BOLD
     }
 
+    private fun stylingTopChart() {
+        chart.setViewPortOffsets(-10f, 0f,-10f,0f)
+        chart.description.isEnabled = false
+        chart.setTouchEnabled(true)
+        chart.isDragEnabled = false
+        chart.setScaleEnabled(false)
+        chart.setDrawGridBackground(false)
+        chart.xAxis.isEnabled = false
+        chart.axisLeft.isEnabled = false
+        chart.axisRight.isEnabled = false
+        chart.legend.isEnabled = false
+
+        val marker = RateMarker(context!!, R.layout.view_marker)
+        marker.chartView = chart
+        chart.marker = marker
+    }
+
     private fun showCharts(nDaysAgo: Int = 1) {
-        chart.lineChartData = null
         bottomChart.columnChartData = null
         bodyStatistics.visibility = View.GONE
         noStatistics.visibility = View.GONE
 
-        val values = ArrayList<PointValue>()
-
+        val values = mutableListOf<Entry>()
         val subColumnsData = mutableListOf<SubcolumnValue>()
 
         progressBar.visibility = View.VISIBLE
@@ -150,8 +174,7 @@ class StatisticsFragment : Fragment() {
                     }
                 }
 
-                values.add(PointValue(index.toFloat(), averageYInEther).setLabel(averageYInEther.toString() +
-                    " " + currentCurrency.currencySymbol))
+                values.add(Entry(index.toFloat(), averageYInEther))
                 subColumnsData.add(SubcolumnValue(averageVolume))
             }
 
@@ -166,23 +189,23 @@ class StatisticsFragment : Fragment() {
                 bottomValue.text = Utils.round(ethBottomValue, 5).toString()
 
                 //Top chart
-                val line = Line(values)
-                line.color = context!!.resources.getColor(R.color.colorPrimaryDark)
-                line.isCubic = true
-                line.strokeWidth = 1
-                line.pointRadius = 3
-                line.isFilled = true
-                line.areaTransparency = 10
-                line.setHasLabelsOnlyForSelected(true)
+                val dataSet = LineDataSet(values, "Rate")
+                dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+                dataSet.lineWidth = 1f
+                dataSet.setDrawValues(false)
+                dataSet.circleRadius = 3f
+                dataSet.color = context!!.resources.getColor(R.color.colorPrimaryDark)
+                dataSet.setCircleColor(context!!.resources.getColor(R.color.colorPrimaryDark))
+                dataSet.setCircleColorHole(context!!.resources.getColor(R.color.colorPrimaryDark))
+                dataSet.fillDrawable = getDrawable(R.drawable.statistics_gradient)
+                dataSet.setDrawFilled(true)
+                dataSet.setDrawVerticalHighlightIndicator(false)
+                dataSet.setDrawHorizontalHighlightIndicator(false)
 
-                val lines = ArrayList<Line>()
-                lines.add(line)
+                val lineData = LineData(dataSet)
 
-                val data = LineChartData()
-                data.lines = lines
-
-                chart.isZoomEnabled = false
-                chart.lineChartData = data
+                chart.data = lineData
+                chart.invalidate()
 
                 //Bottom chart
                 val columns = mutableListOf<Column>()
@@ -199,6 +222,18 @@ class StatisticsFragment : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: RefreshEvent) {
         showCharts()
+    }
+
+    private class RateMarker(context: Context, res: Int)
+        : MarkerView(context, res) {
+        override fun getOffset(): MPPointF {
+            return MPPointF(-(width / 2f), (-height * 1.2f))
+        }
+
+        override fun refreshContent(e: Entry, highlight: Highlight) {
+            markerText.text = context.setBalanceWithCurrency(e.y, 2)
+            super.refreshContent(e, highlight)
+        }
     }
 
     companion object {
