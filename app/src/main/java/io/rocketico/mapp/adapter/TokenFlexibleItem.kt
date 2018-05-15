@@ -143,6 +143,9 @@ data class TokenFlexibleItem(private val context: Context,
         }
 
         override fun getRearLeftView(): View {
+            val tmpView = view.findViewById<View>(R.id.rearSentLiftView)
+            tmpView.sentTextView.text = view.context.getString(R.string.send_button)
+
             return view.findViewById(R.id.rearSentLiftView)
         }
 
