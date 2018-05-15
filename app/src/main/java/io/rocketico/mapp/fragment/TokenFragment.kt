@@ -171,10 +171,10 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun fillInfo(position: Int) {
         val info = list[position]
 
-        marketCapitalization.text = context!!.setBalanceWithCurrency(info.marketCapitalization)
-        lowestRate.text = context!!.setBalanceWithCurrency(info.lowestRate24h)
-        highestRate.text = context!!.setBalanceWithCurrency(info.highestRate24h)
-        tradingVolume.text = context!!.setBalanceWithCurrency(info.traidingVolume24h)
+        marketCapitalization.text = context!!.setMarketInfo(info.marketCapitalization)
+        lowestRate.text = context!!.setMarketInfo(info.lowestRate24h)
+        highestRate.text = context!!.setMarketInfo(info.highestRate24h)
+        tradingVolume.text = context!!.setMarketInfo(info.traidingVolume24h)
     }
 
     private fun setupListeners() {
@@ -307,7 +307,7 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         percentDiffTextView.text = context!!.setRateDifference(percentDiff)
-        fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff)
+        fiatDiffTextView.text = context!!.setQuantity(currentCurrency.currencySymbol, fiatDiff, 2)
     }
 
     private val onBalanceClickListener = View.OnClickListener {
@@ -325,9 +325,9 @@ class TokenFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         if (flag) {
             headerMainCurrency.text = context!!.setTokenBalance(TokenType.ETH.codeName, balance)
-            headerSecondaryCurrency.text = context!!.setBalanceWithCurrency(fiatBalance)
+            headerSecondaryCurrency.text = context!!.setBalanceWithCurrency(fiatBalance, 2)
         } else {
-            headerMainCurrency.text = context!!.setBalanceWithCurrency(fiatBalance)
+            headerMainCurrency.text = context!!.setBalanceWithCurrency(fiatBalance, 2)
             headerSecondaryCurrency.text = context!!.setTokenBalance(TokenType.ETH.codeName, balance)
         }
     }

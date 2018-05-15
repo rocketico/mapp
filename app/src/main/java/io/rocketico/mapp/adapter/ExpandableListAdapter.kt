@@ -33,7 +33,7 @@ class ExpandableListAdapter(val context: Context, marketList: List<TokenInfoResp
     override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
         val view = inflater.inflate(R.layout.item_markets, null)
         view.marketName.text = mainMarket.marketName
-        view.exchange.text = context.setBalanceWithCurrency(mainMarket.exchange)
+        view.exchange.text = context.setBalanceWithCurrency(mainMarket.exchange, 2)
         view.arrow.visibility = View.VISIBLE
 
         if (isExpanded) {
@@ -55,7 +55,7 @@ class ExpandableListAdapter(val context: Context, marketList: List<TokenInfoResp
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
         val view = inflater.inflate(R.layout.item_markets, null)
         view.marketName.text = secondaryMarkets[childPosition].marketName
-        view.exchange.text = context.setBalanceWithCurrency(secondaryMarkets[childPosition].exchange)
+        view.exchange.text = context.setBalanceWithCurrency(secondaryMarkets[childPosition].exchange, 2)
         return view
     }
 
