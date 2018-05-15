@@ -5,6 +5,8 @@ import android.content.Context
 import io.rocketico.core.RateHelper
 import org.jetbrains.anko.doAsyncResult
 import java.io.InputStream
+import java.text.DecimalFormat
+import java.util.*
 import kotlin.math.absoluteValue
 
 @SuppressLint("StringFormatMatches")
@@ -30,6 +32,18 @@ fun Context.setBalanceWithCurrency(value: Float?, scale: Int? = null): String {
         value?.let {
             result = String.format("%.${scale}f", value.toFloat()).replace(',', '.')
         }
+    }
+    return getString(R.string.balance_template, currentCurrency.currencySymbol, result)
+}
+
+@SuppressLint("StringFormatMatches")
+fun Context.setMarketInfo(value: Float?): String {
+    val currentCurrency = RateHelper.getCurrentCurrency(this)
+    var result: String = value?.toString() ?: getString(R.string.null_value)
+    value?.let {
+        val df = DecimalFormat.getCurrencyInstance(Locale.US)
+        result = df.format(value)
+        result = result.replace("$", "")
     }
     return getString(R.string.balance_template, currentCurrency.currencySymbol, result)
 }
