@@ -16,7 +16,6 @@ import android.view.animation.AnimationUtils
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.helpers.ItemTouchHelperCallback
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.BalanceHelper
 import io.rocketico.core.EthereumHelper
@@ -31,7 +30,7 @@ import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
 import io.rocketico.mapp.event.UpdateEvent
-import io.rocketico.mapp.listener.MyItemTouchHelperCallback
+import io.rocketico.mapp.callback.MyItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.include_bottom.*
