@@ -129,7 +129,7 @@ class SendDetailsFragment : Fragment() {
 
         quantityEditText.setOnTouchListener { _, event ->
             quantityEditText.onTouchEvent(event)
-            quantityEditText.setSelection(quantityEditText.text.length)
+            quantityEditText.text.clear()
             true
         }
 
