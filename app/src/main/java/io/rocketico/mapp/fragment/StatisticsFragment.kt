@@ -23,6 +23,7 @@ import io.rocketico.core.model.response.TokenRatesRangeResponse
 import io.rocketico.mapp.R
 import io.rocketico.mapp.event.RefreshEvent
 import io.rocketico.mapp.loadData
+import io.rocketico.mapp.setBalance
 import io.rocketico.mapp.setBalanceWithCurrency
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import kotlinx.android.synthetic.main.include_date_panel.*
@@ -185,8 +186,8 @@ class StatisticsFragment : Fragment() {
                 } else {
                     bodyStatistics.visibility = View.VISIBLE
                 }
-                topValue.text = Utils.round(ethTopValue, 5).toString()
-                bottomValue.text = Utils.round(ethBottomValue, 5).toString()
+                topValue.text = context!!.setBalance(ethTopValue, 2)
+                bottomValue.text = context!!.setBalance(ethBottomValue, 2)
 
                 //Top chart
                 val dataSet = LineDataSet(values, "Rate")
