@@ -67,6 +67,10 @@ data class TokenFlexibleItem(private val context: Context,
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         mHolder = holder
 
+        if (tokenType == TokenType.ETH) {
+            holder.isEther = true
+        }
+
         val icon = context.loadIcon(tokenType.codeName)
 
         if (icon != null) {
@@ -137,6 +141,7 @@ data class TokenFlexibleItem(private val context: Context,
         val tokenRateDiff: TextView = view.tokenRateDiff
         val tokenBalance: TextView = view.tokenBalance
         val tokenFiatBalance: TextView = view.tokenFiatBalance
+        var isEther: Boolean = false
 
         override fun getFrontView(): View {
             return view.findViewById(R.id.frontView)

@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.helpers.ItemTouchHelperCallback
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.rocketico.core.BalanceHelper
 import io.rocketico.core.EthereumHelper
@@ -30,6 +31,7 @@ import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
 import io.rocketico.mapp.event.UpdateEvent
+import io.rocketico.mapp.listener.MyItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.include_bottom.*
@@ -104,6 +106,10 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         listAdapter = FlexibleAdapter(tokens)
         tokenList.layoutManager = LinearLayoutManager(context)
         tokenList.adapter = listAdapter
+
+        val myCallback = MyItemTouchHelperCallback(listAdapter)
+        listAdapter.itemTouchHelperCallback = myCallback
+
         listAdapter.itemTouchHelperCallback.setSwipeThreshold(0.3f)
         listAdapter.itemTouchHelperCallback.setSwipeAnimationDuration(200L)
 
