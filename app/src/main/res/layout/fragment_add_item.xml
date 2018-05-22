@@ -72,28 +72,28 @@
 
         </LinearLayout>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabsAdd"
-            style="@style/TabLayoutAddStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_layout_height"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topPanel">
+        <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tabsAdd"-->
+            <!--style="@style/TabLayoutAddStyle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/tab_layout_height"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/topPanel">-->
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/statisticTab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tokens_tab_label" />
+            <!--<android.support.design.widget.TabItem-->
+                <!--android:id="@+id/statisticTab"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/tokens_tab_label" />-->
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/historyTab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/funds_tab_label" />
+            <!--<android.support.design.widget.TabItem-->
+                <!--android:id="@+id/historyTab"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/funds_tab_label" />-->
 
-        </android.support.design.widget.TabLayout>
+        <!--</android.support.design.widget.TabLayout>-->
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v4.view.ViewPager

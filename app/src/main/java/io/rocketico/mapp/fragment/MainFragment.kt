@@ -25,7 +25,6 @@ import io.rocketico.core.model.Currency
 import io.rocketico.core.model.TokenType
 import io.rocketico.core.model.Wallet
 import io.rocketico.mapp.*
-import io.rocketico.mapp.adapter.FundFlexibleItem
 import io.rocketico.mapp.adapter.TokenFlexibleItem
 import io.rocketico.mapp.event.MainCurrencyEvent
 import io.rocketico.mapp.event.RefreshEvent
@@ -117,11 +116,6 @@ class MainFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         wallet.tokens?.forEach { token ->
             listAdapter.addItem(TokenFlexibleItem(context!!, token))
         }
-
-        listAdapter.addItem(FundFlexibleItem("Fund #1",
-                40,
-                250,
-                234))
 
         showTokens()
     }

@@ -23,7 +23,7 @@ class AddItemFragment : Fragment(),
     private lateinit var fragmentListener: AddItemFragmentListener
 
     private lateinit var tokenListAdapter: FlexibleAdapter<IFlexible<*>>
-    private lateinit var fundListAdapter: FlexibleAdapter<IFlexible<*>>
+//    private lateinit var fundListAdapter: FlexibleAdapter<IFlexible<*>>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_item, container, false)
@@ -36,11 +36,13 @@ class AddItemFragment : Fragment(),
         viewPagerAdd.adapter = object : FragmentStatePagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment = when (position) {
                 0 -> AddTokenFragment.newInstance(wallet)
-                1 -> AddFundFragment.newInstance()
+//                1 -> AddFundFragment.newInstance()
                 else -> throw IllegalArgumentException()
             }
 
-            override fun getCount(): Int = 2
+            override fun getCount(): Int = 1
+
+//            override fun getCount(): Int = 2
         }
 
         setupSearchEditText()
@@ -59,8 +61,8 @@ class AddItemFragment : Fragment(),
     }
 
     private fun setupListeners() {
-        viewPagerAdd.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsAdd))
-        tabsAdd.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPagerAdd))
+//        viewPagerAdd.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsAdd))
+//        tabsAdd.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPagerAdd))
 
         backButton.setOnClickListener {
             fragmentListener.onBackClick()
@@ -89,8 +91,8 @@ class AddItemFragment : Fragment(),
                 tokenListAdapter.setFilter(newText)
                 tokenListAdapter.filterItems()
 
-                fundListAdapter.setFilter(newText)
-                fundListAdapter.filterItems()
+//                fundListAdapter.setFilter(newText)
+//                fundListAdapter.filterItems()
 
                 return false
             }
@@ -107,7 +109,7 @@ class AddItemFragment : Fragment(),
     }
 
     override fun setupFundListAdapter(adapter: FlexibleAdapter<IFlexible<*>>) {
-        fundListAdapter = adapter
+//        fundListAdapter = adapter
     }
 
     interface AddItemFragmentListener {

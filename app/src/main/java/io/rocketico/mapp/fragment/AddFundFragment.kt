@@ -30,23 +30,7 @@ class AddFundFragment : Fragment() {
         fundList.layoutManager = LinearLayoutManager(context)
         fundList.adapter = listAdapter
 
-        //todo debug
-        listAdapter.addItem(FundFlexibleItem("Fund #1",
-                40,
-                250,
-                234))
-        listAdapter.addItem(FundFlexibleItem("Fund #2",
-                30,
-                100,
-                314))
-        listAdapter.addItem(FundFlexibleItem("Fund #3",
-                25,
-                105,
-                509))
-        listAdapter.addItem(FundFlexibleItem("Fund #4",
-                66,
-                400,
-                1403))
+        //add founds here
 
         fragmentListener.setupFundListAdapter(listAdapter)
     }
