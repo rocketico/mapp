@@ -194,7 +194,7 @@ class StatisticsFragment : Fragment() {
                 dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
                 dataSet.lineWidth = 1f
                 dataSet.setDrawValues(false)
-                dataSet.circleRadius = 3f
+                dataSet.circleRadius = 1f
                 dataSet.color = context!!.resources.getColor(R.color.colorPrimaryDark)
                 dataSet.setCircleColor(context!!.resources.getColor(R.color.colorPrimaryDark))
                 dataSet.setCircleColorHole(context!!.resources.getColor(R.color.colorPrimaryDark))
